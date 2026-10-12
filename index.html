@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M4CWL77NBK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-M4CWL77NBK');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="color-scheme" content="dark">
+
+<!-- ==== SEO الأساسي ==== -->
+<title>VoltRide ⚡ — حاسبة السكوتر الكهربائي (مدى، شحن، تكلفة)</title>
+<meta name="description" content="VoltRide — حاسبة ذكية لمستخدمي السكوترات الكهربائية في المغرب: احسب المدى، وقت الشحن، تكلفة الكهرباء بالدرهم، وقارن الموديلات.">
+<meta name="keywords" content="سكوتر كهربائي, تروتينيت, حاسبة سكوتر, تكلفة شحن, مدى البطارية, KuKirin, Xiaomi scooter, trottinette électrique Maroc">
+<meta name="author" content="VoltRide">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://voltride-app.netlify.app/">
+
+<!-- ==== Open Graph ==== -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_MA">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="VoltRide">
+<meta property="og:title" content="VoltRide ⚡ — حاسبة السكوتر الكهربائي">
+<meta property="og:description" content="احسب المدى، وقت الشحن، وتكلفة الكهرباء لسكوترك الكهربائي في ثوانٍ. مجاني وبدون تسجيل.">
+<meta property="og:url" content="https://voltride-app.netlify.app/">
+<meta property="og:image" content="https://voltride-app.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VoltRide — Smart Scooter Companion">
+
+<!-- ==== Twitter Card ==== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VoltRide ⚡ — حاسبة السكوتر الكهربائي">
+<meta name="twitter:description" content="احسب مدى سكوترك وتكلفة الشحن في ثوانٍ. مجاني، بدون تسجيل، يعمل دون إنترنت.">
+<meta name="twitter:image" content="https://voltride-app.netlify.app/og-image.png">
+
+<!-- ==== PWA ==== -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VoltRide">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b1220'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-size='64' fill='%2300f2fe'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+
+<!-- ==== Schema.org ==== -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"VoltRide",
+  "operatingSystem":"Web, Android",
+  "applicationCategory":"UtilitiesApplication",
+  "description":"حاسبة ذكية لمستخدمي السكوترات الكهربائية: المدى، الشحن، التكلفة، ومقارنة الموديلات.",
+  "inLanguage":["ar","fr","en"],
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"MAD"},
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"1"}
+}
+</script>
+
+<style>
+:root{
+  --bg:#0b1220;--bg2:#111827;--card:#172235;--card2:#0f172a;
+  --cyan:#00f2fe;--blue:#38bdf8;--green:#34d399;--amber:#f59e0b;
+  --red:#f43f5e;--purple:#a78bfa;--text:#f8fafc;--muted:#94a3b8;
+  --line:rgba(148,163,184,.16);--shadow:0 16px 45px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 50% -10%,rgba(0,242,254,.12),transparent 35%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+body.oled{background:#000}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:92px}
+header{position:sticky;top:0;z-index:30;background:rgba(11,18,32,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:12px 14px}
+.oled header{background:rgba(0,0,0,.92)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand{display:flex;align-items:center;gap:9px;min-width:0}
+.logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#06121c;font-size:22px;font-weight:900;box-shadow:0 0 24px rgba(0,242,254,.25)}
+.brand strong{font-size:18px;letter-spacing:.2px}
+.brand small{display:block;color:var(--muted);font-size:10px;margin-top:1px}
+.actions{display:flex;align-items:center;gap:7px}
+.icon-btn,.lang-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);min-width:40px;height:40px;border-radius:12px;display:grid;place-items:center;position:relative}
+.lang-wrap{position:relative}
+.lang-btn{display:flex;gap:5px;padding:0 9px}
+.lang-menu{display:none;position:absolute;top:calc(100% + 8px);inset-inline-end:0;width:180px;padding:7px;border:1px solid var(--line);background:#111827;border-radius:14px;box-shadow:var(--shadow);z-index:50}
+.lang-menu.show{display:block}
+.lang-menu button{width:100%;border:0;background:transparent;color:var(--text);padding:11px;border-radius:10px;text-align:start;display:flex;justify-content:space-between}
+.lang-menu button:hover{background:rgba(56,189,248,.1)}
+main{padding:14px}
+.screen{display:none}
+.screen.active{display:block}
+.hero{padding:20px 2px 10px}
+.hero h1{margin:0 0 7px;font-size:30px;line-height:1.1}
+.gradient{background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);margin:0;line-height:1.7}
+.ad{margin:12px 0;padding:14px;border:1px dashed rgba(56,189,248,.3);border-radius:16px;text-align:center;color:var(--muted);font-size:11px;background:rgba(15,23,42,.5)}
+.card{background:linear-gradient(180deg,rgba(23,34,53,.98),rgba(15,23,42,.98));border:1px solid var(--line);border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.oled .card{background:#050505}
+.card h2{font-size:17px;margin:0 0 13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{margin:11px 0}
+.field label{display:flex;justify-content:space-between;gap:8px;color:#dbeafe;font-size:13px;margin-bottom:7px}
+.value{color:var(--cyan);font-weight:800}
+input[type=range]{width:100%;accent-color:var(--cyan)}
+input[type=number],input[type=text],select{width:100%;height:46px;background:var(--card2);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:0 12px;outline:none}
+input:focus,select:focus{border-color:rgba(0,242,254,.55);box-shadow:0 0 0 3px rgba(0,242,254,.08)}
+.chips{display:flex;gap:7px;overflow:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;border:1px solid var(--line);background:var(--card2);color:var(--muted);padding:9px 13px;border-radius:999px}
+.chip.active{color:#001116;background:var(--cyan);border-color:var(--cyan);font-weight:800}
+.results{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{padding:14px;border-radius:16px;background:rgba(2,6,23,.42);border:1px solid var(--line)}
+.metric small{display:block;color:var(--muted);font-size:11px}
+.metric strong{display:block;font-size:23px;margin-top:4px}
+.metric em{font-style:normal;color:var(--muted);font-size:11px}
+.primary{width:100%;border:0;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#001116;font-weight:900;padding:13px;border-radius:13px}
+.secondary{border:1px solid var(--line);background:var(--card2);color:var(--text);padding:11px 13px;border-radius:12px}
+.danger{color:#fecdd3;border-color:rgba(244,63,94,.3)}
+.advice{border:1px solid rgba(52,211,153,.2);background:rgba(52,211,153,.06);border-radius:15px;padding:13px;line-height:1.7;color:#d1fae5;font-size:13px}
+.smart-panel{display:grid;grid-template-columns:1.15fr .85fr;gap:10px;margin:12px 0}
+.smart-main,.smart-mini{border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(0,242,254,.08),rgba(167,139,250,.07));padding:14px}
+.smart-main strong{display:block;font-size:22px;margin:4px 0}
+.smart-main small,.smart-mini small{color:var(--muted)}
+.smart-mini b{display:block;font-size:18px;margin-top:5px}
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;background:rgba(52,211,153,.1);color:#a7f3d0;border:1px solid rgba(52,211,153,.18)}
+.history-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.history-stat{background:rgba(2,6,23,.35);border:1px solid var(--line);border-radius:14px;padding:11px}
+.history-stat small{display:block;color:var(--muted);font-size:10px}
+.history-stat b{display:block;margin-top:3px;font-size:18px}
+.history-list{display:grid;gap:8px;margin-top:12px}
+.history-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;border:1px solid var(--line);border-radius:13px;background:rgba(2,6,23,.22)}
+.history-item small{color:var(--muted)}
+.history-item strong{display:block;margin-bottom:2px}
+.history-empty{color:var(--muted);font-size:12px;padding:10px 0}
+.danger-outline{border-color:rgba(244,63,94,.3);color:#fecdd3}
+@media(max-width:390px){.history-stats{grid-template-columns:1fr 1fr}.history-stats .history-stat:last-child{grid-column:1/-1}}
+@media(max-width:430px){.smart-panel{grid-template-columns:1fr 1fr}}
+.search-row{display:flex;gap:8px}
+.search-row input{flex:1}
+.sort{width:145px}
+.catalog-grid{display:grid;gap:11px}
+.scooter{position:relative}
+.scooter-head{display:flex;justify-content:space-between;gap:10px}
+.scooter-name{font-weight:900;font-size:16px}
+.badge{display:inline-block;margin-top:5px;font-size:10px;color:var(--cyan);background:rgba(0,242,254,.08);padding:4px 8px;border-radius:999px}
+.favorite{border:0;background:transparent;color:var(--muted);font-size:23px;padding:0;line-height:1}
+.favorite.on{color:#fb7185}
+.specs{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:12px 0}
+.spec{padding:9px;background:rgba(2,6,23,.35);border-radius:10px}
+.spec small{display:block;color:var(--muted);font-size:10px}
+.spec b{font-size:13px}
+.price{font-weight:900;color:var(--amber);font-size:17px}
+.card-actions{display:flex;gap:7px;flex-wrap:wrap}
+.card-actions button{flex:1;min-width:110px}
+.compare-float{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);z-index:25;width:min(92%,500px);display:none}
+.compare-float.show{display:block}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);z-index:40;background:rgba(11,18,32,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 5px calc(8px + env(safe-area-inset-bottom))}
+.oled .bottom-nav{background:rgba(0,0,0,.95)}
+.nav-btn{border:0;background:transparent;color:var(--muted);font-size:10px;padding:7px 2px;border-radius:12px}
+.nav-btn span{display:block;font-size:19px;margin-bottom:2px}
+.nav-btn.active{color:var(--cyan);background:rgba(0,242,254,.07)}
+.list{display:grid;gap:9px}
+.list-item{display:flex;gap:11px;padding:12px;border:1px solid var(--line);background:rgba(2,6,23,.28);border-radius:14px}
+.list-icon{font-size:21px;line-height:1}
+.list-item strong{font-size:13px}
+.list-item p{margin:3px 0 0;color:var(--muted);font-size:12px;line-height:1.6}
+details{border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:rgba(2,6,23,.25)}
+details+details{margin-top:8px}
+summary{cursor:pointer;font-weight:800}
+.modal{display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);padding:20px;align-items:flex-end;justify-content:center}
+.modal.show{display:flex}
+.modal-box{width:min(720px,100%);max-height:85vh;overflow:auto;background:#111827;border:1px solid var(--line);border-radius:22px;padding:17px}
+.modal-head{display:flex;justify-content:space-between;align-items:center}
+.compare-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.compare-table th,.compare-table td{padding:10px 6px;border-bottom:1px solid var(--line);text-align:center}
+.toast{position:fixed;top:75px;left:50%;transform:translateX(-50%) translateY(-15px);opacity:0;pointer-events:none;background:#0f172a;border:1px solid rgba(0,242,254,.3);color:var(--text);padding:10px 15px;border-radius:12px;z-index:100;transition:.25s;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;color:var(--muted);padding:25px 8px}
+.small{font-size:11px;color:var(--muted);line-height:1.6}
+.setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.setting-row:last-child{border-bottom:0}
+.switch{width:52px;height:30px;border-radius:99px;background:#334155;padding:3px;border:0;position:relative}
+.switch i{display:block;width:24px;height:24px;border-radius:50%;background:white;transition:transform .2s}
+.switch.on{background:var(--cyan)}
+.switch.on i{transform:translateX(-22px)}
+[dir=ltr] .switch.on i{transform:translateX(22px)}
+@media(max-width:430px){.grid2{grid-template-columns:1fr}.hero h1{font-size:27px}.results{grid-template-columns:1fr 1fr}.search-row{flex-direction:column}.sort{width:100%}}
+.my-scooter-card{position:relative;overflow:hidden}
+.my-scooter-card:before{content:"";position:absolute;inset:auto -35px -55px auto;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(0,242,254,.16),transparent 68%);pointer-events:none}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.profile-name{grid-column:1/-1}
+.profile-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.profile-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(52,211,153,.10);border:1px solid rgba(52,211,153,.24);color:var(--green);font-size:12px;font-weight:800}
+.profile-empty{font-size:13px;color:var(--muted);margin:8px 0 0}
+@media(max-width:380px){.profile-grid,.profile-actions{grid-template-columns:1fr}}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at 15% 15%,rgba(56,189,248,.06),transparent 28%),radial-gradient(circle at 85% 35%,rgba(167,139,250,.05),transparent 26%)}
+header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.logo{position:relative;overflow:hidden}
+.logo:after{content:"";position:absolute;width:60%;height:160%;background:rgba(255,255,255,.28);transform:rotate(25deg) translateX(-180%);animation:shine 4.8s ease-in-out infinite}
+@keyframes shine{0%,55%{transform:rotate(25deg) translateX(-180%)}70%,100%{transform:rotate(25deg) translateX(230%)}}
+.hero{padding:22px 2px 12px}
+.hero h1{letter-spacing:-.7px}
+.hero p{max-width:620px}
+.quick-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 14px}
+.quick-item{padding:10px 9px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,rgba(23,34,53,.88),rgba(15,23,42,.72));text-align:center}
+.quick-item b{display:block;font-size:14px;color:var(--text)}
+.quick-item small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.my-scooter-card,.smart-panel,.results,.catalog-grid,.list-item,.history-item,.metric{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.card:hover{border-color:rgba(56,189,248,.22)}
+.primary{box-shadow:0 8px 22px rgba(0,242,254,.12);transition:transform .15s ease,box-shadow .15s ease}
+.primary:active,.secondary:active,.chip:active,.nav-btn:active{transform:scale(.98)}
+.bottom-nav{box-shadow:0 -10px 30px rgba(0,0,0,.2)}
+.nav-btn.active{font-weight:800}
+.nav-btn span:first-child{filter:drop-shadow(0 0 5px rgba(0,242,254,.16))}
+.splash{position:fixed;inset:0;z-index:200;background:#07101c;display:grid;place-items:center;transition:opacity .35s ease,visibility .35s ease}
+.splash.hide{opacity:0;visibility:hidden}
+.splash-inner{text-align:center}
+.splash-logo{width:82px;height:82px;border-radius:26px;display:grid;place-items:center;margin:auto;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--purple));color:#04111a;font-size:42px;font-weight:900;box-shadow:0 0 55px rgba(0,242,254,.28);animation:pulseLogo 1.5s ease-in-out infinite alternate}
+@keyframes pulseLogo{from{transform:scale(.98);box-shadow:0 0 35px rgba(0,242,254,.18)}to{transform:scale(1.03);box-shadow:0 0 65px rgba(0,242,254,.34)}}
+.splash-title{font-size:28px;font-weight:900;margin-top:16px}
+.splash-sub{color:#94a3b8;font-size:12px;margin-top:4px}
+.splash-line{width:90px;height:3px;border-radius:9px;background:linear-gradient(90deg,var(--cyan),var(--purple));margin:14px auto 0}
+@media(max-width:430px){.quick-strip{gap:6px}.quick-item{padding:9px 5px}.quick-item b{font-size:13px}}
+
+/* Install banner (PWA) */
+.install-banner{display:none;margin:10px 0;padding:12px;border:1px solid rgba(0,242,254,.32);background:linear-gradient(135deg,rgba(0,242,254,.08),rgba(167,139,250,.05));border-radius:14px;align-items:center;gap:10px}
+.install-banner.show{display:flex}
+.install-banner p{margin:0;font-size:12px;flex:1;line-height:1.5}
+.install-banner button{white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="splash" class="splash" aria-hidden="true">
+  <div class="splash-inner">
+    <div class="splash-logo">⚡</div>
+    <div class="splash-title">VoltRide</div>
+    <div class="splash-sub">Smart scooter companion</div>
+    <div class="splash-line"></div>
+  </div>
+</div>
+
+<div class="app">
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">⚡</div>
+      <div><strong>VoltRide</strong><small data-i18n="tagline">رفيق السكوتر الذكي</small></div>
+    </div>
+    <div class="actions">
+      <div class="lang-wrap" id="langWrap">
+        <button class="lang-btn" id="langBtn" aria-expanded="false" aria-label="Language">
+          🌐 <span id="langLabel">AR</span>⌄
+        </button>
+        <div class="lang-menu" id="langMenu" role="menu">
+          <button data-lang="ar" role="menuitem">🇲🇦 العربية <span>✓</span></button>
+          <button data-lang="fr" role="menuitem">🇫🇷 Français <span></span></button>
+          <button data-lang="en" role="menuitem">🇬🇧 English <span></span></button>
+        </div>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="OLED">◐</button>
+      <button class="icon-btn" id="headerCompare" aria-label="Compare">⚖️ <span id="compareCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="calculator" class="screen active">
+  <div class="hero">
+    <h1><span class="gradient">VoltRide ⚡</span></h1>
+    <p data-i18n="heroText">احسب مدى سكوترك، وقت الشحن وتكلفة الكهرباء خلال ثوانٍ.</p>
+    <div style="margin-top:10px"><span class="status-pill" data-i18n="smartBadge">● تحليل ذكي</span></div>
+  </div>
+
+  <!-- Install PWA -->
+  <div class="install-banner" id="installBanner">
+    <p data-i18n="installText">ثبّت VoltRide على شاشتك الرئيسية للوصول السريع ودون إنترنت.</p>
+    <button class="primary" id="installBtn" data-i18n="installBtn">تثبيت</button>
+  </div>
+  <!-- Download APK Direct -->
+<div class="card" style="margin-top:12px;background:linear-gradient(135deg,rgba(0,242,254,.12),rgba(52,211,153,.12));border:1px solid rgba(0,242,254,.35);">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div style="flex-shrink:0;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--green));display:grid;place-items:center;font-size:26px;">⬇️</div>
+    <div style="flex:1;min-width:0;">
+      <strong style="display:block;font-size:15px;margin-bottom:4px;">حمّل تطبيق VoltRide</strong>
+      <span style="font-size:12px;color:var(--muted);">ملف APK مباشر • 1.2 MB • بدون متجر</span>
+    </div>
+  </div>
+  <a href="https://voltride-app.netlify.app/VoltRide-signed.apk" 
+   class="download-btn" 
+   onclick="gtag('event', 'download_apk', {'event_category': 'engagement', 'event_label': 'VoltRide Download'});">
+   تحميل التطبيق
+  </a>
+</div>
+
+  <div class="quick-strip">
+    <div class="quick-item"><b>⚡ Smart</b><small data-i18n="quickSmart">تحليل فوري</small></div>
+    <div class="quick-item"><b>🔋 Battery</b><small data-i18n="quickBattery">طاقة وشحن</small></div>
+    <div class="quick-item"><b>💰 MAD</b><small data-i18n="quickCost">تكلفة واضحة</small></div>
+  </div>
+  <div class="smart-panel">
+    <div class="smart-main">
+      <small data-i18n="smartStatus">حالة الرحلة</small>
+      <strong id="smartStatusOut">جاهز للتحليل</strong>
+      <small id="smartStatusSub">اضبط بياناتك ثم احسب.</small>
+    </div>
+    <div class="smart-mini">
+      <small data-i18n="tripCost">تكلفة الطاقة</small>
+      <b id="smartCostOut">— MAD</b>
+      <small data-i18n="perCharge">/ شحنة</small>
+    </div>
+  </div>
+
+  <div class="card my-scooter-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <h2 style="margin:0" data-i18n="myScooter">🛴 سكوترِي</h2>
+      <span id="profileBadge" class="profile-badge" style="display:none" data-i18n="savedProfile">محفوظ</span>
+    </div>
+    <p class="small" data-i18n="myScooterSub">احفظ مواصفات سكوترك مرة واحدة واستعملها بسرعة.</p>
+    <div class="profile-grid">
+      <div class="field profile-name">
+        <label data-i18n="scooterName">اسم السكوتر</label>
+        <input id="scooterName" type="text" maxlength="40" placeholder="مثلاً: سكوتر المدينة">
+      </div>
+      <div class="field">
+        <label data-i18n="profileVoltage">الفولت</label>
+        <select id="profileVoltage"><option>24</option><option selected>36</option><option>48</option><option>52</option><option>60</option><option>72</option></select>
+      </div>
+      <div class="field">
+        <label data-i18n="profileCapacity">السعة Ah</label>
+        <input id="profileCapacity" type="number" min="1" max="100" step=".1" value="12.8">
+      </div>
+      <div class="field">
+        <label data-i18n="profileMotor">المحرك W</label>
+        <select id="profileMotor"><option>250</option><option selected>300</option><option>350</option><option>500</option><option>800</option><option>1000</option><option>1500</option><option>2000</option><option>3000</option></select>
+      </div>
+      <div class="field">
+        <label data-i18n="profileCharger">الشاحن A</label>
+        <select id="profileCharger"><option>1</option><option>1.5</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <button class="primary" id="saveScooterBtn" data-i18n="saveScooter">💾 حفظ السكوتر</button>
+      <button class="secondary" id="loadScooterBtn" data-i18n="loadScooter">⚡ استخدام المحفوظ</button>
+    </div>
+    <p id="profileStatus" class="profile-empty" data-i18n="noSavedScooter">لم تحفظ سكوترًا بعد.</p>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="rider">👤 الراكب والقيادة</h2>
+    <div class="field">
+      <label><span data-i18n="weight">الوزن</span><span class="value"><span id="weightVal">75</span> kg</span></label>
+      <input id="weight" type="range" min="40" max="140" value="75">
+    </div>
+    <div class="field">
+      <label><span data-i18n="speed">السرعة المتوسطة</span><span class="value"><span id="speedVal">25</span> km/h</span></label>
+      <input id="speed" type="range" min="10" max="60" value="25">
+    </div>
+    <label class="field"><span data-i18n="terrain">الطريق</span></label>
+    <div class="chips" id="terrainChips">
+      <button class="chip active" data-value="flat" data-i18n="flat">مستوٍ</button>
+      <button class="chip" data-value="mixed" data-i18n="mixed">مختلط</button>
+      <button class="chip" data-value="hills" data-i18n="hills">مرتفعات</button>
+    </div>
+    <label class="field"><span data-i18n="mode">نمط القيادة</span></label>
+    <div class="chips" id="modeChips">
+      <button class="chip active" data-value="eco" data-i18n="eco">اقتصادي</button>
+      <button class="chip" data-value="balanced" data-i18n="balanced">متوازن</button>
+      <button class="chip" data-value="sport" data-i18n="sport">رياضي</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="battery">🔋 البطارية والسكوتر</h2>
+    <div class="grid2">
+      <div class="field"><label data-i18n="voltage">الفولت</label><select id="voltage"><option>24</option><option selected>36</option><option>48</option><option>52</option><option>60</option><option>72</option></select></div>
+      <div class="field"><label data-i18n="capacity">السعة Ah</label><input id="capacity" type="number" min="1" max="100" step=".1" value="12.8"></div>
+      <div class="field"><label data-i18n="motor">قوة المحرك</label><select id="motor"><option>250</option><option selected>300</option><option>350</option><option>500</option><option>800</option><option>1000</option><option>1500</option><option>2000</option><option>3000</option></select></div>
+      <div class="field"><label data-i18n="charger">الشاحن A</label><select id="charger"><option>1</option><option>1.5</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
+    </div>
+    <button class="primary" id="calculateBtn" data-i18n="calculate">احسب الآن ⚡</button>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="results">📊 النتيجة</h2>
+    <div class="results">
+      <div class="metric"><small data-i18n="range">المدى</small><strong id="rangeOut">—</strong><em>km</em></div>
+      <div class="metric"><small data-i18n="energy">طاقة البطارية</small><strong id="energyOut">—</strong><em>Wh</em></div>
+      <div class="metric"><small data-i18n="consumption">الاستهلاك</small><strong id="consumptionOut">—</strong><em>Wh/km</em></div>
+      <div class="metric"><small data-i18n="chargeTime">وقت الشحن</small><strong id="chargeOut">—</strong><em>h</em></div>
+      <div class="metric"><small data-i18n="cost">تكلفة الشحنة</small><strong id="costOut">—</strong><em>MAD</em></div>
+      <div class="metric"><small data-i18n="reserve">احتياطي 10%</small><strong id="reserveOut">—</strong><em>km</em></div>
+    </div>
+    <div class="advice" id="advice" style="margin-top:12px">⚡ أدخل بياناتك ثم اضغط «احسب الآن».</div>
+    <p class="small" data-i18n="estimateNote">هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.</p>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+      <h2 style="margin:0" data-i18n="historyTitle">📒 سجل الشحن والتكلفة</h2>
+      <button class="secondary danger-outline" id="clearHistoryBtn" data-i18n="clearHistory">مسح السجل</button>
+    </div>
+    <p class="small" data-i18n="historySub">سجّل نتيجة الشحنة الحالية لمتابعة مصروفك مع الوقت.</p>
+    <div class="history-stats">
+      <div class="history-stat"><small data-i18n="chargesCount">عدد الشحنات</small><b id="historyCount">0</b></div>
+      <div class="history-stat"><small data-i18n="totalCost">إجمالي التكلفة</small><b id="historyTotal">0.00 MAD</b></div>
+      <div class="history-stat"><small data-i18n="avgCost">متوسط الشحنة</small><b id="historyAvg">0.00 MAD</b></div>
+    </div>
+    <div id="historyList" class="history-list"></div>
+    <button class="primary" id="saveChargeBtn" style="margin-top:10px" data-i18n="saveCharge">➕ تسجيل هذه الشحنة</button>
+  </div>
+</section>
+
+<section id="catalog" class="screen">
+  <div class="hero">
+    <h1 data-i18n="catalogTitle">🛴 كتالوج السكوترات</h1>
+    <p data-i18n="catalogSub">قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.</p>
+  </div>
+  <div class="card">
+    <div class="search-row">
+      <input id="search" type="text" data-i18n-placeholder="search" placeholder="ابحث عن سكوتر...">
+      <select id="sort" class="sort">
+        <option value="range" data-i18n="sortRange">المدى</option>
+        <option value="speed" data-i18n="sortSpeed">السرعة</option>
+        <option value="price" data-i18n="sortPrice">السعر</option>
+      </select>
+    </div>
+    <div class="chips" id="categoryChips" style="margin-top:10px">
+      <button class="chip active" data-cat="all" data-i18n="all">الكل</button>
+      <button class="chip" data-cat="commuter" data-i18n="commuter">تنقل</button>
+      <button class="chip" data-cat="sport" data-i18n="sportCat">رياضي</button>
+      <button class="chip" data-cat="performance" data-i18n="performance">أداء</button>
+    </div>
+  </div>
+  <div id="catalogGrid" class="catalog-grid"></div>
+  <div class="ad">AD SPACE • مساحة عروض مستقبلية</div>
+</section>
+
+<section id="safety" class="screen">
+  <div class="hero">
+    <h1 data-i18n="safetyTitle">🛡️ مركز السلامة</h1>
+    <p data-i18n="safetySub">قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.</p>
+  </div>
+  <div class="card"><h2>🔋 <span data-i18n="batteryCare">العناية بالبطارية</span></h2><div class="list">
+    <div class="list-item"><div class="list-icon">🔌</div><div><strong data-i18n="safe1">استخدم الشاحن الصحيح</strong><p data-i18n="safe1p">لا تستخدم شاحناً بجهد أو موصل غير مطابق لمواصفات الشركة.</p></div></div>
+    <div class="list-item"><div class="list-icon">🔥</div><div><strong data-i18n="safe2">الشحن في مكان مناسب</strong><p data-i18n="safe2p">لا تشحن على سطح قابل للاشتعال أو في حرارة شديدة، وتجنب تغطية البطارية أثناء الشحن.</p></div></div>
+    <div class="list-item"><div class="list-icon">⚠️</div><div><strong data-i18n="safe3">توقف عند العلامات غير الطبيعية</strong><p data-i18n="safe3p">إذا ظهرت انتفاخات أو دخان أو رائحة غير معتادة أو حرارة شديدة، أوقف الاستخدام والشحن واطلب فحصاً مختصاً.</p></div></div>
+  </div></div>
+  <div class="card"><h2>🛞 <span data-i18n="tires">الإطارات والفرامل</span></h2><div class="list">
+    <div class="list-item"><div class="list-icon">🛞</div><div><strong data-i18n="tireTitle">ضغط مناسب</strong><p data-i18n="tireP">اتبع ضغط الإطارات الموصى به من الشركة وافحصه دورياً.</p></div></div>
+    <div class="list-item"><div class="list-icon">🛑</div><div><strong data-i18n="brakeTitle">فحص الفرامل</strong><p data-i18n="brakeP">إذا كانت الفرامل ضعيفة أو تصدر صوتاً غير طبيعي أو تحتك، أوقف القيادة واطلب فحصاً مؤهلاً.</p></div></div>
+  </div></div>
+  <div class="card"><h2>🧤 <span data-i18n="rideSafe">قبل القيادة</span></h2><div class="list">
+    <div class="list-item"><div class="list-icon">⛑️</div><div><strong data-i18n="helmet">خوذة وإضاءة</strong><p data-i18n="helmetP">استخدم خوذة مناسبة وإضاءة واضحة واحترم القوانين المحلية.</p></div></div>
+    <div class="list-item"><div class="list-icon">🌧️</div><div><strong data-i18n="water">الماء</strong><p data-i18n="waterP">مقاومة الماء لا تعني أن السكوتر قابل للغمر. تجنب البرك والماء العميق.</p></div></div>
+  </div></div>
+</section>
+
+<section id="errors" class="screen">
+  <div class="hero">
+    <h1 data-i18n="errorsTitle">🔧 تشخيص الأعطال</h1>
+    <p data-i18n="errorsSub">معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.</p>
+  </div>
+  <div class="card">
+    <div id="errorList"></div>
+    <p class="small" data-i18n="errorNote">الأكواد تختلف حسب الشركة والموديل. لا تفك البطارية أو لوحة التحكم إذا لم تكن مؤهلاً.</p>
+  </div>
+</section>
+
+<section id="settings" class="screen">
+  <div class="hero">
+    <h1 data-i18n="settingsTitle">⚙️ الإعدادات</h1>
+    <p data-i18n="settingsSub">خصص VoltRide كما تريد.</p>
+  </div>
+  <div class="card">
+    <div class="setting-row">
+      <div><strong data-i18n="oled">وضع OLED</strong><div class="small" data-i18n="oledSub">خلفية سوداء أكثر عمقاً.</div></div>
+      <button id="oledSwitch" class="switch" aria-label="OLED"><i></i></button>
+    </div>
+    <div class="setting-row">
+      <div><strong data-i18n="tariff">تعرفة الكهرباء</strong><div class="small" data-i18n="tariffSub">تستخدم لحساب تكلفة الشحنة.</div></div>
+      <div style="width:125px"><input id="tariff" type="number" min="0" step=".01" value="1.20"></div>
+    </div>
+    <div class="setting-row">
+      <div><strong data-i18n="language">اللغة</strong></div>
+      <select id="languageSelect" style="width:140px">
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+    <div class="setting-row">
+      <div><strong data-i18n="share">مشاركة VoltRide</strong><div class="small" data-i18n="shareSub">أرسل التطبيق لصديق.</div></div>
+      <button class="secondary" id="shareBtn" data-i18n="shareBtn">مشاركة</button>
+    </div>
+    <div class="setting-row">
+      <div><strong data-i18n="reset">إعادة ضبط</strong><div class="small" data-i18n="resetSub">مسح إعدادات VoltRide من هذا الجهاز.</div></div>
+      <button class="secondary danger" id="resetBtn" data-i18n="resetBtn">إعادة ضبط</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2 data-i18n="about">حول VoltRide</h2>
+    <p class="small" data-i18n="aboutText">VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
+<a href="about.html" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">حول التطبيق</a>
+<a href="privacy.html" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">سياسة الخصوصية</a>
+<a href="contact.html" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">اتصل بنا</a>
+    </div>
+    <p class="small" style="margin-top:10px;opacity:.6">الإصدار: <span id="appVersion">1.0.0</span></p>
+  </div>
+</section>
+</main>
+
+<div id="compareFloat" class="compare-float">
+  <button class="primary" id="compareFloatBtn">⚖️ <span data-i18n="compare">مقارنة</span> (<span id="compareCount2">0</span>)</button>
+</div>
+
+<nav class="bottom-nav" aria-label="Main">
+  <button class="nav-btn active" data-screen="calculator"><span>⚡</span><span data-i18n="navCalc">الحاسبة</span></button>
+  <button class="nav-btn" data-screen="catalog"><span>🛴</span><span data-i18n="navCatalog">الكتالوج</span></button>
+  <a href="blog.html" class="nav-btn" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span>📚</span><span>المدونة</span></a>
+  <button class="nav-btn" data-screen="safety"><span>🛡️</span><span data-i18n="navSafety">السلامة</span></button>
+  <button class="nav-btn" data-screen="errors"><span>🔧</span><span data-i18n="navErrors">الأعطال</span></button>
+</nav>
+<div id="compareModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 data-i18n="compareTitle">⚖️ مقارنة السكوترات</h2>
+      <button class="icon-btn" id="closeCompare" aria-label="Close">✕</button>
+    </div>
+    <div id="compareBody"></div>
+  </div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+const APP_VERSION = "1.1.0";
+const SHARE_URL = "https://voltride-app.netlify.app/";
+const SHARE_IMAGE = "https://voltride-app.netlify.app/og-image.png";
+
+const Store = {
+  get(k, f = null) { try { const v = localStorage.getItem(k); return v === null ? f : JSON.parse(v); } catch(e){ return f; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  remove(k) { try { localStorage.removeItem(k); } catch(e){} }
+};
+
+const I18N = {
+  ar:{
+    quickSmart:"تحليل فوري",quickBattery:"طاقة وشحن",quickCost:"تكلفة واضحة",tagline:"رفيق السكوتر الذكي",heroText:"احسب مدى سكوترك، وقت الشحن وتكلفة الكهرباء خلال ثوانٍ.",smartBadge:"● تحليل ذكي",smartStatus:"حالة الرحلة",tripCost:"تكلفة الطاقة",perCharge:"/ شحنة",
+    rider:"👤 الراكب والقيادة",weight:"الوزن",speed:"السرعة المتوسطة",terrain:"الطريق",flat:"مستوٍ",mixed:"مختلط",hills:"مرتفعات",mode:"نمط القيادة",eco:"اقتصادي",balanced:"متوازن",sport:"رياضي",
+    battery:"🔋 البطارية والسكوتر",voltage:"الفولت",capacity:"السعة Ah",motor:"قوة المحرك",charger:"الشاحن A",calculate:"احسب الآن ⚡",results:"📊 النتيجة",range:"المدى",energy:"طاقة البطارية",consumption:"الاستهلاك",chargeTime:"وقت الشحن",cost:"تكلفة الشحنة",reserve:"احتياطي 10%",estimateNote:"هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.",
+    catalogTitle:"🛴 كتالوج السكوترات",catalogSub:"قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.",search:"ابحث عن سكوتر...",sortRange:"المدى",sortSpeed:"السرعة",sortPrice:"السعر",all:"الكل",commuter:"تنقل",sportCat:"رياضي",performance:"أداء",
+    safetyTitle:"🛡️ مركز السلامة",safetySub:"قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.",batteryCare:"العناية بالبطارية",safe1:"استخدم الشاحن الصحيح",safe1p:"لا تستخدم شاحناً بجهد أو موصل غير مطابق لمواصفات الشركة.",safe2:"الشحن في مكان مناسب",safe2p:"لا تشحن على سطح قابل للاشتعال أو في حرارة شديدة، وتجنب تغطية البطارية أثناء الشحن.",safe3:"توقف عند العلامات غير الطبيعية",safe3p:"إذا ظهرت انتفاخات أو دخان أو رائحة غير معتادة أو حرارة شديدة، أوقف الاستخدام والشحن واطلب فحصاً مختصاً.",tires:"الإطارات والفرامل",tireTitle:"ضغط مناسب",tireP:"اتبع ضغط الإطارات الموصى به من الشركة وافحصه دورياً.",brakeTitle:"فحص الفرامل",brakeP:"إذا كانت الفرامل ضعيفة أو تصدر صوتاً غير طبيعي أو تحتك، أوقف القيادة واطلب فحصاً مؤهلاً.",rideSafe:"قبل القيادة",helmet:"خوذة وإضاءة",helmetP:"استخدم خوذة مناسبة وإضاءة واضحة واحترم القوانين المحلية.",water:"الماء",waterP:"مقاومة الماء لا تعني أن السكوتر قابل للغمر. تجنب البرك والماء العميق.",
+    errorsTitle:"🔧 تشخيص الأعطال",errorsSub:"معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.",errorNote:"الأكواد تختلف حسب الشركة والموديل. لا تفك البطارية أو لوحة التحكم إذا لم تكن مؤهلاً.",
+    settingsTitle:"⚙️ الإعدادات",settingsSub:"خصص VoltRide كما تريد.",oled:"وضع OLED",oledSub:"خلفية سوداء أكثر عمقاً.",tariff:"تعرفة الكهرباء",tariffSub:"تستخدم لحساب تكلفة الشحنة.",language:"اللغة",share:"مشاركة VoltRide",shareSub:"أرسل التطبيق لصديق.",shareBtn:"مشاركة",reset:"إعادة ضبط",resetSub:"مسح إعدادات VoltRide من هذا الجهاز.",resetBtn:"إعادة ضبط",about:"حول VoltRide",aboutText:"VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.",
+    myScooter:"🛴 سكوترِي",myScooterSub:"احفظ مواصفات سكوترك مرة واحدة واستعملها بسرعة.",savedProfile:"محفوظ",scooterName:"اسم السكوتر",profileVoltage:"الفولت",profileCapacity:"السعة Ah",profileMotor:"المحرك W",profileCharger:"الشاحن A",saveScooter:"💾 حفظ السكوتر",loadScooter:"⚡ استخدام المحفوظ",noSavedScooter:"لم تحفظ سكوترًا بعد.",savedAt:"آخر حفظ",compare:"مقارنة",compareTitle:"⚖️ مقارنة السكوترات",navCalc:"الحاسبة",navCatalog:"الكتالوج",navSafety:"السلامة",navErrors:"الأعطال",navSettings:"الإعدادات",historyTitle:"📒 سجل الشحن والتكلفة",historySub:"سجّل نتيجة الشحنة الحالية لمتابعة مصروفك مع الوقت.",chargesCount:"عدد الشحنات",totalCost:"إجمالي التكلفة",avgCost:"متوسط الشحنة",saveCharge:"➕ تسجيل هذه الشحنة",clearHistory:"مسح السجل",historyEmpty:"لا توجد شحنات مسجلة بعد.",historySaved:"تم تسجيل الشحنة",historyCleared:"تم مسح السجل",chargeEntry:"شحنة",
+    installText:"ثبّت VoltRide على شاشتك الرئيسية للوصول السريع ودون إنترنت.",installBtn:"تثبيت",
+    savedScooterToast:"تم حفظ سكوترك",loadedScooterToast:"تم استخدام مواصفات سكوترك",needSaveFirst:"احفظ سكوترك أولاً",
+    resetDone:"تمت إعادة ضبط VoltRide بنجاح",resetConfirm:"هل تريد إعادة VoltRide إلى الإعدادات الافتراضية؟",
+    clearHistoryConfirm:"مسح سجل الشحن؟",
+    specsTransferred:"تم نقل المواصفات للحاسبة",
+    calculateFirst:"احسب أولاً ثم سجّل الشحنة",
+    maxCompare:"يمكن مقارنة 3 فقط",
+    chooseFirst:"اختر سكوتر أولاً",
+    shareText:"⚡ VoltRide — احسب مدى سكوترك، وقت الشحن، وتكلفة الكهرباء في ثوانٍ. مجاني وبدون تسجيل:"
+  },
+  fr:{
+    quickSmart:"Analyse instantanée",quickBattery:"Énergie & charge",quickCost:"Coût clair",tagline:"Votre compagnon scooter",heroText:"Estimez autonomie, recharge et coût électrique en quelques secondes.",smartBadge:"● Analyse intelligente",smartStatus:"État du trajet",tripCost:"Coût énergétique",perCharge:"/ charge",
+    rider:"👤 Pilote et conduite",weight:"Poids",speed:"Vitesse moyenne",terrain:"Terrain",flat:"Plat",mixed:"Mixte",hills:"Pentes",mode:"Mode",eco:"Éco",balanced:"Équilibré",sport:"Sport",
+    battery:"🔋 Batterie et scooter",voltage:"Tension",capacity:"Capacité Ah",motor:"Puissance moteur",charger:"Chargeur A",calculate:"Calculer ⚡",results:"📊 Résultat",range:"Autonomie",energy:"Énergie batterie",consumption:"Consommation",chargeTime:"Temps de charge",cost:"Coût de charge",reserve:"Réserve 10%",estimateNote:"Estimations indicatives. Le vent, la température, les pneus, la charge, la batterie, les freins et le terrain influencent le résultat.",
+    catalogTitle:"🛴 Catalogue scooters",catalogSub:"Comparez les specs puis envoyez-les au calculateur.",search:"Rechercher un scooter...",sortRange:"Autonomie",sortSpeed:"Vitesse",sortPrice:"Prix",all:"Tous",commuter:"Ville",sportCat:"Sport",performance:"Performance",
+    safetyTitle:"🛡️ Sécurité",safetySub:"Des règles simples pour réduire les risques.",batteryCare:"Batterie",safe1:"Utilisez le bon chargeur",safe1p:"Utilisez uniquement un chargeur conforme aux spécifications du fabricant.",safe2:"Rechargez dans un endroit adapté",safe2p:"Évitez les surfaces inflammables et la chaleur excessive.",safe3:"Arrêtez en cas d'anomalie",safe3p:"Gonflement, fumée, odeur inhabituelle ou chaleur extrême : arrêtez et faites contrôler.",tires:"Pneus et freins",tireTitle:"Bonne pression",tireP:"Respectez la pression recommandée par le fabricant.",brakeTitle:"Freins",brakeP:"Si les freins sont faibles, bruyants ou frottent, arrêtez et faites contrôler.",rideSafe:"Avant de rouler",helmet:"Casque et éclairage",helmetP:"Portez un casque adapté, soyez visible et respectez les règles locales.",water:"Eau",waterP:"La résistance à l'eau ne signifie pas immersion. Évitez l'eau profonde.",
+    errorsTitle:"🔧 Diagnostic",errorsSub:"Informations générales avant de demander de l'aide.",errorNote:"Les codes varient selon la marque et le modèle. Ne démontez pas la batterie ou le contrôleur sans qualification.",
+    settingsTitle:"⚙️ Réglages",settingsSub:"Personnalisez VoltRide.",oled:"Mode OLED",oledSub:"Fond noir profond.",tariff:"Tarif électrique",tariffSub:"Utilisé pour le coût de recharge.",language:"Langue",share:"Partager VoltRide",shareSub:"Envoyez l'application à un ami.",shareBtn:"Partager",reset:"Réinitialiser",resetSub:"Effacer les réglages de cet appareil.",resetBtn:"Réinitialiser",about:"À propos",aboutText:"VoltRide fournit des estimations pour l'autonomie, l'énergie, la recharge et le coût. Il ne remplace pas le manuel du fabricant ni un professionnel.",
+    myScooter:"🛴 Mon scooter",myScooterSub:"Enregistrez les specs de votre scooter une seule fois.",savedProfile:"Enregistré",scooterName:"Nom du scooter",profileVoltage:"Tension",profileCapacity:"Capacité Ah",profileMotor:"Moteur W",profileCharger:"Chargeur A",saveScooter:"💾 Enregistrer",loadScooter:"⚡ Utiliser enregistré",noSavedScooter:"Aucun scooter enregistré.",savedAt:"Dernière sauvegarde",compare:"Comparer",compareTitle:"⚖️ Comparaison",navCalc:"Calcul",navCatalog:"Catalogue",navSafety:"Sécurité",navErrors:"Erreurs",navSettings:"Réglages",historyTitle:"📒 Historique des charges",historySub:"Enregistrez la charge actuelle pour suivre vos dépenses.",chargesCount:"Nombre de charges",totalCost:"Coût total",avgCost:"Coût moyen",saveCharge:"➕ Enregistrer cette charge",clearHistory:"Effacer l'historique",historyEmpty:"Aucune charge enregistrée.",historySaved:"Charge enregistrée",historyCleared:"Historique effacé",chargeEntry:"charge",
+    installText:"Installez VoltRide sur votre écran d'accueil pour un accès rapide et hors ligne.",installBtn:"Installer",
+    savedScooterToast:"Scooter enregistré",loadedScooterToast:"Specs chargées",needSaveFirst:"Enregistrez d'abord votre scooter",
+    resetDone:"VoltRide réinitialisé avec succès",resetConfirm:"Réinitialiser VoltRide aux réglages par défaut ?",
+    clearHistoryConfirm:"Effacer l'historique des charges ?",
+    specsTransferred:"Specs transférées au calculateur",
+    calculateFirst:"Calculez d'abord puis enregistrez",
+    maxCompare:"3 maximum",
+    chooseFirst:"Choisissez un scooter d'abord",
+    shareText:"⚡ VoltRide — estimez autonomie, recharge et coût en quelques secondes. Gratuit et sans inscription :"
+  },
+  en:{
+    quickSmart:"Instant insight",quickBattery:"Energy & charge",quickCost:"Clear cost",tagline:"Your smart scooter companion",heroText:"Estimate range, charging time and electricity cost in seconds.",smartBadge:"● Smart analysis",smartStatus:"Trip status",tripCost:"Energy cost",perCharge:"/ charge",
+    rider:"👤 Rider & riding",weight:"Weight",speed:"Average speed",terrain:"Terrain",flat:"Flat",mixed:"Mixed",hills:"Hills",mode:"Riding mode",eco:"Eco",balanced:"Balanced",sport:"Sport",
+    battery:"🔋 Battery & scooter",voltage:"Voltage",capacity:"Capacity Ah",motor:"Motor power",charger:"Charger A",calculate:"Calculate ⚡",results:"📊 Result",range:"Range",energy:"Battery energy",consumption:"Consumption",chargeTime:"Charge time",cost:"Charge cost",reserve:"10% reserve",estimateNote:"Estimates only. Wind, temperature, tire pressure, load, battery condition, brakes and terrain affect the result.",
+    catalogTitle:"🛴 Scooter catalog",catalogSub:"Compare specs and send them to the calculator.",search:"Search scooter...",sortRange:"Range",sortSpeed:"Speed",sortPrice:"Price",all:"All",commuter:"Commuter",sportCat:"Sport",performance:"Performance",
+    safetyTitle:"🛡️ Safety center",safetySub:"Simple rules to reduce risk and protect your scooter.",batteryCare:"Battery care",safe1:"Use the correct charger",safe1p:"Use only a charger that matches the manufacturer's specifications.",safe2:"Charge in a suitable place",safe2p:"Avoid flammable surfaces and excessive heat.",safe3:"Stop for abnormal signs",safe3p:"Swelling, smoke, unusual odor or extreme heat: stop and seek qualified inspection.",tires:"Tires & brakes",tireTitle:"Correct pressure",tireP:"Follow the manufacturer's recommended tire pressure.",brakeTitle:"Brakes",brakeP:"If braking is weak, noisy or rubbing, stop riding and get it inspected.",rideSafe:"Before riding",helmet:"Helmet & lights",helmetP:"Wear a suitable helmet, stay visible and follow local rules.",water:"Water",waterP:"Water resistance does not mean submersible. Avoid deep water.",
+    errorsTitle:"🔧 Troubleshooting",errorsSub:"General information before seeking help.",errorNote:"Codes vary by brand and model. Do not disassemble the battery or controller unless qualified.",
+    settingsTitle:"⚙️ Settings",settingsSub:"Customize VoltRide.",oled:"OLED mode",oledSub:"Deep black background.",tariff:"Electricity tariff",tariffSub:"Used to estimate charging cost.",language:"Language",share:"Share VoltRide",shareSub:"Send the app to a friend.",shareBtn:"Share",reset:"Reset",resetSub:"Clear VoltRide settings on this device.",resetBtn:"Reset",about:"About VoltRide",aboutText:"VoltRide provides estimates for range, energy, charging and cost. It does not replace the manufacturer's manual or qualified inspection.",
+    myScooter:"🛴 My scooter",myScooterSub:"Save your scooter specs once and reuse them quickly.",savedProfile:"Saved",scooterName:"Scooter name",profileVoltage:"Voltage",profileCapacity:"Capacity Ah",profileMotor:"Motor W",profileCharger:"Charger A",saveScooter:"💾 Save scooter",loadScooter:"⚡ Use saved",noSavedScooter:"No scooter saved yet.",savedAt:"Last saved",compare:"Compare",compareTitle:"⚖️ Scooter comparison",navCalc:"Calculator",navCatalog:"Catalog",navSafety:"Safety",navErrors:"Errors",navSettings:"Settings",historyTitle:"📒 Charging & cost history",historySub:"Save the current charge to track your spending over time.",chargesCount:"Charges",totalCost:"Total cost",avgCost:"Average charge",saveCharge:"➕ Log this charge",clearHistory:"Clear history",historyEmpty:"No charges logged yet.",historySaved:"Charge logged",historyCleared:"History cleared",chargeEntry:"charge",
+    installText:"Install VoltRide on your home screen for quick offline access.",installBtn:"Install",
+    savedScooterToast:"Scooter saved",loadedScooterToast:"Saved specs loaded",needSaveFirst:"Save your scooter first",
+    resetDone:"VoltRide reset successfully",resetConfirm:"Reset VoltRide to default settings?",
+    clearHistoryConfirm:"Clear charging history?",
+    specsTransferred:"Specs transferred to calculator",
+    calculateFirst:"Calculate first, then log the charge",
+    maxCompare:"Maximum 3",
+    chooseFirst:"Choose a scooter first",
+    shareText:"⚡ VoltRide — estimate range, charge time and cost in seconds. Free, no signup:"
+  }
+};
+
+const scooters = [
+  {id:"mi-pro2",name:"Xiaomi Mi Scooter Pro 2",cat:"commuter",speed:25,range:30,power:300,voltage:36,ah:12.8,price:4200},
+  {id:"mi-4pro",name:"Xiaomi Electric Scooter 4 Pro",cat:"commuter",speed:25,range:45,power:400,voltage:48,ah:12.4,price:6200},
+  {id:"max-g30",name:"Segway-Ninebot MAX G30",cat:"commuter",speed:30,range:40,power:350,voltage:36,ah:15.3,price:6500},
+  {id:"kukirin-m3",name:"KuKirin M3",cat:"commuter",speed:45,range:40,power:500,voltage:48,ah:13,price:7000},
+  {id:"kukirin-g2",name:"KuKirin G2",cat:"sport",speed:45,range:55,power:800,voltage:48,ah:15.6,price:8500},
+  {id:"kukirin-g4",name:"KuKirin G4",cat:"performance",speed:70,range:75,power:2000,voltage:60,ah:20,price:14500},
+  {id:"joyor-s5",name:"Joyor S5",cat:"sport",speed:40,range:40,power:600,voltage:48,ah:13,price:6800},
+  {id:"dualtron-mini",name:"Dualtron Mini",cat:"performance",speed:45,range:40,power:1450,voltage:52,ah:13,price:10500}
+];
+
+let lang = Store.get("voltride_language", "ar");
+let terrain = Store.get("voltride_terrain", "flat");
+let mode = Store.get("voltride_mode", "eco");
+let category = "all";
+let favorites = Store.get("voltride_favorites", []);
+let compare = Store.get("voltride_compare", []);
+let tariff = Number(Store.get("voltride_tariff", 1.2)) || 1.2;
+let myScooter = Store.get("voltride_my_scooter", null);
+let chargeHistory = Store.get("voltride_charge_history", []);
+if (!Array.isArray(chargeHistory)) chargeHistory = [];
+if (!Array.isArray(favorites)) favorites = [];
+if (!Array.isArray(compare)) compare = [];
+
+function t(k){ return (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k; }
+function escapeHTML(v){ return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
+function toast(msg){ const el = document.getElementById("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(window.__toast); window.__toast = setTimeout(() => el.classList.remove("show"), 2000); }
+function fmtLocale(){ return lang === "ar" ? "ar-MA" : lang === "fr" ? "fr-FR" : "en-US"; }
+
+function setLanguage(next){
+  if (!I18N[next]) return;
+  lang = next;
+  Store.set("voltride_language", lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => el.placeholder = t(el.dataset.i18nPlaceholder));
+  document.getElementById("langLabel").textContent = lang.toUpperCase();
+  document.getElementById("languageSelect").value = lang;
+  document.querySelectorAll("#langMenu button").forEach(b => b.querySelector("span").textContent = b.dataset.lang === lang ? "✓" : "");
+  renderCatalog();
+  renderErrors();
+  renderMyScooter();
+  renderChargeHistory();
+  calculate();
+}
+
+function selectChips(selector, value){
+  document.querySelectorAll(selector + " .chip").forEach(b => b.classList.toggle("active", b.dataset.value === value));
+}
+
+function calculate(){
+  const weight = Number(document.getElementById("weight").value);
+  const speed = Number(document.getElementById("speed").value);
+  const voltage = Number(document.getElementById("voltage").value);
+  const ah = Math.max(0.1, Number(document.getElementById("capacity").value) || 0.1);
+  const motor = Number(document.getElementById("motor").value);
+  const charger = Math.max(0.1, Number(document.getElementById("charger").value) || 0.1);
+  document.getElementById("weightVal").textContent = weight;
+  document.getElementById("speedVal").textContent = speed;
+  const batteryWh = voltage * ah, usableWh = batteryWh * 0.9;
+  const weightFactor = 1 + ((weight - 75) * 0.0045);
+  const speedFactor = 1 + (Math.max(0, speed - 20) * 0.035);
+  const terrainFactor = {flat:1, mixed:1.12, hills:1.30}[terrain] || 1;
+  const modeFactor = {eco:0.88, balanced:1, sport:1.14}[mode] || 1;
+  const motorFactor = motor >= 1500 ? 1.10 : motor >= 800 ? 1.05 : 1;
+  const consumption = Math.min(45, Math.max(7, 12.5 * weightFactor * speedFactor * terrainFactor * modeFactor * motorFactor));
+  const range = usableWh / consumption;
+  const reserve = range * 0.9;
+  const chargeHours = (ah / charger) * 1.15;
+  const cost = (batteryWh / 1000) * tariff;
+
+  document.getElementById("rangeOut").textContent = range.toFixed(1);
+  document.getElementById("energyOut").textContent = batteryWh.toFixed(0);
+  document.getElementById("consumptionOut").textContent = consumption.toFixed(1);
+  document.getElementById("chargeOut").textContent = chargeHours.toFixed(1);
+  document.getElementById("costOut").textContent = cost.toFixed(2);
+  document.getElementById("reserveOut").textContent = reserve.toFixed(1);
+
+  const advice = range < 15
+    ? "⚠️ المدى التقديري منخفض. خفف السرعة، تحقق من ضغط الإطارات وحالة البطارية وخطط لمسار آمن."
+    : mode === "sport"
+    ? "⚡ وضع Sport يزيد الاستهلاك. استخدمه عند الحاجة، خصوصاً في المسافات الطويلة."
+    : "✅ إعداد متوازن. للحصول على نتيجة أقرب للواقع، أدخل متوسط سرعتك الحقيقي وحالة الطريق.";
+  document.getElementById("advice").textContent = advice;
+
+  const smart = document.getElementById("smartStatusOut");
+  const sub = document.getElementById("smartStatusSub");
+  const sc = document.getElementById("smartCostOut");
+  if (smart && sub && sc) {
+    sc.textContent = cost.toFixed(2) + " MAD";
+    const status = range < 15
+      ? (lang === "ar" ? "مدى منخفض" : lang === "fr" ? "Autonomie faible" : "Low range")
+      : range < 30
+      ? (lang === "ar" ? "رحلة متوسطة" : lang === "fr" ? "Trajet moyen" : "Medium trip")
+      : (lang === "ar" ? "مدى ممتاز" : lang === "fr" ? "Bonne autonomie" : "Great range");
+    const detail = range < 15
+      ? (lang === "ar" ? "فكر في شحن البطارية قبل الانطلاق." : lang === "fr" ? "Pensez à recharger avant de partir." : "Consider charging before departure.")
+      : range < 30
+      ? (lang === "ar" ? "مناسب لرحلة يومية قصيرة إلى متوسطة." : lang === "fr" ? "Adapté à un trajet quotidien court à moyen." : "Good for a short to medium daily trip.")
+      : (lang === "ar" ? "هامش جيد للرحلات اليومية." : lang === "fr" ? "Bonne marge pour les trajets quotidiens." : "Good margin for daily trips.");
+    smart.textContent = status;
+    sub.textContent = detail;
+  }
+}
+
+function renderChargeHistory(){
+  const countEl = document.getElementById("historyCount");
+  const totalEl = document.getElementById("historyTotal");
+  const avgEl = document.getElementById("historyAvg");
+  const listEl = document.getElementById("historyList");
+  if (!countEl || !totalEl || !avgEl || !listEl) return;
+  const total = chargeHistory.reduce((s, x) => s + Number(x.cost || 0), 0);
+  const count = chargeHistory.length;
+  countEl.textContent = count;
+  totalEl.textContent = total.toFixed(2) + " MAD";
+  avgEl.textContent = (count ? (total / count) : 0).toFixed(2) + " MAD";
+  if (!count) { listEl.innerHTML = '<div class="history-empty">' + escapeHTML(t("historyEmpty")) + '</div>'; return; }
+  listEl.innerHTML = chargeHistory.slice().reverse().slice(0, 8).map(x =>
+    '<div class="history-item"><div><strong>⚡ ' + escapeHTML(x.date) + '</strong><small>' +
+    escapeHTML(t("chargeEntry")) + ' • ' + x.range + ' km' +
+    (x.name ? ' • ' + escapeHTML(x.name) : '') +
+    '</small></div><b>' + Number(x.cost).toFixed(2) + ' MAD</b></div>'
+  ).join("");
+}
+
+function saveChargeLog(){
+  const cost = Number(document.getElementById("costOut").textContent);
+  const range = Number(document.getElementById("rangeOut").textContent);
+  if (!Number.isFinite(cost) || !Number.isFinite(range)) { toast(t("calculateFirst")); return; }
+  chargeHistory.push({
+    date: new Date().toLocaleString(fmtLocale(), {dateStyle:"short", timeStyle:"short"}),
+    cost: Number(cost.toFixed(2)),
+    range: Number(range.toFixed(1)),
+    name: myScooter ? myScooter.name : ""
+  });
+  chargeHistory = chargeHistory.slice(-30);
+  Store.set("voltride_charge_history", chargeHistory);
+  renderChargeHistory();
+  toast(t("historySaved"));
+}
+
+function clearChargeHistory(){
+  chargeHistory = [];
+  Store.set("voltride_charge_history", chargeHistory);
+  renderChargeHistory();
+  toast(t("historyCleared"));
+}
+
+function renderMyScooter(){
+  const n = document.getElementById("scooterName");
+  const v = document.getElementById("profileVoltage");
+  const a = document.getElementById("profileCapacity");
+  const m = document.getElementById("profileMotor");
+  const c = document.getElementById("profileCharger");
+  const st = document.getElementById("profileStatus");
+  const bd = document.getElementById("profileBadge");
+  if (!n) return;
+  if (myScooter) {
+    n.value = myScooter.name || "";
+    v.value = String(myScooter.voltage || 36);
+    a.value = myScooter.ah || 12.8;
+    m.value = String(myScooter.motor || 300);
+    c.value = String(myScooter.charger || 2);
+    bd.style.display = "inline-flex";
+    st.textContent = t("savedAt") + ": " + (myScooter.savedLabel || "");
+  } else {
+    bd.style.display = "none";
+    st.textContent = t("noSavedScooter");
+  }
+}
+
+function saveMyScooter(){
+  const name = (document.getElementById("scooterName").value || "").trim() || "My Scooter";
+  myScooter = {
+    name,
+    voltage: Number(document.getElementById("profileVoltage").value),
+    ah: Math.max(0.1, Number(document.getElementById("profileCapacity").value) || 12.8),
+    motor: Number(document.getElementById("profileMotor").value),
+    charger: Number(document.getElementById("profileCharger").value),
+    savedLabel: new Date().toLocaleDateString(fmtLocale())
+  };
+  Store.set("voltride_my_scooter", myScooter);
+  renderMyScooter();
+  toast(t("savedScooterToast"));
+}
+
+function loadMyScooter(){
+  if (!myScooter) { toast(t("needSaveFirst")); return; }
+  document.getElementById("voltage").value = myScooter.voltage;
+  document.getElementById("capacity").value = myScooter.ah;
+  document.getElementById("motor").value = myScooter.motor;
+  document.getElementById("charger").value = myScooter.charger;
+  calculate();
+  toast(t("loadedScooterToast"));
+}
+
+function renderCatalog(){
+  const q = (document.getElementById("search").value || "").trim().toLowerCase();
+  const sort = document.getElementById("sort").value;
+  let list = scooters.filter(s =>
+    (category === "all" || s.cat === category) &&
+    (!q || s.name.toLowerCase().includes(q))
+  );
+  list.sort((a, b) =>
+    sort === "price" ? a.price - b.price :
+    sort === "speed" ? b.speed - a.speed :
+    b.range - a.range
+  );
+  const grid = document.getElementById("catalogGrid");
+  if (!list.length) { grid.innerHTML = '<div class="card empty">لا توجد نتائج.</div>'; return; }
+  grid.innerHTML = list.map(s => {
+    const fav = favorites.includes(s.id);
+    const cmp = compare.includes(s.id);
+    return '<article class="card scooter">' +
+      '<div class="scooter-head"><div><div class="scooter-name">' + escapeHTML(s.name) + '</div><span class="badge">' + escapeHTML(s.cat) + '</span></div>' +
+      '<button class="favorite ' + (fav ? "on" : "") + '" data-fav="' + s.id + '" aria-label="favorite">' + (fav ? "♥" : "♡") + '</button></div>' +
+      '<div class="specs">' +
+        '<div class="spec"><small>⚡ Speed</small><b>' + s.speed + ' km/h</b></div>' +
+        '<div class="spec"><small>📍 Range</small><b>' + s.range + ' km</b></div>' +
+        '<div class="spec"><small>🔋 Battery</small><b>' + s.voltage + 'V • ' + s.ah + 'Ah</b></div>' +
+        '<div class="spec"><small>⚙️ Motor</small><b>' + s.power + 'W</b></div>' +
+      '</div>' +
+      '<div class="price">' + s.price.toLocaleString() + ' MAD <span class="small">• reference</span></div>' +
+      '<div class="card-actions" style="margin-top:10px">' +
+        '<button class="secondary" data-use="' + s.id + '">⚡ ' + (lang === "ar" ? "استخدم" : lang === "fr" ? "Utiliser" : "Use") + '</button>' +
+        '<button class="secondary" data-compare="' + s.id + '">' + (cmp ? "✓" : "⚖️") + ' ' + t("compare") + '</button>' +
+      '</div></article>';
+  }).join("");
+}
+
+function toggleFavorite(id){
+  favorites = favorites.includes(id) ? favorites.filter(x => x !== id) : favorites.concat([id]);
+  Store.set("voltride_favorites", favorites);
+  renderCatalog();
+}
+
+function toggleCompare(id){
+  if (compare.includes(id)) compare = compare.filter(x => x !== id);
+  else if (compare.length < 3) compare = compare.concat([id]);
+  else { toast(t("maxCompare")); return; }
+  Store.set("voltride_compare", compare);
+  updateCompareUI();
+  renderCatalog();
+}
+
+function updateCompareUI(){
+  document.getElementById("compareCount").textContent = compare.length;
+  document.getElementById("compareCount2").textContent = compare.length;
+  document.getElementById("compareFloat").classList.toggle("show", compare.length > 0);
+}
+
+function openCompare(){
+  if (!compare.length) { toast(t("chooseFirst")); return; }
+  const items = compare.map(id => scooters.find(s => s.id === id)).filter(Boolean);
+  document.getElementById("compareBody").innerHTML =
+    '<table class="compare-table"><tr><th></th>' + items.map(s => '<th>' + escapeHTML(s.name) + '</th>').join("") + '</tr>' +
+    '<tr><td>Speed</td>' + items.map(s => '<td>' + s.speed + ' km/h</td>').join("") + '</tr>' +
+    '<tr><td>Range</td>' + items.map(s => '<td>' + s.range + ' km</td>').join("") + '</tr>' +
+    '<tr><td>Motor</td>' + items.map(s => '<td>' + s.power + ' W</td>').join("") + '</tr>' +
+    '<tr><td>Battery</td>' + items.map(s => '<td>' + s.voltage + 'V / ' + s.ah + 'Ah</td>').join("") + '</tr>' +
+    '<tr><td>Price</td>' + items.map(s => '<td>' + s.price.toLocaleString() + ' MAD</td>').join("") + '</tr></table>' +
+    '<button class="secondary" id="clearCompare" style="width:100%;margin-top:12px">' + (lang === "ar" ? "مسح المقارنة" : lang === "fr" ? "Vider" : "Clear comparison") + '</button>';
+  document.getElementById("compareModal").classList.add("show");
+  document.getElementById("clearCompare").onclick = () => {
+    compare = [];
+    Store.set("voltride_compare", compare);
+    updateCompareUI();
+    renderCatalog();
+    document.getElementById("compareModal").classList.remove("show");
+  };
+}
+
+function useScooter(id){
+  const s = scooters.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById("voltage").value = s.voltage;
+  document.getElementById("capacity").value = s.ah;
+  document.getElementById("motor").value = s.power;
+  calculate();
+  switchScreen("calculator");
+  toast(t("specsTransferred"));
+}
+
+function renderErrors(){
+  const data = [
+    ["E14", "Throttle signal", "افحص المقبض والأسلاك الظاهرة وتجنب القيادة إذا كان التسارع غير متوقع."],
+    ["E15", "Brake signal", "تحقق من عدم بقاء ذراع الفرامل عالقاً. إذا استمر الخطأ، اطلب فحصاً."],
+    ["BAT", "Battery / charging", "تحقق من التوصيل والشاحن الصحيح. عند حرارة شديدة أو انتفاخ، توقف عن الشحن."],
+    ["BRK", "Brake warning", "لا تواصل القيادة إذا كان أداء الفرامل غير طبيعي؛ اطلب فحصاً مؤهلاً."]
+  ];
+  document.getElementById("errorList").innerHTML = data.map(x =>
+    '<details><summary>' + x[0] + ' — ' + x[1] + '</summary><p class="small">' + x[2] + '</p></details>'
+  ).join("");
+}
+
+function switchScreen(name){
+  document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === name));
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.screen === name));
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function applyTheme(){
+  const oled = !!Store.get("voltride_oled", false);
+  document.body.classList.toggle("oled", oled);
+  document.getElementById("oledSwitch").classList.toggle("on", oled);
+}
+
+async function shareApp(){
+  const text = t("shareText") + " " + SHARE_URL;
+  try {
+    if (typeof navigator.share === "function") {
+      await navigator.share({title:"VoltRide ⚡", text, url:SHARE_URL});
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      toast(lang === "ar" ? "تم النسخ" : lang === "fr" ? "Copié" : "Copied");
+      return;
+    }
+    toast(text);
+  } catch(e){
+    if (e && e.name === "AbortError") return;
+    toast(lang === "ar" ? "تعذر فتح المشاركة" : lang === "fr" ? "Partage indisponible" : "Sharing unavailable");
+  }
+}
+
+function resetAppSettings(){
+  const keys = ["voltride_language","voltride_terrain","voltride_mode","voltride_favorites","voltride_compare","voltride_tariff","voltride_oled","voltride_my_scooter","voltride_charge_history"];
+  keys.forEach(Store.remove);
+  lang = "ar";
+  chargeHistory = [];
+  favorites = [];
+  compare = [];
+  terrain = "flat";
+  mode = "eco";
+  tariff = 1.2;
+  myScooter = null;
+  document.getElementById("weight").value = 75;
+  document.getElementById("speed").value = 25;
+  document.getElementById("voltage").value = 36;
+  document.getElementById("capacity").value = 12.8;
+  document.getElementById("motor").value = 300;
+  document.getElementById("charger").value = 2;
+  document.getElementById("tariff").value = "1.20";
+  document.getElementById("search").value = "";
+  document.getElementById("sort").value = "range";
+  category = "all";
+  selectChips("#terrainChips", terrain);
+  selectChips("#modeChips", mode);
+  document.querySelectorAll("#categoryChips .chip").forEach(b => b.classList.toggle("active", b.dataset.cat === category));
+  setLanguage("ar");
+  applyTheme();
+  updateCompareUI();
+  renderCatalog();
+  calculate();
+  renderChargeHistory();
+  renderMyScooter();
+  toast(t("resetDone"));
+}
+
+/* ==== PWA install prompt ==== */
+let deferredInstallPrompt = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  document.getElementById("installBanner").classList.add("show");
+});
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  document.getElementById("installBanner").classList.remove("show");
+});
+function triggerInstall(){
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(() => {
+      deferredInstallPrompt = null;
+      document.getElementById("installBanner").classList.remove("show");
+    });
+  } else {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    toast(isIOS
+      ? (lang === "ar" ? "اضغط مشاركة ← إضافة إلى الشاشة الرئيسية" : lang === "fr" ? "Partager → Sur l'écran d'accueil" : "Share → Add to Home Screen")
+      : (lang === "ar" ? "استخدم قائمة المتصفح ← تثبيت التطبيق" : lang === "fr" ? "Menu navigateur → Installer l'app" : "Browser menu → Install app"));
+  }
+}
+
+/* ==== Service Worker (اختياري، يُفعّل إن وُجد sw.js) ==== */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const s = document.getElementById("splash");
+    if (s) s.classList.add("hide");
+  }, 420);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("appVersion").textContent = APP_VERSION;
+  document.getElementById("weight").oninput = calculate;
+  document.getElementById("speed").oninput = calculate;
+  ["voltage","capacity","motor","charger"].forEach(id =>
+    document.getElementById(id).addEventListener("input", calculate)
+  );
+  document.getElementById("calculateBtn").onclick = calculate;
+  document.getElementById("saveChargeBtn").onclick = saveChargeLog;
+  document.getElementById("clearHistoryBtn").onclick = () => {
+    if (confirm(t("clearHistoryConfirm"))) clearChargeHistory();
+  };
+  document.getElementById("saveScooterBtn").onclick = saveMyScooter;
+  document.getElementById("loadScooterBtn").onclick = loadMyScooter;
+  document.querySelectorAll("#terrainChips .chip").forEach(b => b.onclick = () => {
+    terrain = b.dataset.value;
+    Store.set("voltride_terrain", terrain);
+    selectChips("#terrainChips", terrain);
+    calculate();
+  });
+  document.querySelectorAll("#modeChips .chip").forEach(b => b.onclick = () => {
+    mode = b.dataset.value;
+    Store.set("voltride_mode", mode);
+    selectChips("#modeChips", mode);
+    calculate();
+  });
+  document.querySelectorAll(".nav-btn").forEach(b => b.onclick = () => switchScreen(b.dataset.screen));
+  document.getElementById("search").oninput = renderCatalog;
+  document.getElementById("sort").onchange = renderCatalog;
+  document.querySelectorAll("#categoryChips .chip").forEach(b => b.onclick = () => {
+    category = b.dataset.cat;
+    document.querySelectorAll("#categoryChips .chip").forEach(x => x.classList.toggle("active", x === b));
+    renderCatalog();
+  });
+  document.getElementById("catalogGrid").onclick = e => {
+    const f = e.target.closest("[data-fav]");
+    const c = e.target.closest("[data-compare]");
+    const u = e.target.closest("[data-use]");
+    if (f) toggleFavorite(f.dataset.fav);
+    else if (c) toggleCompare(c.dataset.compare);
+    else if (u) useScooter(u.dataset.use);
+  };
+  document.getElementById("headerCompare").onclick = openCompare;
+  document.getElementById("compareFloatBtn").onclick = openCompare;
+  document.getElementById("closeCompare").onclick = () => document.getElementById("compareModal").classList.remove("show");
+  document.getElementById("themeBtn").onclick = () => {
+    const v = !document.body.classList.contains("oled");
+    Store.set("voltride_oled", v);
+    applyTheme();
+  };
+  document.getElementById("oledSwitch").onclick = () => {
+    const v = !document.body.classList.contains("oled");
+    Store.set("voltride_oled", v);
+    applyTheme();
+  };
+  document.getElementById("tariff").onchange = e => {
+    tariff = Math.max(0, Number(e.target.value) || 0);
+    Store.set("voltride_tariff", tariff);
+    calculate();
+  };
+  document.getElementById("languageSelect").onchange = e => setLanguage(e.target.value);
+  document.getElementById("shareBtn").onclick = shareApp;
+  document.getElementById("installBtn").onclick = triggerInstall;
+  document.getElementById("resetBtn").onclick = () => {
+    if (confirm(t("resetConfirm"))) resetAppSettings();
+  };
+  document.getElementById("langBtn").onclick = e => {
+    e.stopPropagation();
+    const m = document.getElementById("langMenu");
+    const show = !m.classList.contains("show");
+    m.classList.toggle("show", show);
+    e.currentTarget.setAttribute("aria-expanded", String(show));
+  };
+  document.querySelectorAll("#langMenu button").forEach(b => b.onclick = () => {
+    setLanguage(b.dataset.lang);
+    document.getElementById("langMenu").classList.remove("show");
+  });
+  document.addEventListener("click", e => {
+    if (!e.target.closest("#langWrap")) {
+      document.getElementById("langMenu").classList.remove("show");
+      document.getElementById("langBtn").setAttribute("aria-expanded", "false");
+    }
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      document.getElementById("langMenu").classList.remove("show");
+      document.getElementById("compareModal").classList.remove("show");
+    }
+  });
+  document.getElementById("tariff").value = tariff.toFixed(2);
+  selectChips("#terrainChips", terrain);
+  selectChips("#modeChips", mode);
+  applyTheme();
+  setLanguage(lang);
+  updateCompareUI();
+  renderCatalog();
+  renderErrors();
+  renderMyScooter();
+  renderChargeHistory();
+  calculate();
+});
+</script>
+</div>
+</body>
+</html>
