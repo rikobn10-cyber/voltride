@@ -1,5 +1,5 @@
 /* VoltRide Service Worker v2.0.0 */
-const CACHE = "voltride-v2.0.0";
+const CACHE = "voltride-v3";
 const ASSETS = ["./", "./index.html", "./manifest.json"];
 
 self.addEventListener("install", (e) => {
