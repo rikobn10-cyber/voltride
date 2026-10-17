@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /sw.js
+Disallow: /manifest.json
+
+User-agent: GPTBot
+Disallow: /article-
+User-agent: ClaudeBot
+Disallow: /article-
+User-agent: CCBot
+Disallow: /article-
