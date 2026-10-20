@@ -80,3 +80,10 @@ header.blog-head p{color:var(--muted);font-size:14px}
 .article-card p{color:var(--muted);font-size:13px;line-height:1.6}
 .article-card .meta{color:var(--muted);font-size:11px;margin-top:10px}
 .center{text-align:center}
+
+/* model pages */
+.hero-svg{display:block;width:100%;max-width:420px;height:auto;margin:6px auto 18px;color:var(--text)}
+.faq details{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:800;color:var(--cyan);line-height:1.6}
+.faq details p{margin:10px 0 0;color:#dbeafe}
+table small{color:var(--muted);font-size:11px}

@@ -1,0 +1,62 @@
+{
+  "_comment": "This is a starter dataset of 5 models. We will expand to 100+ models later.",
+  "_notes": "Specs were supplied by the project owner and are NOT yet verified against manufacturer pages. Many models ship in several variants (voltage/Ah differ), so verify each entry and fill 'source' + 'verified_on' before relying on it. 'price' is kept for internal use only and is never rendered or put in Schema.org.",
+  "updated": "2026-10-20",
+  "models": {
+    "xiaomi-pro-2": {
+      "name": "Xiaomi Pro 2",
+      "brand": "Xiaomi",
+      "class": "commuter",
+      "voltage": 36, "ah": 12.8, "motor": 300, "speed": 25, "price": 4200,
+      "source": null, "verified_on": null,
+      "summary": "سكوتر تنقل يومي خفيف من فئة المبتدئين، سرعته ضمن الحد القانوني المنشور في المغرب.",
+      "fit": "التنقل داخل المدينة لمسافات قصيرة إلى متوسطة، ومن يحتاج سكوتراً يسهل حمله وطيّه.",
+      "not_fit": "الطلعات القوية المتكررة، أو الراكب الثقيل الذي يقطع مسافات طويلة يومياً.",
+      "offroad": "مصمم للأسفلت. يتحمل الأرصفة والطرق متوسطة الجودة، لكنه ليس للمسارات الترابية أو الحجارة الكبيرة، ومحركه الصغير يتعب في المنحدرات الحادة."
+    },
+    "kukirin-g2-pro": {
+      "name": "KuKirin G2 Pro",
+      "brand": "KuKirin",
+      "class": "sport",
+      "voltage": 48, "ah": 15, "motor": 600, "speed": 45, "price": 7000,
+      "source": null, "verified_on": null,
+      "summary": "سكوتر أقوى من فئة التنقل، بقدرة وبطارية أكبر، مناسب لمن يقطع مسافات أطول أو يصعد تلالاً.",
+      "fit": "مسافات يومية طويلة نسبياً، ومدن فيها طلعات، ومن يريد عزماً أكبر.",
+      "not_fit": "من يحمل سكوتره كل يوم على الدرج، أو من يريد الالتزام بالحد 25 كم/س دون ضبط السرعة.",
+      "offroad": "يتحمل الطرق المتشققة والمسارات الترابية الخفيفة أفضل من سكوترات التنقل. وقد تختلف النسخ في التعليق وعرض الإطارات، فتحقق من نسختك قبل الاعتماد عليه خارج الأسفلت."
+    },
+    "kukirin-g4": {
+      "name": "KuKirin G4",
+      "brand": "KuKirin",
+      "class": "performance",
+      "voltage": 60, "ah": 20, "motor": 2000, "speed": 75, "price": 14500,
+      "source": null, "verified_on": null,
+      "summary": "سكوتر عالي الأداء بقدرة محرك وبطارية كبيرتين، مخصص عملياً لمستخدم يبحث عن القوة لا عن التنقل الحضري الخفيف.",
+      "fit": "الطرق الطويلة والمسارات الخاصة، ومن لا يمانع الوزن الكبير والسعر المرتفع.",
+      "not_fit": "التنقل اليومي في المدينة بالقانون الحالي، ومن يحتاج حمله أو إدخاله إلى مصعد وشقة صغيرة.",
+      "offroad": "قوته تسمح بمسارات ترابية وطلعات قوية، لكن وزنه ووجود سرعات عالية يتطلبان خبرة وخوذة كاملة وحماية. استعمله في أرض خاصة أو مسارات مسموحة."
+    },
+    "segway-max-g30": {
+      "name": "Segway Ninebot MAX G30",
+      "brand": "Segway-Ninebot",
+      "class": "commuter",
+      "voltage": 36, "ah": 15.3, "motor": 350, "speed": 30, "price": 6500,
+      "source": null, "verified_on": null,
+      "summary": "سكوتر تنقل ببطارية كبيرة نسبياً لفئته، معروف بمداه المريح في الاستعمال اليومي.",
+      "fit": "من يريد مدى مريحاً في المدينة دون قوة مفرطة، وراكب بوزن متوسط إلى ثقيل.",
+      "not_fit": "من يريد سكوتراً خفيفاً جداً، أو يسلك طرقاً ترابية.",
+      "offroad": "للأسفلت. إطاراته وتعليقه لا يناسبان المسارات الترابية الوعرة، لكنه يتعامل جيداً مع الطرق المدنية العادية وبعض الحفر الصغيرة."
+    },
+    "dualtron-thunder-3": {
+      "name": "Dualtron Thunder 3",
+      "brand": "Dualtron",
+      "class": "extreme",
+      "voltage": 72, "ah": 40, "motor": 11000, "speed": 100, "price": 45000,
+      "source": null, "verified_on": null,
+      "summary": "من أقوى السكوترات الكهربائية للهواة، بقدرة وبطارية ضخمتين، ولا يندرج ضمن التروتينيت المنظَّم بحد 25 كم/س.",
+      "fit": "الهواة الخبراء في مسارات خاصة ومغلقة، ومن يملك خبرة قيادة عالية ومعدات حماية كاملة.",
+      "not_fit": "التنقل اليومي، والمبتدئون، وأي استعمال في الطرق العامة.",
+      "offroad": "قدرته تسمح بمسارات وعرة، لكن وزنه الكبير جداً وسرعاته القصوى تجعل الخطر عالياً. يحتاج خبرة وحماية كاملة وأرضاً خاصة."
+    }
+  }
+}

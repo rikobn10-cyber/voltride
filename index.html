@@ -700,6 +700,9 @@ const I18N = {
   }
 };
 
+/*MODELS:START*/
+const MODEL_PRESETS = {"xiaomi-pro-2": {"name": "Xiaomi Pro 2", "voltage": 36, "ah": 12.8, "motor": 300}, "kukirin-g2-pro": {"name": "KuKirin G2 Pro", "voltage": 48, "ah": 15, "motor": 600}, "kukirin-g4": {"name": "KuKirin G4", "voltage": 60, "ah": 20, "motor": 2000}, "segway-max-g30": {"name": "Segway Ninebot MAX G30", "voltage": 36, "ah": 15.3, "motor": 350}, "dualtron-thunder-3": {"name": "Dualtron Thunder 3", "voltage": 72, "ah": 40, "motor": 11000}};
+/*MODELS:END*/
 const scooters = [
   {id:"mi-pro2",name:"Xiaomi Mi Scooter Pro 2",cat:"commuter",speed:25,range:30,power:300,voltage:36,ah:12.8,price:4200},
   {id:"mi-4pro",name:"Xiaomi Electric Scooter 4 Pro",cat:"commuter",speed:25,range:45,power:400,voltage:48,ah:12.4,price:6200},
@@ -1309,6 +1312,30 @@ document.addEventListener("DOMContentLoaded", () => {
   calculate();
 
   document.getElementById("consentBtn").onclick = () => { if (window.VoltConsent) VoltConsent.open(); };
+
+  // تعبئة تلقائية من رابط صفحة موديل: index.html?model=xiaomi-pro-2
+  try {
+    const slug = new URLSearchParams(location.search).get("model");
+    const p = slug && Object.prototype.hasOwnProperty.call(MODEL_PRESETS, slug) ? MODEL_PRESETS[slug] : null;
+    if (p) {
+      const setSel = (id, val) => {
+        const el = document.getElementById(id);
+        if (![...el.options].some(o => Number(o.value) === val)) {
+          const o = document.createElement("option");
+          o.value = o.textContent = String(val);
+          const after = [...el.options].find(x => Number(x.value) > val);
+          el.insertBefore(o, after || null);
+        }
+        el.value = String(val);
+      };
+      setSel("voltage", p.voltage);
+      setSel("motor", p.motor);
+      document.getElementById("capacity").value = p.ah;
+      switchScreen("calculator");
+      calculate();
+      toast("✅ " + p.name);
+    }
+  } catch (e) {}
 
   // روابط الاختصارات (manifest shortcuts) والروابط العميقة: #catalog, #safety, #return ...
   const hash = (location.hash || "").replace("#", "");

@@ -1,11 +1,12 @@
-/* VoltRide Service Worker v3.0.0 */
-const VERSION = "voltride-v4";
+/* VoltRide Service Worker v3.1.0 */
+const VERSION = "voltride-v5";
 const PRECACHE = [
   "./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
   "blog.html", "about.html", "privacy.html", "contact.html",
   "article-1.html", "article-2.html", "article-3.html", "article-4.html",
-  "article-5.html", "article-6.html", "article-7.html", "article-8.html"
+  "article-5.html", "article-6.html", "article-7.html", "article-8.html",
+  "xiaomi-pro-2.html", "kukirin-g2-pro.html", "kukirin-g4.html", "segway-max-g30.html", "dualtron-thunder-3.html"
 ];
 const NAV_TIMEOUT_MS = 3500;
 

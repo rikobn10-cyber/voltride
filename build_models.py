@@ -1,0 +1,315 @@
+# -*- coding: utf-8 -*-
+"""VoltRide programmatic SEO generator.
+Usage:  python3 build_models.py            (run inside the site folder)
+Reads models.json, then writes:
+  - one page per model:  <slug>.html
+  - sitemap.xml          (rebuilt)
+  - blog.html            (models section between MODELS markers)
+  - index.html           (MODEL_PRESETS block between MODELS markers)
+"""
+import json, html, math, os, re
+
+BASE = "https://voltride-4qj.pages.dev"
+ROOT = os.path.dirname(os.path.abspath(__file__))
+DATE = "2026-10-20"
+LEGAL_LIMIT = 25
+
+data = json.load(open(os.path.join(ROOT, "models.json"), encoding="utf-8"))
+MODELS = data["models"]
+
+CLASS_AR = {"commuter": "تنقل يومي", "sport": "رياضي", "performance": "عالي الأداء", "extreme": "فائق القوة"}
+STATIC_URLS = [("", "1.0"), ("blog.html", "0.9"), ("about.html", "0.5"), ("contact.html", "0.5"), ("privacy.html", "0.5")] + \
+              [(f"article-{i}.html", "0.8") for i in range(1, 9)]
+
+
+def esc(s):
+    return html.escape(str(s), quote=True)
+
+
+def num(v):
+    return ("%g" % v)
+
+
+def estimate(m, weight, terrain, mode, speed):
+    """Same formula as calculate() in index.html."""
+    wh = m["voltage"] * m["ah"]
+    usable = wh * 0.9
+    wf = 1 + (weight - 75) * 0.0045
+    sf = 1 + max(0, speed - 20) * 0.035
+    tf = {"flat": 1, "mixed": 1.12, "hills": 1.30}[terrain]
+    mf = {"eco": 0.88, "balanced": 1, "sport": 1.14}[mode]
+    motor = m["motor"]
+    mof = 1.10 if motor >= 1500 else 1.05 if motor >= 800 else 1
+    cap = 90 if motor >= 1500 else 60 if motor >= 800 else 45
+    cons = min(cap, max(7, 12.5 * wf * sf * tf * mf * mof))
+    return usable / cons, cons
+
+
+def scenarios(m):
+    sp = min(LEGAL_LIMIT, m["speed"])
+    rows = [
+        ("خفيف ومريح", "راكب 60 كغ، طريق مستوٍ، نمط اقتصادي", estimate(m, 60, "flat", "eco", sp)),
+        ("استعمال عادي", "راكب 75 كغ، طريق مختلط، نمط متوازن", estimate(m, 75, "mixed", "balanced", sp)),
+        ("ظروف صعبة", "راكب 90 كغ، مرتفعات، نمط متوازن", estimate(m, 90, "hills", "balanced", sp)),
+    ]
+    return rows, sp
+
+
+def svg(m):
+    tire = {"commuter": 5, "sport": 7, "performance": 9, "extreme": 11}[m["class"]]
+    body = {"commuter": 5, "sport": 6, "performance": 8, "extreme": 10}[m["class"]]
+    return f'''<svg class="hero-svg" viewBox="0 0 320 170" role="img" aria-labelledby="svgT svgD" xmlns="http://www.w3.org/2000/svg">
+<title id="svgT">رسم توضيحي عام لسكوتر كهربائي</title>
+<desc id="svgD">رسم أصلي مبسّط من VoltRide لا يمثل شكل الموديل الفعلي.</desc>
+<ellipse cx="160" cy="152" rx="130" ry="6" fill="currentColor" opacity=".12"/>
+<circle cx="70" cy="124" r="24" fill="none" stroke="currentColor" stroke-width="{tire}" opacity=".85"/>
+<circle cx="70" cy="124" r="6" fill="currentColor"/>
+<circle cx="250" cy="124" r="24" fill="none" stroke="currentColor" stroke-width="{tire}" opacity=".85"/>
+<circle cx="250" cy="124" r="6" fill="currentColor"/>
+<rect x="52" y="106" width="190" height="{body}" rx="{body/2}" fill="var(--cyan)"/>
+<path d="M238 110 L262 34" stroke="var(--cyan)" stroke-width="{body}" stroke-linecap="round" fill="none"/>
+<path d="M246 32 L282 26" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/>
+<circle cx="268" cy="38" r="5" fill="var(--amber)"/>
+<path d="M70 124 L52 108" stroke="currentColor" stroke-width="3" opacity=".6"/>
+</svg>'''
+
+
+def legal_block(m):
+    sp = m["speed"]
+    if m["class"] == "extreme":
+        return ('<div class="warning"><h3>⚖️ لا يندرج ضمن التروتينيت المنظَّم</h3>'
+                f'<p>سرعته المعلنة (نحو {sp} كم/س) تفوق كثيراً الحد المنشور للتروتينيت. بحسب ما نشرته الصحافة المغربية عن المرسوم 2.25.145 فالحد الأقصى <strong>25 كم/س</strong>. '
+                'لا نملك مصدراً مؤكداً عن تصنيف مركبة بهذه المواصفات في المغرب، لذلك <strong>لا تستعملها في الطرق العامة</strong> قبل أن تسأل الجهات المختصة (النقل أو الأمن الوطني أو شركة تأمين). '
+                'راجع <a href="article-7.html">مقال القانون</a> لما هو مؤكد وما هو غير مؤكد.</p></div>')
+    if sp > LEGAL_LIMIT:
+        return ('<div class="warning"><h3>⚖️ سرعته المعلنة تتجاوز 25 كم/س</h3>'
+                f'<p>سرعة {m["name"]} المعلنة نحو {sp} كم/س، بينما الحد المنشور في الصحافة المغربية عن المرسوم 2.25.145 هو <strong>25 كم/س</strong> للتروتينيت. '
+                'قد تتيح بعض النسخ ضبط السرعة عبر التطبيق أو الإعدادات (تحقق من نسختك)، ولا نجزم بمدى كفاية ذلك قانونياً. '
+                'قدّرنا المدى أعلاه على سرعة 25 كم/س لأنها المرجع الواقعي داخل المدينة. راجع <a href="article-7.html">مقال القانون</a>.</p></div>')
+    return ('<div class="tip"><h3>⚖️ ضمن الحد المنشور للسرعة</h3>'
+            f'<p>سرعة {m["name"]} المعلنة نحو {sp} كم/س، أي ضمن الحد <strong>25 كم/س</strong> المنشور في الصحافة المغربية عن المرسوم 2.25.145. '
+            'تبقى شروط أخرى كالخوذة ومنع السماعات والمعدات، وبعضها لم نتأكد من تفاصيله. راجع <a href="article-7.html">مقال القانون</a>.</p></div>')
+
+
+def faqs(m, rows):
+    mid = rows[1][2][0]
+    days = max(1, math.floor(mid / 10))
+    sp = m["speed"]
+    q3 = "هل يمكنني استعماله في طرق المغرب قانونياً؟"
+    if m["class"] == "extreme":
+        a3 = "سرعته وقدرته أعلى بكثير من الحد المنشور للتروتينيت (25 كم/س) بحسب الصحافة المغربية، ولا نملك مصدراً مؤكداً عن تصنيفه. لا تستعمله في الطرق العامة قبل الاستفسار لدى الجهات المختصة."
+    elif sp > LEGAL_LIMIT:
+        a3 = f"سرعته المعلنة (نحو {sp} كم/س) تتجاوز الحد المنشور 25 كم/س للتروتينيت. قد تتيح نسخ ضبط السرعة، لكن تحقق من الجهات المختصة ولا تعتمد على هذا الموقع وحده."
+    else:
+        a3 = f"سرعته المعلنة (نحو {sp} كم/س) ضمن الحد المنشور 25 كم/س، لكن الخوذة إلزامية ومنع السماعات ساريان بحسب ما نُشر، فراجع مقال القانون."
+    return [
+        ("كم مرة أحتاج لشحنه؟",
+         f"بحسب تقدير VoltRide (سيناريو الاستعمال العادي: مدى نحو {mid:.0f} كم)، إن كنت تقطع نحو 10 كم يومياً فقد يكفيك شحن كل {days} {'يوم' if days == 1 else 'أيام'} تقريباً. الرقم تقريبي، ويتأثر بوزنك وطريقك. الأفضل ألا تنزل البطارية إلى الصفر باستمرار."),
+        ("كيف أطيل عمر بطاريته؟",
+         "تجنب الشحن في الحرارة العالية، ولا تترك البطارية فارغة أو ممتلئة أسابيع طويلة، واستعمل الشاحن الأصلي أو المطابق، واتبع توصية الشركة لموديلك. التفاصيل في مقال أخطاء تقصّر عمر البطارية."),
+        (q3, a3),
+    ]
+
+
+def page(slug, m):
+    rows, sp = scenarios(m)
+    wh = m["voltage"] * m["ah"]
+    mid = rows[1][2][0]
+    url = f"{BASE}/{slug}.html"
+    title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide للمغرب"
+    desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
+            f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
+    fq = faqs(m, rows)
+    ld_product = {
+        "@context": "https://schema.org", "@type": "Product",
+        "name": m["name"], "brand": {"@type": "Brand", "name": m["brand"]},
+        "category": "Electric kick scooter",
+        "description": m["summary"],
+        "image": BASE + "/og-image.png", "url": url,
+        "additionalProperty": [
+            {"@type": "PropertyValue", "name": "Battery voltage", "value": m["voltage"], "unitText": "V"},
+            {"@type": "PropertyValue", "name": "Battery capacity", "value": m["ah"], "unitText": "Ah"},
+            {"@type": "PropertyValue", "name": "Battery energy", "value": round(wh), "unitText": "Wh"},
+            {"@type": "PropertyValue", "name": "Motor power", "value": m["motor"], "unitText": "W"},
+            {"@type": "PropertyValue", "name": "Claimed max speed", "value": m["speed"], "unitText": "km/h"},
+        ],
+    }
+    ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
+              "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in fq]}
+    ld_crumb = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "VoltRide", "item": BASE + "/"},
+        {"@type": "ListItem", "position": 2, "name": "المدونة", "item": BASE + "/blog.html"},
+        {"@type": "ListItem", "position": 3, "name": m["name"], "item": url}]}
+    js = lambda o: json.dumps(o, ensure_ascii=False, indent=1)
+
+    srows = "\n".join(
+        f'<tr><td><strong>{esc(n)}</strong><br><small>{esc(d)}</small></td><td class="winner">{r:.0f} كم</td><td>{c:.1f} Wh/كم</td></tr>'
+        for n, d, (r, c) in rows)
+    extra = ""
+    if m["speed"] > LEGAL_LIMIT:
+        r_max, _ = estimate(m, 75, "flat", "balanced", m["speed"])
+        extra = (f'<p class="updated">للمقارنة فقط: عند السرعة القصوى المعلنة ({m["speed"]} كم/س) على طريق مستوٍ بوزن 75 كغ، '
+                 f'يهبط التقدير إلى نحو {r_max:.0f} كم، ولا يصلح هذا الاستعمال في الطرق العامة بحسب الحد المنشور.</p>')
+    low_conf = ""
+    if m["motor"] >= 1500:
+        low_conf = ('<div class="note"><h3>ثقة أقل في التقدير</h3><p>نموذج VoltRide مبسّط، ويقلّ ضبطه كلما كبر المحرك وزادت السرعة. '
+                    'اعتبر الأرقام هنا حدّاً أعلى نظرياً، وصحّحها بتجربتك عبر «معامل الواقع».</p></div>')
+    faq_html = "\n".join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q, a in fq)
+    others = [(s, mm) for s, mm in MODELS.items() if s != slug][:4]
+    other_links = " • ".join(f'<a href="{s}.html">{esc(mm["name"])}</a>' for s, mm in others)
+
+    return f'''<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>{esc(title)} | VoltRide</title>
+<meta name="description" content="{esc(desc)}">
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ar_MA">
+<meta property="og:site_name" content="VoltRide">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{BASE}/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="stylesheet" href="site.css">
+<script type="application/ld+json">
+{js(ld_product)}
+</script>
+<script type="application/ld+json">
+{js(ld_faq)}
+</script>
+<script type="application/ld+json">
+{js(ld_crumb)}
+</script>
+<script src="site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">انتقل إلى المحتوى</a>
+<div class="wrap">
+<header class="site-nav">
+  <a class="brand" href="index.html"><i>⚡</i>VoltRide</a>
+  <nav class="links" aria-label="صفحات الموقع">
+    <a href="index.html">التطبيق</a><a href="blog.html">المدونة</a><a href="about.html">حول</a><a href="privacy.html">الخصوصية</a><a href="contact.html">اتصل بنا</a>
+  </nav>
+</header>
+<a href="blog.html" class="back">← العودة للمدونة</a>
+<main id="main">
+<article>
+<h1>كم مدى {esc(m["name"])} الواقعي؟ تقدير VoltRide للمغرب</h1>
+<div class="meta">📅 {DATE} • ✍️ فريق VoltRide • فئة: {CLASS_AR[m["class"]]}</div>
+{svg(m)}
+<p>الرقم المكتوب على علبة أي سكوتر هو مدى «مثالي» يُقاس غالباً لراكب خفيف وطريق مستوٍ وسرعة معتدلة، لذلك يبدو الواقع أقل منه. هنا نعرض <strong>تقدير VoltRide</strong> لمدى {esc(m["name"])} في ثلاثة سيناريوهات، محسوباً من مواصفات البطارية. هو تقدير نظري وليس قياساً ميدانياً. {esc(m["summary"])}</p>
+
+<h2>📋 المواصفات المرجعية</h2>
+<div class="table-wrap">
+<table>
+<tr><th>الفولت</th><th>السعة</th><th>الطاقة</th><th>قوة المحرك</th><th>السرعة القصوى المعلنة</th><th>المدى المتوقع (استعمال عادي)</th></tr>
+<tr><td>{num(m["voltage"])} V</td><td>{num(m["ah"])} Ah</td><td>{wh:.0f} Wh</td><td>{num(m["motor"])} W</td><td>{num(m["speed"])} كم/س</td><td class="winner">≈ {mid:.0f} كم</td></tr>
+</table>
+</div>
+<p class="updated">مواصفات مرجعية لم نتحقق منها بعد من صفحة الشركة، وقد تختلف النسخ (الفولت والسعة والقدرة) من سوق إلى آخر. راجع بيانات سكوترك الفعلي.</p>
+
+<h2>📏 ثلاثة سيناريوهات للمدى (تقدير VoltRide)</h2>
+<div class="table-wrap">
+<table>
+<tr><th>السيناريو</th><th>المدى المقدّر</th><th>الاستهلاك</th></tr>
+{srows}
+</table>
+</div>
+<p class="updated">محسوبة على سرعة {sp} كم/س، و90% من طاقة البطارية قابلة للاستعمال. كيف نحسب؟ اقرأ المنهجية في <a href="about.html">صفحة حول</a>.</p>
+{extra}
+{low_conf}
+
+{legal_block(m)}
+
+<h2>🏞️ ملاءمة الطرق الوعرة</h2>
+<p>{esc(m["offroad"])}</p>
+<div class="tip"><p><strong>يناسب:</strong> {esc(m["fit"])}<br><strong>لا يناسب:</strong> {esc(m["not_fit"])}</p></div>
+
+<h2>❓ أسئلة شائعة</h2>
+<div class="faq">
+{faq_html}
+</div>
+
+<h2>🔗 اقرأ أيضاً</h2>
+<ul>
+<li><a href="article-8.html">كم تكلفة شحن السكوتر الكهربائي شهرياً؟</a></li>
+<li><a href="article-4.html">5 أخطاء شائعة تقصّر عمر بطارية سكوترك</a></li>
+<li><a href="article-1.html">10 نصائح لزيادة مدى سكوترك</a></li>
+<li><a href="article-7.html">قانون التروتينيت في المغرب: ما الذي تؤكده المصادر؟</a></li>
+<li><a href="article-5.html">كيف تختار سكوترك الأول؟</a></li>
+</ul>
+<p class="updated">موديلات أخرى: {other_links}</p>
+
+<div class="cta">
+<h3>⚡ احسب المدى الحقيقي لسكوترك الآن</h3>
+<p>سنعبّئ الحاسبة بمواصفات {esc(m["name"])} لتعدّل وزنك وطريقك وترى النتيجة فوراً، ثم صحّحها برحلاتك الفعلية.</p>
+<a href="index.html?model={slug}">احسب الآن ←</a>
+</div>
+</article>
+</main>
+<footer>
+<a href="index.html">الرئيسية</a><a href="blog.html">المدونة</a><a href="about.html">حول</a><a href="privacy.html">الخصوصية</a><a href="contact.html">اتصل بنا</a>
+<a href="#" onclick="if(window.VoltConsent){{VoltConsent.open();}}return false;">إعدادات الكوكيز</a>
+<p>© 2026 VoltRide • الصور توضيحية</p>
+</footer>
+</div>
+</body>
+</html>
+'''
+
+
+def replace_block(text, start, end, block, fallback_before):
+    pat = re.compile(re.escape(start) + r".*?" + re.escape(end), re.S)
+    new = f"{start}\n{block}\n{end}"
+    if pat.search(text):
+        return pat.sub(lambda _: new, text)
+    i = text.index(fallback_before)
+    return text[:i] + new + "\n" + text[i:]
+
+
+def main():
+    for slug, m in MODELS.items():
+        open(os.path.join(ROOT, f"{slug}.html"), "w", encoding="utf-8").write(page(slug, m))
+        print("page:", slug)
+
+    # sitemap
+    urls = STATIC_URLS + [(f"{s}.html", "0.7") for s in MODELS]
+    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for p, pr in urls:
+        sm.append(f"  <url><loc>{BASE}/{p}</loc><lastmod>{DATE}</lastmod><priority>{pr}</priority></url>")
+    sm.append("</urlset>\n")
+    open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm))
+
+    # blog
+    cards = ['<h2 class="center" style="margin:26px 0 12px;font-size:19px">🛴 مدى الموديلات: تقدير VoltRide</h2>']
+    for s, m in MODELS.items():
+        r = estimate(m, 75, "mixed", "balanced", min(LEGAL_LIMIT, m["speed"]))[0]
+        cards.append(f'<a href="{s}.html" class="article-card"><span class="cat">{CLASS_AR[m["class"]]}</span>'
+                     f'<h2>كم مدى {esc(m["name"])} الواقعي؟</h2>'
+                     f'<p>بطارية {num(m["voltage"])}V {num(m["ah"])}Ah: تقدير نحو {r:.0f} كم في الاستعمال العادي، مع سيناريوهات وملاحظة قانونية.</p>'
+                     f'<div class="meta">📅 20 أكتوبر 2026</div></a>')
+    p = os.path.join(ROOT, "blog.html")
+    t = open(p, encoding="utf-8").read()
+    t = replace_block(t, "<!--MODELS:START-->", "<!--MODELS:END-->", "\n".join(cards), "</main>")
+    open(p, "w", encoding="utf-8").write(t)
+
+    # index presets
+    presets = {s: {"name": m["name"], "voltage": m["voltage"], "ah": m["ah"], "motor": m["motor"]} for s, m in MODELS.items()}
+    block = "const MODEL_PRESETS = " + json.dumps(presets, ensure_ascii=False) + ";"
+    p = os.path.join(ROOT, "index.html")
+    t = open(p, encoding="utf-8").read()
+    t = replace_block(t, "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = [")
+    open(p, "w", encoding="utf-8").write(t)
+    print("sitemap, blog, index presets updated")
+
+
+if __name__ == "__main__":
+    main()
