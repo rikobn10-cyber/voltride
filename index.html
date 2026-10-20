@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M4CWL77NBK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-M4CWL77NBK');
-</script>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta charset="UTF-8">
+<!-- Google Analytics يُحمَّل من site.js بعد موافقة المستخدم فقط -->
+<script src="site.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
 <meta name="color-scheme" content="dark">
 
@@ -60,8 +54,7 @@
   "applicationCategory":"UtilitiesApplication",
   "description":"حاسبة ذكية لمستخدمي السكوترات الكهربائية: المدى، الشحن، التكلفة، ومقارنة الموديلات.",
   "inLanguage":["ar","fr","en"],
-  "offers":{"@type":"Offer","price":"0","priceCurrency":"MAD"},
-  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"1"}
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"MAD"}
 }
 </script>
 
@@ -230,6 +223,22 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 .splash-line{width:90px;height:3px;border-radius:9px;background:linear-gradient(90deg,var(--cyan),var(--purple));margin:14px auto 0}
 @media(max-width:430px){.quick-strip{gap:6px}.quick-item{padding:9px 5px}.quick-item b{font-size:13px}}
 
+/* Return Check */
+.rc-card{border-color:rgba(0,242,254,.28);background:linear-gradient(135deg,rgba(0,242,254,.07),rgba(23,34,53,.98))}
+.rc-result{display:flex;gap:12px;align-items:center;padding:14px;border-radius:16px;margin-top:12px;border:1px solid}
+.rc-result strong{display:block;font-size:17px;margin-bottom:3px}
+.rc-result .small{color:var(--text);opacity:.85}
+.rc-emoji{font-size:34px;line-height:1}
+.rc-green{background:rgba(52,211,153,.10);border-color:rgba(52,211,153,.35)}
+.rc-yellow{background:rgba(245,158,11,.10);border-color:rgba(245,158,11,.38)}
+.rc-red{background:rgba(244,63,94,.10);border-color:rgba(244,63,94,.38)}
+.rc-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.rc-num{background:rgba(2,6,23,.35);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.rc-num small{display:block;color:var(--muted);font-size:10px}
+.rc-num b{display:block;margin-top:3px;font-size:17px}
+.rc-learn{margin-top:12px}
+.rc-learn .grid2{margin-top:8px}
+
 /* Install banner (PWA) */
 .install-banner{display:none;margin:10px 0;padding:12px;border:1px solid rgba(0,242,254,.32);background:linear-gradient(135deg,rgba(0,242,254,.08),rgba(167,139,250,.05));border-radius:14px;align-items:center;gap:10px}
 .install-banner.show{display:flex}
@@ -265,6 +274,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
           <button data-lang="en" role="menuitem">🇬🇧 English <span></span></button>
         </div>
       </div>
+      <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙️</button>
       <button class="icon-btn" id="themeBtn" aria-label="OLED">◐</button>
       <button class="icon-btn" id="headerCompare" aria-label="Compare">⚖️ <span id="compareCount">0</span></button>
     </div>
@@ -289,14 +299,15 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
   <div style="display:flex;align-items:center;gap:12px;">
     <div style="flex-shrink:0;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--green));display:grid;place-items:center;font-size:26px;">⬇️</div>
     <div style="flex:1;min-width:0;">
-      <strong style="display:block;font-size:15px;margin-bottom:4px;">حمّل تطبيق VoltRide</strong>
-      <span style="font-size:12px;color:var(--muted);">ملف APK مباشر • 1.2 MB • بدون متجر</span>
+      <strong style="display:block;font-size:15px;margin-bottom:4px;" data-i18n="downloadTitle">حمّل تطبيق VoltRide</strong>
+      <span style="font-size:12px;color:var(--muted);" data-i18n="downloadSub">ملف APK مباشر • 1.2 MB • بدون متجر</span>
     </div>
   </div>
-  <a href="https://voltride-4qj.pages.dev/VoltRide-signed.apk" 
-   class="download-btn" 
-   onclick="gtag('event', 'download_apk', {'event_category': 'engagement', 'event_label': 'VoltRide Download'});">
-   تحميل التطبيق
+  <a href="https://voltride-4qj.pages.dev/VoltRide-signed.apk"
+   class="primary download-btn"
+   style="display:block;text-align:center;text-decoration:none;margin-top:12px"
+   onclick="try{window.gtag&&gtag('event','download_apk',{'event_category':'engagement','event_label':'VoltRide Download'});}catch(e){}">
+   <span data-i18n="downloadBtn">تحميل التطبيق</span>
   </a>
 </div>
 
@@ -316,6 +327,53 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       <b id="smartCostOut">— MAD</b>
       <small data-i18n="perCharge">/ شحنة</small>
     </div>
+  </div>
+
+  <div class="card rc-card" id="returnCard">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+      <h2 style="margin:0" data-i18n="rcTitle">🧭 اختبار العودة</h2>
+      <span class="status-pill" id="rcFactorPill"></span>
+    </div>
+    <p class="small" data-i18n="rcSub">قبل أن تخرج: هل ستعود بأمان؟</p>
+    <div class="grid2">
+      <div class="field">
+        <label for="rcDist"><span data-i18n="rcDist">المسافة ذهاباً</span><span class="value"><span id="rcDistVal">8</span> km</span></label>
+        <input id="rcDist" type="range" min="1" max="100" step="0.5" value="8">
+      </div>
+      <div class="field">
+        <label for="rcBat"><span data-i18n="rcBat">البطارية الآن</span><span class="value"><span id="rcBatVal">100</span>%</span></label>
+        <input id="rcBat" type="range" min="5" max="100" step="1" value="100">
+      </div>
+    </div>
+    <label class="field"><span data-i18n="rcWeather">الطقس</span></label>
+    <div class="chips" id="rcWeatherChips">
+      <button class="chip active" data-value="normal" data-i18n="rcWeatherNormal">عادي</button>
+      <button class="chip" data-value="cold" data-i18n="rcWeatherCold">بارد</button>
+      <button class="chip" data-value="hot" data-i18n="rcWeatherHot">حار جداً</button>
+      <button class="chip" id="rcChargeChip" aria-pressed="false" data-i18n="rcHasCharge">🔌 يوجد شحن عند الوجهة</button>
+    </div>
+    <div id="rcResult" class="rc-result rc-green" role="status" aria-live="polite">
+      <div class="rc-emoji" id="rcEmoji">🟢</div>
+      <div><strong id="rcVerdict">—</strong><div class="small" id="rcDetail"></div></div>
+    </div>
+    <div class="rc-nums">
+      <div class="rc-num"><small data-i18n="rcAvail">المتاح</small><b id="rcAvail">—</b></div>
+      <div class="rc-num"><small data-i18n="rcNeed">المطلوب</small><b id="rcNeed">—</b></div>
+      <div class="rc-num"><small data-i18n="rcMargin">الهامش</small><b id="rcMargin">—</b></div>
+    </div>
+    <details class="rc-learn">
+      <summary data-i18n="rcLearnTitle">📏 سجّل رحلتك الفعلية ليتعلّم التطبيق</summary>
+      <p class="small" style="margin-top:8px" data-i18n="rcLearnSub"></p>
+      <div class="grid2">
+        <div class="field"><label for="rcTripDist" data-i18n="rcTripDist">المسافة الفعلية (km)</label><input id="rcTripDist" type="number" min="1" max="200" step="0.1" inputmode="decimal"></div>
+        <div class="field"><label for="rcTripUsed" data-i18n="rcTripUsed">البطارية المستهلكة (%)</label><input id="rcTripUsed" type="number" min="5" max="100" step="1" inputmode="numeric"></div>
+      </div>
+      <button class="primary" id="rcTripSaveBtn" data-i18n="rcTripSave">حفظ الرحلة</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px">
+        <span class="small" id="rcTripCount"></span>
+        <button class="secondary danger-outline" id="rcResetLearnBtn" data-i18n="rcResetLearn">إعادة التعلّم من الصفر</button>
+      </div>
+    </details>
   </div>
 
   <div class="card my-scooter-card">
@@ -440,7 +498,6 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
     </div>
   </div>
   <div id="catalogGrid" class="catalog-grid"></div>
-  <div class="ad">AD SPACE • مساحة عروض مستقبلية</div>
 </section>
 
 <section id="safety" class="screen">
@@ -497,6 +554,10 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       </select>
     </div>
     <div class="setting-row">
+      <div><strong data-i18n="analytics">التحليلات (Cookies)</strong><div class="small" data-i18n="analyticsSub">قياس الزيارات لتحسين التطبيق. لا يعمل إلا بموافقتك.</div></div>
+      <button class="secondary" id="consentBtn" data-i18n="analyticsBtn">تغيير</button>
+    </div>
+    <div class="setting-row">
       <div><strong data-i18n="share">مشاركة VoltRide</strong><div class="small" data-i18n="shareSub">أرسل التطبيق لصديق.</div></div>
       <button class="secondary" id="shareBtn" data-i18n="shareBtn">مشاركة</button>
     </div>
@@ -509,11 +570,11 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
     <h2 data-i18n="about">حول VoltRide</h2>
     <p class="small" data-i18n="aboutText">VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);">
-<a href="about.html" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">حول التطبيق</a>
-<a href="privacy.html" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">سياسة الخصوصية</a>
-<a href="contact.html" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">اتصل بنا</a>
+<a href="about.html" data-i18n="linkAbout" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">حول التطبيق</a>
+<a href="privacy.html" data-i18n="linkPrivacy" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">سياسة الخصوصية</a>
+<a href="contact.html" data-i18n="linkContact" style="color:var(--cyan);text-decoration:none;font-size:13px;font-weight:600;">اتصل بنا</a>
     </div>
-    <p class="small" style="margin-top:10px;opacity:.6">الإصدار: <span id="appVersion">1.0.0</span></p>
+    <p class="small" style="margin-top:10px;opacity:.6"><span data-i18n="versionLabel">الإصدار</span>: <span id="appVersion">1.2.0</span></p>
   </div>
 </section>
 </main>
@@ -525,7 +586,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 <nav class="bottom-nav" aria-label="Main">
   <button class="nav-btn active" data-screen="calculator"><span>⚡</span><span data-i18n="navCalc">الحاسبة</span></button>
   <button class="nav-btn" data-screen="catalog"><span>🛴</span><span data-i18n="navCatalog">الكتالوج</span></button>
-  <a href="blog.html" class="nav-btn" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span>📚</span><span>المدونة</span></a>
+  <a href="blog.html" class="nav-btn" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span>📚</span><span data-i18n="navBlog">المدونة</span></a>
   <button class="nav-btn" data-screen="safety"><span>🛡️</span><span data-i18n="navSafety">السلامة</span></button>
   <button class="nav-btn" data-screen="errors"><span>🔧</span><span data-i18n="navErrors">الأعطال</span></button>
 </nav>
@@ -542,7 +603,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 
 <script>
 "use strict";
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 const SHARE_URL = "https://voltride-4qj.pages.dev/";
 const SHARE_IMAGE = "https://voltride-4qj.pages.dev/og-image.png";
 
@@ -570,6 +631,15 @@ const I18N = {
     calculateFirst:"احسب أولاً ثم سجّل الشحنة",
     maxCompare:"يمكن مقارنة 3 فقط",
     chooseFirst:"اختر سكوتر أولاً",
+    adviceLow:"⚠️ المدى التقديري منخفض. خفف السرعة، تحقق من ضغط الإطارات وحالة البطارية وخطط لمسار آمن.",adviceSport:"⚡ وضع Sport يزيد الاستهلاك. استخدمه عند الحاجة، خصوصاً في المسافات الطويلة.",adviceOk:"✅ إعداد متوازن. للحصول على نتيجة أقرب للواقع، أدخل متوسط سرعتك الحقيقي وحالة الطريق.",noResults:"لا توجد نتائج.",
+    downloadTitle:"حمّل تطبيق VoltRide",downloadSub:"ملف APK مباشر • 1.2 MB • بدون متجر",downloadBtn:"تحميل التطبيق",versionLabel:"الإصدار",navBlog:"المدونة",linkAbout:"حول التطبيق",linkPrivacy:"سياسة الخصوصية",linkContact:"اتصل بنا",
+    err14:"افحص المقبض والأسلاك الظاهرة وتجنب القيادة إذا كان التسارع غير متوقع.",err15:"تحقق من عدم بقاء ذراع الفرامل عالقاً. إذا استمر الخطأ، اطلب فحصاً.",errBat:"تحقق من التوصيل والشاحن الصحيح. عند حرارة شديدة أو انتفاخ، توقف عن الشحن.",errBrk:"لا تواصل القيادة إذا كان أداء الفرامل غير طبيعي؛ اطلب فحصاً مؤهلاً.",
+    rcTitle:"🧭 اختبار العودة",rcSub:"قبل أن تخرج: هل ستعود بأمان؟ يعتمد على إعدادات الحاسبة أدناه (الوزن، السرعة، الطريق، النمط).",rcDist:"المسافة ذهاباً",rcBat:"البطارية الآن",rcWeather:"الطقس",rcWeatherNormal:"عادي",rcWeatherCold:"بارد (<10°)",rcWeatherHot:"حار جداً",rcHasCharge:"🔌 يوجد شحن عند الوجهة",
+    rcGreen:"اذهب وارجع مرتاحاً",rcYellow:"ممكن، لكن بحذر",rcRed:"لا تغامر",
+    rcGreenMsg:"يبقى لك حوالي {m} كم احتياطاً بعد الرحلة.",rcYellowMsg:"الهامش ضيق (حوالي {m} كم). خفّف السرعة، اختر نمط اقتصادي وتجنب الطلعات.",rcRedMsg:"ينقصك حوالي {m} كم. اشحن أولاً، أو اختصر المسافة، أو رتّب شحناً عند الوجهة.",
+    rcAvail:"المتاح",rcNeed:"المطلوب",rcMargin:"الهامش",rcNoLearning:"لم يتعلّم بعد",rcFactorLabel:"معامل الواقع",
+    rcLearnTitle:"📏 سجّل رحلتك الفعلية ليتعلّم التطبيق",rcLearnSub:"بعد الرحلة، أدخل المسافة التي قطعتها ونسبة البطارية التي استهلكتها، فيصحّح VoltRide تقديراته لسكوترك. سجّلها بنفس إعدادات الحاسبة.",rcTripDist:"المسافة الفعلية (km)",rcTripUsed:"البطارية المستهلكة (%)",rcTripSave:"حفظ الرحلة",rcTripInvalid:"أدخل مسافة (1 كم أو أكثر) واستهلاكاً بين 5 و100%",rcTripSaved:"تم تعلّم الرحلة، التقديرات أدق الآن",rcTrips:"رحلات مسجلة",rcResetLearn:"إعادة التعلّم من الصفر",rcResetDone:"تمت إعادة معامل الواقع",
+    analytics:"التحليلات (Cookies)",analyticsSub:"قياس الزيارات لتحسين التطبيق. لا يعمل إلا بموافقتك.",analyticsBtn:"تغيير",
     shareText:"⚡ VoltRide — احسب مدى سكوترك، وقت الشحن، وتكلفة الكهرباء في ثوانٍ. مجاني وبدون تسجيل:"
   },
   fr:{
@@ -589,6 +659,15 @@ const I18N = {
     calculateFirst:"Calculez d'abord puis enregistrez",
     maxCompare:"3 maximum",
     chooseFirst:"Choisissez un scooter d'abord",
+    adviceLow:"⚠️ Autonomie estimée faible. Réduisez la vitesse, vérifiez la pression des pneus et l'état de la batterie, et planifiez un trajet sûr.",adviceSport:"⚡ Le mode Sport augmente la consommation. Utilisez-le avec parcimonie sur les longues distances.",adviceOk:"✅ Réglage équilibré. Pour un résultat plus réaliste, entrez votre vitesse moyenne réelle et l'état de la route.",noResults:"Aucun résultat.",
+    downloadTitle:"Téléchargez VoltRide",downloadSub:"APK direct • 1.2 MB • sans store",downloadBtn:"Télécharger l'application",versionLabel:"Version",navBlog:"Blog",linkAbout:"À propos",linkPrivacy:"Confidentialité",linkContact:"Contact",
+    err14:"Vérifiez la poignée et les câbles visibles ; évitez de rouler si l'accélération est imprévisible.",err15:"Vérifiez que le levier de frein ne reste pas bloqué. Si l'erreur persiste, faites contrôler.",errBat:"Vérifiez la connexion et le bon chargeur. En cas de chaleur excessive ou de gonflement, arrêtez la charge.",errBrk:"Ne continuez pas à rouler si le freinage est anormal ; faites-le contrôler par un professionnel.",
+    rcTitle:"🧭 Test du retour",rcSub:"Avant de partir : rentrerez-vous sans souci ? Basé sur les réglages du calculateur ci-dessous (poids, vitesse, terrain, mode).",rcDist:"Distance aller",rcBat:"Batterie actuelle",rcWeather:"Météo",rcWeatherNormal:"Normale",rcWeatherCold:"Froid (<10°)",rcWeatherHot:"Très chaud",rcHasCharge:"🔌 Recharge à destination",
+    rcGreen:"Partez et rentrez tranquille",rcYellow:"Possible, avec prudence",rcRed:"Ne risquez pas",
+    rcGreenMsg:"Il vous restera environ {m} km de réserve après le trajet.",rcYellowMsg:"Marge serrée (environ {m} km). Réduisez la vitesse, passez en mode éco et évitez les côtes.",rcRedMsg:"Il vous manque environ {m} km. Rechargez d'abord, raccourcissez le trajet ou prévoyez une recharge sur place.",
+    rcAvail:"Disponible",rcNeed:"Nécessaire",rcMargin:"Marge",rcNoLearning:"Pas encore appris",rcFactorLabel:"Facteur réel",
+    rcLearnTitle:"📏 Enregistrez un trajet réel pour que l'app apprenne",rcLearnSub:"Après un trajet, saisissez la distance parcourue et le pourcentage de batterie consommé : VoltRide corrige ses estimations pour votre scooter. Utilisez les mêmes réglages du calculateur.",rcTripDist:"Distance réelle (km)",rcTripUsed:"Batterie consommée (%)",rcTripSave:"Enregistrer le trajet",rcTripInvalid:"Saisissez une distance (≥ 1 km) et une consommation entre 5 et 100 %",rcTripSaved:"Trajet appris, estimations plus précises",rcTrips:"trajets enregistrés",rcResetLearn:"Réinitialiser l'apprentissage",rcResetDone:"Facteur réel réinitialisé",
+    analytics:"Statistiques (cookies)",analyticsSub:"Mesure d'audience pour améliorer l'app. Activée uniquement avec votre accord.",analyticsBtn:"Modifier",
     shareText:"⚡ VoltRide — estimez autonomie, recharge et coût en quelques secondes. Gratuit et sans inscription :"
   },
   en:{
@@ -608,6 +687,15 @@ const I18N = {
     calculateFirst:"Calculate first, then log the charge",
     maxCompare:"Maximum 3",
     chooseFirst:"Choose a scooter first",
+    adviceLow:"⚠️ Estimated range is low. Ride slower, check tire pressure and battery condition, and plan a safe route.",adviceSport:"⚡ Sport mode increases consumption. Use it sparingly, especially on long distances.",adviceOk:"✅ Balanced setup. For a more realistic result, enter your real average speed and road conditions.",noResults:"No results.",
+    downloadTitle:"Download VoltRide",downloadSub:"Direct APK • 1.2 MB • no store needed",downloadBtn:"Download the app",versionLabel:"Version",navBlog:"Blog",linkAbout:"About",linkPrivacy:"Privacy policy",linkContact:"Contact",
+    err14:"Check the throttle and visible wiring; avoid riding if acceleration is unpredictable.",err15:"Check that the brake lever isn't stuck. If the error persists, get it inspected.",errBat:"Check the connection and use the correct charger. If it overheats or swells, stop charging.",errBrk:"Don't keep riding if braking feels abnormal; get a qualified inspection.",
+    rcTitle:"🧭 Return check",rcSub:"Before you go: will you get back safely? Uses the calculator settings below (weight, speed, terrain, mode).",rcDist:"One-way distance",rcBat:"Battery now",rcWeather:"Weather",rcWeatherNormal:"Normal",rcWeatherCold:"Cold (<10°)",rcWeatherHot:"Very hot",rcHasCharge:"🔌 Charging at destination",
+    rcGreen:"Go and ride back relaxed",rcYellow:"Possible, but be careful",rcRed:"Don't risk it",
+    rcGreenMsg:"You'll have about {m} km to spare after the trip.",rcYellowMsg:"Tight margin (about {m} km). Ride slower, use eco mode and avoid hills.",rcRedMsg:"You're about {m} km short. Charge first, shorten the trip, or arrange charging at your destination.",
+    rcAvail:"Available",rcNeed:"Needed",rcMargin:"Margin",rcNoLearning:"Not learned yet",rcFactorLabel:"Reality factor",
+    rcLearnTitle:"📏 Log a real trip so the app learns",rcLearnSub:"After a ride, enter the distance you covered and the battery percentage used, and VoltRide corrects its estimates for your scooter. Log it with the same calculator settings.",rcTripDist:"Actual distance (km)",rcTripUsed:"Battery used (%)",rcTripSave:"Save trip",rcTripInvalid:"Enter a distance (1 km or more) and usage between 5 and 100%",rcTripSaved:"Trip learned, estimates are more accurate now",rcTrips:"trips logged",rcResetLearn:"Reset learning",rcResetDone:"Reality factor reset",
+    analytics:"Analytics (cookies)",analyticsSub:"Visit measurement to improve the app. Runs only with your consent.",analyticsBtn:"Change",
     shareText:"⚡ VoltRide — estimate range, charge time and cost in seconds. Free, no signup:"
   }
 };
@@ -631,6 +719,17 @@ let favorites = Store.get("voltride_favorites", []);
 let compare = Store.get("voltride_compare", []);
 let tariff = Number(Store.get("voltride_tariff", 1.2)) || 1.2;
 let myScooter = Store.get("voltride_my_scooter", null);
+let lastCalc = null;
+let rc = Object.assign({dist:8, bat:100, weather:"normal", charge:false}, Store.get("voltride_rc", {}) || {});
+if (!["normal","cold","hot"].includes(rc.weather)) rc.weather = "normal";
+rc.dist = Math.min(100, Math.max(1, Number(rc.dist) || 8));
+rc.bat = Math.min(100, Math.max(5, Number(rc.bat) || 100));
+rc.charge = !!rc.charge;
+// معامل الواقع: نسبة المدى الفعلي إلى المدى المقدّر، يتعلمه التطبيق من رحلات المستخدم
+let realityFactor = Number(Store.get("voltride_reality", 1));
+if (!Number.isFinite(realityFactor) || realityFactor < 0.4 || realityFactor > 1.6) realityFactor = 1;
+let tripLog = Store.get("voltride_trip_log", []);
+if (!Array.isArray(tripLog)) tripLog = [];
 let chargeHistory = Store.get("voltride_charge_history", []);
 if (!Array.isArray(chargeHistory)) chargeHistory = [];
 if (!Array.isArray(favorites)) favorites = [];
@@ -678,10 +777,15 @@ function calculate(){
   const terrainFactor = {flat:1, mixed:1.12, hills:1.30}[terrain] || 1;
   const modeFactor = {eco:0.88, balanced:1, sport:1.14}[mode] || 1;
   const motorFactor = motor >= 1500 ? 1.10 : motor >= 800 ? 1.05 : 1;
-  const consumption = Math.min(45, Math.max(7, 12.5 * weightFactor * speedFactor * terrainFactor * modeFactor * motorFactor));
+  // سقف الاستهلاك يرتفع مع قوة المحرك حتى لا تُقصّ أرقام السكوترات القوية
+  const consCap = motor >= 1500 ? 90 : motor >= 800 ? 60 : 45;
+  const consumption = Math.min(consCap, Math.max(7, 12.5 * weightFactor * speedFactor * terrainFactor * modeFactor * motorFactor));
   const range = usableWh / consumption;
   const reserve = range * 0.9;
+  // الشاحن يتناسب جهده مع جهد البطارية (42V لبطارية 36V...) فالنسبة Ah/A صحيحة،
+  // ونضيف 15% لمرحلة التشبع الأخيرة وفقد الطاقة.
   const chargeHours = (ah / charger) * 1.15;
+  lastCalc = { range, consumption, batteryWh, usableWh };
   const cost = (batteryWh / 1000) * tariff;
 
   document.getElementById("rangeOut").textContent = range.toFixed(1);
@@ -691,12 +795,9 @@ function calculate(){
   document.getElementById("costOut").textContent = cost.toFixed(2);
   document.getElementById("reserveOut").textContent = reserve.toFixed(1);
 
-  const advice = range < 15
-    ? "⚠️ المدى التقديري منخفض. خفف السرعة، تحقق من ضغط الإطارات وحالة البطارية وخطط لمسار آمن."
-    : mode === "sport"
-    ? "⚡ وضع Sport يزيد الاستهلاك. استخدمه عند الحاجة، خصوصاً في المسافات الطويلة."
-    : "✅ إعداد متوازن. للحصول على نتيجة أقرب للواقع، أدخل متوسط سرعتك الحقيقي وحالة الطريق.";
+  const advice = range < 15 ? t("adviceLow") : mode === "sport" ? t("adviceSport") : t("adviceOk");
   document.getElementById("advice").textContent = advice;
+  if (typeof renderReturnCheck === "function") renderReturnCheck();
 
   const smart = document.getElementById("smartStatusOut");
   const sub = document.getElementById("smartStatusSub");
@@ -716,6 +817,82 @@ function calculate(){
     smart.textContent = status;
     sub.textContent = detail;
   }
+}
+
+/* ==== Return Check (اختبار العودة) ==== */
+function syncReturnInputs(){
+  const d = document.getElementById("rcDist"), b = document.getElementById("rcBat");
+  if (!d || !b) return;
+  d.value = rc.dist;
+  b.value = rc.bat;
+  document.querySelectorAll("#rcWeatherChips .chip[data-value]").forEach(c => c.classList.toggle("active", c.dataset.value === rc.weather));
+  const cc = document.getElementById("rcChargeChip");
+  cc.classList.toggle("active", rc.charge);
+  cc.setAttribute("aria-pressed", String(rc.charge));
+}
+
+function renderReturnCheck(){
+  const box = document.getElementById("rcResult");
+  if (!box || !lastCalc) return;
+  document.getElementById("rcDistVal").textContent = rc.dist;
+  document.getElementById("rcBatVal").textContent = rc.bat;
+
+  const weatherF = {normal:1, cold:0.85, hot:0.95}[rc.weather] || 1;
+  const fullRange = lastCalc.range * realityFactor * weatherF;
+  const available = fullRange * (rc.bat / 100);
+  const needed = rc.dist * (rc.charge ? 1 : 2);
+  const margin = available - needed;
+  const level = margin < 0 ? "red" : margin < needed * 0.25 ? "yellow" : "green";
+
+  const emoji = {green:"🟢", yellow:"🟡", red:"🔴"}[level];
+  const verdict = {green:t("rcGreen"), yellow:t("rcYellow"), red:t("rcRed")}[level];
+  const msgKey = {green:"rcGreenMsg", yellow:"rcYellowMsg", red:"rcRedMsg"}[level];
+  box.className = "rc-result rc-" + level;
+  document.getElementById("rcEmoji").textContent = emoji;
+  document.getElementById("rcVerdict").textContent = verdict;
+  document.getElementById("rcDetail").textContent = t(msgKey).replace("{m}", Math.abs(margin).toFixed(1));
+  document.getElementById("rcAvail").textContent = available.toFixed(1) + " km";
+  document.getElementById("rcNeed").textContent = needed.toFixed(1) + " km";
+  const mEl = document.getElementById("rcMargin");
+  mEl.textContent = (margin >= 0 ? "+" : "−") + Math.abs(margin).toFixed(1) + " km";
+
+  const pill = document.getElementById("rcFactorPill");
+  pill.textContent = tripLog.length
+    ? t("rcFactorLabel") + " ×" + realityFactor.toFixed(2)
+    : t("rcNoLearning");
+  document.getElementById("rcTripCount").textContent = tripLog.length + " " + t("rcTrips");
+}
+
+function saveReturnState(){
+  Store.set("voltride_rc", rc);
+}
+
+function saveTrip(){
+  const dEl = document.getElementById("rcTripDist"), uEl = document.getElementById("rcTripUsed");
+  const dist = Number(dEl.value), used = Number(uEl.value);
+  if (!lastCalc || !(dist >= 1) || !(used >= 5 && used <= 100)) { toast(t("rcTripInvalid")); return; }
+  // المدى الكامل الفعلي = المسافة ÷ نسبة البطارية المستهلكة، ويُقارن بالتقدير الأساسي للحاسبة
+  const actualFull = dist / (used / 100);
+  const ratio = Math.min(1.6, Math.max(0.4, actualFull / lastCalc.range));
+  const w = tripLog.length === 0 ? 0.6 : 0.3;
+  realityFactor = Math.min(1.6, Math.max(0.4, realityFactor * (1 - w) + ratio * w));
+  tripLog.push({date: new Date().toISOString().slice(0, 10), dist: dist, used: used, ratio: Number(ratio.toFixed(2))});
+  tripLog = tripLog.slice(-20);
+  Store.set("voltride_reality", realityFactor);
+  Store.set("voltride_trip_log", tripLog);
+  dEl.value = "";
+  uEl.value = "";
+  renderReturnCheck();
+  toast(t("rcTripSaved"));
+}
+
+function resetLearning(){
+  realityFactor = 1;
+  tripLog = [];
+  Store.remove("voltride_reality");
+  Store.remove("voltride_trip_log");
+  renderReturnCheck();
+  toast(t("rcResetDone"));
 }
 
 function renderChargeHistory(){
@@ -822,7 +999,7 @@ function renderCatalog(){
     b.range - a.range
   );
   const grid = document.getElementById("catalogGrid");
-  if (!list.length) { grid.innerHTML = '<div class="card empty">لا توجد نتائج.</div>'; return; }
+  if (!list.length) { grid.innerHTML = '<div class="card empty">' + escapeHTML(t("noResults")) + '</div>'; return; }
   grid.innerHTML = list.map(s => {
     const fav = favorites.includes(s.id);
     const cmp = compare.includes(s.id);
@@ -898,13 +1075,13 @@ function useScooter(id){
 
 function renderErrors(){
   const data = [
-    ["E14", "Throttle signal", "افحص المقبض والأسلاك الظاهرة وتجنب القيادة إذا كان التسارع غير متوقع."],
-    ["E15", "Brake signal", "تحقق من عدم بقاء ذراع الفرامل عالقاً. إذا استمر الخطأ، اطلب فحصاً."],
-    ["BAT", "Battery / charging", "تحقق من التوصيل والشاحن الصحيح. عند حرارة شديدة أو انتفاخ، توقف عن الشحن."],
-    ["BRK", "Brake warning", "لا تواصل القيادة إذا كان أداء الفرامل غير طبيعي؛ اطلب فحصاً مؤهلاً."]
+    ["E14", "Throttle signal", t("err14")],
+    ["E15", "Brake signal", t("err15")],
+    ["BAT", "Battery / charging", t("errBat")],
+    ["BRK", "Brake warning", t("errBrk")]
   ];
   document.getElementById("errorList").innerHTML = data.map(x =>
-    '<details><summary>' + x[0] + ' — ' + x[1] + '</summary><p class="small">' + x[2] + '</p></details>'
+    '<details><summary>' + escapeHTML(x[0]) + ' — ' + escapeHTML(x[1]) + '</summary><p class="small">' + escapeHTML(x[2]) + '</p></details>'
   ).join("");
 }
 
@@ -940,8 +1117,12 @@ async function shareApp(){
 }
 
 function resetAppSettings(){
-  const keys = ["voltride_language","voltride_terrain","voltride_mode","voltride_favorites","voltride_compare","voltride_tariff","voltride_oled","voltride_my_scooter","voltride_charge_history"];
-  keys.forEach(Store.remove);
+  const keys = ["voltride_language","voltride_terrain","voltride_mode","voltride_favorites","voltride_compare","voltride_tariff","voltride_oled","voltride_my_scooter","voltride_charge_history","voltride_reality","voltride_trip_log","voltride_rc"];
+  keys.forEach(k => Store.remove(k));
+  realityFactor = 1;
+  tripLog = [];
+  rc = {dist:8, bat:100, weather:"normal", charge:false};
+  syncReturnInputs();
   lang = "ar";
   chargeHistory = [];
   favorites = [];
@@ -1021,6 +1202,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById(id).addEventListener("input", calculate)
   );
   document.getElementById("calculateBtn").onclick = calculate;
+  document.getElementById("rcDist").oninput = e => { rc.dist = Number(e.target.value); saveReturnState(); renderReturnCheck(); };
+  document.getElementById("rcBat").oninput = e => { rc.bat = Number(e.target.value); saveReturnState(); renderReturnCheck(); };
+  document.querySelectorAll("#rcWeatherChips .chip[data-value]").forEach(c => c.onclick = () => {
+    rc.weather = c.dataset.value; saveReturnState(); syncReturnInputs(); renderReturnCheck();
+  });
+  document.getElementById("rcChargeChip").onclick = () => {
+    rc.charge = !rc.charge; saveReturnState(); syncReturnInputs(); renderReturnCheck();
+  };
+  document.getElementById("rcTripSaveBtn").onclick = saveTrip;
+  document.getElementById("rcResetLearnBtn").onclick = () => { if (confirm(t("rcResetLearn") + " ?")) resetLearning(); };
+  syncReturnInputs();
   document.getElementById("saveChargeBtn").onclick = saveChargeLog;
   document.getElementById("clearHistoryBtn").onclick = () => {
     if (confirm(t("clearHistoryConfirm"))) clearChargeHistory();
@@ -1039,7 +1231,8 @@ document.addEventListener("DOMContentLoaded", () => {
     selectChips("#modeChips", mode);
     calculate();
   });
-  document.querySelectorAll(".nav-btn").forEach(b => b.onclick = () => switchScreen(b.dataset.screen));
+  // زر المدونة رابط عادي (بلا data-screen): لا نخفي الشاشات عند الضغط عليه
+  document.querySelectorAll(".nav-btn[data-screen]").forEach(b => b.onclick = () => switchScreen(b.dataset.screen));
   document.getElementById("search").oninput = renderCatalog;
   document.getElementById("sort").onchange = renderCatalog;
   document.querySelectorAll("#categoryChips .chip").forEach(b => b.onclick = () => {
@@ -1055,6 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (c) toggleCompare(c.dataset.compare);
     else if (u) useScooter(u.dataset.use);
   };
+  document.getElementById("settingsBtn").onclick = () => switchScreen("settings");
   document.getElementById("headerCompare").onclick = openCompare;
   document.getElementById("compareFloatBtn").onclick = openCompare;
   document.getElementById("closeCompare").onclick = () => document.getElementById("compareModal").classList.remove("show");
@@ -1113,6 +1307,20 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMyScooter();
   renderChargeHistory();
   calculate();
+
+  document.getElementById("consentBtn").onclick = () => { if (window.VoltConsent) VoltConsent.open(); };
+
+  // روابط الاختصارات (manifest shortcuts) والروابط العميقة: #catalog, #safety, #return ...
+  const hash = (location.hash || "").replace("#", "");
+  if (["calculator", "catalog", "safety", "errors", "settings"].includes(hash)) {
+    switchScreen(hash);
+  } else if (hash === "return") {
+    switchScreen("calculator");
+    setTimeout(() => {
+      const c = document.getElementById("returnCard");
+      if (c) c.scrollIntoView({behavior: "smooth", block: "start"});
+    }, 250);
+  }
 });
 </script>
 </div>

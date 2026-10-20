@@ -9,3 +9,5 @@ User-agent: ClaudeBot
 Disallow: /article-
 User-agent: CCBot
 Disallow: /article-
+
+Sitemap: https://voltride-4qj.pages.dev/sitemap.xml
