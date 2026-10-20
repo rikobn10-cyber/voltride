@@ -1,12 +1,19 @@
 /* VoltRide Service Worker v3.1.0 */
-const VERSION = "voltride-v5";
+const VERSION = "voltride-f58473d1";
 const PRECACHE = [
-  "./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
-  "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
-  "blog.html", "about.html", "privacy.html", "contact.html",
-  "article-1.html", "article-2.html", "article-3.html", "article-4.html",
-  "article-5.html", "article-6.html", "article-7.html", "article-8.html",
-  "xiaomi-pro-2.html", "kukirin-g2-pro.html", "kukirin-g4.html", "segway-max-g30.html", "dualtron-thunder-3.html"
+  "./", "index.html", "offline.html", "manifest.json",
+  "site.css", "site.js", "icon-192.png", "icon-512.png",
+  "icon-maskable-192.png", "icon-maskable-512.png", "blog.html", "about.html",
+  "privacy.html", "contact.html", "article-1.html", "article-2.html",
+  "article-3.html", "article-4.html", "article-5.html", "article-6.html",
+  "article-7.html", "article-8.html", "xiaomi-pro-2.html", "xiaomi-4-pro.html",
+  "xiaomi-essential.html", "xiaomi-3-lite.html", "segway-max-g30.html", "segway-max-g2.html",
+  "segway-e2-plus.html", "navee-n40.html", "navee-g5.html", "niu-kqi3-max.html",
+  "kukirin-g2-pro.html", "kukirin-g2-max.html", "kukirin-g3-pro.html", "kukirin-g4.html",
+  "ecoxtrem-bison-gt.html", "ecoxtrem-bison-m41.html", "dualtron-mini.html", "dualtron-victor.html",
+  "dualtron-thunder-3.html", "vsett-8-plus.html", "vsett-9-plus.html", "vsett-10-plus.html",
+  "apollo-city-pro.html", "apollo-ghost.html", "kaabo-wolf-king.html", "gotrax-g4.html",
+  "gotrax-gxl-v2.html", "inokim-oxo.html", "nami-burn-e2-max.html", "teverun-fighter-11.html"
 ];
 const NAV_TIMEOUT_MS = 3500;
 
