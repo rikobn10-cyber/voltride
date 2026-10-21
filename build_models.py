@@ -393,6 +393,20 @@ def main():
     block = "const MODEL_PRESETS = " + json.dumps(presets, ensure_ascii=False) + ";"
     write("index.html", replace_block(read("index.html"), "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = ["))
 
+    # catalog array (scooters) in index.html, generated from models.json
+    # field mapping: motor -> power, category -> cat. 'range' (claimed) is intentionally omitted:
+    # index.html fills it with a VoltRide estimate flagged rangeEst.
+    scoot = [{"id": m["id"], "name": m["name"], "cat": m["category"], "speed": m["speed"], "power": m["motor"],
+              "voltage": m["voltage"], "ah": m["ah"], "price": m["price"]} for m in MODELS]
+    arr = "const scooters = [\n  " + ",\n  ".join(json.dumps(s, ensure_ascii=False) for s in scoot) + "\n];"
+    t = read("index.html")
+    if "/*SCOOTERS:START*/" in t:
+        t = replace_block(t, "/*SCOOTERS:START*/", "/*SCOOTERS:END*/", arr, "let lang = ")
+    else:
+        t = re.sub(r"const scooters = \[.*?\n\];", lambda _: "/*SCOOTERS:START*/\n" + arr + "\n/*SCOOTERS:END*/", t, count=1, flags=re.S)
+    write("index.html", t)
+    print("catalog scooters:", len(scoot))
+
     # service worker precache + automatic cache version
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
                   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",

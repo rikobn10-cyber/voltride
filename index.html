@@ -492,6 +492,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
     </div>
     <div class="chips" id="categoryChips" style="margin-top:10px">
       <button class="chip active" data-cat="all" data-i18n="all">الكل</button>
+      <button class="chip" data-cat="budget" data-i18n="budget">اقتصادي</button>
       <button class="chip" data-cat="commuter" data-i18n="commuter">تنقل</button>
       <button class="chip" data-cat="sport" data-i18n="sportCat">رياضي</button>
       <button class="chip" data-cat="performance" data-i18n="performance">أداء</button>
@@ -618,7 +619,7 @@ const I18N = {
     quickSmart:"تحليل فوري",quickBattery:"طاقة وشحن",quickCost:"تكلفة واضحة",tagline:"رفيق السكوتر الذكي",heroText:"احسب مدى سكوترك، وقت الشحن وتكلفة الكهرباء خلال ثوانٍ.",smartBadge:"● تحليل ذكي",smartStatus:"حالة الرحلة",tripCost:"تكلفة الطاقة",perCharge:"/ شحنة",
     rider:"👤 الراكب والقيادة",weight:"الوزن",speed:"السرعة المتوسطة",terrain:"الطريق",flat:"مستوٍ",mixed:"مختلط",hills:"مرتفعات",mode:"نمط القيادة",eco:"اقتصادي",balanced:"متوازن",sport:"رياضي",
     battery:"🔋 البطارية والسكوتر",voltage:"الفولت",capacity:"السعة Ah",motor:"قوة المحرك",charger:"الشاحن A",calculate:"احسب الآن ⚡",results:"📊 النتيجة",range:"المدى",energy:"طاقة البطارية",consumption:"الاستهلاك",chargeTime:"وقت الشحن",cost:"تكلفة الشحنة",reserve:"احتياطي 10%",estimateNote:"هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.",
-    catalogTitle:"🛴 كتالوج السكوترات",catalogSub:"قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.",search:"ابحث عن سكوتر...",sortRange:"المدى",sortSpeed:"السرعة",sortPrice:"السعر",all:"الكل",commuter:"تنقل",sportCat:"رياضي",performance:"أداء",
+    catalogTitle:"🛴 كتالوج السكوترات",catalogSub:"قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.",search:"ابحث عن سكوتر...",sortRange:"المدى",sortSpeed:"السرعة",sortPrice:"السعر",all:"الكل",budget:"اقتصادي",commuter:"تنقل",sportCat:"رياضي",performance:"أداء",
     safetyTitle:"🛡️ مركز السلامة",safetySub:"قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.",batteryCare:"العناية بالبطارية",safe1:"استخدم الشاحن الصحيح",safe1p:"لا تستخدم شاحناً بجهد أو موصل غير مطابق لمواصفات الشركة.",safe2:"الشحن في مكان مناسب",safe2p:"لا تشحن على سطح قابل للاشتعال أو في حرارة شديدة، وتجنب تغطية البطارية أثناء الشحن.",safe3:"توقف عند العلامات غير الطبيعية",safe3p:"إذا ظهرت انتفاخات أو دخان أو رائحة غير معتادة أو حرارة شديدة، أوقف الاستخدام والشحن واطلب فحصاً مختصاً.",tires:"الإطارات والفرامل",tireTitle:"ضغط مناسب",tireP:"اتبع ضغط الإطارات الموصى به من الشركة وافحصه دورياً.",brakeTitle:"فحص الفرامل",brakeP:"إذا كانت الفرامل ضعيفة أو تصدر صوتاً غير طبيعي أو تحتك، أوقف القيادة واطلب فحصاً مؤهلاً.",rideSafe:"قبل القيادة",helmet:"خوذة وإضاءة",helmetP:"استخدم خوذة مناسبة وإضاءة واضحة واحترم القوانين المحلية.",water:"الماء",waterP:"مقاومة الماء لا تعني أن السكوتر قابل للغمر. تجنب البرك والماء العميق.",
     errorsTitle:"🔧 تشخيص الأعطال",errorsSub:"معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.",errorNote:"الأكواد تختلف حسب الشركة والموديل. لا تفك البطارية أو لوحة التحكم إذا لم تكن مؤهلاً.",
     settingsTitle:"⚙️ الإعدادات",settingsSub:"خصص VoltRide كما تريد.",oled:"وضع OLED",oledSub:"خلفية سوداء أكثر عمقاً.",tariff:"تعرفة الكهرباء",tariffSub:"تستخدم لحساب تكلفة الشحنة.",language:"اللغة",share:"مشاركة VoltRide",shareSub:"أرسل التطبيق لصديق.",shareBtn:"مشاركة",reset:"إعادة ضبط",resetSub:"مسح إعدادات VoltRide من هذا الجهاز.",resetBtn:"إعادة ضبط",about:"حول VoltRide",aboutText:"VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.",
@@ -646,7 +647,7 @@ const I18N = {
     quickSmart:"Analyse instantanée",quickBattery:"Énergie & charge",quickCost:"Coût clair",tagline:"Votre compagnon scooter",heroText:"Estimez autonomie, recharge et coût électrique en quelques secondes.",smartBadge:"● Analyse intelligente",smartStatus:"État du trajet",tripCost:"Coût énergétique",perCharge:"/ charge",
     rider:"👤 Pilote et conduite",weight:"Poids",speed:"Vitesse moyenne",terrain:"Terrain",flat:"Plat",mixed:"Mixte",hills:"Pentes",mode:"Mode",eco:"Éco",balanced:"Équilibré",sport:"Sport",
     battery:"🔋 Batterie et scooter",voltage:"Tension",capacity:"Capacité Ah",motor:"Puissance moteur",charger:"Chargeur A",calculate:"Calculer ⚡",results:"📊 Résultat",range:"Autonomie",energy:"Énergie batterie",consumption:"Consommation",chargeTime:"Temps de charge",cost:"Coût de charge",reserve:"Réserve 10%",estimateNote:"Estimations indicatives. Le vent, la température, les pneus, la charge, la batterie, les freins et le terrain influencent le résultat.",
-    catalogTitle:"🛴 Catalogue scooters",catalogSub:"Comparez les specs puis envoyez-les au calculateur.",search:"Rechercher un scooter...",sortRange:"Autonomie",sortSpeed:"Vitesse",sortPrice:"Prix",all:"Tous",commuter:"Ville",sportCat:"Sport",performance:"Performance",
+    catalogTitle:"🛴 Catalogue scooters",catalogSub:"Comparez les specs puis envoyez-les au calculateur.",search:"Rechercher un scooter...",sortRange:"Autonomie",sortSpeed:"Vitesse",sortPrice:"Prix",all:"Tous",budget:"Éco",commuter:"Ville",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Sécurité",safetySub:"Des règles simples pour réduire les risques.",batteryCare:"Batterie",safe1:"Utilisez le bon chargeur",safe1p:"Utilisez uniquement un chargeur conforme aux spécifications du fabricant.",safe2:"Rechargez dans un endroit adapté",safe2p:"Évitez les surfaces inflammables et la chaleur excessive.",safe3:"Arrêtez en cas d'anomalie",safe3p:"Gonflement, fumée, odeur inhabituelle ou chaleur extrême : arrêtez et faites contrôler.",tires:"Pneus et freins",tireTitle:"Bonne pression",tireP:"Respectez la pression recommandée par le fabricant.",brakeTitle:"Freins",brakeP:"Si les freins sont faibles, bruyants ou frottent, arrêtez et faites contrôler.",rideSafe:"Avant de rouler",helmet:"Casque et éclairage",helmetP:"Portez un casque adapté, soyez visible et respectez les règles locales.",water:"Eau",waterP:"La résistance à l'eau ne signifie pas immersion. Évitez l'eau profonde.",
     errorsTitle:"🔧 Diagnostic",errorsSub:"Informations générales avant de demander de l'aide.",errorNote:"Les codes varient selon la marque et le modèle. Ne démontez pas la batterie ou le contrôleur sans qualification.",
     settingsTitle:"⚙️ Réglages",settingsSub:"Personnalisez VoltRide.",oled:"Mode OLED",oledSub:"Fond noir profond.",tariff:"Tarif électrique",tariffSub:"Utilisé pour le coût de recharge.",language:"Langue",share:"Partager VoltRide",shareSub:"Envoyez l'application à un ami.",shareBtn:"Partager",reset:"Réinitialiser",resetSub:"Effacer les réglages de cet appareil.",resetBtn:"Réinitialiser",about:"À propos",aboutText:"VoltRide fournit des estimations pour l'autonomie, l'énergie, la recharge et le coût. Il ne remplace pas le manuel du fabricant ni un professionnel.",
@@ -674,7 +675,7 @@ const I18N = {
     quickSmart:"Instant insight",quickBattery:"Energy & charge",quickCost:"Clear cost",tagline:"Your smart scooter companion",heroText:"Estimate range, charging time and electricity cost in seconds.",smartBadge:"● Smart analysis",smartStatus:"Trip status",tripCost:"Energy cost",perCharge:"/ charge",
     rider:"👤 Rider & riding",weight:"Weight",speed:"Average speed",terrain:"Terrain",flat:"Flat",mixed:"Mixed",hills:"Hills",mode:"Riding mode",eco:"Eco",balanced:"Balanced",sport:"Sport",
     battery:"🔋 Battery & scooter",voltage:"Voltage",capacity:"Capacity Ah",motor:"Motor power",charger:"Charger A",calculate:"Calculate ⚡",results:"📊 Result",range:"Range",energy:"Battery energy",consumption:"Consumption",chargeTime:"Charge time",cost:"Charge cost",reserve:"10% reserve",estimateNote:"Estimates only. Wind, temperature, tire pressure, load, battery condition, brakes and terrain affect the result.",
-    catalogTitle:"🛴 Scooter catalog",catalogSub:"Compare specs and send them to the calculator.",search:"Search scooter...",sortRange:"Range",sortSpeed:"Speed",sortPrice:"Price",all:"All",commuter:"Commuter",sportCat:"Sport",performance:"Performance",
+    catalogTitle:"🛴 Scooter catalog",catalogSub:"Compare specs and send them to the calculator.",search:"Search scooter...",sortRange:"Range",sortSpeed:"Speed",sortPrice:"Price",all:"All",budget:"Budget",commuter:"Commuter",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Safety center",safetySub:"Simple rules to reduce risk and protect your scooter.",batteryCare:"Battery care",safe1:"Use the correct charger",safe1p:"Use only a charger that matches the manufacturer's specifications.",safe2:"Charge in a suitable place",safe2p:"Avoid flammable surfaces and excessive heat.",safe3:"Stop for abnormal signs",safe3p:"Swelling, smoke, unusual odor or extreme heat: stop and seek qualified inspection.",tires:"Tires & brakes",tireTitle:"Correct pressure",tireP:"Follow the manufacturer's recommended tire pressure.",brakeTitle:"Brakes",brakeP:"If braking is weak, noisy or rubbing, stop riding and get it inspected.",rideSafe:"Before riding",helmet:"Helmet & lights",helmetP:"Wear a suitable helmet, stay visible and follow local rules.",water:"Water",waterP:"Water resistance does not mean submersible. Avoid deep water.",
     errorsTitle:"🔧 Troubleshooting",errorsSub:"General information before seeking help.",errorNote:"Codes vary by brand and model. Do not disassemble the battery or controller unless qualified.",
     settingsTitle:"⚙️ Settings",settingsSub:"Customize VoltRide.",oled:"OLED mode",oledSub:"Deep black background.",tariff:"Electricity tariff",tariffSub:"Used to estimate charging cost.",language:"Language",share:"Share VoltRide",shareSub:"Send the app to a friend.",shareBtn:"Share",reset:"Reset",resetSub:"Clear VoltRide settings on this device.",resetBtn:"Reset",about:"About VoltRide",aboutText:"VoltRide provides estimates for range, energy, charging and cost. It does not replace the manufacturer's manual or qualified inspection.",
@@ -703,16 +704,40 @@ const I18N = {
 /*MODELS:START*/
 const MODEL_PRESETS = {"xiaomi-pro-2": {"name": "Xiaomi Pro 2", "voltage": 36, "ah": 12.8, "motor": 300}, "xiaomi-4-pro": {"name": "Xiaomi 4 Pro", "voltage": 36, "ah": 12.4, "motor": 350}, "xiaomi-essential": {"name": "Xiaomi Essential", "voltage": 36, "ah": 5.2, "motor": 250}, "xiaomi-3-lite": {"name": "Xiaomi Scooter 3 Lite", "voltage": 36, "ah": 5.2, "motor": 300}, "segway-max-g30": {"name": "Segway Ninebot MAX G30", "voltage": 36, "ah": 15.3, "motor": 350}, "segway-max-g2": {"name": "Segway Ninebot Max G2", "voltage": 36, "ah": 15.3, "motor": 450}, "segway-e2-plus": {"name": "Segway Ninebot E2 Plus", "voltage": 21.6, "ah": 10.2, "motor": 300}, "navee-n40": {"name": "Navee N40", "voltage": 36, "ah": 10, "motor": 350}, "navee-g5": {"name": "Navee G5", "voltage": 48, "ah": 10.4, "motor": 350}, "niu-kqi3-max": {"name": "NIU KQi3 Max", "voltage": 48, "ah": 12.7, "motor": 450}, "kukirin-g2-pro": {"name": "KuKirin G2 Pro", "voltage": 48, "ah": 15, "motor": 600}, "kukirin-g2-max": {"name": "KuKirin G2 Max", "voltage": 48, "ah": 20, "motor": 1000}, "kukirin-g3-pro": {"name": "KuKirin G3 Pro", "voltage": 52, "ah": 23.2, "motor": 2400}, "kukirin-g4": {"name": "KuKirin G4", "voltage": 60, "ah": 20, "motor": 2000}, "ecoxtrem-bison-gt": {"name": "Ecoxtrem Bison GT", "voltage": 48, "ah": 13, "motor": 800}, "ecoxtrem-bison-m41": {"name": "Ecoxtrem Bison M41", "voltage": 48, "ah": 18, "motor": 1000}, "dualtron-mini": {"name": "Dualtron Mini", "voltage": 52, "ah": 17.5, "motor": 1450}, "dualtron-victor": {"name": "Dualtron Victor", "voltage": 60, "ah": 24, "motor": 4000}, "dualtron-thunder-3": {"name": "Dualtron Thunder 3", "voltage": 72, "ah": 40, "motor": 11000}, "vsett-8-plus": {"name": "Vsett 8+", "voltage": 48, "ah": 16, "motor": 1200}, "vsett-9-plus": {"name": "Vsett 9+", "voltage": 48, "ah": 21, "motor": 1300}, "vsett-10-plus": {"name": "Vsett 10+", "voltage": 60, "ah": 28, "motor": 2800}, "apollo-city-pro": {"name": "Apollo City Pro", "voltage": 52, "ah": 20, "motor": 1000}, "apollo-ghost": {"name": "Apollo Ghost", "voltage": 52, "ah": 18.2, "motor": 2000}, "kaabo-wolf-king": {"name": "Kaabo Wolf King GT", "voltage": 72, "ah": 35, "motor": 4000}, "gotrax-g4": {"name": "Gotrax G4", "voltage": 36, "ah": 10.4, "motor": 350}, "gotrax-gxl-v2": {"name": "Gotrax GXL V2", "voltage": 36, "ah": 5.2, "motor": 250}, "inokim-oxo": {"name": "Inokim OXO", "voltage": 60, "ah": 25.6, "motor": 2000}, "nami-burn-e2-max": {"name": "Nami Burn-E 2 Max", "voltage": 72, "ah": 40, "motor": 8400}, "teverun-fighter-11": {"name": "Teverun Fighter 11", "voltage": 60, "ah": 26, "motor": 5000}};
 /*MODELS:END*/
+/*SCOOTERS:START*/
 const scooters = [
-  {id:"mi-pro2",name:"Xiaomi Mi Scooter Pro 2",cat:"commuter",speed:25,range:30,power:300,voltage:36,ah:12.8,price:4200},
-  {id:"mi-4pro",name:"Xiaomi Electric Scooter 4 Pro",cat:"commuter",speed:25,range:45,power:400,voltage:48,ah:12.4,price:6200},
-  {id:"max-g30",name:"Segway-Ninebot MAX G30",cat:"commuter",speed:30,range:40,power:350,voltage:36,ah:15.3,price:6500},
-  {id:"kukirin-m3",name:"KuKirin M3",cat:"commuter",speed:45,range:40,power:500,voltage:48,ah:13,price:7000},
-  {id:"kukirin-g2",name:"KuKirin G2",cat:"sport",speed:45,range:55,power:800,voltage:48,ah:15.6,price:8500},
-  {id:"kukirin-g4",name:"KuKirin G4",cat:"performance",speed:70,range:75,power:2000,voltage:60,ah:20,price:14500},
-  {id:"joyor-s5",name:"Joyor S5",cat:"sport",speed:40,range:40,power:600,voltage:48,ah:13,price:6800},
-  {id:"dualtron-mini",name:"Dualtron Mini",cat:"performance",speed:45,range:40,power:1450,voltage:52,ah:13,price:10500}
+  {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "price": 4200},
+  {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "price": 6200},
+  {"id": "xiaomi-essential", "name": "Xiaomi Essential", "cat": "budget", "speed": 20, "power": 250, "voltage": 36, "ah": 5.2, "price": 2500},
+  {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 5.2, "price": 3000},
+  {"id": "segway-max-g30", "name": "Segway Ninebot MAX G30", "cat": "commuter", "speed": 30, "power": 350, "voltage": 36, "ah": 15.3, "price": 6500},
+  {"id": "segway-max-g2", "name": "Segway Ninebot Max G2", "cat": "commuter", "speed": 35, "power": 450, "voltage": 36, "ah": 15.3, "price": 8500},
+  {"id": "segway-e2-plus", "name": "Segway Ninebot E2 Plus", "cat": "budget", "speed": 25, "power": 300, "voltage": 21.6, "ah": 10.2, "price": 3500},
+  {"id": "navee-n40", "name": "Navee N40", "cat": "budget", "speed": 25, "power": 350, "voltage": 36, "ah": 10, "price": 4500},
+  {"id": "navee-g5", "name": "Navee G5", "cat": "commuter", "speed": 32, "power": 350, "voltage": 48, "ah": 10.4, "price": 7500},
+  {"id": "niu-kqi3-max", "name": "NIU KQi3 Max", "cat": "commuter", "speed": 38, "power": 450, "voltage": 48, "ah": 12.7, "price": 8000},
+  {"id": "kukirin-g2-pro", "name": "KuKirin G2 Pro", "cat": "sport", "speed": 45, "power": 600, "voltage": 48, "ah": 15, "price": 7000},
+  {"id": "kukirin-g2-max", "name": "KuKirin G2 Max", "cat": "sport", "speed": 55, "power": 1000, "voltage": 48, "ah": 20, "price": 8500},
+  {"id": "kukirin-g3-pro", "name": "KuKirin G3 Pro", "cat": "sport", "speed": 65, "power": 2400, "voltage": 52, "ah": 23.2, "price": 12000},
+  {"id": "kukirin-g4", "name": "KuKirin G4", "cat": "performance", "speed": 75, "power": 2000, "voltage": 60, "ah": 20, "price": 14500},
+  {"id": "ecoxtrem-bison-gt", "name": "Ecoxtrem Bison GT", "cat": "sport", "speed": 45, "power": 800, "voltage": 48, "ah": 13, "price": 9500},
+  {"id": "ecoxtrem-bison-m41", "name": "Ecoxtrem Bison M41", "cat": "sport", "speed": 50, "power": 1000, "voltage": 48, "ah": 18, "price": 11000},
+  {"id": "dualtron-mini", "name": "Dualtron Mini", "cat": "sport", "speed": 45, "power": 1450, "voltage": 52, "ah": 17.5, "price": 10500},
+  {"id": "dualtron-victor", "name": "Dualtron Victor", "cat": "performance", "speed": 80, "power": 4000, "voltage": 60, "ah": 24, "price": 25000},
+  {"id": "dualtron-thunder-3", "name": "Dualtron Thunder 3", "cat": "performance", "speed": 100, "power": 11000, "voltage": 72, "ah": 40, "price": 45000},
+  {"id": "vsett-8-plus", "name": "Vsett 8+", "cat": "sport", "speed": 45, "power": 1200, "voltage": 48, "ah": 16, "price": 9000},
+  {"id": "vsett-9-plus", "name": "Vsett 9+", "cat": "sport", "speed": 53, "power": 1300, "voltage": 48, "ah": 21, "price": 12000},
+  {"id": "vsett-10-plus", "name": "Vsett 10+", "cat": "performance", "speed": 75, "power": 2800, "voltage": 60, "ah": 28, "price": 18000},
+  {"id": "apollo-city-pro", "name": "Apollo City Pro", "cat": "sport", "speed": 51, "power": 1000, "voltage": 52, "ah": 20, "price": 15000},
+  {"id": "apollo-ghost", "name": "Apollo Ghost", "cat": "performance", "speed": 55, "power": 2000, "voltage": 52, "ah": 18.2, "price": 16500},
+  {"id": "kaabo-wolf-king", "name": "Kaabo Wolf King GT", "cat": "performance", "speed": 100, "power": 4000, "voltage": 72, "ah": 35, "price": 35000},
+  {"id": "gotrax-g4", "name": "Gotrax G4", "cat": "commuter", "speed": 32, "power": 350, "voltage": 36, "ah": 10.4, "price": 5500},
+  {"id": "gotrax-gxl-v2", "name": "Gotrax GXL V2", "cat": "budget", "speed": 25, "power": 250, "voltage": 36, "ah": 5.2, "price": 3000},
+  {"id": "inokim-oxo", "name": "Inokim OXO", "cat": "performance", "speed": 65, "power": 2000, "voltage": 60, "ah": 25.6, "price": 22000},
+  {"id": "nami-burn-e2-max", "name": "Nami Burn-E 2 Max", "cat": "performance", "speed": 98, "power": 8400, "voltage": 72, "ah": 40, "price": 38000},
+  {"id": "teverun-fighter-11", "name": "Teverun Fighter 11", "cat": "performance", "speed": 85, "power": 5000, "voltage": 60, "ah": 26, "price": 28000}
 ];
+/*SCOOTERS:END*/
 
 let lang = Store.get("voltride_language", "ar");
 let terrain = Store.get("voltride_terrain", "flat");
@@ -737,6 +762,54 @@ let chargeHistory = Store.get("voltride_charge_history", []);
 if (!Array.isArray(chargeHistory)) chargeHistory = [];
 if (!Array.isArray(favorites)) favorites = [];
 if (!Array.isArray(compare)) compare = [];
+
+/* ==== الكتالوج: مدى تقديري عند غياب المدى المعلن + تنظيف المفضلة القديمة ==== */
+// نفس معادلة calculate() بالإعدادات الافتراضية (75 كغ، طريق مختلط، نمط متوازن، سرعة ≤ 25 كم/س)
+function estimateRangeKm(s, weight, terrain, mode, speed){
+  const v = Number(s.voltage), ah = Number(s.ah), motor = Number(s.power) || 0;
+  if (!(v > 0 && ah > 0)) return null;
+  weight = weight || 75; terrain = terrain || "mixed"; mode = mode || "balanced";
+  speed = speed || Math.min(25, Number(s.speed) || 25);
+  const wf = 1 + ((weight - 75) * 0.0045);
+  const sf = 1 + (Math.max(0, speed - 20) * 0.035);
+  const tf = {flat:1, mixed:1.12, hills:1.30}[terrain] || 1;
+  const mf = {eco:0.88, balanced:1, sport:1.14}[mode] || 1;
+  const mof = motor >= 1500 ? 1.10 : motor >= 800 ? 1.05 : 1;
+  const cap = motor >= 1500 ? 90 : motor >= 800 ? 60 : 45;
+  const cons = Math.min(cap, Math.max(7, 12.5 * wf * sf * tf * mf * mof));
+  return (v * ah * 0.9) / cons;
+}
+scooters.forEach(s => {
+  // إن لم يكن للموديل مدى معلن نضع تقديراً ونعلّمه (rangeEst) كي لا يظهر undefined ولا يُعرض كأنه رقم الشركة
+  if (!Number.isFinite(Number(s.range))) { s.range = estimateRangeKm(s); s.rangeEst = true; }
+  s.range = Number.isFinite(s.range) ? s.range : null;
+});
+function fmtRange(s){
+  return Number.isFinite(s.range) ? (s.rangeEst ? "≈ " : "") + Math.round(s.range) + " km" : "—";
+}
+// معرّفات الكتالوج القديمة المحفوظة في المفضلة والمقارنة: نرحّل المتطابقة ونحذف ما لم يعد موجوداً
+const OLD_ID_MAP = {"mi-pro2":"xiaomi-pro-2", "mi-4pro":"xiaomi-4-pro", "max-g30":"segway-max-g30"};
+(function sanitizeSavedIds(){
+  const known = new Set(scooters.map(s => s.id));
+  const fix = arr => Array.from(new Set(arr.map(id => OLD_ID_MAP[id] || id).filter(id => known.has(id))));
+  const f2 = fix(favorites), c2 = fix(compare).slice(0, 3);
+  if (f2.length !== favorites.length || f2.some((v, i) => v !== favorites[i])) { favorites = f2; Store.set("voltride_favorites", favorites); }
+  if (c2.length !== compare.length || c2.some((v, i) => v !== compare[i])) { compare = c2; Store.set("voltride_compare", compare); }
+})();
+
+// يضمن وجود القيمة في قائمة منسدلة (فولت/محرك) قبل تعبئتها، ويضيفها مرتبة إن كانت جديدة
+function setSelectValue(id, val){
+  const el = document.getElementById(id);
+  val = Number(val);
+  if (!el || !Number.isFinite(val)) return;
+  if (![...el.options].some(o => Number(o.value) === val)) {
+    const o = document.createElement("option");
+    o.value = o.textContent = String(val);
+    const after = [...el.options].find(x => Number(x.value) > val);
+    el.insertBefore(o, after || null);
+  }
+  el.value = String(val);
+}
 
 function t(k){ return (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k; }
 function escapeHTML(v){ return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
@@ -999,7 +1072,7 @@ function renderCatalog(){
   list.sort((a, b) =>
     sort === "price" ? a.price - b.price :
     sort === "speed" ? b.speed - a.speed :
-    b.range - a.range
+    (b.range || 0) - (a.range || 0)
   );
   const grid = document.getElementById("catalogGrid");
   if (!list.length) { grid.innerHTML = '<div class="card empty">' + escapeHTML(t("noResults")) + '</div>'; return; }
@@ -1011,7 +1084,7 @@ function renderCatalog(){
       '<button class="favorite ' + (fav ? "on" : "") + '" data-fav="' + s.id + '" aria-label="favorite">' + (fav ? "♥" : "♡") + '</button></div>' +
       '<div class="specs">' +
         '<div class="spec"><small>⚡ Speed</small><b>' + s.speed + ' km/h</b></div>' +
-        '<div class="spec"><small>📍 Range</small><b>' + s.range + ' km</b></div>' +
+        '<div class="spec"><small>📍 ' + (s.rangeEst ? 'Est. range' : 'Range') + '</small><b>' + fmtRange(s) + '</b></div>' +
         '<div class="spec"><small>🔋 Battery</small><b>' + s.voltage + 'V • ' + s.ah + 'Ah</b></div>' +
         '<div class="spec"><small>⚙️ Motor</small><b>' + s.power + 'W</b></div>' +
       '</div>' +
@@ -1050,7 +1123,7 @@ function openCompare(){
   document.getElementById("compareBody").innerHTML =
     '<table class="compare-table"><tr><th></th>' + items.map(s => '<th>' + escapeHTML(s.name) + '</th>').join("") + '</tr>' +
     '<tr><td>Speed</td>' + items.map(s => '<td>' + s.speed + ' km/h</td>').join("") + '</tr>' +
-    '<tr><td>Range</td>' + items.map(s => '<td>' + s.range + ' km</td>').join("") + '</tr>' +
+    '<tr><td>Range</td>' + items.map(s => '<td>' + fmtRange(s) + '</td>').join("") + '</tr>' +
     '<tr><td>Motor</td>' + items.map(s => '<td>' + s.power + ' W</td>').join("") + '</tr>' +
     '<tr><td>Battery</td>' + items.map(s => '<td>' + s.voltage + 'V / ' + s.ah + 'Ah</td>').join("") + '</tr>' +
     '<tr><td>Price</td>' + items.map(s => '<td>' + s.price.toLocaleString() + ' MAD</td>').join("") + '</tr></table>' +
@@ -1068,9 +1141,10 @@ function openCompare(){
 function useScooter(id){
   const s = scooters.find(x => x.id === id);
   if (!s) return;
-  document.getElementById("voltage").value = s.voltage;
+  // القوائم المنسدلة لا تحوي كل القيم (مثل 21.6V أو 4000W): نضيف الخيار الناقص قبل التعبئة
+  setSelectValue("voltage", s.voltage);
+  setSelectValue("motor", s.power);
   document.getElementById("capacity").value = s.ah;
-  document.getElementById("motor").value = s.power;
   calculate();
   switchScreen("calculator");
   toast(t("specsTransferred"));
@@ -1318,18 +1392,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const slug = new URLSearchParams(location.search).get("model");
     const p = slug && Object.prototype.hasOwnProperty.call(MODEL_PRESETS, slug) ? MODEL_PRESETS[slug] : null;
     if (p) {
-      const setSel = (id, val) => {
-        const el = document.getElementById(id);
-        if (![...el.options].some(o => Number(o.value) === val)) {
-          const o = document.createElement("option");
-          o.value = o.textContent = String(val);
-          const after = [...el.options].find(x => Number(x.value) > val);
-          el.insertBefore(o, after || null);
-        }
-        el.value = String(val);
-      };
-      setSel("voltage", p.voltage);
-      setSel("motor", p.motor);
+      setSelectValue("voltage", p.voltage);
+      setSelectValue("motor", p.motor);
       document.getElementById("capacity").value = p.ah;
       switchScreen("calculator");
       calculate();
