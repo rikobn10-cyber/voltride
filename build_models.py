@@ -3,14 +3,15 @@
 Run inside the site folder:   python3 build_models.py
 
 Reads  models.json (list of models) and model_texts.json (optional hand-written text by id).
-Writes <id>.html for every model, rebuilds sitemap.xml, refreshes the models section of blog.html,
+Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), rebuilds sitemap.xml, refreshes the models section of blog.html,
 the MODEL_PRESETS block of index.html and the PRECACHE list of sw.js.
 """
 import hashlib, html, json, math, os, re
 
 BASE = "https://voltride-4qj.pages.dev"
 ROOT = os.path.dirname(os.path.abspath(__file__))
-DATE = "2026-10-20"
+DATE = "2026-10-20"      # publication date shown on model pages
+MOD = "2026-10-24"       # sitemap lastmod for pages touched on this date
 LEGAL_LIMIT = 25
 EXTREME_SPEED = 80   # at/above this we treat the model as outside "trottinette" territory
 
@@ -25,8 +26,12 @@ CLASS_HEAD = {"budget": "اقتصادية", "commuter": "للتنقل اليوم
 BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu": "NIU", "kukirin": "KuKirin",
           "ecoxtrem": "Ecoxtrem", "dualtron": "Dualtron", "vsett": "Vsett", "apollo": "Apollo", "kaabo": "Kaabo",
           "gotrax": "Gotrax", "inokim": "Inokim", "nami": "Nami", "teverun": "Teverun"}
-STATIC_URLS = [("", "1.0"), ("blog.html", "0.9"), ("about.html", "0.5"), ("contact.html", "0.5"), ("privacy.html", "0.5")] + \
-              [(f"article-{i}.html", "0.8") for i in range(1, 9)]
+GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
+# (path, priority, lastmod)
+STATIC_URLS = [("", "1.0", MOD), ("blog.html", "0.9", MOD), ("about.html", "0.5", DATE), ("contact.html", "0.5", DATE),
+               ("privacy.html", "0.5", DATE)] + \
+              [(g, "0.8", MOD) for g in GUIDES] + \
+              [(f"article-{i}.html", "0.8", DATE) for i in range(1, 9)]
 
 
 def esc(s):
@@ -194,19 +199,6 @@ def page(m):
     desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
             f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
     fq = faqs(m, rows)
-    ld_product = {
-        "@context": "https://schema.org", "@type": "Product",
-        "name": m["name"], "brand": {"@type": "Brand", "name": brand(m)},
-        "category": "Electric kick scooter", "description": t["summary"],
-        "image": BASE + "/og-image.png", "url": url,
-        "additionalProperty": [
-            {"@type": "PropertyValue", "name": "Battery voltage", "value": m["voltage"], "unitText": "V"},
-            {"@type": "PropertyValue", "name": "Battery capacity", "value": m["ah"], "unitText": "Ah"},
-            {"@type": "PropertyValue", "name": "Battery energy", "value": round(energy), "unitText": "Wh"},
-            {"@type": "PropertyValue", "name": "Motor power", "value": m["motor"], "unitText": "W"},
-            {"@type": "PropertyValue", "name": "Claimed max speed", "value": m["speed"], "unitText": "km/h"},
-        ],
-    }
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in fq]}
     ld_crumb = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
@@ -253,9 +245,6 @@ def page(m):
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="site.css">
-<script type="application/ld+json">
-{js(ld_product)}
-</script>
 <script type="application/ld+json">
 {js(ld_faq)}
 </script>
@@ -365,9 +354,10 @@ def main():
     print("pages written:", len(MODELS))
 
     # sitemap
-    urls = STATIC_URLS + [(f"{m['id']}.html", "0.7") for m in MODELS]
+    urls = STATIC_URLS + [(f"{m['id']}.html", "0.7", MOD) for m in MODELS]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    sm += [f"  <url><loc>{BASE}/{p}</loc><lastmod>{DATE}</lastmod><priority>{pr}</priority></url>" for p, pr in urls]
+    sm += [f"  <url><loc>{BASE}/{p}</loc><lastmod>{lm}</lastmod><priority>{pr}</priority></url>" for p, pr, lm in urls]
+    assert len({u[0] for u in urls}) == len(urls), "duplicate sitemap URL"
     sm.append("</urlset>\n")
     write("sitemap.xml", "\n".join(sm))
     print("sitemap urls:", len(urls))
@@ -393,6 +383,11 @@ def main():
     block = "const MODEL_PRESETS = " + json.dumps(presets, ensure_ascii=False) + ";"
     write("index.html", replace_block(read("index.html"), "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = ["))
 
+    # internal-link section at the bottom of the calculator screen (crawlable text links to every model page)
+    links = "\n".join(f'      <a href="{m["id"]}.html">{esc(m["name"])}</a>' for m in MODELS)
+    write("index.html", replace_block(read("index.html"), "<!--LINKS:START-->", "<!--LINKS:END-->", links, "</nav>"))
+    print("index internal links:", len(MODELS))
+
     # catalog array (scooters) in index.html, generated from models.json
     # field mapping: motor -> power, category -> cat. 'range' (claimed) is intentionally omitted:
     # index.html fills it with a VoltRide estimate flagged rangeEst.
@@ -410,7 +405,7 @@ def main():
     # service worker precache + automatic cache version
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
                   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
-                  "blog.html", "about.html", "privacy.html", "contact.html"] + [f"article-{i}.html" for i in range(1, 9)]
+                  "blog.html", "about.html", "privacy.html", "contact.html"] + [f"article-{i}.html" for i in range(1, 9)] + GUIDES
     files = base_files + [f"{m['id']}.html" for m in MODELS]
     sw = read("sw.js")
     lst = "const PRECACHE = [\n  " + ",\n  ".join(", ".join(f'"{f}"' for f in files[i:i + 4]) for i in range(0, len(files), 4)) + "\n];"

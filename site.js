@@ -97,7 +97,7 @@
     var no = document.createElement("button");
     no.className = "no"; no.type = "button"; no.textContent = t.no;
     var a = document.createElement("a");
-    a.href = "privacy.html"; a.textContent = t.more;
+    a.href = "/privacy.html"; a.textContent = t.more;
     ok.onclick = function () { set("granted"); loadGA(); hideBanner(); };
     no.onclick = function () { set("denied"); disableGA(); hideBanner(); };
     row.appendChild(ok); row.appendChild(no); row.appendChild(a);
@@ -121,7 +121,7 @@
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
-      navigator.serviceWorker.register("sw.js").catch(function () {});
+      navigator.serviceWorker.register("/sw.js").catch(function () {});
     });
   }
 })();

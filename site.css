@@ -87,3 +87,6 @@ header.blog-head p{color:var(--muted);font-size:14px}
 .faq summary{cursor:pointer;font-weight:800;color:var(--cyan);line-height:1.6}
 .faq details p{margin:10px 0 0;color:#dbeafe}
 table small{color:var(--muted);font-size:11px}
+.related{margin:-6px 4px 16px;font-size:12px;color:var(--muted);line-height:2}
+.related a{color:var(--cyan);text-decoration:none;display:inline-block;padding:4px 2px}
+.related a:hover,.related a:focus-visible{text-decoration:underline}

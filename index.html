@@ -80,14 +80,8 @@ header{position:sticky;top:0;z-index:30;background:rgba(11,18,32,.9);backdrop-fi
 .brand strong{font-size:18px;letter-spacing:.2px}
 .brand small{display:block;color:var(--muted);font-size:10px;margin-top:1px}
 .actions{display:flex;align-items:center;gap:7px}
-.icon-btn,.lang-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);min-width:40px;height:40px;border-radius:12px;display:grid;place-items:center;position:relative}
-.lang-wrap{position:relative}
-.lang-btn{display:flex;gap:5px;padding:0 9px}
-.lang-menu{display:none;position:absolute;top:calc(100% + 8px);inset-inline-end:0;width:180px;padding:7px;border:1px solid var(--line);background:#111827;border-radius:14px;box-shadow:var(--shadow);z-index:50}
-.lang-menu.show{display:block}
-.lang-menu button{width:100%;border:0;background:transparent;color:var(--text);padding:11px;border-radius:10px;text-align:start;display:flex;justify-content:space-between}
-.lang-menu button:hover{background:rgba(56,189,248,.1)}
-main{padding:14px}
+.icon-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);min-width:40px;height:40px;border-radius:12px;display:grid;place-items:center;position:relative}
+main{padding:14px 14px 110px}
 .screen{display:none}
 .screen.active{display:block}
 .hero{padding:20px 2px 10px}
@@ -153,7 +147,7 @@ input:focus,select:focus{border-color:rgba(0,242,254,.55);box-shadow:0 0 0 3px r
 .price{font-weight:900;color:var(--amber);font-size:17px}
 .card-actions{display:flex;gap:7px;flex-wrap:wrap}
 .card-actions button{flex:1;min-width:110px}
-.compare-float{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);z-index:25;width:min(92%,500px);display:none}
+.compare-float{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);z-index:25;width:min(92%,500px);display:none}
 .compare-float.show{display:block}
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);z-index:40;background:rgba(11,18,32,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 5px calc(8px + env(safe-area-inset-bottom))}
 .oled .bottom-nav{background:rgba(0,0,0,.95)}
@@ -178,6 +172,10 @@ summary{cursor:pointer;font-weight:800}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .empty{text-align:center;color:var(--muted);padding:25px 8px}
 .small{font-size:11px;color:var(--muted);line-height:1.6}
+.seo-links h3{font-size:13px;margin:14px 0 8px;color:var(--cyan)}
+.seo-links .link-grid{display:flex;flex-wrap:wrap;gap:8px}
+.seo-links .link-grid a{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card2);color:var(--text);text-decoration:none;font-size:12px}
+.seo-links .link-grid a:hover,.seo-links .link-grid a:focus-visible{border-color:var(--cyan);color:var(--cyan)}
 .setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
 .setting-row:last-child{border-bottom:0}
 .switch{width:52px;height:30px;border-radius:99px;background:#334155;padding:3px;border:0;position:relative}
@@ -264,16 +262,6 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       <div><strong>VoltRide</strong><small data-i18n="tagline">رفيق السكوتر الذكي</small></div>
     </div>
     <div class="actions">
-      <div class="lang-wrap" id="langWrap">
-        <button class="lang-btn" id="langBtn" aria-expanded="false" aria-label="Language">
-          🌐 <span id="langLabel">AR</span>⌄
-        </button>
-        <div class="lang-menu" id="langMenu" role="menu">
-          <button data-lang="ar" role="menuitem">🇲🇦 العربية <span>✓</span></button>
-          <button data-lang="fr" role="menuitem">🇫🇷 Français <span></span></button>
-          <button data-lang="en" role="menuitem">🇬🇧 English <span></span></button>
-        </div>
-      </div>
       <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙️</button>
       <button class="icon-btn" id="themeBtn" aria-label="OLED">◐</button>
       <button class="icon-btn" id="headerCompare" aria-label="Compare">⚖️ <span id="compareCount">0</span></button>
@@ -474,6 +462,51 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
     <div id="historyList" class="history-list"></div>
     <button class="primary" id="saveChargeBtn" style="margin-top:10px" data-i18n="saveCharge">➕ تسجيل هذه الشحنة</button>
   </div>
+  <nav class="card seo-links" aria-labelledby="seoLinksTitle">
+    <h2 id="seoLinksTitle" data-i18n="seoLinksTitle">📚 أدلة ومدى الموديلات</h2>
+    <p class="small" data-i18n="seoLinksSub">تقديرات VoltRide النظرية لمدى كل موديل، وأدلة لحل الأعطال الشائعة.</p>
+    <h3 data-i18n="seoGuides">أدلة الأعطال</h3>
+    <div class="link-grid">
+      <a href="guides/not-charging.html" data-i18n="guideNotCharging">لماذا لا يشحن السكوتر؟</a>
+      <a href="guides/battery-range.html" data-i18n="guideRange">لماذا ينقص مدى البطارية؟</a>
+      <a href="guides/error-codes.html" data-i18n="guideErrors">أكواد الأعطال والانقطاع</a>
+    </div>
+    <h3 data-i18n="seoModels">مدى الموديلات (تقدير VoltRide)</h3>
+    <div class="link-grid">
+<!--LINKS:START-->
+      <a href="xiaomi-pro-2.html">Xiaomi Pro 2</a>
+      <a href="xiaomi-4-pro.html">Xiaomi 4 Pro</a>
+      <a href="xiaomi-essential.html">Xiaomi Essential</a>
+      <a href="xiaomi-3-lite.html">Xiaomi Scooter 3 Lite</a>
+      <a href="segway-max-g30.html">Segway Ninebot MAX G30</a>
+      <a href="segway-max-g2.html">Segway Ninebot Max G2</a>
+      <a href="segway-e2-plus.html">Segway Ninebot E2 Plus</a>
+      <a href="navee-n40.html">Navee N40</a>
+      <a href="navee-g5.html">Navee G5</a>
+      <a href="niu-kqi3-max.html">NIU KQi3 Max</a>
+      <a href="kukirin-g2-pro.html">KuKirin G2 Pro</a>
+      <a href="kukirin-g2-max.html">KuKirin G2 Max</a>
+      <a href="kukirin-g3-pro.html">KuKirin G3 Pro</a>
+      <a href="kukirin-g4.html">KuKirin G4</a>
+      <a href="ecoxtrem-bison-gt.html">Ecoxtrem Bison GT</a>
+      <a href="ecoxtrem-bison-m41.html">Ecoxtrem Bison M41</a>
+      <a href="dualtron-mini.html">Dualtron Mini</a>
+      <a href="dualtron-victor.html">Dualtron Victor</a>
+      <a href="dualtron-thunder-3.html">Dualtron Thunder 3</a>
+      <a href="vsett-8-plus.html">Vsett 8+</a>
+      <a href="vsett-9-plus.html">Vsett 9+</a>
+      <a href="vsett-10-plus.html">Vsett 10+</a>
+      <a href="apollo-city-pro.html">Apollo City Pro</a>
+      <a href="apollo-ghost.html">Apollo Ghost</a>
+      <a href="kaabo-wolf-king.html">Kaabo Wolf King GT</a>
+      <a href="gotrax-g4.html">Gotrax G4</a>
+      <a href="gotrax-gxl-v2.html">Gotrax GXL V2</a>
+      <a href="inokim-oxo.html">Inokim OXO</a>
+      <a href="nami-burn-e2-max.html">Nami Burn-E 2 Max</a>
+      <a href="teverun-fighter-11.html">Teverun Fighter 11</a>
+<!--LINKS:END-->
+    </div>
+  </nav>
 </section>
 
 <section id="catalog" class="screen">
@@ -622,7 +655,7 @@ const I18N = {
     catalogTitle:"🛴 كتالوج السكوترات",catalogSub:"قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.",search:"ابحث عن سكوتر...",sortRange:"المدى",sortSpeed:"السرعة",sortPrice:"السعر",all:"الكل",budget:"اقتصادي",commuter:"تنقل",sportCat:"رياضي",performance:"أداء",
     safetyTitle:"🛡️ مركز السلامة",safetySub:"قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.",batteryCare:"العناية بالبطارية",safe1:"استخدم الشاحن الصحيح",safe1p:"لا تستخدم شاحناً بجهد أو موصل غير مطابق لمواصفات الشركة.",safe2:"الشحن في مكان مناسب",safe2p:"لا تشحن على سطح قابل للاشتعال أو في حرارة شديدة، وتجنب تغطية البطارية أثناء الشحن.",safe3:"توقف عند العلامات غير الطبيعية",safe3p:"إذا ظهرت انتفاخات أو دخان أو رائحة غير معتادة أو حرارة شديدة، أوقف الاستخدام والشحن واطلب فحصاً مختصاً.",tires:"الإطارات والفرامل",tireTitle:"ضغط مناسب",tireP:"اتبع ضغط الإطارات الموصى به من الشركة وافحصه دورياً.",brakeTitle:"فحص الفرامل",brakeP:"إذا كانت الفرامل ضعيفة أو تصدر صوتاً غير طبيعي أو تحتك، أوقف القيادة واطلب فحصاً مؤهلاً.",rideSafe:"قبل القيادة",helmet:"خوذة وإضاءة",helmetP:"استخدم خوذة مناسبة وإضاءة واضحة واحترم القوانين المحلية.",water:"الماء",waterP:"مقاومة الماء لا تعني أن السكوتر قابل للغمر. تجنب البرك والماء العميق.",
     errorsTitle:"🔧 تشخيص الأعطال",errorsSub:"معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.",errorNote:"الأكواد تختلف حسب الشركة والموديل. لا تفك البطارية أو لوحة التحكم إذا لم تكن مؤهلاً.",
-    settingsTitle:"⚙️ الإعدادات",settingsSub:"خصص VoltRide كما تريد.",oled:"وضع OLED",oledSub:"خلفية سوداء أكثر عمقاً.",tariff:"تعرفة الكهرباء",tariffSub:"تستخدم لحساب تكلفة الشحنة.",language:"اللغة",share:"مشاركة VoltRide",shareSub:"أرسل التطبيق لصديق.",shareBtn:"مشاركة",reset:"إعادة ضبط",resetSub:"مسح إعدادات VoltRide من هذا الجهاز.",resetBtn:"إعادة ضبط",about:"حول VoltRide",aboutText:"VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.",
+    seoLinksTitle:"📚 أدلة ومدى الموديلات",seoLinksSub:"تقديرات VoltRide النظرية لمدى كل موديل، وأدلة لحل الأعطال الشائعة.",seoGuides:"أدلة الأعطال",seoModels:"مدى الموديلات (تقدير VoltRide)",guideNotCharging:"لماذا لا يشحن السكوتر؟",guideRange:"لماذا ينقص مدى البطارية؟",guideErrors:"أكواد الأعطال والانقطاع",settingsTitle:"⚙️ الإعدادات",settingsSub:"خصص VoltRide كما تريد.",oled:"وضع OLED",oledSub:"خلفية سوداء أكثر عمقاً.",tariff:"تعرفة الكهرباء",tariffSub:"تستخدم لحساب تكلفة الشحنة.",language:"اللغة",share:"مشاركة VoltRide",shareSub:"أرسل التطبيق لصديق.",shareBtn:"مشاركة",reset:"إعادة ضبط",resetSub:"مسح إعدادات VoltRide من هذا الجهاز.",resetBtn:"إعادة ضبط",about:"حول VoltRide",aboutText:"VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.",
     myScooter:"🛴 سكوترِي",myScooterSub:"احفظ مواصفات سكوترك مرة واحدة واستعملها بسرعة.",savedProfile:"محفوظ",scooterName:"اسم السكوتر",profileVoltage:"الفولت",profileCapacity:"السعة Ah",profileMotor:"المحرك W",profileCharger:"الشاحن A",saveScooter:"💾 حفظ السكوتر",loadScooter:"⚡ استخدام المحفوظ",noSavedScooter:"لم تحفظ سكوترًا بعد.",savedAt:"آخر حفظ",compare:"مقارنة",compareTitle:"⚖️ مقارنة السكوترات",navCalc:"الحاسبة",navCatalog:"الكتالوج",navSafety:"السلامة",navErrors:"الأعطال",navSettings:"الإعدادات",historyTitle:"📒 سجل الشحن والتكلفة",historySub:"سجّل نتيجة الشحنة الحالية لمتابعة مصروفك مع الوقت.",chargesCount:"عدد الشحنات",totalCost:"إجمالي التكلفة",avgCost:"متوسط الشحنة",saveCharge:"➕ تسجيل هذه الشحنة",clearHistory:"مسح السجل",historyEmpty:"لا توجد شحنات مسجلة بعد.",historySaved:"تم تسجيل الشحنة",historyCleared:"تم مسح السجل",chargeEntry:"شحنة",
     installText:"ثبّت VoltRide على شاشتك الرئيسية للوصول السريع ودون إنترنت.",installBtn:"تثبيت",
     savedScooterToast:"تم حفظ سكوترك",loadedScooterToast:"تم استخدام مواصفات سكوترك",needSaveFirst:"احفظ سكوترك أولاً",
@@ -650,7 +683,7 @@ const I18N = {
     catalogTitle:"🛴 Catalogue scooters",catalogSub:"Comparez les specs puis envoyez-les au calculateur.",search:"Rechercher un scooter...",sortRange:"Autonomie",sortSpeed:"Vitesse",sortPrice:"Prix",all:"Tous",budget:"Éco",commuter:"Ville",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Sécurité",safetySub:"Des règles simples pour réduire les risques.",batteryCare:"Batterie",safe1:"Utilisez le bon chargeur",safe1p:"Utilisez uniquement un chargeur conforme aux spécifications du fabricant.",safe2:"Rechargez dans un endroit adapté",safe2p:"Évitez les surfaces inflammables et la chaleur excessive.",safe3:"Arrêtez en cas d'anomalie",safe3p:"Gonflement, fumée, odeur inhabituelle ou chaleur extrême : arrêtez et faites contrôler.",tires:"Pneus et freins",tireTitle:"Bonne pression",tireP:"Respectez la pression recommandée par le fabricant.",brakeTitle:"Freins",brakeP:"Si les freins sont faibles, bruyants ou frottent, arrêtez et faites contrôler.",rideSafe:"Avant de rouler",helmet:"Casque et éclairage",helmetP:"Portez un casque adapté, soyez visible et respectez les règles locales.",water:"Eau",waterP:"La résistance à l'eau ne signifie pas immersion. Évitez l'eau profonde.",
     errorsTitle:"🔧 Diagnostic",errorsSub:"Informations générales avant de demander de l'aide.",errorNote:"Les codes varient selon la marque et le modèle. Ne démontez pas la batterie ou le contrôleur sans qualification.",
-    settingsTitle:"⚙️ Réglages",settingsSub:"Personnalisez VoltRide.",oled:"Mode OLED",oledSub:"Fond noir profond.",tariff:"Tarif électrique",tariffSub:"Utilisé pour le coût de recharge.",language:"Langue",share:"Partager VoltRide",shareSub:"Envoyez l'application à un ami.",shareBtn:"Partager",reset:"Réinitialiser",resetSub:"Effacer les réglages de cet appareil.",resetBtn:"Réinitialiser",about:"À propos",aboutText:"VoltRide fournit des estimations pour l'autonomie, l'énergie, la recharge et le coût. Il ne remplace pas le manuel du fabricant ni un professionnel.",
+    seoLinksTitle:"📚 Guides et autonomie des modèles",seoLinksSub:"Estimations théoriques VoltRide de l'autonomie par modèle, et guides de dépannage.",seoGuides:"Guides de dépannage",seoModels:"Autonomie des modèles (estimation VoltRide)",guideNotCharging:"Pourquoi la trottinette ne charge pas ?",guideRange:"Pourquoi l'autonomie baisse ?",guideErrors:"Codes d'erreur et coupures",settingsTitle:"⚙️ Réglages",settingsSub:"Personnalisez VoltRide.",oled:"Mode OLED",oledSub:"Fond noir profond.",tariff:"Tarif électrique",tariffSub:"Utilisé pour le coût de recharge.",language:"Langue",share:"Partager VoltRide",shareSub:"Envoyez l'application à un ami.",shareBtn:"Partager",reset:"Réinitialiser",resetSub:"Effacer les réglages de cet appareil.",resetBtn:"Réinitialiser",about:"À propos",aboutText:"VoltRide fournit des estimations pour l'autonomie, l'énergie, la recharge et le coût. Il ne remplace pas le manuel du fabricant ni un professionnel.",
     myScooter:"🛴 Mon scooter",myScooterSub:"Enregistrez les specs de votre scooter une seule fois.",savedProfile:"Enregistré",scooterName:"Nom du scooter",profileVoltage:"Tension",profileCapacity:"Capacité Ah",profileMotor:"Moteur W",profileCharger:"Chargeur A",saveScooter:"💾 Enregistrer",loadScooter:"⚡ Utiliser enregistré",noSavedScooter:"Aucun scooter enregistré.",savedAt:"Dernière sauvegarde",compare:"Comparer",compareTitle:"⚖️ Comparaison",navCalc:"Calcul",navCatalog:"Catalogue",navSafety:"Sécurité",navErrors:"Erreurs",navSettings:"Réglages",historyTitle:"📒 Historique des charges",historySub:"Enregistrez la charge actuelle pour suivre vos dépenses.",chargesCount:"Nombre de charges",totalCost:"Coût total",avgCost:"Coût moyen",saveCharge:"➕ Enregistrer cette charge",clearHistory:"Effacer l'historique",historyEmpty:"Aucune charge enregistrée.",historySaved:"Charge enregistrée",historyCleared:"Historique effacé",chargeEntry:"charge",
     installText:"Installez VoltRide sur votre écran d'accueil pour un accès rapide et hors ligne.",installBtn:"Installer",
     savedScooterToast:"Scooter enregistré",loadedScooterToast:"Specs chargées",needSaveFirst:"Enregistrez d'abord votre scooter",
@@ -678,7 +711,7 @@ const I18N = {
     catalogTitle:"🛴 Scooter catalog",catalogSub:"Compare specs and send them to the calculator.",search:"Search scooter...",sortRange:"Range",sortSpeed:"Speed",sortPrice:"Price",all:"All",budget:"Budget",commuter:"Commuter",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Safety center",safetySub:"Simple rules to reduce risk and protect your scooter.",batteryCare:"Battery care",safe1:"Use the correct charger",safe1p:"Use only a charger that matches the manufacturer's specifications.",safe2:"Charge in a suitable place",safe2p:"Avoid flammable surfaces and excessive heat.",safe3:"Stop for abnormal signs",safe3p:"Swelling, smoke, unusual odor or extreme heat: stop and seek qualified inspection.",tires:"Tires & brakes",tireTitle:"Correct pressure",tireP:"Follow the manufacturer's recommended tire pressure.",brakeTitle:"Brakes",brakeP:"If braking is weak, noisy or rubbing, stop riding and get it inspected.",rideSafe:"Before riding",helmet:"Helmet & lights",helmetP:"Wear a suitable helmet, stay visible and follow local rules.",water:"Water",waterP:"Water resistance does not mean submersible. Avoid deep water.",
     errorsTitle:"🔧 Troubleshooting",errorsSub:"General information before seeking help.",errorNote:"Codes vary by brand and model. Do not disassemble the battery or controller unless qualified.",
-    settingsTitle:"⚙️ Settings",settingsSub:"Customize VoltRide.",oled:"OLED mode",oledSub:"Deep black background.",tariff:"Electricity tariff",tariffSub:"Used to estimate charging cost.",language:"Language",share:"Share VoltRide",shareSub:"Send the app to a friend.",shareBtn:"Share",reset:"Reset",resetSub:"Clear VoltRide settings on this device.",resetBtn:"Reset",about:"About VoltRide",aboutText:"VoltRide provides estimates for range, energy, charging and cost. It does not replace the manufacturer's manual or qualified inspection.",
+    seoLinksTitle:"📚 Guides and model range",seoLinksSub:"VoltRide's theoretical range estimate per model, plus troubleshooting guides.",seoGuides:"Troubleshooting guides",seoModels:"Model range (VoltRide estimate)",guideNotCharging:"Why won't my scooter charge?",guideRange:"Why is my range dropping?",guideErrors:"Error codes and sudden cut-outs",settingsTitle:"⚙️ Settings",settingsSub:"Customize VoltRide.",oled:"OLED mode",oledSub:"Deep black background.",tariff:"Electricity tariff",tariffSub:"Used to estimate charging cost.",language:"Language",share:"Share VoltRide",shareSub:"Send the app to a friend.",shareBtn:"Share",reset:"Reset",resetSub:"Clear VoltRide settings on this device.",resetBtn:"Reset",about:"About VoltRide",aboutText:"VoltRide provides estimates for range, energy, charging and cost. It does not replace the manufacturer's manual or qualified inspection.",
     myScooter:"🛴 My scooter",myScooterSub:"Save your scooter specs once and reuse them quickly.",savedProfile:"Saved",scooterName:"Scooter name",profileVoltage:"Voltage",profileCapacity:"Capacity Ah",profileMotor:"Motor W",profileCharger:"Charger A",saveScooter:"💾 Save scooter",loadScooter:"⚡ Use saved",noSavedScooter:"No scooter saved yet.",savedAt:"Last saved",compare:"Compare",compareTitle:"⚖️ Scooter comparison",navCalc:"Calculator",navCatalog:"Catalog",navSafety:"Safety",navErrors:"Errors",navSettings:"Settings",historyTitle:"📒 Charging & cost history",historySub:"Save the current charge to track your spending over time.",chargesCount:"Charges",totalCost:"Total cost",avgCost:"Average charge",saveCharge:"➕ Log this charge",clearHistory:"Clear history",historyEmpty:"No charges logged yet.",historySaved:"Charge logged",historyCleared:"History cleared",chargeEntry:"charge",
     installText:"Install VoltRide on your home screen for quick offline access.",installBtn:"Install",
     savedScooterToast:"Scooter saved",loadedScooterToast:"Saved specs loaded",needSaveFirst:"Save your scooter first",
@@ -824,9 +857,7 @@ function setLanguage(next){
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => el.placeholder = t(el.dataset.i18nPlaceholder));
-  document.getElementById("langLabel").textContent = lang.toUpperCase();
   document.getElementById("languageSelect").value = lang;
-  document.querySelectorAll("#langMenu button").forEach(b => b.querySelector("span").textContent = b.dataset.lang === lang ? "✓" : "");
   renderCatalog();
   renderErrors();
   renderMyScooter();
@@ -1350,28 +1381,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("resetBtn").onclick = () => {
     if (confirm(t("resetConfirm"))) resetAppSettings();
   };
-  document.getElementById("langBtn").onclick = e => {
-    e.stopPropagation();
-    const m = document.getElementById("langMenu");
-    const show = !m.classList.contains("show");
-    m.classList.toggle("show", show);
-    e.currentTarget.setAttribute("aria-expanded", String(show));
-  };
-  document.querySelectorAll("#langMenu button").forEach(b => b.onclick = () => {
-    setLanguage(b.dataset.lang);
-    document.getElementById("langMenu").classList.remove("show");
-  });
-  document.addEventListener("click", e => {
-    if (!e.target.closest("#langWrap")) {
-      document.getElementById("langMenu").classList.remove("show");
-      document.getElementById("langBtn").setAttribute("aria-expanded", "false");
-    }
-  });
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
-      document.getElementById("langMenu").classList.remove("show");
-      document.getElementById("compareModal").classList.remove("show");
-    }
+    if (e.key === "Escape") document.getElementById("compareModal").classList.remove("show");
   });
   document.getElementById("tariff").value = tariff.toFixed(2);
   selectChips("#terrainChips", terrain);
