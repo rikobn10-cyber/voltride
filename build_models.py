@@ -30,13 +30,14 @@ GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error
 # (path, priority, lastmod)
 SPRINT = "2026-10-26"
 SW_VERSION = "voltride-v8"
-IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
+IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "fr/article-9.html": "electric-scooter-winter-range-voltride.jpg", "en/article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
 # (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
 STATIC_URLS = [("", "1.0", SPRINT), ("blog.html", "0.9", SPRINT), ("about.html", "0.5", DATE), ("contact.html", "0.5", DATE),
                ("privacy.html", "0.5", SPRINT)] + \
               [(g, "0.8", SPRINT) for g in GUIDES] + \
               [(f"article-{i}.html", "0.8", DATE) for i in range(1, 9)] + \
-              [(f"article-{i}.html", "0.8", SPRINT) for i in (9, 10)]
+              [(f"article-{i}.html", "0.8", SPRINT) for i in (9, 10)] + \
+              [("fr/article-9.html", "0.7", SPRINT), ("en/article-9.html", "0.7", SPRINT)]
 
 
 def esc(s):
