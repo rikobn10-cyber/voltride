@@ -292,22 +292,6 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
     <p data-i18n="installText">ثبّت VoltRide على شاشتك الرئيسية للوصول السريع ودون إنترنت.</p>
     <button class="primary" id="installBtn" data-i18n="installBtn">تثبيت</button>
   </div>
-  <!-- Download APK Direct -->
-<div class="card" style="margin-top:12px;background:linear-gradient(135deg,rgba(0,242,254,.12),rgba(52,211,153,.12));border:1px solid rgba(0,242,254,.35);">
-  <div style="display:flex;align-items:center;gap:12px;">
-    <div style="flex-shrink:0;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--green));display:grid;place-items:center;font-size:26px;">⬇️</div>
-    <div style="flex:1;min-width:0;">
-      <strong style="display:block;font-size:15px;margin-bottom:4px;" data-i18n="downloadTitle">حمّل تطبيق VoltRide</strong>
-      <span style="font-size:12px;color:var(--muted);" data-i18n="downloadSub">ملف APK مباشر • 1.2 MB • بدون متجر</span>
-    </div>
-  </div>
-  <a href="https://voltride-4qj.pages.dev/VoltRide-signed.apk"
-   class="primary download-btn"
-   style="display:block;text-align:center;text-decoration:none;margin-top:12px"
-   onclick="try{window.gtag&&gtag('event','download_apk',{'event_category':'engagement','event_label':'VoltRide Download'});}catch(e){}">
-   <span data-i18n="downloadBtn">تحميل التطبيق</span>
-  </a>
-</div>
 
   <div class="quick-strip">
     <div class="quick-item"><b>⚡ Smart</b><small data-i18n="quickSmart">تحليل فوري</small></div>
@@ -1028,7 +1012,7 @@ function renderChargeHistory(){
   if (!count) { listEl.innerHTML = '<div class="history-empty">' + escapeHTML(t("historyEmpty")) + '</div>'; return; }
   listEl.innerHTML = chargeHistory.slice().reverse().slice(0, 8).map(x =>
     '<div class="history-item"><div><strong>⚡ ' + escapeHTML(x.date) + '</strong><small>' +
-    escapeHTML(t("chargeEntry")) + ' • ' + x.range + ' km' +
+    escapeHTML(t("chargeEntry")) + ' • ' + escapeHTML(x.range) + ' km' +
     (x.name ? ' • ' + escapeHTML(x.name) : '') +
     '</small></div><b>' + Number(x.cost).toFixed(2) + ' MAD</b></div>'
   ).join("");
