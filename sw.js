@@ -1,13 +1,14 @@
 /* VoltRide Service Worker v3.1.0 */
-const VERSION = "voltride-056e2351";
+const VERSION = "voltride-v8";
 const PRECACHE = [
   "./", "index.html", "offline.html", "manifest.json",
   "site.css", "site.js", "icon-192.png", "icon-512.png",
   "icon-maskable-192.png", "icon-maskable-512.png", "blog.html", "about.html",
   "privacy.html", "contact.html", "article-1.html", "article-2.html",
   "article-3.html", "article-4.html", "article-5.html", "article-6.html",
-  "article-7.html", "article-8.html", "guides/not-charging.html", "guides/battery-range.html",
-  "guides/error-codes.html", "xiaomi-pro-2.html", "xiaomi-4-pro.html", "xiaomi-essential.html",
+  "article-7.html", "article-8.html", "article-9.html", "article-10.html",
+  "guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html", "electric-scooter-winter-range-voltride.jpg",
+  "scooter-accessories.jpg", "xiaomi-pro-2.html", "xiaomi-4-pro.html", "xiaomi-essential.html",
   "xiaomi-3-lite.html", "segway-max-g30.html", "segway-max-g2.html", "segway-e2-plus.html",
   "navee-n40.html", "navee-g5.html", "niu-kqi3-max.html", "kukirin-g2-pro.html",
   "kukirin-g2-max.html", "kukirin-g3-pro.html", "kukirin-g4.html", "ecoxtrem-bison-gt.html",

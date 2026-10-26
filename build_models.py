@@ -28,10 +28,15 @@ BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu
           "gotrax": "Gotrax", "inokim": "Inokim", "nami": "Nami", "teverun": "Teverun"}
 GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
 # (path, priority, lastmod)
-STATIC_URLS = [("", "1.0", MOD), ("blog.html", "0.9", MOD), ("about.html", "0.5", DATE), ("contact.html", "0.5", DATE),
-               ("privacy.html", "0.5", DATE)] + \
-              [(g, "0.8", MOD) for g in GUIDES] + \
-              [(f"article-{i}.html", "0.8", DATE) for i in range(1, 9)]
+SPRINT = "2026-10-26"
+SW_VERSION = "voltride-v8"
+IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
+# (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
+STATIC_URLS = [("", "1.0", SPRINT), ("blog.html", "0.9", SPRINT), ("about.html", "0.5", DATE), ("contact.html", "0.5", DATE),
+               ("privacy.html", "0.5", SPRINT)] + \
+              [(g, "0.8", SPRINT) for g in GUIDES] + \
+              [(f"article-{i}.html", "0.8", DATE) for i in range(1, 9)] + \
+              [(f"article-{i}.html", "0.8", SPRINT) for i in (9, 10)]
 
 
 def esc(s):
@@ -355,8 +360,10 @@ def main():
 
     # sitemap
     urls = STATIC_URLS + [(f"{m['id']}.html", "0.7", MOD) for m in MODELS]
-    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    sm += [f"  <url><loc>{BASE}/{p}</loc><lastmod>{lm}</lastmod><priority>{pr}</priority></url>" for p, pr, lm in urls]
+    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
+    sm += [f"  <url><loc>{BASE}/{p}</loc><lastmod>{lm}</lastmod><priority>{pr}</priority>"
+           + (f"<image:image><image:loc>{BASE}/{IMAGES[p]}</image:loc></image:image>" if p in IMAGES else "")
+           + "</url>" for p, pr, lm in urls]
     assert len({u[0] for u in urls}) == len(urls), "duplicate sitemap URL"
     sm.append("</urlset>\n")
     write("sitemap.xml", "\n".join(sm))
@@ -405,15 +412,14 @@ def main():
     # service worker precache + automatic cache version
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
                   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
-                  "blog.html", "about.html", "privacy.html", "contact.html"] + [f"article-{i}.html" for i in range(1, 9)] + GUIDES
+                  "blog.html", "about.html", "privacy.html", "contact.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + list(IMAGES.values())
     files = base_files + [f"{m['id']}.html" for m in MODELS]
     sw = read("sw.js")
     lst = "const PRECACHE = [\n  " + ",\n  ".join(", ".join(f'"{f}"' for f in files[i:i + 4]) for i in range(0, len(files), 4)) + "\n];"
     sw = re.sub(r"const PRECACHE = \[.*?\];", lambda _: lst, sw, flags=re.S)
-    ver = hashlib.sha1((json.dumps(files) + read("models.json")).encode("utf-8")).hexdigest()[:8]
-    sw = re.sub(r'const VERSION = "[^"]*";', f'const VERSION = "voltride-{ver}";', sw)
+    sw = re.sub(r'const VERSION = "[^"]*";', f'const VERSION = "{SW_VERSION}";', sw)
     write("sw.js", sw)
-    print("sw cache version: voltride-" + ver)
+    print("sw cache version:", SW_VERSION)
 
 
 if __name__ == "__main__":
