@@ -296,7 +296,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
   <div class="quick-strip">
     <div class="quick-item"><b>⚡ Smart</b><small data-i18n="quickSmart">تحليل فوري</small></div>
     <div class="quick-item"><b>🔋 Battery</b><small data-i18n="quickBattery">طاقة وشحن</small></div>
-    <div class="quick-item"><b>💰 MAD</b><small data-i18n="quickCost">تكلفة واضحة</small></div>
+    <div class="quick-item"><b id="quickCur">💰 MAD</b><small data-i18n="quickCost">تكلفة واضحة</small></div>
   </div>
   <div class="smart-panel">
     <div class="smart-main">
@@ -435,7 +435,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       <div class="metric"><small data-i18n="energy">طاقة البطارية</small><strong id="energyOut">—</strong><em>Wh</em></div>
       <div class="metric"><small data-i18n="consumption">الاستهلاك</small><strong id="consumptionOut">—</strong><em>Wh/km</em></div>
       <div class="metric"><small data-i18n="chargeTime">وقت الشحن</small><strong id="chargeOut">—</strong><em>h</em></div>
-      <div class="metric"><small data-i18n="cost">تكلفة الشحنة</small><strong id="costOut">—</strong><em>MAD</em></div>
+      <div class="metric"><small data-i18n="cost">تكلفة الشحنة</small><strong id="costOut">—</strong><em id="costCur"></em></div>
       <div class="metric"><small data-i18n="reserve">احتياطي 10%</small><strong id="reserveOut">—</strong><em>km</em></div>
     </div>
     <div class="advice" id="advice" style="margin-top:12px">⚡ أدخل بياناتك ثم اضغط «احسب الآن».</div>
@@ -572,7 +572,15 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       <button id="oledSwitch" class="switch" aria-label="OLED"><i></i></button>
     </div>
     <div class="setting-row">
-      <div><strong data-i18n="tariff">تعرفة الكهرباء</strong><div class="small" data-i18n="tariffSub">تستخدم لحساب تكلفة الشحنة.</div></div>
+      <div><strong data-i18n="currency">العملة</strong><div class="small" data-i18n="currencySub">تعرفة كهرباء منفصلة لكل عملة. الصرف تقريبي وثابت: 1 MAD ≈ 0.10 USD ≈ 0.093 EUR (أكتوبر 2026).</div></div>
+      <select id="currencySelect" style="width:140px" aria-label="Currency">
+        <option value="MAD">MAD (DH)</option>
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+      </select>
+    </div>
+    <div class="setting-row">
+      <div><strong data-i18n="tariff">تعرفة الكهرباء</strong><div class="small"><span data-i18n="tariffSub">تستخدم لحساب تكلفة الشحنة.</span> <b id="tariffUnit">MAD / kWh</b></div></div>
       <div style="width:125px"><input id="tariff" type="number" min="0" step=".01" value="1.20"></div>
     </div>
     <div class="setting-row">
@@ -616,7 +624,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 <nav class="bottom-nav" aria-label="Main">
   <button class="nav-btn active" data-screen="calculator"><span>⚡</span><span data-i18n="navCalc">الحاسبة</span></button>
   <button class="nav-btn" data-screen="catalog"><span>🛴</span><span data-i18n="navCatalog">الكتالوج</span></button>
-  <a href="blog.html" class="nav-btn" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span>📚</span><span data-i18n="navBlog">المدونة</span></a>
+  <a href="blog.html" data-l10n-href="blog.html" class="nav-btn" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span>📚</span><span data-i18n="navBlog">المدونة</span></a>
   <button class="nav-btn" data-screen="safety"><span>🛡️</span><span data-i18n="navSafety">السلامة</span></button>
   <button class="nav-btn" data-screen="errors"><span>🔧</span><span data-i18n="navErrors">الأعطال</span></button>
 </nav>
@@ -651,7 +659,7 @@ const I18N = {
     catalogTitle:"🛴 كتالوج السكوترات",catalogSub:"قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.",search:"ابحث عن سكوتر...",sortRange:"المدى",sortSpeed:"السرعة",sortPrice:"السعر",all:"الكل",budget:"اقتصادي",commuter:"تنقل",sportCat:"رياضي",performance:"أداء",
     safetyTitle:"🛡️ مركز السلامة",safetySub:"قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.",batteryCare:"العناية بالبطارية",safe1:"استخدم الشاحن الصحيح",safe1p:"لا تستخدم شاحناً بجهد أو موصل غير مطابق لمواصفات الشركة.",safe2:"الشحن في مكان مناسب",safe2p:"لا تشحن على سطح قابل للاشتعال أو في حرارة شديدة، وتجنب تغطية البطارية أثناء الشحن.",safe3:"توقف عند العلامات غير الطبيعية",safe3p:"إذا ظهرت انتفاخات أو دخان أو رائحة غير معتادة أو حرارة شديدة، أوقف الاستخدام والشحن واطلب فحصاً مختصاً.",tires:"الإطارات والفرامل",tireTitle:"ضغط مناسب",tireP:"اتبع ضغط الإطارات الموصى به من الشركة وافحصه دورياً.",brakeTitle:"فحص الفرامل",brakeP:"إذا كانت الفرامل ضعيفة أو تصدر صوتاً غير طبيعي أو تحتك، أوقف القيادة واطلب فحصاً مؤهلاً.",rideSafe:"قبل القيادة",helmet:"خوذة وإضاءة",helmetP:"استخدم خوذة مناسبة وإضاءة واضحة واحترم القوانين المحلية.",water:"الماء",waterP:"مقاومة الماء لا تعني أن السكوتر قابل للغمر. تجنب البرك والماء العميق.",
     errorsTitle:"🔧 تشخيص الأعطال",errorsSub:"معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.",errorNote:"الأكواد تختلف حسب الشركة والموديل. لا تفك البطارية أو لوحة التحكم إذا لم تكن مؤهلاً.",
-    seoToggle:"📚 عرض جميع الموديلات والأدلة",seoLinksTitle:"📚 أدلة ومدى الموديلات",seoLinksSub:"تقديرات VoltRide النظرية لمدى كل موديل، وأدلة لحل الأعطال الشائعة.",seoGuides:"أدلة الأعطال",seoModels:"مدى الموديلات (تقدير VoltRide)",guideNotCharging:"لماذا لا يشحن السكوتر؟",guideRange:"لماذا ينقص مدى البطارية؟",guideErrors:"أكواد الأعطال والانقطاع",settingsTitle:"⚙️ الإعدادات",settingsSub:"خصص VoltRide كما تريد.",oled:"وضع OLED",oledSub:"خلفية سوداء أكثر عمقاً.",tariff:"تعرفة الكهرباء",tariffSub:"تستخدم لحساب تكلفة الشحنة.",language:"اللغة",share:"مشاركة VoltRide",shareSub:"أرسل التطبيق لصديق.",shareBtn:"مشاركة",reset:"إعادة ضبط",resetSub:"مسح إعدادات VoltRide من هذا الجهاز.",resetBtn:"إعادة ضبط",about:"حول VoltRide",aboutText:"VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.",
+    seoToggle:"📚 عرض جميع الموديلات والأدلة",seoLinksTitle:"📚 أدلة ومدى الموديلات",seoLinksSub:"تقديرات VoltRide النظرية لمدى كل موديل، وأدلة لحل الأعطال الشائعة.",seoGuides:"أدلة الأعطال",seoModels:"مدى الموديلات (تقدير VoltRide)",guideNotCharging:"لماذا لا يشحن السكوتر؟",guideRange:"لماذا ينقص مدى البطارية؟",guideErrors:"أكواد الأعطال والانقطاع",currency:"العملة",currencySub:"تعرفة كهرباء منفصلة لكل عملة. الصرف تقريبي وثابت: 1 MAD ≈ 0.10 USD ≈ 0.093 EUR (أكتوبر 2026).",settingsTitle:"⚙️ الإعدادات",settingsSub:"خصص VoltRide كما تريد.",oled:"وضع OLED",oledSub:"خلفية سوداء أكثر عمقاً.",tariff:"تعرفة الكهرباء",tariffSub:"تستخدم لحساب تكلفة الشحنة.",language:"اللغة",share:"مشاركة VoltRide",shareSub:"أرسل التطبيق لصديق.",shareBtn:"مشاركة",reset:"إعادة ضبط",resetSub:"مسح إعدادات VoltRide من هذا الجهاز.",resetBtn:"إعادة ضبط",about:"حول VoltRide",aboutText:"VoltRide أداة تقديرية لمستخدمي السكوترات الكهربائية لحساب المدى والطاقة والشحن والتكلفة ومراجعة أساسيات السلامة. لا تستبدل دليل الشركة أو فحص الفني المختص.",
     myScooter:"🛴 سكوترِي",myScooterSub:"احفظ مواصفات سكوترك مرة واحدة واستعملها بسرعة.",savedProfile:"محفوظ",scooterName:"اسم السكوتر",profileVoltage:"الفولت",profileCapacity:"السعة Ah",profileMotor:"المحرك W",profileCharger:"الشاحن A",saveScooter:"💾 حفظ السكوتر",loadScooter:"⚡ استخدام المحفوظ",noSavedScooter:"لم تحفظ سكوترًا بعد.",savedAt:"آخر حفظ",compare:"مقارنة",compareTitle:"⚖️ مقارنة السكوترات",navCalc:"الحاسبة",navCatalog:"الكتالوج",navSafety:"السلامة",navErrors:"الأعطال",navSettings:"الإعدادات",historyTitle:"📒 سجل الشحن والتكلفة",historySub:"سجّل نتيجة الشحنة الحالية لمتابعة مصروفك مع الوقت.",chargesCount:"عدد الشحنات",totalCost:"إجمالي التكلفة",avgCost:"متوسط الشحنة",saveCharge:"➕ تسجيل هذه الشحنة",clearHistory:"مسح السجل",historyEmpty:"لا توجد شحنات مسجلة بعد.",historySaved:"تم تسجيل الشحنة",historyCleared:"تم مسح السجل",chargeEntry:"شحنة",
     installText:"ثبّت VoltRide على شاشتك الرئيسية للوصول السريع ودون إنترنت.",installBtn:"تثبيت",
     savedScooterToast:"تم حفظ سكوترك",loadedScooterToast:"تم استخدام مواصفات سكوترك",needSaveFirst:"احفظ سكوترك أولاً",
@@ -679,7 +687,7 @@ const I18N = {
     catalogTitle:"🛴 Catalogue scooters",catalogSub:"Comparez les specs puis envoyez-les au calculateur.",search:"Rechercher un scooter...",sortRange:"Autonomie",sortSpeed:"Vitesse",sortPrice:"Prix",all:"Tous",budget:"Éco",commuter:"Ville",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Sécurité",safetySub:"Des règles simples pour réduire les risques.",batteryCare:"Batterie",safe1:"Utilisez le bon chargeur",safe1p:"Utilisez uniquement un chargeur conforme aux spécifications du fabricant.",safe2:"Rechargez dans un endroit adapté",safe2p:"Évitez les surfaces inflammables et la chaleur excessive.",safe3:"Arrêtez en cas d'anomalie",safe3p:"Gonflement, fumée, odeur inhabituelle ou chaleur extrême : arrêtez et faites contrôler.",tires:"Pneus et freins",tireTitle:"Bonne pression",tireP:"Respectez la pression recommandée par le fabricant.",brakeTitle:"Freins",brakeP:"Si les freins sont faibles, bruyants ou frottent, arrêtez et faites contrôler.",rideSafe:"Avant de rouler",helmet:"Casque et éclairage",helmetP:"Portez un casque adapté, soyez visible et respectez les règles locales.",water:"Eau",waterP:"La résistance à l'eau ne signifie pas immersion. Évitez l'eau profonde.",
     errorsTitle:"🔧 Diagnostic",errorsSub:"Informations générales avant de demander de l'aide.",errorNote:"Les codes varient selon la marque et le modèle. Ne démontez pas la batterie ou le contrôleur sans qualification.",
-    seoToggle:"📚 Voir tous les modèles et guides",seoLinksTitle:"📚 Guides et autonomie des modèles",seoLinksSub:"Estimations théoriques VoltRide de l'autonomie par modèle, et guides de dépannage.",seoGuides:"Guides de dépannage",seoModels:"Autonomie des modèles (estimation VoltRide)",guideNotCharging:"Pourquoi la trottinette ne charge pas ?",guideRange:"Pourquoi l'autonomie baisse ?",guideErrors:"Codes d'erreur et coupures",settingsTitle:"⚙️ Réglages",settingsSub:"Personnalisez VoltRide.",oled:"Mode OLED",oledSub:"Fond noir profond.",tariff:"Tarif électrique",tariffSub:"Utilisé pour le coût de recharge.",language:"Langue",share:"Partager VoltRide",shareSub:"Envoyez l'application à un ami.",shareBtn:"Partager",reset:"Réinitialiser",resetSub:"Effacer les réglages de cet appareil.",resetBtn:"Réinitialiser",about:"À propos",aboutText:"VoltRide fournit des estimations pour l'autonomie, l'énergie, la recharge et le coût. Il ne remplace pas le manuel du fabricant ni un professionnel.",
+    seoToggle:"📚 Voir tous les modèles et guides",seoLinksTitle:"📚 Guides et autonomie des modèles",seoLinksSub:"Estimations théoriques VoltRide de l'autonomie par modèle, et guides de dépannage.",seoGuides:"Guides de dépannage",seoModels:"Autonomie des modèles (estimation VoltRide)",guideNotCharging:"Pourquoi la trottinette ne charge pas ?",guideRange:"Pourquoi l'autonomie baisse ?",guideErrors:"Codes d'erreur et coupures",currency:"Devise",currencySub:"Un tarif d'électricité distinct par devise. Taux fixes approximatifs : 1 MAD ≈ 0,10 USD ≈ 0,093 EUR (oct. 2026).",settingsTitle:"⚙️ Réglages",settingsSub:"Personnalisez VoltRide.",oled:"Mode OLED",oledSub:"Fond noir profond.",tariff:"Tarif électrique",tariffSub:"Utilisé pour le coût de recharge.",language:"Langue",share:"Partager VoltRide",shareSub:"Envoyez l'application à un ami.",shareBtn:"Partager",reset:"Réinitialiser",resetSub:"Effacer les réglages de cet appareil.",resetBtn:"Réinitialiser",about:"À propos",aboutText:"VoltRide fournit des estimations pour l'autonomie, l'énergie, la recharge et le coût. Il ne remplace pas le manuel du fabricant ni un professionnel.",
     myScooter:"🛴 Mon scooter",myScooterSub:"Enregistrez les specs de votre scooter une seule fois.",savedProfile:"Enregistré",scooterName:"Nom du scooter",profileVoltage:"Tension",profileCapacity:"Capacité Ah",profileMotor:"Moteur W",profileCharger:"Chargeur A",saveScooter:"💾 Enregistrer",loadScooter:"⚡ Utiliser enregistré",noSavedScooter:"Aucun scooter enregistré.",savedAt:"Dernière sauvegarde",compare:"Comparer",compareTitle:"⚖️ Comparaison",navCalc:"Calcul",navCatalog:"Catalogue",navSafety:"Sécurité",navErrors:"Erreurs",navSettings:"Réglages",historyTitle:"📒 Historique des charges",historySub:"Enregistrez la charge actuelle pour suivre vos dépenses.",chargesCount:"Nombre de charges",totalCost:"Coût total",avgCost:"Coût moyen",saveCharge:"➕ Enregistrer cette charge",clearHistory:"Effacer l'historique",historyEmpty:"Aucune charge enregistrée.",historySaved:"Charge enregistrée",historyCleared:"Historique effacé",chargeEntry:"charge",
     installText:"Installez VoltRide sur votre écran d'accueil pour un accès rapide et hors ligne.",installBtn:"Installer",
     savedScooterToast:"Scooter enregistré",loadedScooterToast:"Specs chargées",needSaveFirst:"Enregistrez d'abord votre scooter",
@@ -707,7 +715,7 @@ const I18N = {
     catalogTitle:"🛴 Scooter catalog",catalogSub:"Compare specs and send them to the calculator.",search:"Search scooter...",sortRange:"Range",sortSpeed:"Speed",sortPrice:"Price",all:"All",budget:"Budget",commuter:"Commuter",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Safety center",safetySub:"Simple rules to reduce risk and protect your scooter.",batteryCare:"Battery care",safe1:"Use the correct charger",safe1p:"Use only a charger that matches the manufacturer's specifications.",safe2:"Charge in a suitable place",safe2p:"Avoid flammable surfaces and excessive heat.",safe3:"Stop for abnormal signs",safe3p:"Swelling, smoke, unusual odor or extreme heat: stop and seek qualified inspection.",tires:"Tires & brakes",tireTitle:"Correct pressure",tireP:"Follow the manufacturer's recommended tire pressure.",brakeTitle:"Brakes",brakeP:"If braking is weak, noisy or rubbing, stop riding and get it inspected.",rideSafe:"Before riding",helmet:"Helmet & lights",helmetP:"Wear a suitable helmet, stay visible and follow local rules.",water:"Water",waterP:"Water resistance does not mean submersible. Avoid deep water.",
     errorsTitle:"🔧 Troubleshooting",errorsSub:"General information before seeking help.",errorNote:"Codes vary by brand and model. Do not disassemble the battery or controller unless qualified.",
-    seoToggle:"📚 Show all models and guides",seoLinksTitle:"📚 Guides and model range",seoLinksSub:"VoltRide's theoretical range estimate per model, plus troubleshooting guides.",seoGuides:"Troubleshooting guides",seoModels:"Model range (VoltRide estimate)",guideNotCharging:"Why won't my scooter charge?",guideRange:"Why is my range dropping?",guideErrors:"Error codes and sudden cut-outs",settingsTitle:"⚙️ Settings",settingsSub:"Customize VoltRide.",oled:"OLED mode",oledSub:"Deep black background.",tariff:"Electricity tariff",tariffSub:"Used to estimate charging cost.",language:"Language",share:"Share VoltRide",shareSub:"Send the app to a friend.",shareBtn:"Share",reset:"Reset",resetSub:"Clear VoltRide settings on this device.",resetBtn:"Reset",about:"About VoltRide",aboutText:"VoltRide provides estimates for range, energy, charging and cost. It does not replace the manufacturer's manual or qualified inspection.",
+    seoToggle:"📚 Show all models and guides",seoLinksTitle:"📚 Guides and model range",seoLinksSub:"VoltRide's theoretical range estimate per model, plus troubleshooting guides.",seoGuides:"Troubleshooting guides",seoModels:"Model range (VoltRide estimate)",guideNotCharging:"Why won't my scooter charge?",guideRange:"Why is my range dropping?",guideErrors:"Error codes and sudden cut-outs",currency:"Currency",currencySub:"A separate electricity tariff per currency. Approximate fixed rates: 1 MAD ≈ 0.10 USD ≈ 0.093 EUR (Oct 2026).",settingsTitle:"⚙️ Settings",settingsSub:"Customize VoltRide.",oled:"OLED mode",oledSub:"Deep black background.",tariff:"Electricity tariff",tariffSub:"Used to estimate charging cost.",language:"Language",share:"Share VoltRide",shareSub:"Send the app to a friend.",shareBtn:"Share",reset:"Reset",resetSub:"Clear VoltRide settings on this device.",resetBtn:"Reset",about:"About VoltRide",aboutText:"VoltRide provides estimates for range, energy, charging and cost. It does not replace the manufacturer's manual or qualified inspection.",
     myScooter:"🛴 My scooter",myScooterSub:"Save your scooter specs once and reuse them quickly.",savedProfile:"Saved",scooterName:"Scooter name",profileVoltage:"Voltage",profileCapacity:"Capacity Ah",profileMotor:"Motor W",profileCharger:"Charger A",saveScooter:"💾 Save scooter",loadScooter:"⚡ Use saved",noSavedScooter:"No scooter saved yet.",savedAt:"Last saved",compare:"Compare",compareTitle:"⚖️ Scooter comparison",navCalc:"Calculator",navCatalog:"Catalog",navSafety:"Safety",navErrors:"Errors",navSettings:"Settings",historyTitle:"📒 Charging & cost history",historySub:"Save the current charge to track your spending over time.",chargesCount:"Charges",totalCost:"Total cost",avgCost:"Average charge",saveCharge:"➕ Log this charge",clearHistory:"Clear history",historyEmpty:"No charges logged yet.",historySaved:"Charge logged",historyCleared:"History cleared",chargeEntry:"charge",
     installText:"Install VoltRide on your home screen for quick offline access.",installBtn:"Install",
     savedScooterToast:"Scooter saved",loadedScooterToast:"Saved specs loaded",needSaveFirst:"Save your scooter first",
@@ -784,7 +792,29 @@ let mode = Store.get("voltride_mode", "eco");
 let category = "all";
 let favorites = Store.get("voltride_favorites", []);
 let compare = Store.get("voltride_compare", []);
-let tariff = Number(Store.get("voltride_tariff", 1.2)) || 1.2;
+// ---- Currency: display currency + a separate electricity tariff per currency ----
+const RATES = {MAD:1, USD:0.10, EUR:0.093};            // approximate FIXED rates: 1 MAD = x (set Oct 2026, keep in sync with the i18n note)
+const CURRENCIES = ["MAD", "USD", "EUR"];
+const DEFAULT_TARIFFS = {MAD:1.2, USD:0.15, EUR:0.22}; // per kWh, editable by the user
+const CUR_BY_LANG = {ar:"MAD", fr:"EUR", en:"USD"};    // used only until the user picks a currency manually
+let tariffs = Object.assign({}, DEFAULT_TARIFFS, Store.get("voltride_tariffs", {}) || {});
+(function migrateTariff(){
+  const old = Store.get("voltride_tariff", null);
+  if (old !== null && Store.get("voltride_tariffs", null) === null) { const n = Number(old); if (Number.isFinite(n) && n > 0) tariffs.MAD = n; }
+  CURRENCIES.forEach(c => { if (!Number.isFinite(Number(tariffs[c])) || Number(tariffs[c]) < 0) tariffs[c] = DEFAULT_TARIFFS[c]; });
+})();
+function getCurrency(){
+  const c = Store.get("voltride_currency", null);
+  return CURRENCIES.indexOf(c) >= 0 ? c : (CUR_BY_LANG[lang] || "MAD");
+}
+function curTariff(){ return Number(tariffs[getCurrency()]); }
+function fmtMoney(v, cur){
+  cur = cur || getCurrency();
+  const s = (Number(v) || 0).toFixed(2);
+  return cur === "USD" ? "$" + s : cur === "EUR" ? (lang === "fr" ? s + " €" : "€" + s) : s + " MAD";
+}
+function convertMoney(v, from, to){ return Number(v) / (RATES[from] || 1) * (RATES[to] || 1); }
+let lastCost = null;
 let myScooter = Store.get("voltride_my_scooter", null);
 let lastCalc = null;
 let rc = Object.assign({dist:8, bat:100, weather:"normal", charge:false}, Store.get("voltride_rc", {}) || {});
@@ -855,6 +885,32 @@ function escapeHTML(v){ return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt
 function toast(msg){ const el = document.getElementById("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(window.__toast); window.__toast = setTimeout(() => el.classList.remove("show"), 2000); }
 function fmtLocale(){ return lang === "ar" ? "ar-MA" : lang === "fr" ? "fr-FR" : "en-US"; }
 
+function syncCurrencyUI(){
+  const cur = getCurrency();
+  const sel = document.getElementById("currencySelect"); if (sel) sel.value = cur;
+  const ti = document.getElementById("tariff"); if (ti) ti.value = curTariff().toFixed(2);
+  const tu = document.getElementById("tariffUnit"); if (tu) tu.textContent = cur + " / kWh";
+  const qc = document.getElementById("quickCur"); if (qc) qc.textContent = "💰 " + cur;
+}
+function refreshMoney(){
+  syncCurrencyUI();
+  calculate();
+  renderChargeHistory();
+  renderCatalog();
+}
+// pages that exist in other languages (only translated pages are listed; anything else keeps its original link)
+const L10N_PAGES = {
+  "blog.html": {fr:"fr/blog.html", en:"en/blog.html"},
+  "article-9.html": {fr:"fr/article-9.html", en:"en/article-9.html"}
+};
+function localizeLinks(){
+  document.querySelectorAll("[data-l10n-href]").forEach(a => {
+    const base = a.getAttribute("data-l10n-href");
+    const m = L10N_PAGES[base];
+    a.setAttribute("href", (m && m[lang]) || base);
+  });
+}
+
 function setLanguage(next){
   if (!I18N[next]) return;
   lang = next;
@@ -864,6 +920,8 @@ function setLanguage(next){
   document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => el.placeholder = t(el.dataset.i18nPlaceholder));
   document.getElementById("languageSelect").value = lang;
+  localizeLinks();
+  syncCurrencyUI();
   renderCatalog();
   renderErrors();
   renderMyScooter();
@@ -899,13 +957,15 @@ function calculate(){
   // ونضيف 15% لمرحلة التشبع الأخيرة وفقد الطاقة.
   const chargeHours = (ah / charger) * 1.15;
   lastCalc = { range, consumption, batteryWh, usableWh };
-  const cost = (batteryWh / 1000) * tariff;
+  const cost = (batteryWh / 1000) * curTariff();
+  lastCost = cost;
 
   document.getElementById("rangeOut").textContent = range.toFixed(1);
   document.getElementById("energyOut").textContent = batteryWh.toFixed(0);
   document.getElementById("consumptionOut").textContent = consumption.toFixed(1);
   document.getElementById("chargeOut").textContent = chargeHours.toFixed(1);
-  document.getElementById("costOut").textContent = cost.toFixed(2);
+  document.getElementById("costOut").textContent = fmtMoney(cost);
+  document.getElementById("costCur").textContent = "";
   document.getElementById("reserveOut").textContent = reserve.toFixed(1);
 
   const advice = range < 15 ? t("adviceLow") : mode === "sport" ? t("adviceSport") : t("adviceOk");
@@ -916,7 +976,7 @@ function calculate(){
   const sub = document.getElementById("smartStatusSub");
   const sc = document.getElementById("smartCostOut");
   if (smart && sub && sc) {
-    sc.textContent = cost.toFixed(2) + " MAD";
+    sc.textContent = fmtMoney(cost);
     const status = range < 15
       ? (lang === "ar" ? "مدى منخفض" : lang === "fr" ? "Autonomie faible" : "Low range")
       : range < 30
@@ -1014,27 +1074,30 @@ function renderChargeHistory(){
   const avgEl = document.getElementById("historyAvg");
   const listEl = document.getElementById("historyList");
   if (!countEl || !totalEl || !avgEl || !listEl) return;
-  const total = chargeHistory.reduce((s, x) => s + Number(x.cost || 0), 0);
+  const disp = getCurrency();
+  const conv = x => convertMoney(x.cost || 0, x.cur || "MAD", disp);
+  const total = chargeHistory.reduce((s, x) => s + conv(x), 0);
   const count = chargeHistory.length;
   countEl.textContent = count;
-  totalEl.textContent = total.toFixed(2) + " MAD";
-  avgEl.textContent = (count ? (total / count) : 0).toFixed(2) + " MAD";
+  totalEl.textContent = fmtMoney(total, disp);
+  avgEl.textContent = fmtMoney(count ? (total / count) : 0, disp);
   if (!count) { listEl.innerHTML = '<div class="history-empty">' + escapeHTML(t("historyEmpty")) + '</div>'; return; }
   listEl.innerHTML = chargeHistory.slice().reverse().slice(0, 8).map(x =>
     '<div class="history-item"><div><strong>⚡ ' + escapeHTML(x.date) + '</strong><small>' +
     escapeHTML(t("chargeEntry")) + ' • ' + escapeHTML(x.range) + ' km' +
     (x.name ? ' • ' + escapeHTML(x.name) : '') +
-    '</small></div><b>' + Number(x.cost).toFixed(2) + ' MAD</b></div>'
+    '</small></div><b>' + ((x.cur || "MAD") !== disp ? "≈ " : "") + fmtMoney(conv(x), disp) + '</b></div>'
   ).join("");
 }
 
 function saveChargeLog(){
-  const cost = Number(document.getElementById("costOut").textContent);
+  const cost = lastCost;
   const range = Number(document.getElementById("rangeOut").textContent);
   if (!Number.isFinite(cost) || !Number.isFinite(range)) { toast(t("calculateFirst")); return; }
   chargeHistory.push({
     date: new Date().toLocaleString(fmtLocale(), {dateStyle:"short", timeStyle:"short"}),
     cost: Number(cost.toFixed(2)),
+    cur: getCurrency(),
     range: Number(range.toFixed(1)),
     name: myScooter ? myScooter.name : ""
   });
@@ -1125,7 +1188,7 @@ function renderCatalog(){
         '<div class="spec"><small>🔋 Battery</small><b>' + s.voltage + 'V • ' + s.ah + 'Ah</b></div>' +
         '<div class="spec"><small>⚙️ Motor</small><b>' + s.power + 'W</b></div>' +
       '</div>' +
-      '<div class="price">' + s.price.toLocaleString() + ' MAD <span class="small">• reference</span></div>' +
+      (getCurrency() === "MAD" ? '<div class="price">' + s.price.toLocaleString() + ' MAD <span class="small">• reference</span></div>' : '') +
       '<div class="card-actions" style="margin-top:10px">' +
         '<button class="secondary" data-use="' + s.id + '">⚡ ' + (lang === "ar" ? "استخدم" : lang === "fr" ? "Utiliser" : "Use") + '</button>' +
         '<button class="secondary" data-compare="' + s.id + '">' + (cmp ? "✓" : "⚖️") + ' ' + t("compare") + '</button>' +
@@ -1163,7 +1226,7 @@ function openCompare(){
     '<tr><td>Range</td>' + items.map(s => '<td>' + fmtRange(s) + '</td>').join("") + '</tr>' +
     '<tr><td>Motor</td>' + items.map(s => '<td>' + s.power + ' W</td>').join("") + '</tr>' +
     '<tr><td>Battery</td>' + items.map(s => '<td>' + s.voltage + 'V / ' + s.ah + 'Ah</td>').join("") + '</tr>' +
-    '<tr><td>Price</td>' + items.map(s => '<td>' + s.price.toLocaleString() + ' MAD</td>').join("") + '</tr></table>' +
+    (getCurrency() === "MAD" ? '<tr><td>Price</td>' + items.map(s => '<td>' + s.price.toLocaleString() + ' MAD</td>').join("") + '</tr>' : '') + '</table>' +
     '<button class="secondary" id="clearCompare" style="width:100%;margin-top:12px">' + (lang === "ar" ? "مسح المقارنة" : lang === "fr" ? "Vider" : "Clear comparison") + '</button>';
   document.getElementById("compareModal").classList.add("show");
   document.getElementById("clearCompare").onclick = () => {
@@ -1231,7 +1294,7 @@ async function shareApp(){
 }
 
 function resetAppSettings(){
-  const keys = ["voltride_language","voltride_terrain","voltride_mode","voltride_favorites","voltride_compare","voltride_tariff","voltride_oled","voltride_my_scooter","voltride_charge_history","voltride_reality","voltride_trip_log","voltride_rc"];
+  const keys = ["voltride_language","voltride_terrain","voltride_mode","voltride_favorites","voltride_compare","voltride_tariff","voltride_tariffs","voltride_currency","voltride_oled","voltride_my_scooter","voltride_charge_history","voltride_reality","voltride_trip_log","voltride_rc"];
   keys.forEach(k => Store.remove(k));
   realityFactor = 1;
   tripLog = [];
@@ -1243,7 +1306,7 @@ function resetAppSettings(){
   compare = [];
   terrain = "flat";
   mode = "eco";
-  tariff = 1.2;
+  tariffs = Object.assign({}, DEFAULT_TARIFFS);
   myScooter = null;
   document.getElementById("weight").value = 75;
   document.getElementById("speed").value = 25;
@@ -1251,7 +1314,6 @@ function resetAppSettings(){
   document.getElementById("capacity").value = 12.8;
   document.getElementById("motor").value = 300;
   document.getElementById("charger").value = 2;
-  document.getElementById("tariff").value = "1.20";
   document.getElementById("search").value = "";
   document.getElementById("sort").value = "range";
   category = "all";
@@ -1377,9 +1439,15 @@ document.addEventListener("DOMContentLoaded", () => {
     applyTheme();
   };
   document.getElementById("tariff").onchange = e => {
-    tariff = Math.max(0, Number(e.target.value) || 0);
-    Store.set("voltride_tariff", tariff);
+    tariffs[getCurrency()] = Math.max(0, Number(e.target.value) || 0);
+    Store.set("voltride_tariffs", tariffs);
+    syncCurrencyUI();
     calculate();
+  };
+  document.getElementById("currencySelect").onchange = e => {
+    if (CURRENCIES.indexOf(e.target.value) < 0) return;
+    Store.set("voltride_currency", e.target.value);
+    refreshMoney();
   };
   document.getElementById("languageSelect").onchange = e => setLanguage(e.target.value);
   document.getElementById("shareBtn").onclick = shareApp;
@@ -1390,7 +1458,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") document.getElementById("compareModal").classList.remove("show");
   });
-  document.getElementById("tariff").value = tariff.toFixed(2);
+  syncCurrencyUI();
   selectChips("#terrainChips", terrain);
   selectChips("#modeChips", mode);
   applyTheme();

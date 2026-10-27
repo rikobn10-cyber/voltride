@@ -4,6 +4,7 @@ import html, json, os, sys
 ROOT = sys.argv[1]
 BASE = "https://voltride-4qj.pages.dev"
 DATE = "2026-10-24"
+MODIFIED = "2026-10-26"
 esc = lambda s: html.escape(str(s), quote=True)
 js = lambda o: json.dumps(o, ensure_ascii=False, indent=1)
 
@@ -216,22 +217,63 @@ GUIDES.append(dict(
     cta=("🔧 تشخيص أولي في التطبيق", "قسم الأعطال في VoltRide يعرض توجيهات أولية بالعربية والفرنسية والإنجليزية.", "/index.html#errors", "افتح قسم الأعطال ←"),
 ))
 
+META = {
+ "not-charging": dict(
+   title="لماذا لا يشحن السكوتر الكهربائي؟ | Trottinette ne charge pas",
+   desc="سكوترك لا يشحن؟ افحص المقبس والكابل ومنفذ الشحن وجهد الشاحن وحماية BMS خطوة بخطوة. Trottinette électrique qui ne charge pas : causes et solutions.",
+   howto=dict(
+     name="كيف تفحص سكوتراً كهربائياً لا يشحن",
+     description="أربع خطوات متدرجة من الأسهل إلى الأصعب لتشخيص سبب عدم شحن السكوتر الكهربائي، دون فتح البطارية.",
+     steps=[
+       ("افحص مصدر الكهرباء والكابل", "جرّب مقبساً آخر مباشرة في الجدار بدل موزّع الكهرباء المتعدد، وافحص كابل الشاحن بصرياً بحثاً عن قطع أو التواء أو سخونة أو رائحة حرق، وراقب المؤشر الضوئي في الشاحن إن وُجد."),
+       ("نظّف وافحص منفذ الشحن", "أطفئ السكوتر وافصل الشاحن، ثم انظر داخل المنفذ بحثاً عن غبار أو طين أو رطوبة أو دبوس معوّج، ونظّفه بفرشاة جافة ناعمة دون أدوات معدنية أو ماء، وتأكد أن القابس يدخل كاملاً دون تمايل."),
+       ("تأكد أن الشاحن مناسب لبطاريتك", "قارن جهد الشاحن بجهد البطارية المكتوب على الملصقين. على سبيل المثال تُشحن بطارية 36 فولت عادة بشاحن نحو 42 فولت، وبطارية 48 فولت بنحو 54.6 فولت. لا تستعمل شاحناً مخالفاً لمواصفات الشركة."),
+       ("اترك حماية البطارية (BMS) تستعيد وضعها ثم أعد المحاولة", "قد تمنع حماية البطارية الشحن عند حرارة غير مناسبة أو بعد تفريغ عميق أو بسبب تيار زائد. اترك السكوتر في مكان معتدل، أطفئه وافصل الشاحن بضع دقائق، ثم وصّل الشاحن بالجدار أولاً ثم بالسكوتر. إن لم ينجح فاطلب فحصاً فنياً ولا تفتح البطارية."),
+     ]),
+ ),
+ "battery-range": dict(
+   title="لماذا ينقص مدى بطارية السكوتر فجأة؟ | Autonomie en baisse",
+   desc="البرد، ضغط الإطارات، الوزن والسرعة، وتقادم البطارية: أسباب هبوط مدى السكوتر وكيف تقيس مداك الحقيقي. Autonomie de trottinette qui chute : que faire ?",
+ ),
+ "error-codes": dict(
+   title="أكواد الأعطال وانقطاع السكوتر المفاجئ | Codes d'erreur",
+   desc="انطفأ السكوتر أثناء القيادة أو ظهر رمز خطأ؟ الأسباب الشائعة والتصرف الآمن وما تدوّنه قبل زيارة الفني. Trottinette qui coupe : que faire ?",
+ ),
+}
+
 
 def page(g):
     url = f"{BASE}/guides/{g['slug']}.html"
-    ld_article = {
-        "@context": "https://schema.org", "@type": "Article",
-        "headline": g["h1"], "description": g["ar_desc"], "inLanguage": "ar",
-        "keywords": g["fr_kw"],
-        "author": {"@type": "Organization", "name": "VoltRide", "url": BASE + "/"},
-        "publisher": {"@type": "Organization", "name": "VoltRide",
-                      "logo": {"@type": "ImageObject", "url": BASE + "/icon-512.png"}},
-        "datePublished": DATE, "dateModified": DATE,
-        "image": BASE + "/og-image.png", "mainEntityOfPage": url}
+    mt = META[g["slug"]]
+    title, desc = mt["title"], mt["desc"]
+    author = {"@type": "Organization", "name": "VoltRide", "url": BASE + "/"}
+    ld_main = None
+    if "howto" in mt:
+        h = mt["howto"]
+        ld_main = {"@context": "https://schema.org", "@type": "HowTo",
+                   "name": h["name"], "description": h["description"], "inLanguage": "ar",
+                   "image": BASE + "/og-image.png",
+                   "step": [{"@type": "HowToStep", "position": i + 1, "name": n, "text": t,
+                             "url": f"{url}#step{i + 1}"} for i, (n, t) in enumerate(h["steps"])]}
+    else:
+        ld_main = {
+            "@context": "https://schema.org", "@type": "Article",
+            "headline": g["h1"], "description": desc, "inLanguage": "ar",
+            "keywords": g["fr_kw"],
+            "author": author,
+            "publisher": {"@type": "Organization", "name": "VoltRide",
+                          "logo": {"@type": "ImageObject", "url": BASE + "/icon-512.png"}},
+            "datePublished": DATE, "dateModified": MODIFIED,
+            "image": BASE + "/og-image.png", "mainEntityOfPage": {"@type": "WebPage", "@id": url}}
+    ld_article = ld_main
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q,
                               "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in g["faqs"]]}
-    body = "\n\n".join(f"<h2>{h}</h2>\n{c}" for h, c in g["sections"])
+    secs = []
+    for i, (h2, c) in enumerate(g["sections"]):
+        sid = f' id="step{i + 1}"' if "howto" in mt and i < len(mt["howto"]["steps"]) else ""
+        secs.append(f"<h2{sid}>{h2}</h2>\n{c}")
+    body = "\n\n".join(secs)
     faq = "\n".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q, a in g["faqs"])
     rel = "\n".join(f'<li><a href="{u}">{esc(t)}</a></li>' for u, t in g["related"])
     c = g["cta"]
@@ -241,19 +283,23 @@ def page(g):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1220">
-<title>{esc(g["fr_title"])} | VoltRide</title>
-<meta name="description" content="{esc(g["fr_desc"])}">
+<title>{esc(title)}</title>
+<meta name="description" content="{esc(desc)}">
 <meta name="keywords" content="{esc(g["fr_kw"])}">
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ar_MA">
 <meta property="og:site_name" content="VoltRide">
-<meta property="og:title" content="{esc(g["fr_title"])}">
-<meta property="og:description" content="{esc(g["fr_desc"])}">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{BASE}/og-image.png">
+<meta property="og:image:alt" content="VoltRide">
 <meta property="article:published_time" content="{DATE}">
+<meta property="article:modified_time" content="{MODIFIED}">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(desc)}">
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <link rel="icon" type="image/png" href="/icon-192.png">

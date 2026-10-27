@@ -29,17 +29,19 @@ BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu
 GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
 # (path, priority, lastmod)
 SPRINT = "2026-10-26"
-SW_VERSION = "voltride-v8"
+SW_VERSION = "voltride-v9"
 IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "fr/article-9.html": "electric-scooter-winter-range-voltride.jpg", "en/article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
 # (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
-STATIC_URLS = [("", "1.0", SPRINT), ("blog.html", "0.9", SPRINT), ("about.html", "0.5", DATE), ("contact.html", "0.5", DATE),
+TODAY = "2026-10-27"
+STATIC_URLS = [("", "1.0", TODAY), ("blog.html", "0.9", TODAY), ("about.html", "0.5", DATE), ("contact.html", "0.5", DATE),
                ("privacy.html", "0.5", SPRINT)] + \
               [(g, "0.8", SPRINT) for g in GUIDES] + \
               [(f"article-{i}.html", "0.8", DATE) for i in range(1, 9)] + \
               [(f"article-{i}.html", "0.8", SPRINT) for i in (9, 10)] + \
               [("fr/article-9.html", "0.7", SPRINT), ("en/article-9.html", "0.7", SPRINT),
                ("fr/privacy.html", "0.3", SPRINT), ("fr/contact.html", "0.3", SPRINT),
-               ("en/privacy.html", "0.3", SPRINT), ("en/contact.html", "0.3", SPRINT)]
+               ("en/privacy.html", "0.3", SPRINT), ("en/contact.html", "0.3", SPRINT),
+               ("fr/blog.html", "0.5", TODAY), ("en/blog.html", "0.5", TODAY)]
 
 
 def esc(s):
@@ -415,7 +417,7 @@ def main():
     # service worker precache + automatic cache version
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
                   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
-                  "blog.html", "about.html", "privacy.html", "contact.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + list(IMAGES.values())
+                  "blog.html", "about.html", "privacy.html", "contact.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + sorted(set(IMAGES.values()))
     files = base_files + [f"{m['id']}.html" for m in MODELS]
     sw = read("sw.js")
     lst = "const PRECACHE = [\n  " + ",\n  ".join(", ".join(f'"{f}"' for f in files[i:i + 4]) for i in range(0, len(files), 4)) + "\n];"
