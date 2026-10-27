@@ -768,7 +768,17 @@ const scooters = [
 ];
 /*SCOOTERS:END*/
 
-let lang = Store.get("voltride_language", "ar");
+// Language priority: 1) saved manual choice  2) browser language (fr/en)  3) Arabic
+function detectLang(){
+  const saved = Store.get("voltride_language", null);
+  if (saved && I18N[saved]) return saved;
+  let nl = "";
+  try { nl = String((navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage || "").toLowerCase(); } catch (e) {}
+  if (nl.indexOf("fr") === 0) return "fr";
+  if (nl.indexOf("en") === 0) return "en";
+  return "ar";
+}
+let lang = detectLang();
 let terrain = Store.get("voltride_terrain", "flat");
 let mode = Store.get("voltride_mode", "eco");
 let category = "all";
@@ -1227,7 +1237,7 @@ function resetAppSettings(){
   tripLog = [];
   rc = {dist:8, bat:100, weather:"normal", charge:false};
   syncReturnInputs();
-  lang = "ar";
+  lang = detectLang();
   chargeHistory = [];
   favorites = [];
   compare = [];
@@ -1248,7 +1258,7 @@ function resetAppSettings(){
   selectChips("#terrainChips", terrain);
   selectChips("#modeChips", mode);
   document.querySelectorAll("#categoryChips .chip").forEach(b => b.classList.toggle("active", b.dataset.cat === category));
-  setLanguage("ar");
+  setLanguage(lang);
   applyTheme();
   updateCompareUI();
   renderCatalog();

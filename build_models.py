@@ -37,7 +37,9 @@ STATIC_URLS = [("", "1.0", SPRINT), ("blog.html", "0.9", SPRINT), ("about.html",
               [(g, "0.8", SPRINT) for g in GUIDES] + \
               [(f"article-{i}.html", "0.8", DATE) for i in range(1, 9)] + \
               [(f"article-{i}.html", "0.8", SPRINT) for i in (9, 10)] + \
-              [("fr/article-9.html", "0.7", SPRINT), ("en/article-9.html", "0.7", SPRINT)]
+              [("fr/article-9.html", "0.7", SPRINT), ("en/article-9.html", "0.7", SPRINT),
+               ("fr/privacy.html", "0.3", SPRINT), ("fr/contact.html", "0.3", SPRINT),
+               ("en/privacy.html", "0.3", SPRINT), ("en/contact.html", "0.3", SPRINT)]
 
 
 def esc(s):

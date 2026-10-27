@@ -97,7 +97,7 @@
     var no = document.createElement("button");
     no.className = "no"; no.type = "button"; no.textContent = t.no;
     var a = document.createElement("a");
-    a.href = "/privacy.html"; a.textContent = t.more;
+    var pl = lang(); a.href = pl === "fr" ? "/fr/privacy.html" : pl === "en" ? "/en/privacy.html" : "/privacy.html"; a.textContent = t.more;
     ok.onclick = function () { set("granted"); loadGA(); hideBanner(); };
     no.onclick = function () { set("denied"); disableGA(); hideBanner(); };
     row.appendChild(ok); row.appendChild(no); row.appendChild(a);
