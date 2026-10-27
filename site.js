@@ -119,6 +119,21 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 
+  // Keyboard access: horizontally scrollable tables must be focusable so keyboard users can scroll them.
+  function makeScrollablesFocusable() {
+    var names = { ar: "جدول قابل للتمرير", fr: "Tableau défilant", en: "Scrollable table" };
+    var l = (document.documentElement.lang || "ar").slice(0, 2);
+    var nodes = document.querySelectorAll(".table-wrap");
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      if (!n.hasAttribute("tabindex")) n.setAttribute("tabindex", "0");
+      if (!n.hasAttribute("role")) n.setAttribute("role", "region");
+      if (!n.hasAttribute("aria-label")) n.setAttribute("aria-label", names[l] || names.ar);
+    }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", makeScrollablesFocusable);
+  else makeScrollablesFocusable();
+
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
       navigator.serviceWorker.register("/sw.js").catch(function () {});

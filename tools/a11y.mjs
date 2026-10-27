@@ -20,6 +20,7 @@ const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1].replace
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 390, height: 800 } });
 let blocking = 0, warnings = 0;
+const warnGroups = new Map();
 const summary = ['## Accessibility (axe-core, WCAG 2.1 A/AA)', ''];
 
 for (const path of urls) {
@@ -35,12 +36,26 @@ for (const path of urls) {
       console.log(line);
       if (isBlocking) { blocking++; summary.push(`- ❌ \`${path || '/'}\` **${v.id}** (${v.impact}) ×${v.nodes.length}: ${v.help}`);
         for (const n of v.nodes.slice(0, 3)) summary.push(`  - \`${n.target.join(' ')}\``); }
-      else { warnings++; summary.push(`- ⚠️ \`${path || '/'}\` ${v.id} (${v.impact}) ×${v.nodes.length}`); }
+      else {
+        warnings++;
+        for (const n of v.nodes) {            // group identical findings across pages: rule + element
+          const key = v.id + ' | ' + n.target.join(' ');
+          const d = (n.any && n.any[0] && n.any[0].data) || {};
+          const g = warnGroups.get(key) || { rule: v.id, target: n.target.join(' '), pages: [], data: d, html: (n.html || '').slice(0, 140) };
+          g.pages.push(path || '/'); warnGroups.set(key, g);
+        }
+      }
     }
   } catch (e) { console.log(`ERROR ${path}: ${e.message}`); blocking++; }
   await page.close();
 }
 await browser.close();
+summary.push('', '### Warnings grouped by element (same element on several pages = one fix)', '');
+for (const g of [...warnGroups.values()].sort((x, y) => y.pages.length - x.pages.length)) {
+  const c = g.data && g.data.contrastRatio ? ` — ${g.data.fgColor} on ${g.data.bgColor}, ratio ${g.data.contrastRatio} (needs ${g.data.expectedContrastRatio})` : '';
+  summary.push(`- **${g.rule}** \`${g.target}\` on ${g.pages.length} page(s)${c}`);
+  summary.push(`  - e.g. ${g.pages.slice(0, 3).join(', ')}  \n  - \`${g.html.replace(/`/g, "'")}\``);
+}
 summary.push('', `**${urls.length} pages checked: ${blocking} blocking, ${warnings} warnings.**`);
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary.join('\n') + '\n');
 fs.writeFileSync('a11y-report.md', summary.join('\n') + '\n');
