@@ -80,7 +80,7 @@ header{position:sticky;top:0;z-index:30;background:rgba(11,18,32,.9);backdrop-fi
 .brand strong{font-size:18px;letter-spacing:.2px}
 .brand small{display:block;color:var(--muted);font-size:10px;margin-top:1px}
 .actions{display:flex;align-items:center;gap:7px}
-.icon-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);min-width:40px;height:40px;border-radius:12px;display:grid;place-items:center;position:relative}
+.icon-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);min-width:44px;height:44px;border-radius:12px;display:grid;place-items:center;position:relative}
 main{padding:14px 14px 110px}
 .screen{display:none}
 .screen.active{display:block}
@@ -99,9 +99,13 @@ main{padding:14px 14px 110px}
 input[type=range]{width:100%;accent-color:var(--cyan)}
 input[type=number],input[type=text],select{width:100%;height:46px;background:var(--card2);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:0 12px;outline:none}
 input:focus,select:focus{border-color:rgba(0,242,254,.55);box-shadow:0 0 0 3px rgba(0,242,254,.08)}
+/* keyboard focus (focus-visible only: no ring on mouse/touch taps) */
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+input[type=range]:focus-visible{outline-offset:6px;border-radius:8px}
+.switch:focus-visible{outline-offset:3px}
 .chips{display:flex;gap:7px;overflow:auto;padding-bottom:2px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{white-space:nowrap;border:1px solid var(--line);background:var(--card2);color:var(--muted);padding:9px 13px;border-radius:999px}
+.chip{min-height:44px;white-space:nowrap;border:1px solid var(--line);background:var(--card2);color:var(--muted);padding:9px 13px;border-radius:999px}
 .chip.active{color:#001116;background:var(--cyan);border-color:var(--cyan);font-weight:800}
 .results{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .metric{padding:14px;border-radius:16px;background:rgba(2,6,23,.42);border:1px solid var(--line)}
@@ -138,7 +142,7 @@ input:focus,select:focus{border-color:rgba(0,242,254,.55);box-shadow:0 0 0 3px r
 .scooter-head{display:flex;justify-content:space-between;gap:10px}
 .scooter-name{font-weight:900;font-size:16px}
 .badge{display:inline-block;margin-top:5px;font-size:10px;color:var(--cyan);background:rgba(0,242,254,.08);padding:4px 8px;border-radius:999px}
-.favorite{border:0;background:transparent;color:var(--muted);font-size:23px;padding:0;line-height:1}
+.favorite{border:0;background:transparent;color:var(--muted);font-size:23px;padding:0;line-height:1;min-width:44px;min-height:44px;display:inline-grid;place-items:center;margin-block-start:-8px;margin-inline-end:-8px;flex-shrink:0}
 .favorite.on{color:#fb7185}
 .specs{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:12px 0}
 .spec{padding:9px;background:rgba(2,6,23,.35);border-radius:10px}
@@ -189,6 +193,7 @@ summary{cursor:pointer;font-weight:800}
 .setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
 .setting-row:last-child{border-bottom:0}
 .switch{width:52px;height:30px;border-radius:99px;background:#334155;padding:3px;border:0;position:relative}
+.switch::before{content:"";position:absolute;inset:-7px -4px}
 .switch i{display:block;width:24px;height:24px;border-radius:50%;background:white;transition:transform .2s}
 .switch.on{background:var(--cyan)}
 .switch.on i{transform:translateX(-22px)}
@@ -327,8 +332,8 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
         <input id="rcBat" type="range" min="5" max="100" step="1" value="100">
       </div>
     </div>
-    <label class="field"><span data-i18n="rcWeather">الطقس</span></label>
-    <div class="chips" id="rcWeatherChips">
+    <span class="field" id="rcWeatherLbl"><span data-i18n="rcWeather">الطقس</span></span>
+    <div class="chips" id="rcWeatherChips" role="group" aria-labelledby="rcWeatherLbl">
       <button class="chip active" data-value="normal" data-i18n="rcWeatherNormal">عادي</button>
       <button class="chip" data-value="cold" data-i18n="rcWeatherCold">بارد</button>
       <button class="chip" data-value="hot" data-i18n="rcWeatherHot">حار جداً</button>
@@ -366,23 +371,23 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
     <p class="small" data-i18n="myScooterSub">احفظ مواصفات سكوترك مرة واحدة واستعملها بسرعة.</p>
     <div class="profile-grid">
       <div class="field profile-name">
-        <label data-i18n="scooterName">اسم السكوتر</label>
+        <label for="scooterName" data-i18n="scooterName">اسم السكوتر</label>
         <input id="scooterName" type="text" maxlength="40" placeholder="مثلاً: سكوتر المدينة">
       </div>
       <div class="field">
-        <label data-i18n="profileVoltage">الفولت</label>
+        <label for="profileVoltage" data-i18n="profileVoltage">الفولت</label>
         <select id="profileVoltage"><option>24</option><option selected>36</option><option>48</option><option>52</option><option>60</option><option>72</option></select>
       </div>
       <div class="field">
-        <label data-i18n="profileCapacity">السعة Ah</label>
+        <label for="profileCapacity" data-i18n="profileCapacity">السعة Ah</label>
         <input id="profileCapacity" type="number" min="1" max="100" step=".1" value="12.8">
       </div>
       <div class="field">
-        <label data-i18n="profileMotor">المحرك W</label>
+        <label for="profileMotor" data-i18n="profileMotor">المحرك W</label>
         <select id="profileMotor"><option>250</option><option selected>300</option><option>350</option><option>500</option><option>800</option><option>1000</option><option>1500</option><option>2000</option><option>3000</option></select>
       </div>
       <div class="field">
-        <label data-i18n="profileCharger">الشاحن A</label>
+        <label for="profileCharger" data-i18n="profileCharger">الشاحن A</label>
         <select id="profileCharger"><option>1</option><option>1.5</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select>
       </div>
     </div>
@@ -396,21 +401,21 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
   <div class="card">
     <h2 data-i18n="rider">👤 الراكب والقيادة</h2>
     <div class="field">
-      <label><span data-i18n="weight">الوزن</span><span class="value"><span id="weightVal">75</span> kg</span></label>
+      <label for="weight"><span data-i18n="weight">الوزن</span><span class="value"><span id="weightVal">75</span> kg</span></label>
       <input id="weight" type="range" min="40" max="140" value="75">
     </div>
     <div class="field">
-      <label><span data-i18n="speed">السرعة المتوسطة</span><span class="value"><span id="speedVal">25</span> km/h</span></label>
+      <label for="speed"><span data-i18n="speed">السرعة المتوسطة</span><span class="value"><span id="speedVal">25</span> km/h</span></label>
       <input id="speed" type="range" min="10" max="60" value="25">
     </div>
-    <label class="field"><span data-i18n="terrain">الطريق</span></label>
-    <div class="chips" id="terrainChips">
+    <span class="field" id="terrainLbl"><span data-i18n="terrain">الطريق</span></span>
+    <div class="chips" id="terrainChips" role="group" aria-labelledby="terrainLbl">
       <button class="chip active" data-value="flat" data-i18n="flat">مستوٍ</button>
       <button class="chip" data-value="mixed" data-i18n="mixed">مختلط</button>
       <button class="chip" data-value="hills" data-i18n="hills">مرتفعات</button>
     </div>
-    <label class="field"><span data-i18n="mode">نمط القيادة</span></label>
-    <div class="chips" id="modeChips">
+    <span class="field" id="modeLbl"><span data-i18n="mode">نمط القيادة</span></span>
+    <div class="chips" id="modeChips" role="group" aria-labelledby="modeLbl">
       <button class="chip active" data-value="eco" data-i18n="eco">اقتصادي</button>
       <button class="chip" data-value="balanced" data-i18n="balanced">متوازن</button>
       <button class="chip" data-value="sport" data-i18n="sport">رياضي</button>
@@ -420,10 +425,10 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
   <div class="card">
     <h2 data-i18n="battery">🔋 البطارية والسكوتر</h2>
     <div class="grid2">
-      <div class="field"><label data-i18n="voltage">الفولت</label><select id="voltage"><option>24</option><option selected>36</option><option>48</option><option>52</option><option>60</option><option>72</option></select></div>
-      <div class="field"><label data-i18n="capacity">السعة Ah</label><input id="capacity" type="number" min="1" max="100" step=".1" value="12.8"></div>
-      <div class="field"><label data-i18n="motor">قوة المحرك</label><select id="motor"><option>250</option><option selected>300</option><option>350</option><option>500</option><option>800</option><option>1000</option><option>1500</option><option>2000</option><option>3000</option></select></div>
-      <div class="field"><label data-i18n="charger">الشاحن A</label><select id="charger"><option>1</option><option>1.5</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
+      <div class="field"><label for="voltage" data-i18n="voltage">الفولت</label><select id="voltage"><option>24</option><option selected>36</option><option>48</option><option>52</option><option>60</option><option>72</option></select></div>
+      <div class="field"><label for="capacity" data-i18n="capacity">السعة Ah</label><input id="capacity" type="number" min="1" max="100" step=".1" value="12.8"></div>
+      <div class="field"><label for="motor" data-i18n="motor">قوة المحرك</label><select id="motor"><option>250</option><option selected>300</option><option>350</option><option>500</option><option>800</option><option>1000</option><option>1500</option><option>2000</option><option>3000</option></select></div>
+      <div class="field"><label for="charger" data-i18n="charger">الشاحن A</label><select id="charger"><option>1</option><option>1.5</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
     </div>
     <button class="primary" id="calculateBtn" data-i18n="calculate">احسب الآن ⚡</button>
   </div>
@@ -513,7 +518,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
   <div class="card">
     <div class="search-row">
       <input id="search" type="text" data-i18n-placeholder="search" placeholder="ابحث عن سكوتر...">
-      <select id="sort" class="sort">
+      <select id="sort" class="sort" aria-label="Sort">
         <option value="range" data-i18n="sortRange">المدى</option>
         <option value="speed" data-i18n="sortSpeed">السرعة</option>
         <option value="price" data-i18n="sortPrice">السعر</option>
@@ -572,20 +577,20 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       <button id="oledSwitch" class="switch" aria-label="OLED"><i></i></button>
     </div>
     <div class="setting-row">
-      <div><strong data-i18n="currency">العملة</strong><div class="small" data-i18n="currencySub">تعرفة كهرباء منفصلة لكل عملة. الصرف تقريبي وثابت: 1 MAD ≈ 0.10 USD ≈ 0.093 EUR (أكتوبر 2026).</div></div>
-      <select id="currencySelect" style="width:140px" aria-label="Currency">
+      <div><strong id="currencyLbl" data-i18n="currency">العملة</strong><div class="small" data-i18n="currencySub">تعرفة كهرباء منفصلة لكل عملة. الصرف تقريبي وثابت: 1 MAD ≈ 0.10 USD ≈ 0.093 EUR (أكتوبر 2026).</div></div>
+      <select id="currencySelect" aria-labelledby="currencyLbl" style="width:140px">
         <option value="MAD">MAD (DH)</option>
         <option value="USD">USD ($)</option>
         <option value="EUR">EUR (€)</option>
       </select>
     </div>
     <div class="setting-row">
-      <div><strong data-i18n="tariff">تعرفة الكهرباء</strong><div class="small"><span data-i18n="tariffSub">تستخدم لحساب تكلفة الشحنة.</span> <b id="tariffUnit">MAD / kWh</b></div></div>
-      <div style="width:125px"><input id="tariff" type="number" min="0" step=".01" value="1.20"></div>
+      <div><strong id="tariffLbl" data-i18n="tariff">تعرفة الكهرباء</strong><div class="small"><span data-i18n="tariffSub">تستخدم لحساب تكلفة الشحنة.</span> <b id="tariffUnit">MAD / kWh</b></div></div>
+      <div style="width:125px"><input id="tariff" aria-labelledby="tariffLbl" type="number" min="0" step=".01" value="1.20"></div>
     </div>
     <div class="setting-row">
-      <div><strong data-i18n="language">اللغة</strong></div>
-      <select id="languageSelect" style="width:140px">
+      <div><strong id="languageLbl" data-i18n="language">اللغة</strong></div>
+      <select id="languageSelect" aria-labelledby="languageLbl" style="width:140px">
         <option value="ar">العربية</option>
         <option value="fr">Français</option>
         <option value="en">English</option>
@@ -919,7 +924,7 @@ function setLanguage(next){
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t(el.dataset.i18n));
-  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => el.placeholder = t(el.dataset.i18nPlaceholder));
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); el.setAttribute("aria-label", el.placeholder); });
   document.getElementById("languageSelect").value = lang;
   localizeLinks();
   syncCurrencyUI();
@@ -931,7 +936,7 @@ function setLanguage(next){
 }
 
 function selectChips(selector, value){
-  document.querySelectorAll(selector + " .chip").forEach(b => b.classList.toggle("active", b.dataset.value === value));
+  document.querySelectorAll(selector + " .chip").forEach(b => { const on = b.dataset.value === value; b.classList.toggle("active", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
 }
 
 function calculate(){
@@ -999,7 +1004,7 @@ function syncReturnInputs(){
   if (!d || !b) return;
   d.value = rc.dist;
   b.value = rc.bat;
-  document.querySelectorAll("#rcWeatherChips .chip[data-value]").forEach(c => c.classList.toggle("active", c.dataset.value === rc.weather));
+  document.querySelectorAll("#rcWeatherChips .chip[data-value]").forEach(c => { const on = c.dataset.value === rc.weather; c.classList.toggle("active", on); c.setAttribute("aria-pressed", on ? "true" : "false"); });
   const cc = document.getElementById("rcChargeChip");
   cc.classList.toggle("active", rc.charge);
   cc.setAttribute("aria-pressed", String(rc.charge));

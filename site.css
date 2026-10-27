@@ -5,7 +5,7 @@ html{scroll-behavior:smooth}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.8;padding:20px;min-height:100vh}
 a{color:var(--cyan)}
-a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
 .skip{position:absolute;inset-inline-start:-9999px;top:8px;background:var(--cyan);color:#001116;padding:8px 14px;border-radius:8px;z-index:100}
 .skip:focus{inset-inline-start:12px}
 .wrap{max-width:760px;margin:auto}
@@ -15,7 +15,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
 .site-nav .brand{display:flex;align-items:center;gap:9px;color:var(--text);text-decoration:none;font-weight:900;font-size:18px}
 .site-nav .brand i{font-style:normal;display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#06121c}
 .site-nav .links{display:flex;flex-wrap:wrap;gap:6px}
-.site-nav .links a{color:var(--muted);text-decoration:none;font-size:13px;padding:6px 10px;border-radius:10px;border:1px solid transparent}
+.site-nav .links a{display:inline-flex;align-items:center;min-height:40px;color:var(--muted);text-decoration:none;font-size:13px;padding:6px 10px;border-radius:10px;border:1px solid transparent}
 .site-nav .links a:hover,.site-nav .links a[aria-current="page"]{color:var(--cyan);border-color:var(--line)}
 .back{display:inline-block;color:var(--cyan);text-decoration:none;margin-bottom:16px;font-size:14px}
 footer{text-align:center;padding:30px 0 10px;color:var(--muted);font-size:12px;margin-top:30px;border-top:1px solid var(--line)}
