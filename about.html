@@ -32,6 +32,8 @@
 .lang-switch span[aria-current]{background:rgba(0,242,254,.12);color:var(--cyan);border-color:rgba(0,242,254,.4)}
 blockquote.founder{margin:14px 0 22px;padding:14px 18px;border-inline-start:3px solid var(--cyan);background:rgba(0,242,254,.06);border-radius:10px}
 blockquote.founder p{margin:0 0 10px;line-height:1.9}
+.founder-photo{float:inline-end;width:96px;height:96px;margin:2px 0 8px 14px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,242,254,.45)}
+[dir=rtl] .founder-photo{margin:2px 14px 8px 0}
 blockquote.founder .founder-by{margin:6px 0 0;padding:0;border:0;background:none;color:var(--muted);font-weight:700;font-size:14px;text-align:start}
 </style>
 <script src="site.js" defer></script>
@@ -54,6 +56,9 @@ blockquote.founder .founder-by{margin:6px 0 0;padding:0;border:0;background:none
 
 <h2>كلمة المؤسس</h2>
 <blockquote class="founder">
+<!-- صورة المؤسس: to show it, upload a REAL photo as /founder.jpg (square, about 400x400, under 80 KB) to the repo root, then uncomment the next line.
+<img class="founder-photo" src="/founder.jpg" alt="صورة شخصية لمؤسس VoltRide" width="96" height="96" loading="lazy" decoding="async">
+-->
 <p>أنا شغوف بعالم التنقل الكهربائي (Micromobility). لاحظت أن مستخدمي السكوترات في المغرب وأوروبا يعانون من نقص المعلومات الدقيقة حول المدى الحقيقي وتكلفة الشحن، مما يؤدي إلى قلق مستمر (Range Anxiety).</p>
 <p>لذلك قررت بناء VoltRide: منصة تجمع بين الهندسة البرمجية والبيانات الواقعية. أنا لا أقدم وعوداً تسويقية، بل أقدم أداة حسابية تعتمد على الفيزياء والرياضيات لمساعدتك على التخطيط لرحلتك بأمان.</p>
 <p>هدفي هو جعل VoltRide المرجع الأول لكل من يملك سكوتر كهربائي، ليكون دليلك الموثوق قبل أن تشتري، وقبل أن تنطلق.</p>
