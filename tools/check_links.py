@@ -23,6 +23,7 @@ class Page(HTMLParser):
     def __init__(self):
         super().__init__()
         self.refs, self.ids, self.lang, self.title, self.canonical, self.hreflang = [], set(), None, "", None, []
+        self.og_url = None
         self._in_title = False
 
     def handle_starttag(self, tag, attrs):
@@ -30,6 +31,7 @@ class Page(HTMLParser):
         if "id" in a: self.ids.add(a["id"])
         if tag == "html": self.lang = a.get("lang")
         if tag == "title": self._in_title = True
+        if tag == "meta" and a.get("property") == "og:url": self.og_url = a.get("content")
         if tag == "a" and a.get("href"): self.refs.append(a["href"])
         elif tag == "link" and a.get("href"):
             rel = (a.get("rel") or "").lower()
@@ -64,8 +66,13 @@ def to_local(page_path, ref):
 
 
 def url_to_local(url):
+    """Map an absolute site URL (clean form: /about, /fr/about, /) to the repo file that Cloudflare Pages serves for it."""
     if not url.startswith(SITE): return None
-    return to_local("index.html", url[len(SITE):] or "/")
+    path = url[len(SITE):] or "/"
+    if path == "/": return "index.html", ""
+    path = path.split("#")[0].split("?")[0].lstrip("/")
+    if "." in os.path.basename(path): return path, ""           # real file such as sitemap.xml or a .html URL
+    return path + ".html", ""                                    # extensionless -> .html file
 
 
 def main():
@@ -91,14 +98,16 @@ def main():
             if frag and target.endswith(".html") and target in pages and frag not in pages[target].ids:
                 # ids created by JavaScript cannot be seen here, so this is only a warning-level hint in the log
                 print(f"note: {rel}: fragment #{frag} not found as a static id in {target}")
-        for label, url in [("canonical", p.canonical)] + [("hreflang", u) for u in p.hreflang]:
+        for label, url in [("canonical", p.canonical), ("og:url", p.og_url)] + [("hreflang", u) for u in p.hreflang]:
             if not url: continue
+            if url.endswith(".html"):
+                errors.append(f"{rel}: {label} must be the clean URL without .html (Cloudflare redirects .html): {url}")
             m = url_to_local(url)
             if m is None: errors.append(f"{rel}: {label} is not on {SITE}: {url}"); continue
             if not exists(m[0]): errors.append(f"{rel}: {label} points to a missing page: {url}")
         if p.canonical:
             m = url_to_local(p.canonical)
-            if m and m[0] != rel and not (rel == "index.html" and m[0] == "index.html"):
+            if m and m[0] != rel:
                 errors.append(f"{rel}: canonical points to another page: {p.canonical}")
 
     sm = os.path.join(ROOT, "sitemap.xml")
@@ -108,6 +117,7 @@ def main():
         for u in locs:
             if u in seen: errors.append(f"sitemap.xml: duplicate url {u}")
             seen.add(u)
+            if u.endswith(".html"): errors.append(f"sitemap.xml: use the clean URL without .html: {u}")
             m = url_to_local(u)
             if m is None or not exists(m[0]): errors.append(f"sitemap.xml: url has no page: {u}")
     else:

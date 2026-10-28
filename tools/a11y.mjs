@@ -17,6 +17,9 @@ const BLOCKING = new Set([
 
 const sitemap = fs.readFileSync('sitemap.xml', 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1].replace(SITE, ''));
+// The sitemap lists clean URLs (/about). Cloudflare serves them directly; the local python server needs the .html file.
+const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)/.test(base);
+const toUrlPath = p => (!isLocal || p === '' || p === '/' || /\.[a-z0-9]+$/i.test(p)) ? p : p + '.html';
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 390, height: 800 } });
 let blocking = 0, warnings = 0;
@@ -26,7 +29,7 @@ const summary = ['## Accessibility (axe-core, WCAG 2.1 A/AA)', ''];
 for (const path of urls) {
   const page = await ctx.newPage();
   try {
-    const res = await page.goto(base + (path || '/'), { waitUntil: 'load' });
+    const res = await page.goto(base + (toUrlPath(path) || '/'), { waitUntil: 'load' });
     if (!res || !res.ok()) { console.log(`ERROR ${path}: HTTP ${res && res.status()}`); blocking++; continue; }
     await page.waitForTimeout(300);
     const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();

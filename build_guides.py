@@ -243,7 +243,7 @@ META = {
 
 
 def page(g):
-    url = f"{BASE}/guides/{g['slug']}.html"
+    url = f"{BASE}/guides/{g['slug']}"   # clean URL (Cloudflare Pages redirects *.html)
     mt = META[g["slug"]]
     title, desc = mt["title"], mt["desc"]
     author = {"@type": "Organization", "name": "VoltRide", "url": BASE + "/"}

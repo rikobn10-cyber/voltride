@@ -41,6 +41,15 @@ jobs:
             [ "${out%% *}" = "200" ] || fail=1
           done
           exit $fail
+      - name: Every sitemap URL answers 200 directly (no redirect)
+        run: |
+          fail=0
+          for u in $(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed -e 's/<loc>//' -e 's/<\/loc>//'); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$u")
+            if [ "$code" != "200" ]; then echo "::error title=sitemap URL not 200::$code $u"; fail=1; fi
+          done
+          echo "::notice title=sitemap check::all sitemap URLs checked, fail=$fail"
+          exit $fail
       - uses: actions/setup-node@v4
         with:
           node-version: 20
