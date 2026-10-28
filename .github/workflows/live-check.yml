@@ -1,0 +1,48 @@
+name: Live site check
+
+# After every merge to main: wait until Cloudflare has deployed this exact version
+# (the live sw.js must carry the same cache version as the repo), then run the
+# accessibility check against the LIVE site and a quick smoke test.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    name: Live site (after deploy)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      LIVE: https://voltride-4qj.pages.dev
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for Cloudflare to publish this version
+        run: |
+          want=$(grep -o 'const VERSION = "[^"]*"' sw.js)
+          echo "repo has: $want"
+          for i in $(seq 1 30); do
+            got=$(curl -fsS "$LIVE/sw.js?cb=$RANDOM" | grep -o 'const VERSION = "[^"]*"' || true)
+            echo "attempt $i live has: $got"
+            [ "$got" = "$want" ] && exit 0
+            sleep 20
+          done
+          echo "::error::The live site did not reach $want within 10 minutes"; exit 1
+      - name: Smoke test key pages return 200
+        run: |
+          for p in / /blog.html /about.html /fr/about.html /en/about.html /fr/article-11.html /sitemap.xml /sw.js; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$LIVE$p")
+            echo "$code $p"; [ "$code" = "200" ] || exit 1
+          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install axe + Playwright
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.0 @axe-core/playwright@4
+          npx playwright install --with-deps chromium
+      - name: Accessibility against the live site
+        run: node tools/a11y.mjs "$LIVE"
