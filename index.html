@@ -655,6 +655,7 @@ const APP_VERSION = "1.2.0";
 const SHARE_URL = "https://voltride-4qj.pages.dev/";
 // shared links carry UTM tags so Analytics can show how many visits come from word of mouth
 const SHARE_LINK = SHARE_URL + "?utm_source=share&utm_medium=app&utm_campaign=word_of_mouth";
+const SHARE_RESULT_LINK = SHARE_URL + "?utm_source=share&utm_medium=app&utm_campaign=share_result";
 const SHARE_IMAGE = "https://voltride-4qj.pages.dev/og-image.png";
 
 const Store = {
@@ -1340,7 +1341,7 @@ async function shareResult(){
   const file=new File([blob],"voltride-result.png",{type:"image/png"});
   try{
     if(navigator.canShare && navigator.canShare({files:[file]})){
-      await navigator.share({files:[file],text:t("srText")+" "+SHARE_LINK});
+      await navigator.share({files:[file],text:t("srText")+" "+SHARE_RESULT_LINK});
       return;
     }
   }catch(e){ if(e&&e.name==="AbortError") return; }
