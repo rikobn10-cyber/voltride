@@ -20,7 +20,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .back{display:inline-block;color:var(--cyan);text-decoration:none;margin-bottom:16px;font-size:14px}
 footer{text-align:center;padding:30px 0 10px;color:var(--muted);font-size:12px;margin-top:30px;border-top:1px solid var(--line)}
 footer a{color:var(--cyan);text-decoration:none;margin:0 8px;display:inline-block;padding:4px 0}
-footer p{margin-top:12px;opacity:.7}
+footer p{margin-top:12px}
 
 /* generic page */
 .page h1{font-size:26px;margin-bottom:14px;line-height:1.35;color:var(--cyan)}
@@ -43,6 +43,7 @@ article p{margin-bottom:14px;color:#dbeafe;font-size:15px}
 article ul,article ol{padding-inline-start:1.4em;margin:12px 0 16px}
 article li{margin-bottom:8px;color:#dbeafe}
 .table-wrap{overflow-x:auto;margin:20px 0}
+.table-wrap:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:420px}
 th,td{padding:10px;border:1px solid var(--line);text-align:center}
 th{background:rgba(0,242,254,.1);color:var(--cyan);font-weight:800}
