@@ -31,12 +31,16 @@ jobs:
             sleep 20
           done
           echo "::error::The live site did not reach $want within 10 minutes"; exit 1
-      - name: Smoke test key pages return 200
+      - name: Smoke test key pages return 200 (after redirects)
         run: |
+          fail=0
           for p in / /blog.html /about.html /fr/about.html /en/about.html /fr/article-11.html /sitemap.xml /sw.js; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "$LIVE$p")
-            echo "$code $p"; [ "$code" = "200" ] || exit 1
+            raw=$(curl -s -o /dev/null -w '%{http_code}' "$LIVE$p")
+            out=$(curl -sL -o /dev/null -w '%{http_code} %{url_effective}' "$LIVE$p")
+            echo "::notice title=smoke $p::raw=$raw final=$out"
+            [ "${out%% *}" = "200" ] || fail=1
           done
+          exit $fail
       - uses: actions/setup-node@v4
         with:
           node-version: 20
