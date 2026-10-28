@@ -1,5 +1,5 @@
 /* VoltRide Service Worker v3.1.0 */
-const VERSION = "voltride-v12";
+const VERSION = "voltride-v13";
 const PRECACHE = [
   "./", "index.html", "offline.html", "manifest.json",
   "site.css", "site.js", "icon-192.png", "icon-512.png",
