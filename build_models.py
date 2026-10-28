@@ -29,7 +29,7 @@ BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu
 GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
 # (path, priority, lastmod)
 SPRINT = "2026-10-26"
-SW_VERSION = "voltride-v13"
+SW_VERSION = "voltride-v14"
 IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "fr/article-9.html": "electric-scooter-winter-range-voltride.jpg", "en/article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
 # (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
 TODAY = "2026-10-27"
