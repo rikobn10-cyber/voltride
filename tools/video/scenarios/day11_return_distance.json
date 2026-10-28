@@ -1,0 +1,108 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Return check, battery 100%, normal weather, distance 10/15/20 km one way. Verdicts are the app's own.",
+ "assert": [
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && weight.value==='75' && charger.value==='2' && motor.value==='300' && mode==='eco' && terrain==='flat'",
+  "(()=>{const R=((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;});const ok=R(10,100,'normal').includes('12.1') && R(15,100,'normal').includes('2.1') && R(20,100,'normal').includes('7.9');R(8,100,'normal');return ok;})()"
+ ],
+ "scroll": [
+  {
+   "t": 3,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 9,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 10,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 16,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 17,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 23,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  }
+ ],
+ "actions": [
+  {
+   "t": 3.5,
+   "js": "((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;})(10,100,'normal')"
+  },
+  {
+   "t": 10.5,
+   "js": "((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;})(15,100,'normal')"
+  },
+  {
+   "t": 17.5,
+   "js": "((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;})(20,100,'normal')"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "رايح كم كيلومتر وتبقى ليك بطارية؟ 🧭",
+  "lines": [
+   "اختبار العودة ف التطبيق الحقيقي",
+   "البطارية 100%، طقس عادي",
+   "10 كم، 15 كم، 20 كم (ذهاباً)"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب الحاسبة مجاناً بأرقام سكوترك",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.2,
+   6.2,
+   "رحلة 10 كم ذهاباً"
+  ],
+  [
+   6.6,
+   9.8,
+   "يبقى حوالي 12.1 كم احتياطاً 🟢"
+  ],
+  [
+   10.2,
+   13.2,
+   "رحلة 15 كم ذهاباً"
+  ],
+  [
+   13.6,
+   16.8,
+   "ممكن لكن بحذر: الهامش حوالي 2.1 كم 🟡"
+  ],
+  [
+   17.2,
+   20.2,
+   "رحلة 20 كم ذهاباً"
+  ],
+  [
+   20.6,
+   23.8,
+   "ينقصك حوالي 7.9 كم 🔴 اشحن أولاً"
+  ],
+  [
+   24.0,
+   26.3,
+   "الحساب كيدخل الذهاب والإياب (تقدير)"
+  ]
+ ]
+}

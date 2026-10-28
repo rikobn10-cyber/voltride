@@ -1,0 +1,138 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Numbers measured on the live app on 2026-10-28 (36V, 12.8Ah, 75 kg, 25 km/h, flat, eco, 300 W, 2 A charger unless a state changes them); the generator re-checks them before recording.",
+ "assert": [
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && weight.value==='75' && charger.value==='2' && motor.value==='300' && mode==='eco' && terrain==='flat'",
+  "(()=>{const R=((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};});const s0=R({\"mode\": \"eco\"});const s1=R({\"mode\": \"balanced\"});const s2=R({\"mode\": \"sport\"});R({});return s0.r===\"32.1\" && s1.r===\"28.2\" && s2.r===\"24.8\";})()"
+ ],
+ "scroll": [
+  {
+   "t": 3,
+   "to": "#modeChips",
+   "offset": 250
+  },
+  {
+   "t": 5.5,
+   "to": "#modeChips",
+   "offset": 250
+  },
+  {
+   "t": 6.8,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 9,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 10,
+   "to": "#modeChips",
+   "offset": 250
+  },
+  {
+   "t": 12.5,
+   "to": "#modeChips",
+   "offset": 250
+  },
+  {
+   "t": 13.8,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 16,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 17,
+   "to": "#modeChips",
+   "offset": 250
+  },
+  {
+   "t": 19.5,
+   "to": "#modeChips",
+   "offset": 250
+  },
+  {
+   "t": 20.8,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 23,
+   "to": "#rangeOut",
+   "offset": 300
+  }
+ ],
+ "actions": [
+  {
+   "t": 3.5,
+   "js": "((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};})({\"mode\": \"eco\"})"
+  },
+  {
+   "t": 10.5,
+   "js": "((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};})({\"mode\": \"balanced\"})"
+  },
+  {
+   "t": 17.5,
+   "js": "((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};})({\"mode\": \"sport\"})"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "اقتصادي ولا رياضي؟ 🔋",
+  "lines": [
+   "كنجربوها ف الحاسبة الحقيقية",
+   "نمط القيادة يغيّر المدى",
+   "بطارية 36V • 12.8Ah"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب الحاسبة مجاناً بأرقام سكوترك",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.2,
+   6.2,
+   "نمط اقتصادي 🌱"
+  ],
+  [
+   7.0,
+   9.8,
+   "المدى المقدّر: 32.1 كم"
+  ],
+  [
+   10.2,
+   13.2,
+   "نمط متوازن"
+  ],
+  [
+   14.0,
+   16.8,
+   "المدى المقدّر: 28.2 كم"
+  ],
+  [
+   17.2,
+   20.2,
+   "نمط رياضي 🔥"
+  ],
+  [
+   21.0,
+   23.8,
+   "المدى المقدّر: 24.8 كم"
+  ],
+  [
+   24.0,
+   26.3,
+   "من الاقتصادي للرياضي: نقص حوالي 7.3 كم"
+  ]
+ ]
+}

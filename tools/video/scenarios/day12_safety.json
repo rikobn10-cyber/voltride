@@ -1,0 +1,82 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Safety center screen of the app; subtitles only restate the app's own headings.",
+ "topLabel": "مركز السلامة ف التطبيق",
+ "setup": [
+  "document.querySelector('.nav-btn[data-screen=safety]').click()"
+ ],
+ "assert": [
+  "document.getElementById('safety').classList.contains('active') && document.querySelectorAll('#safety .card').length===3"
+ ],
+ "scroll": [
+  {
+   "t": 3,
+   "to": "#safety .card:nth-of-type(2)",
+   "offset": 150
+  },
+  {
+   "t": 9,
+   "to": "#safety .card:nth-of-type(2)",
+   "offset": 150
+  },
+  {
+   "t": 10,
+   "to": "#safety .card:nth-of-type(3)",
+   "offset": 150
+  },
+  {
+   "t": 16,
+   "to": "#safety .card:nth-of-type(3)",
+   "offset": 150
+  },
+  {
+   "t": 17,
+   "to": "#safety .card:nth-of-type(4)",
+   "offset": 150
+  },
+  {
+   "t": 23,
+   "to": "#safety .card:nth-of-type(4)",
+   "offset": 150
+  }
+ ],
+ "actions": [],
+ "intro": {
+  "until": 3,
+  "title": "3 حاجات خاصك تعرفها على السلامة 🛡️",
+  "lines": [
+   "مركز السلامة ف التطبيق",
+   "البطارية، الإطارات والفرامل، قبل القيادة"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب الحاسبة مجاناً بأرقام سكوترك",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.4,
+   9.4,
+   "🔋 العناية بالبطارية: الشاحن الصحيح والشحن ف مكان مناسب"
+  ],
+  [
+   10.4,
+   16.4,
+   "🛞 الإطارات والفرامل: ضغط مناسب وفحص الفرامل"
+  ],
+  [
+   17.4,
+   23.4,
+   "🧤 قبل القيادة: خوذة وإضاءة، وحذر من الماء"
+  ],
+  [
+   24.0,
+   26.3,
+   "السلامة أولاً، وراجع دائماً دليل الشركة المصنّعة"
+  ]
+ ]
+}

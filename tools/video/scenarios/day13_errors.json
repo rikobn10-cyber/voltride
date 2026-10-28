@@ -1,0 +1,96 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Errors screen of the app (E14, E15, BAT, BRK). Subtitles restate the app's own short guidance; codes differ per manufacturer, as the app says.",
+ "topLabel": "تشخيص الأعطال",
+ "setup": [
+  "document.querySelector('.nav-btn[data-screen=errors]').click()"
+ ],
+ "assert": [
+  "document.getElementById('errors').classList.contains('active') && document.querySelectorAll('#errorList details').length===4"
+ ],
+ "scroll": [
+  {
+   "t": 3,
+   "to": "#errorList",
+   "offset": 150
+  },
+  {
+   "t": 9,
+   "to": "#errorList",
+   "offset": 150
+  },
+  {
+   "t": 10,
+   "to": "#errorList",
+   "offset": 150
+  },
+  {
+   "t": 16,
+   "to": "#errorList",
+   "offset": 150
+  },
+  {
+   "t": 17,
+   "to": "#errorList",
+   "offset": 150
+  },
+  {
+   "t": 23,
+   "to": "#errorList",
+   "offset": 150
+  }
+ ],
+ "actions": [
+  {
+   "t": 3.4,
+   "js": "document.querySelectorAll('#errorList details')[0].open=true"
+  },
+  {
+   "t": 10.4,
+   "js": "document.querySelectorAll('#errorList details')[0].open=false;document.querySelectorAll('#errorList details')[1].open=true"
+  },
+  {
+   "t": 17.4,
+   "js": "document.querySelectorAll('#errorList details')[1].open=false;document.querySelectorAll('#errorList details')[2].open=true;document.querySelectorAll('#errorList details')[3].open=true"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "شنو كيعني كود الخطأ ف السكوتر؟ 🔧",
+  "lines": [
+   "تشخيص الأعطال ف التطبيق",
+   "E14، E15، BAT، BRK",
+   "الأكواد كتختلف حسب الشركة"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب الحاسبة مجاناً بأرقام سكوترك",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.4,
+   9.4,
+   "E14: افحص المقبض والأسلاك، وتجنب القيادة إلا كان التسارع غير متوقع"
+  ],
+  [
+   10.4,
+   16.4,
+   "E15: تحقق باللي ذراع الفرامل ما عالقش، وإلا بقا الخطأ اطلب فحص"
+  ],
+  [
+   17.4,
+   23.4,
+   "BAT و BRK: الشاحن الصحيح، وما تكملش القيادة إلا الفرامل غير طبيعية"
+  ],
+  [
+   24.0,
+   26.3,
+   "الأكواد كتختلف حسب الشركة والموديل، وما تفكش البطارية بلا تأهيل"
+  ]
+ ]
+}
