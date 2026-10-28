@@ -60,4 +60,5 @@ summary.push('', `**${urls.length} pages checked: ${blocking} blocking, ${warnin
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary.join('\n') + '\n');
 fs.writeFileSync('a11y-report.md', summary.join('\n') + '\n');
 console.log(`\n${urls.length} pages: ${blocking} blocking, ${warnings} warnings`);
+if (process.env.GITHUB_ACTIONS) console.log(`::notice title=axe result::${base} - ${urls.length} pages: ${blocking} blocking, ${warnings} warnings`);
 process.exit(blocking ? 1 : 0);
