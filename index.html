@@ -448,6 +448,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       <div class="metric"><small data-i18n="reserve">احتياطي 10%</small><strong id="reserveOut">—</strong><em>km</em></div>
     </div>
     <div class="advice" id="advice" style="margin-top:12px">⚡ أدخل بياناتك ثم اضغط «احسب الآن».</div>
+    <button type="button" class="share-cta" id="shareResultBtn" style="margin-top:12px"><span aria-hidden="true">🖼️</span> <span data-i18n="shareResult">شارك نتيجتك كصورة</span></button>
     <p class="small" data-i18n="estimateNote">هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.</p>
   </div>
 
@@ -689,7 +690,7 @@ const I18N = {
     rcAvail:"المتاح",rcNeed:"المطلوب",rcMargin:"الهامش",rcNoLearning:"لم يتعلّم بعد",rcFactorLabel:"معامل الواقع",
     rcLearnTitle:"📏 سجّل رحلتك الفعلية ليتعلّم التطبيق",rcLearnSub:"بعد الرحلة، أدخل المسافة التي قطعتها ونسبة البطارية التي استهلكتها، فيصحّح VoltRide تقديراته لسكوترك. سجّلها بنفس إعدادات الحاسبة.",rcTripDist:"المسافة الفعلية (km)",rcTripUsed:"البطارية المستهلكة (%)",rcTripSave:"حفظ الرحلة",rcTripInvalid:"أدخل مسافة (1 كم أو أكثر) واستهلاكاً بين 5 و100%",rcTripSaved:"تم تعلّم الرحلة، التقديرات أدق الآن",rcTrips:"رحلات مسجلة",rcResetLearn:"إعادة التعلّم من الصفر",rcResetDone:"تمت إعادة معامل الواقع",
     analytics:"التحليلات (Cookies)",analyticsSub:"قياس الزيارات لتحسين التطبيق. لا يعمل إلا بموافقتك.",analyticsBtn:"تغيير",
-    shareText:"⚡ VoltRide — احسب مدى سكوترك، وقت الشحن، وتكلفة الكهرباء في ثوانٍ. مجاني وبدون تسجيل:"
+    shareResult:"شارك نتيجتك كصورة",srRange:"المدى المقدّر",srCharge:"وقت الشحن",srCost:"تكلفة الشحنة",srRider:"الراكب",srBat:"البطارية",srNote:"تقديرات تقريبية وليست قياسات مخبرية",srText:"⚡ هذه نتيجتي في VoltRide:",srDone:"تم حفظ الصورة",shareText:"⚡ VoltRide — احسب مدى سكوترك، وقت الشحن، وتكلفة الكهرباء في ثوانٍ. مجاني وبدون تسجيل:"
   },
   fr:{
     quickSmart:"Analyse instantanée",quickBattery:"Énergie & charge",quickCost:"Coût clair",tagline:"Votre compagnon scooter",heroText:"Estimez autonomie, recharge et coût électrique en quelques secondes.",smartBadge:"● Analyse intelligente",smartStatus:"État du trajet",tripCost:"Coût énergétique",perCharge:"/ charge",
@@ -717,7 +718,7 @@ const I18N = {
     rcAvail:"Disponible",rcNeed:"Nécessaire",rcMargin:"Marge",rcNoLearning:"Pas encore appris",rcFactorLabel:"Facteur réel",
     rcLearnTitle:"📏 Enregistrez un trajet réel pour que l'app apprenne",rcLearnSub:"Après un trajet, saisissez la distance parcourue et le pourcentage de batterie consommé : VoltRide corrige ses estimations pour votre scooter. Utilisez les mêmes réglages du calculateur.",rcTripDist:"Distance réelle (km)",rcTripUsed:"Batterie consommée (%)",rcTripSave:"Enregistrer le trajet",rcTripInvalid:"Saisissez une distance (≥ 1 km) et une consommation entre 5 et 100 %",rcTripSaved:"Trajet appris, estimations plus précises",rcTrips:"trajets enregistrés",rcResetLearn:"Réinitialiser l'apprentissage",rcResetDone:"Facteur réel réinitialisé",
     analytics:"Statistiques (cookies)",analyticsSub:"Mesure d'audience pour améliorer l'app. Activée uniquement avec votre accord.",analyticsBtn:"Modifier",
-    shareText:"⚡ VoltRide — estimez autonomie, recharge et coût en quelques secondes. Gratuit et sans inscription :"
+    shareResult:"Partager mon résultat (image)",srRange:"Autonomie estimée",srCharge:"Temps de charge",srCost:"Coût de la charge",srRider:"Pilote",srBat:"Batterie",srNote:"Estimations approximatives, pas des mesures de laboratoire",srText:"⚡ Voici mon résultat sur VoltRide :",srDone:"Image enregistrée",shareText:"⚡ VoltRide — estimez autonomie, recharge et coût en quelques secondes. Gratuit et sans inscription :"
   },
   en:{
     quickSmart:"Instant insight",quickBattery:"Energy & charge",quickCost:"Clear cost",tagline:"Your smart scooter companion",heroText:"Estimate range, charging time and electricity cost in seconds.",smartBadge:"● Smart analysis",smartStatus:"Trip status",tripCost:"Energy cost",perCharge:"/ charge",
@@ -745,7 +746,7 @@ const I18N = {
     rcAvail:"Available",rcNeed:"Needed",rcMargin:"Margin",rcNoLearning:"Not learned yet",rcFactorLabel:"Reality factor",
     rcLearnTitle:"📏 Log a real trip so the app learns",rcLearnSub:"After a ride, enter the distance you covered and the battery percentage used, and VoltRide corrects its estimates for your scooter. Log it with the same calculator settings.",rcTripDist:"Actual distance (km)",rcTripUsed:"Battery used (%)",rcTripSave:"Save trip",rcTripInvalid:"Enter a distance (1 km or more) and usage between 5 and 100%",rcTripSaved:"Trip learned, estimates are more accurate now",rcTrips:"trips logged",rcResetLearn:"Reset learning",rcResetDone:"Reality factor reset",
     analytics:"Analytics (cookies)",analyticsSub:"Visit measurement to improve the app. Runs only with your consent.",analyticsBtn:"Change",
-    shareText:"⚡ VoltRide — estimate range, charge time and cost in seconds. Free, no signup:"
+    shareResult:"Share your result as an image",srRange:"Estimated range",srCharge:"Charge time",srCost:"Charge cost",srRider:"Rider",srBat:"Battery",srNote:"Rough estimates, not lab measurements",srText:"⚡ My result on VoltRide:",srDone:"Image saved",shareText:"⚡ VoltRide — estimate range, charge time and cost in seconds. Free, no signup:"
   }
 };
 
@@ -1305,6 +1306,51 @@ async function shareApp(){
   }
 }
 
+/* ==== Share result as image (Canvas) ==== */
+function buildResultCanvas(){
+  const W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;
+  const x=c.getContext("2d"), rtl=(lang==="ar"), FONT='system-ui,"Noto Sans Arabic","Noto Sans",Arial,sans-serif';
+  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#0b1220");g.addColorStop(1,"#050a14");x.fillStyle=g;x.fillRect(0,0,W,H);
+  const r=x.createRadialGradient(W/2,0,0,W/2,0,700);r.addColorStop(0,"rgba(0,242,254,.25)");r.addColorStop(1,"rgba(0,242,254,0)");x.fillStyle=r;x.fillRect(0,0,W,H);
+  x.textAlign="center";x.direction=rtl?"rtl":"ltr";
+  const T=(txt,y,size,color,weight)=>{x.font=(weight||800)+" "+size+"px "+FONT;x.fillStyle=color;x.fillText(txt,W/2,y);};
+  x.direction="ltr";T("⚡ VoltRide",130,64,"#00f2fe",900);x.direction=rtl?"rtl":"ltr";
+  const rng=document.getElementById("rangeOut").textContent, ch=document.getElementById("chargeOut").textContent, cost=document.getElementById("costOut").textContent;
+  const card=(y,label,val,unit)=>{
+    x.fillStyle="rgba(255,255,255,.06)";x.strokeStyle="rgba(0,242,254,.35)";x.lineWidth=2;
+    x.beginPath();x.roundRect(90,y,W-180,230,28);x.fill();x.stroke();
+    T(label,y+70,36,"#cbd5e1",700);x.direction="ltr";T(val+(unit?" "+unit:""),y+175,92,"#ffffff",900);x.direction=rtl?"rtl":"ltr";};
+  card(210,t("srRange"),rng,"km");
+  card(470,t("srCharge"),ch,"h");
+  card(730,t("srCost"),cost,"");
+  const w=document.getElementById("weight").value, v=document.getElementById("voltage").value, ah=document.getElementById("capacity").value;
+  x.direction=rtl?"rtl":"ltr";
+  T(t("srRider")+": \u2066"+w+" kg\u2069",1030,34,"#e2e8f0",700);
+  T(t("srBat")+": \u2066"+v+"V / "+ah+"Ah\u2069",1076,34,"#e2e8f0",700);
+  T(t("srNote"),1132,28,"#94a3b8",600);
+  x.direction="ltr";x.fillStyle="#00f2fe";x.beginPath();x.roundRect(240,1180,W-480,90,24);x.fill();
+  T("voltride-4qj.pages.dev",1242,40,"#001116",900);
+  return c;
+}
+async function shareResult(){
+  if(!lastCalc) calculate();
+  const canvas=buildResultCanvas();
+  const blob=await new Promise(res=>canvas.toBlob(res,"image/png"));
+  if(!blob){toast(lang==="ar"?"تعذر إنشاء الصورة":lang==="fr"?"Création de l'image impossible":"Could not create the image");return;}
+  const file=new File([blob],"voltride-result.png",{type:"image/png"});
+  try{
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],text:t("srText")+" "+SHARE_LINK});
+      return;
+    }
+  }catch(e){ if(e&&e.name==="AbortError") return; }
+  try{
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="voltride-result.png";
+    document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    toast(t("srDone"));
+  }catch(e){toast(lang==="ar"?"تعذر حفظ الصورة":lang==="fr"?"Enregistrement impossible":"Could not save the image");}
+}
+
 function resetAppSettings(){
   const keys = ["voltride_language","voltride_terrain","voltride_mode","voltride_favorites","voltride_compare","voltride_tariff","voltride_tariffs","voltride_currency","voltride_oled","voltride_my_scooter","voltride_charge_history","voltride_reality","voltride_trip_log","voltride_rc"];
   keys.forEach(k => Store.remove(k));
@@ -1464,6 +1510,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("languageSelect").onchange = e => setLanguage(e.target.value);
   document.getElementById("shareBtn").onclick = shareApp;
   document.getElementById("shareHeroBtn").onclick = shareApp;
+  document.getElementById("shareResultBtn").onclick = shareResult;
   document.getElementById("installBtn").onclick = triggerInstall;
   document.getElementById("resetBtn").onclick = () => {
     if (confirm(t("resetConfirm"))) resetAppSettings();
