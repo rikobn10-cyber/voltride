@@ -1,0 +1,119 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Weight vs range. Numbers verified against the live app on 2026-10-28: 60 kg = 34.4 km, 100 kg = 28.8 km (difference 5.6 km, about 16%). Defaults: 36V, 12.8Ah, 25 km/h, flat road, 300 W motor. The generator re-checks these before recording.",
+ "assert": [
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && motor.value==='300' && weight.value==='75'",
+  "(()=>{const set=w=>{const e=document.getElementById('weight');e.value=w;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();return rangeOut.textContent;};const a=set(60),b=set(100);set(75);return a==='34.4'&&b==='28.8';})()"
+ ],
+ "scroll": [
+  {
+   "t": 0,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 8.0,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 9.5,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 13.0,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 14.0,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 17.5,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 19.0,
+   "to": "#rangeOut",
+   "offset": 300
+  }
+ ],
+ "actions": [
+  {
+   "t": 3.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=70;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 4.4,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=65;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 4.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=60;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 14.4,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=70;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 14.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=80;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 15.4,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=90;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 15.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=100;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "واش وزنك كيأثر على مدى السكوتر؟ ⚖️",
+  "lines": [
+   "كنجربوها ف الحاسبة الحقيقية",
+   "بطارية 36V • 12.8Ah",
+   "60 كغ مقابل 100 كغ"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب بوزنك أنت، مجاناً",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.0,
+   8.0,
+   "بطارية 36V و12.8Ah، سرعة 25 كم/س. نبداو براكب وزنه 60 كغ ⚖️"
+  ],
+  [
+   9.0,
+   13.0,
+   "المدى المقدّر: 34.4 كم"
+  ],
+  [
+   14.0,
+   17.5,
+   "دابا نبدلو الوزن ل 100 كغ ⚖️"
+  ],
+  [
+   19.0,
+   23.0,
+   "المدى المقدّر: 28.8 كم، يعني أقل بحوالي 5.6 كم (≈16%)"
+  ],
+  [
+   23.0,
+   26.0,
+   "(تقدير تقريبي: السرعة والطريق والبرد كيأثرو بزاف)"
+  ]
+ ]
+}
