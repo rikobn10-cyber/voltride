@@ -2,9 +2,9 @@
  "duration": 30,
  "fps": 20,
  "lang": "ar",
- "_note": "Weight vs range. Numbers verified against the live app on 2026-10-28: 60 kg = 34.4 km, 100 kg = 28.8 km (difference 5.6 km, about 16%). Defaults: 36V, 12.8Ah, 25 km/h, flat road, 300 W motor. The generator re-checks these before recording.",
+ "_note": "Weight vs range. Numbers verified against the live app on 2026-10-28: 60 kg = 34.4 km, 100 kg = 28.8 km (difference 5.6 km, about 16%). Defaults: 36V, 12.8Ah, 25 km/h, flat road, eco riding mode, 300 W motor. The generator re-checks these before recording.",
  "assert": [
-  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && motor.value==='300' && weight.value==='75'",
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && motor.value==='300' && weight.value==='75' && mode==='eco' && terrain==='flat'",
   "(()=>{const set=w=>{const e=document.getElementById('weight');e.value=w;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();return rangeOut.textContent;};const a=set(60),b=set(100);set(75);return a==='34.4'&&b==='28.8';})()"
  ],
  "scroll": [
@@ -92,8 +92,13 @@
  "subs": [
   [
    3.0,
+   5.5,
+   "بطارية 36V و12.8Ah، سرعة 25 كم/س، نمط اقتصادي"
+  ],
+  [
+   5.5,
    8.0,
-   "بطارية 36V و12.8Ah، سرعة 25 كم/س. نبداو براكب وزنه 60 كغ ⚖️"
+   "نبداو براكب وزنه 60 كغ ⚖️"
   ],
   [
    9.0,

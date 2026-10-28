@@ -1,0 +1,108 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Return check, 9 km one way at 80% battery, weather normal/hot/cold; needles are the app's own margin numbers.",
+ "assert": [
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && weight.value==='75' && charger.value==='2' && motor.value==='300' && mode==='eco' && terrain==='flat'",
+  "(()=>{const R=((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;});const ok=R(9,80,'normal').includes('7.7') && R(9,80,'hot').includes('6.4') && R(9,80,'cold').includes('3.8');R(8,100,'normal');return ok;})()"
+ ],
+ "scroll": [
+  {
+   "t": 3,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 9,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 10,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 16,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 17,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  },
+  {
+   "t": 23,
+   "to": "#rcWeatherChips",
+   "offset": 230
+  }
+ ],
+ "actions": [
+  {
+   "t": 3.5,
+   "js": "((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;})(9,80,'normal')"
+  },
+  {
+   "t": 10.5,
+   "js": "((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;})(9,80,'hot')"
+  },
+  {
+   "t": 17.5,
+   "js": "((d,bt,w)=>{const s=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};s('rcDist',d);s('rcBat',bt);const ch=document.querySelector('#rcWeatherChips .chip[data-value='+w+']');if(!ch.classList.contains('active'))ch.click();return rcDetail.textContent;})(9,80,'cold')"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "هل ترجع بالطقس الحار والبارد؟ 🌡️",
+  "lines": [
+   "اختبار العودة ف التطبيق الحقيقي",
+   "رحلة 9 كم، البطارية 80%",
+   "طقس عادي، حار جداً، بارد"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب الحاسبة مجاناً بأرقام سكوترك",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.2,
+   6.2,
+   "طقس عادي: رحلة 9 كم والبطارية 80%"
+  ],
+  [
+   6.6,
+   9.8,
+   "يبقى حوالي 7.7 كم احتياطاً 🟢"
+  ],
+  [
+   10.2,
+   13.2,
+   "طقس حار جداً ☀️"
+  ],
+  [
+   13.6,
+   16.8,
+   "يبقى حوالي 6.4 كم احتياطاً 🟢"
+  ],
+  [
+   17.2,
+   20.2,
+   "طقس بارد 🥶"
+  ],
+  [
+   20.6,
+   23.8,
+   "الهامش ضيق: حوالي 3.8 كم 🟡"
+  ],
+  [
+   24.0,
+   26.3,
+   "(تقدير تقريبي، ماشي قياس مخبري)"
+  ]
+ ]
+}

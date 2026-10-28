@@ -1,0 +1,138 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Numbers measured on the live app on 2026-10-28 (36V, 12.8Ah, 75 kg, 25 km/h, flat, eco, 300 W, 2 A charger unless a state changes them); the generator re-checks them before recording.",
+ "assert": [
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && weight.value==='75' && charger.value==='2' && motor.value==='300' && mode==='eco' && terrain==='flat'",
+  "(()=>{const R=((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};});const s0=R({\"terrain\": \"flat\"});const s1=R({\"terrain\": \"mixed\"});const s2=R({\"terrain\": \"hills\"});R({});return s0.r===\"32.1\" && s1.r===\"28.6\" && s2.r===\"24.7\";})()"
+ ],
+ "scroll": [
+  {
+   "t": 3,
+   "to": "#terrainChips",
+   "offset": 250
+  },
+  {
+   "t": 5.5,
+   "to": "#terrainChips",
+   "offset": 250
+  },
+  {
+   "t": 6.8,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 9,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 10,
+   "to": "#terrainChips",
+   "offset": 250
+  },
+  {
+   "t": 12.5,
+   "to": "#terrainChips",
+   "offset": 250
+  },
+  {
+   "t": 13.8,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 16,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 17,
+   "to": "#terrainChips",
+   "offset": 250
+  },
+  {
+   "t": 19.5,
+   "to": "#terrainChips",
+   "offset": 250
+  },
+  {
+   "t": 20.8,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 23,
+   "to": "#rangeOut",
+   "offset": 300
+  }
+ ],
+ "actions": [
+  {
+   "t": 3.5,
+   "js": "((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};})({\"terrain\": \"flat\"})"
+  },
+  {
+   "t": 10.5,
+   "js": "((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};})({\"terrain\": \"mixed\"})"
+  },
+  {
+   "t": 17.5,
+   "js": "((cfg)=>{const set=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const chip=(g,v)=>{const e=document.querySelector(g+' .chip[data-value='+v+']');if(e&&!e.classList.contains('active'))e.click();};const d=Object.assign({weight:75,speed:25,voltage:36,capacity:12.8,charger:2,terrain:'flat',mode:'eco'},cfg);set('weight',d.weight);set('speed',d.speed);set('voltage',d.voltage);set('capacity',d.capacity);set('charger',d.charger);chip('#terrainChips',d.terrain);chip('#modeChips',d.mode);document.getElementById('calculateBtn').click();return {r:rangeOut.textContent,e:energyOut.textContent,ch:chargeOut.textContent,cost:costOut.textContent};})({\"terrain\": \"hills\"})"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "المرتفعات كتقتل المدى؟ ⛰️",
+  "lines": [
+   "كنجربوها ف الحاسبة الحقيقية",
+   "طريق مستوٍ، مختلط، ومرتفعات",
+   "بطارية 36V • 12.8Ah"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب الحاسبة مجاناً بأرقام سكوترك",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.2,
+   6.2,
+   "طريق مستوٍ"
+  ],
+  [
+   7.0,
+   9.8,
+   "المدى المقدّر: 32.1 كم"
+  ],
+  [
+   10.2,
+   13.2,
+   "طريق مختلط"
+  ],
+  [
+   14.0,
+   16.8,
+   "المدى المقدّر: 28.6 كم"
+  ],
+  [
+   17.2,
+   20.2,
+   "مرتفعات ⛰️"
+  ],
+  [
+   21.0,
+   23.8,
+   "المدى المقدّر: 24.7 كم"
+  ],
+  [
+   24.0,
+   26.3,
+   "المرتفعات نقصات حوالي 7.4 كم مقارنة بالطريق المستوي"
+  ]
+ ]
+}

@@ -1,0 +1,79 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "ar",
+ "_note": "Share-result feature demo using default numbers (32.1 km, 7.4 h, 0.55 MAD), which the generator re-checks.",
+ "assert": [
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && weight.value==='75' && charger.value==='2' && motor.value==='300' && mode==='eco' && terrain==='flat'",
+  "(()=>{document.getElementById('calculateBtn').click();return rangeOut.textContent==='32.1' && chargeOut.textContent==='7.4' && costOut.textContent==='0.55 MAD' && !!document.getElementById('shareResultBtn');})()"
+ ],
+ "scroll": [
+  {
+   "t": 0,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 10,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 12,
+   "to": "#shareResultBtn",
+   "offset": 330
+  },
+  {
+   "t": 24,
+   "to": "#shareResultBtn",
+   "offset": 330
+  }
+ ],
+ "actions": [
+  {
+   "t": 3,
+   "js": "document.getElementById('calculateBtn').click()"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "شارك نتيجتك مع صحابك 📤",
+  "lines": [
+   "صورة جاهزة بالمدى ووقت الشحن والتكلفة",
+   "بضغطة وحدة ف التطبيق"
+  ]
+ },
+ "outro": {
+  "from": 26.5,
+  "title": "جرّب وشارك نتيجتك مجاناً",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "بدون حساب • العربية والفرنسية والإنجليزية\nالأرقام تقديرات تقريبية وليست قياسات مخبرية؛ راجع دليل الشركة المصنّعة."
+ },
+ "subs": [
+  [
+   3.0,
+   7.0,
+   "هادي نتيجة حاسبة VoltRide: المدى 32.1 كم"
+  ],
+  [
+   7.0,
+   12.0,
+   "وقت الشحن 7.4 ساعات، وتكلفة الشحنة ≈ 0.55 درهم"
+  ],
+  [
+   12.5,
+   19.0,
+   "زر «شارك نتيجتك كصورة» كيصاوب ليك صورة ديال النتيجة"
+  ],
+  [
+   19.0,
+   24.0,
+   "شاركها مع صحابك وقارنو الأرقام بينكم"
+  ],
+  [
+   24.0,
+   26.3,
+   "الأرقام تقديرات تقريبية، ماشي قياسات مخبرية"
+  ]
+ ]
+}
