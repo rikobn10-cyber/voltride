@@ -46,6 +46,11 @@ STATIC_URLS = [("", "1.0", TODAY), ("blog.html", "0.9", TODAY), ("about.html", "
                ("fr/article-11.html", "0.7", TODAY)]
 
 
+def clean_path(p):
+    """sitemap/canonical form of a page path: Cloudflare Pages serves /about for about.html and redirects the .html URL (308)."""
+    return p[:-5] if p.endswith(".html") else p
+
+
 def esc(s):
     return html.escape(str(s), quote=True)
 
@@ -206,7 +211,7 @@ def page(m):
     rows, sp = scenarios(m)
     energy = wh(m)
     mid = rows[1][2][0]
-    url = f"{BASE}/{slug}.html"
+    url = f"{BASE}/{slug}"            # clean URL: Cloudflare Pages redirects *.html to the extensionless URL
     title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide للمغرب"
     desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
             f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
@@ -215,7 +220,7 @@ def page(m):
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in fq]}
     ld_crumb = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "VoltRide", "item": BASE + "/"},
-        {"@type": "ListItem", "position": 2, "name": "المدونة", "item": BASE + "/blog.html"},
+        {"@type": "ListItem", "position": 2, "name": "المدونة", "item": BASE + "/blog"},
         {"@type": "ListItem", "position": 3, "name": m["name"], "item": url}]}
     js = lambda o: json.dumps(o, ensure_ascii=False, indent=1)
 
@@ -368,7 +373,7 @@ def main():
     # sitemap
     urls = STATIC_URLS + [(f"{m['id']}.html", "0.7", MOD) for m in MODELS]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
-    sm += [f"  <url><loc>{BASE}/{p}</loc><lastmod>{lm}</lastmod><priority>{pr}</priority>"
+    sm += [f"  <url><loc>{BASE}/{clean_path(p)}</loc><lastmod>{lm}</lastmod><priority>{pr}</priority>"
            + (f"<image:image><image:loc>{BASE}/{IMAGES[p]}</image:loc></image:image>" if p in IMAGES else "")
            + "</url>" for p, pr, lm in urls]
     assert len({u[0] for u in urls}) == len(urls), "duplicate sitemap URL"
