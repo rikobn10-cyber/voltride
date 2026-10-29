@@ -29,6 +29,9 @@
 .buy-box{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:rgba(0,242,254,.06);border:1px dashed rgba(0,242,254,.35);border-radius:12px;padding:12px 14px;margin:14px 0}
 .buy-box span{color:#dbeafe;font-size:14px}
 .buy-btn{display:inline-block;min-height:44px;padding:10px 20px;border-radius:10px;border:0;font:inherit;font-weight:800;text-decoration:none;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#001116}
+.buy-thumb{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:12px;background:#0f1a2e;border:1px solid rgba(0,242,254,.25);font-size:40px;object-fit:cover}
+.buy-label{flex:1 1 180px}
+@media(max-width:420px){.buy-box{justify-content:center;text-align:center}.buy-label{flex-basis:100%}}
 .sponsor{display:inline-block;margin-inline-start:6px;padding:2px 8px;border-radius:999px;background:rgba(245,158,11,.15);color:var(--amber);font-size:12px;font-weight:700}
 .disclosure{background:rgba(245,158,11,.08);border-inline-start:3px solid var(--amber);border-radius:12px;padding:12px 14px;font-size:14px}
 .buy-btn[disabled]{opacity:.45;cursor:not-allowed;background:var(--line);color:var(--muted)}
@@ -79,6 +82,7 @@
 
 <p>Il n&#x27;existe pas de « meilleure » trottinette électrique pour tout le monde : il existe celle qui correspond à votre trajet, à votre poids et à la réglementation de votre pays. Ce guide vous donne les critères qui comptent vraiment, puis compare trois modèles populaires de notre base de données. Les chiffres d&#x27;autonomie sont des <strong>estimations théoriques VoltRide</strong>, pas des mesures de laboratoire.</p>
 
+<!-- VIGNETTES: les .buy-thumb sont des pictogrammes neutres. Pour mettre la vraie image du produit (fournie par le programme d'affiliation), remplacez le <span class="buy-thumb"> par: <img class="buy-thumb" src="URL" alt="" width="96" height="96" loading="lazy"> -->
 <h2>🎯 Les critères pour bien choisir</h2>
 
 <h3>1. L&#x27;autonomie réelle, pas l&#x27;autonomie annoncée</h3>
@@ -105,15 +109,18 @@
 </ul>
 <p><strong>Deux accessoires utiles côté sécurité :</strong> un éclairage avant supplémentaire rechargeable en USB, à fixer sur le guidon, et des chambres à air de rechange pour Xiaomi M365 / Pro (8,5 pouces) afin de ne pas rester bloqué après une crevaison. Des rétroviseurs de guidon aident aussi à surveiller la circulation derrière vous, à condition de bien les régler avant de partir. Vérifiez la compatibilité de chaque accessoire avec votre modèle avant de commander, et gardez l&#x27;éclairage d&#x27;origine, qui reste obligatoire.</p>
 <div class="buy-box" data-slot="eclairage-avant">
-<span>💡 Éclairage avant USB pour guidon <small class="sponsor">Lien sponsorisé</small></span>
+<span class="buy-thumb" aria-hidden="true">💡</span>
+<span class="buy-label">Éclairage avant USB pour guidon <small class="sponsor">Lien sponsorisé</small></span>
 <a class="buy-btn" href="https://s.click.aliexpress.com/e/_c4TEgA0L" target="_blank" rel="sponsored nofollow noopener">Voir l&#x27;offre →</a>
 </div>
 <div class="buy-box" data-slot="chambres-a-air">
-<span>🛞 Chambres à air 8,5″ (Xiaomi M365 / Pro) <small class="sponsor">Lien sponsorisé</small></span>
+<span class="buy-thumb" aria-hidden="true">🛞</span>
+<span class="buy-label">Chambres à air 8,5″ (Xiaomi M365 / Pro) <small class="sponsor">Lien sponsorisé</small></span>
 <a class="buy-btn" href="https://s.click.aliexpress.com/e/_c3CJdKRp" target="_blank" rel="sponsored nofollow noopener">Voir l&#x27;offre →</a>
 </div>
 <div class="buy-box" data-slot="retroviseurs">
-<span>🔍 Rétroviseurs de guidon (compatibles Ninebot / Segway, selon modèle) <small class="sponsor">Lien sponsorisé</small></span>
+<span class="buy-thumb" aria-hidden="true">🔍</span>
+<span class="buy-label">Rétroviseurs de guidon (compatibles Ninebot / Segway, selon modèle) <small class="sponsor">Lien sponsorisé</small></span>
 <a class="buy-btn" href="https://s.click.aliexpress.com/e/_c2z1Fn2b" target="_blank" rel="sponsored nofollow noopener">Voir l&#x27;offre →</a>
 </div>
 
@@ -123,11 +130,13 @@
 <li>Un <strong>crochet frontal</strong> permet d&#x27;accrocher un sac léger : à utiliser avec modération, car une charge mal placée dégrade la stabilité. Vérifiez qu&#x27;il correspond à votre modèle (celui-ci vise les Xiaomi M365 / Pro 1S).</li>
 </ul>
 <div class="buy-box" data-slot="sacoche-avant">
-<span>🎒 Sacoche avant étanche <small class="sponsor">Lien sponsorisé</small></span>
+<span class="buy-thumb" aria-hidden="true">🎒</span>
+<span class="buy-label">Sacoche avant étanche <small class="sponsor">Lien sponsorisé</small></span>
 <a class="buy-btn" href="https://s.click.aliexpress.com/e/_c3jXircf" target="_blank" rel="sponsored nofollow noopener">Voir l&#x27;offre →</a>
 </div>
 <div class="buy-box" data-slot="crochet-frontal">
-<span>🪝 Crochet frontal (Xiaomi M365 / Pro 1S) <small class="sponsor">Lien sponsorisé</small></span>
+<span class="buy-thumb" aria-hidden="true">🪝</span>
+<span class="buy-label">Crochet frontal (Xiaomi M365 / Pro 1S) <small class="sponsor">Lien sponsorisé</small></span>
 <a class="buy-btn" href="https://s.click.aliexpress.com/e/_c3Huv7MB" target="_blank" rel="sponsored nofollow noopener">Voir l&#x27;offre →</a>
 </div>
 
