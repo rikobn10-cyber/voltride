@@ -1,7 +1,7 @@
 // Usage: node tools/video/make_video.js tools/video/scenarios/cost.json out.mp4 [baseUrl]
 // Records the REAL app with Playwright (no fake UI), overlays Arabic subtitles/cards, encodes 1080x1920 MP4 with ffmpeg.
 // Needs: playwright (chromium) and ffmpeg. Serve the site first, e.g. `python3 -m http.server 8130`.
-const {chromium}=require('playwright'),fs=require('fs'),os=require('os'),path=require('path'),{execFileSync}=require('child_process');
+const {chromium}=require('playwright'),fs=require('fs'),os=require('os'),path=require('path'),{execFileSync,spawnSync}=require('child_process');
 const [,, scenarioPath, outMp4='out.mp4', base='http://localhost:8130']=process.argv;
 if(!scenarioPath){console.error('usage: make_video.js scenario.json out.mp4 [baseUrl]');process.exit(1);}
 const S=JSON.parse(fs.readFileSync(scenarioPath,'utf8'));
@@ -18,6 +18,39 @@ const CSS=`.bottom-nav,.compare-float{display:none!important}html{scroll-behavio
 #vr-card .brand{font-size:26px;font-weight:900;color:#00f2fe;direction:ltr}#vr-card .fine{font-size:13px;color:#94a3b8;line-height:1.7;max-width:300px}`;
 const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const cardHtml=c=>`<div class="brand">⚡ VoltRide</div><div class="big">${esc(c.title)}</div>`+(c.lines?`<div class="mid">${c.lines.map(esc).join('<br>')}</div>`:'')+(c.url?`<div class="url">${esc(c.url)}</div>`:'')+(c.fine?`<div class="fine">${esc(c.fine)}</div>`:'');
+
+// Optional voice-over. scenario.voice = {"cmd":["espeak-ng","-v","ar","-w","{out}","{text}"], "maxSpeedup":1.35}
+// "cmd" is an argv array (no shell). {text} is replaced by the spoken text, {out} by a .wav path the engine must write.
+// Spoken text for a subtitle = its optional 4th element (use this for Modern Standard Arabic / diacritics), else the subtitle text without emoji.
+// Each line is placed at the subtitle start; if it is longer than its slot it is sped up (atempo) up to maxSpeedup, and a warning is printed if it still overflows.
+function addVoice(mp4,tmp){
+  const V=S.voice, lines=[];
+  (S.subs||[]).forEach((sub,i)=>{
+    const raw=(sub[3]!==undefined?sub[3]:sub[2]);
+    const text=String(raw).replace(/[\p{Extended_Pictographic}‍️()≈]/gu,' ').replace(/\s+/g,' ').trim();
+    if(!text) return;
+    const wav=path.join(tmp,`v${i}.wav`);
+    execFileSync(V.cmd[0],V.cmd.slice(1).map(a=>a.replace('{out}',wav).replace('{text}',text)),{stdio:'ignore'});
+    const dur=parseFloat(execFileSync('ffprobe',['-v','error','-show_entries','format=duration','-of','csv=p=0',wav]).toString());
+    const slot=sub[1]-sub[0]-0.2, need=dur/slot, max=V.maxSpeedup||1.35;
+    const tempo=Math.min(Math.max(need,1),max);
+    if(dur/tempo>slot) console.warn(`WARNING: voice line ${i} (${dur.toFixed(1)}s) does not fit its ${slot.toFixed(1)}s slot even at x${tempo.toFixed(2)}: shorten its spoken text`);
+    lines.push({wav,start:sub[0]+0.1,tempo});
+  });
+  if(!lines.length) return;
+  const inputs=lines.flatMap(l=>['-i',l.wav]);
+  const filt=lines.map((l,i)=>`[${i}:a]aresample=44100,aformat=channel_layouts=mono,atempo=${l.tempo.toFixed(3)},adelay=${Math.round(l.start*1000)}|${Math.round(l.start*1000)},apad=whole_dur=${DUR}[a${i}]`).join(';')
+    +';'+lines.map((_,i)=>`[a${i}]`).join('')+`amix=inputs=${lines.length}:normalize=0:duration=first[aout]`;
+  const mix=path.join(tmp,'voice-mix.wav');
+  execFileSync('ffmpeg',['-y','-loglevel','error',...inputs,'-filter_complex',filt,'-map','[aout]','-t',String(DUR),mix]);
+  const vd=spawnSync('ffmpeg',['-hide_banner','-i',mix,'-af','volumedetect','-f','null','-'],{encoding:'utf8'});
+  const mv=/mean_volume: (-?[\d.]+) dB/.exec(vd.stderr||'');
+  if(!mv||parseFloat(mv[1])<-60) console.warn('WARNING: the voice-over track is silent or unreadable');
+  const outTmp=mp4+'.voice.mp4';
+  execFileSync('ffmpeg',['-y','-loglevel','error','-i',mp4,'-i',mix,'-map','0:v','-map','1:a','-c:v','copy','-c:a','aac','-b:a','128k','-t',String(DUR),outTmp]);
+  fs.renameSync(outTmp,mp4);
+  console.log('voice-over added:',lines.length,'lines');
+}
 (async()=>{
  const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'vrvid-'));
  const b=await chromium.launch();
@@ -48,6 +81,7 @@ const cardHtml=c=>`<div class="brand">⚡ VoltRide</div><div class="big">${esc(c
  }
  await b.close();
  execFileSync('ffmpeg',['-y','-loglevel','error','-framerate',String(FPS),'-i',path.join(tmp,'f%04d.jpg'),'-vf','scale=1080:1920:flags=lanczos,format=yuv420p','-c:v','libx264','-crf','20','-preset','medium','-movflags','+faststart',outMp4]);
+ if(S.voice) addVoice(outMp4,tmp);
  fs.rmSync(tmp,{recursive:true,force:true});
  console.log('wrote',outMp4);
 })().catch(e=>{console.error('FAIL',e.message);process.exit(1)});
