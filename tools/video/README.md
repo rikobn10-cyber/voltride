@@ -22,3 +22,13 @@ from the command line works (a neural voice can be plugged in the same way). The
 Each line starts with its subtitle; if it is longer than its slot it is sped up (up to `maxSpeedup`), and a warning names any line that still
 overflows. The generator also warns if the final audio track is silent. espeak-ng is robotic and does not speak Moroccan Darija:
 treat it as a plumbing test, not as a brand voice.
+
+## Call to action (optional `cta` block)
+
+```json
+"cta": {"badge": "🆓 مجاني • الرابط في البايو", "arrowFrom": 25, "arrowText": "الرابط في البايو", "arrowSub": "جرّب الحاسبة دابا"}
+```
+
+- `badge`: replaces the small label in the top bar from the middle of the video (`badgeFrom`, default duration/2) until the arrow starts.
+- `arrowFrom` (default duration-4): a big red bouncing arrow with `arrowText` / `arrowSub`, shown over the app and then over the outro card.
+- With `cta`, the outro card content moves up so the arrow does not cover the URL or the disclaimer. Keep the outro short (about 2.5 s).

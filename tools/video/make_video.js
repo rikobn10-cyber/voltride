@@ -15,6 +15,11 @@ const CSS=`.bottom-nav,.compare-float{display:none!important}html{scroll-behavio
 #vr-card{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px;text-align:center;direction:rtl;color:#fff;font-family:${FONT};background:radial-gradient(circle at 50% 0%,rgba(0,242,254,.22),transparent 55%),#0b1220;opacity:0}
 #vr-card .big{font-size:34px;font-weight:900;line-height:1.5}#vr-card .mid{font-size:19px;color:#cbd5e1;line-height:1.8;font-weight:700}
 #vr-card .url{font-size:22px;font-weight:900;color:#001116;background:linear-gradient(135deg,#00f2fe,#4facfe);padding:12px 20px;border-radius:14px;direction:ltr}
+#vr-card.out{padding-bottom:300px;justify-content:flex-start;padding-top:70px}
+#vr-arrow{position:fixed;left:0;right:0;bottom:40px;z-index:100001;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;direction:rtl;font-family:${FONT};text-align:center}
+#vr-arrow .ar{font-size:92px;line-height:1;color:#ff2d3d;text-shadow:0 4px 18px rgba(0,0,0,.65);font-weight:900}
+#vr-arrow .tx{font-size:27px;font-weight:900;color:#fff;background:#e11d2e;padding:10px 22px;border-radius:16px;box-shadow:0 6px 22px rgba(0,0,0,.5)}
+#vr-arrow .tx2{font-size:19px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.9)}
 #vr-card .brand{font-size:26px;font-weight:900;color:#00f2fe;direction:ltr}#vr-card .fine{font-size:13px;color:#94a3b8;line-height:1.7;max-width:300px}`;
 const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const cardHtml=c=>`<div class="brand">⚡ VoltRide</div><div class="big">${esc(c.title)}</div>`+(c.lines?`<div class="mid">${c.lines.map(esc).join('<br>')}</div>`:'')+(c.url?`<div class="url">${esc(c.url)}</div>`:'')+(c.fine?`<div class="fine">${esc(c.fine)}</div>`:'');
@@ -59,13 +64,16 @@ function addVoice(mp4,tmp){
  const p=await ctx.newPage();
  await p.goto(base+(S.page||'/index.html'));await p.waitForTimeout(800);
  await p.addStyleTag({content:CSS});
- await p.evaluate(top=>document.body.insertAdjacentHTML('beforeend',`<div id="vr-top"><b>⚡ VoltRide</b><span>${top}</span></div><div id="vr-sub"></div><div id="vr-card"></div>`),S.topLabel||'تجربة حقيقية من التطبيق');
+ await p.evaluate(top=>document.body.insertAdjacentHTML('beforeend',`<div id="vr-top"><b>⚡ VoltRide</b><span>${top}</span></div><div id="vr-sub"></div><div id="vr-card"></div><div id="vr-arrow"><div class="ar">⬆</div><div class="tx"></div><div class="tx2"></div></div>`),S.topLabel||'تجربة حقيقية من التطبيق');
  // sanity checks: each is a JS expression that must be truthy, so the video never shows stale numbers
  for(const a of S.setup||[]) await p.evaluate(a);
  for(const c of S.assert||[]){ if(!await p.evaluate(c)) throw new Error('assertion failed: '+c); }
  // scroll keyframes: [{t, to:"#selector", offset}] interpolated between consecutive keys
  const keys=[];for(const k of S.scroll){const y=await p.evaluate(([s,o])=>document.querySelector(s).getBoundingClientRect().top+scrollY-o,[k.to,k.offset||0]);keys.push({t:k.t,y});}
  const fired=new Set();
+ // optional call-to-action (scenario.cta): a small badge from the middle of the video, then a big red arrow + text in the last seconds (over the outro card)
+ const CTA=S.cta, badgeFrom=CTA?(CTA.badgeFrom!==undefined?CTA.badgeFrom:DUR/2):0, arrowFrom=CTA?(CTA.arrowFrom!==undefined?CTA.arrowFrom:DUR-4):0;
+ if(CTA) await p.evaluate(c=>{document.querySelector('#vr-arrow .tx').textContent=c.arrowText||'';document.querySelector('#vr-arrow .tx2').textContent=c.arrowSub||'';},CTA);
  for(let i=0;i<N;i++){
   const t=i/FPS;
   for(const [j,a] of (S.actions||[]).entries()) if(t>=a.t&&!fired.has(j)){fired.add(j);await p.evaluate(a.js);}
@@ -75,7 +83,10 @@ function addVoice(mp4,tmp){
   if(intro){cOp=t>S.intro.until-.4?1-seg(t,S.intro.until-.4,S.intro.until):1;cHtml=cardHtml(S.intro);}
   if(outro){cOp=t<S.outro.from+.4?seg(t,S.outro.from,S.outro.from+.4):1;cHtml=cardHtml(S.outro);}
   const sub=(S.subs||[]).find(s=>t>=s[0]&&t<s[1]);let sOp=0;if(sub)sOp=Math.min(1,(t-sub[0])/.25,(sub[1]-t)/.25);
-  await p.evaluate(([sc,sub,sOp,card,cOp])=>{scrollTo(0,sc);const s=document.getElementById('vr-sub');s.style.opacity=sOp;if(sub!==null)s.textContent=sub;const c=document.getElementById('vr-card');c.style.opacity=cOp;if(card!==null)c.innerHTML=card;},[sc,sub?sub[2]:null,sOp,cHtml,cOp]);
+  let bOp=0,aOp=0,aDy=0;
+  if(CTA){ if(t>=badgeFrom&&t<arrowFrom) bOp=Math.min(1,(t-badgeFrom)/.4,(arrowFrom-t)/.3); if(t>=arrowFrom){aOp=Math.min(1,(t-arrowFrom)/.3);aDy=-14*Math.abs(Math.sin((t-arrowFrom)*Math.PI*1.6));} }
+  await p.evaluate(([bOn,aOp,aDy,label,badge])=>{const lb=document.querySelector('#vr-top span');lb.textContent=bOn?badge:label;lb.style.color=bOn?'#00f2fe':'';lb.style.fontSize=bOn?'14px':'';lb.style.whiteSpace='nowrap';const a=document.getElementById('vr-arrow');a.style.opacity=aOp;a.querySelector('.ar').style.transform='translateY('+aDy+'px)';},[bOp>0,aOp,aDy,S.topLabel||'تجربة حقيقية من التطبيق',CTA?CTA.badge||'':'']);
+  await p.evaluate(([sc,sub,sOp,card,cOp,out])=>{scrollTo(0,sc);const s=document.getElementById('vr-sub');s.style.opacity=sOp;if(sub!==null)s.textContent=sub;const c=document.getElementById('vr-card');c.style.opacity=cOp;if(card!==null)c.innerHTML=card;c.classList.toggle('out',out);},[sc,sub?sub[2]:null,sOp,cHtml,cOp,!!(CTA&&outro)]);
   await p.waitForTimeout(25);
   await p.screenshot({path:path.join(tmp,`f${String(i).padStart(4,'0')}.jpg`),type:'jpeg',quality:92});
  }
