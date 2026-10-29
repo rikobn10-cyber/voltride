@@ -32,3 +32,7 @@ treat it as a plumbing test, not as a brand voice.
 - `badge`: replaces the small label in the top bar from the middle of the video (`badgeFrom`, default duration/2) until the arrow starts.
 - `arrowFrom` (default duration-4): a big red bouncing arrow with `arrowText` / `arrowSub`, shown over the app and then over the outro card.
 - With `cta`, the outro card content moves up so the arrow does not cover the URL or the disclaimer. Keep the outro short (about 2.5 s).
+
+## Other languages (`lang`, `locale`, `storage`)
+
+`lang` (ar/fr/en) sets the app language and the overlay direction (RTL only for `ar`). `locale` sets the browser locale. `storage` is an optional map of localStorage entries written before the page loads; values must be JSON strings, e.g. `"voltride_currency": "\"EUR\""`. See `weight_en.json` and `day03_speed_en.json` (English subtitles, EUR, no voice).
