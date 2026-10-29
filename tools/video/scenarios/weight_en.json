@@ -1,0 +1,135 @@
+{
+ "duration": 30,
+ "fps": 20,
+ "lang": "en",
+ "_note": "English version of weight.json: subtitles only (no voice).",
+ "assert": [
+  "voltage.value==='36' && capacity.value==='12.8' && speed.value==='25' && motor.value==='300' && weight.value==='75' && mode==='eco' && terrain==='flat'",
+  "(()=>{const set=w=>{const e=document.getElementById('weight');e.value=w;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();return rangeOut.textContent;};const a=set(60),b=set(100);set(75);return a==='34.4'&&b==='28.8';})()"
+ ],
+ "scroll": [
+  {
+   "t": 0,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 8.0,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 9.5,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 13.0,
+   "to": "#rangeOut",
+   "offset": 300
+  },
+  {
+   "t": 14.0,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 17.5,
+   "to": "#weight",
+   "offset": 200
+  },
+  {
+   "t": 19.0,
+   "to": "#rangeOut",
+   "offset": 300
+  }
+ ],
+ "actions": [
+  {
+   "t": 3.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=70;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 4.4,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=65;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 4.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=60;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 14.4,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=70;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 14.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=80;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 15.4,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=90;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  },
+  {
+   "t": 15.9,
+   "js": "(()=>{const e=document.getElementById('weight');e.value=100;e.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('calculateBtn').click();})()"
+  }
+ ],
+ "intro": {
+  "until": 3,
+  "title": "Does your weight change your scooter's range? ⚖️",
+  "lines": [
+   "Tested in the real calculator",
+   "36V • 12.8Ah battery",
+   "60 kg vs 100 kg"
+  ]
+ },
+ "cta": {
+  "badge": "🆓 Free • Link in bio",
+  "arrowText": "Link in bio",
+  "arrowSub": "Try the calculator now",
+  "arrowFrom": 26
+ },
+ "outro": {
+  "from": 27.5,
+  "title": "Try it with your own weight, free",
+  "url": "voltride-4qj.pages.dev",
+  "fine": "No account • Arabic, French and English\nEstimates, not lab measurements; check your manufacturer's manual."
+ },
+ "subs": [
+  [
+   3.0,
+   5.5,
+   "36V 12.8Ah battery, 25 km/h, eco mode"
+  ],
+  [
+   5.5,
+   8.0,
+   "Starting with a 60 kg rider ⚖️"
+  ],
+  [
+   9.0,
+   13.0,
+   "Estimated range: 34.4 km"
+  ],
+  [
+   14.0,
+   17.5,
+   "Now we change the weight to 100 kg ⚖️"
+  ],
+  [
+   19.0,
+   23.0,
+   "Estimated range: 28.8 km, about 5.6 km less (≈16%)"
+  ],
+  [
+   23.0,
+   26.0,
+   "(Rough estimate: speed, road and cold matter a lot)"
+  ]
+ ],
+ "locale": "en-GB",
+ "storage": {
+  "voltride_currency": "\"EUR\""
+ },
+ "topLabel": "Real app, real numbers"
+}

@@ -7,16 +7,17 @@ if(!scenarioPath){console.error('usage: make_video.js scenario.json out.mp4 [bas
 const S=JSON.parse(fs.readFileSync(scenarioPath,'utf8'));
 const FPS=S.fps||20, DUR=S.duration, N=FPS*DUR, lang=S.lang||'ar';
 const ease=x=>x<0?0:x>1?1:x*x*(3-2*x), lerp=(a,b,x)=>a+(b-a)*ease(x), seg=(t,a,b)=>(t-a)/(b-a);
+const DIR=(lang==='ar')?'rtl':'ltr';
 const FONT='system-ui,"Noto Sans Arabic","Noto Sans",sans-serif';
 const CSS=`.bottom-nav,.compare-float{display:none!important}html{scroll-behavior:auto!important}
-#vr-top{position:fixed;top:0;left:0;right:0;height:84px;z-index:99999;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:linear-gradient(#050a14 70%,rgba(5,10,20,0));color:#fff;font-family:${FONT};direction:rtl}
+#vr-top{position:fixed;top:0;left:0;right:0;height:84px;z-index:99999;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:linear-gradient(#050a14 70%,rgba(5,10,20,0));color:#fff;font-family:${FONT};direction:${DIR}}
 #vr-top b{font-size:20px;color:#00f2fe;direction:ltr}#vr-top span{font-size:14px;color:#cbd5e1;font-weight:700}
-#vr-sub{position:fixed;left:14px;right:14px;bottom:26px;z-index:99999;padding:13px 14px;border-radius:16px;background:rgba(2,6,15,.82);border:1px solid rgba(0,242,254,.35);color:#fff;font:800 18px/1.6 ${FONT};text-align:center;direction:rtl;opacity:0}
-#vr-card{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px;text-align:center;direction:rtl;color:#fff;font-family:${FONT};background:radial-gradient(circle at 50% 0%,rgba(0,242,254,.22),transparent 55%),#0b1220;opacity:0}
+#vr-sub{position:fixed;left:14px;right:14px;bottom:26px;z-index:99999;padding:13px 14px;border-radius:16px;background:rgba(2,6,15,.82);border:1px solid rgba(0,242,254,.35);color:#fff;font:800 18px/1.6 ${FONT};text-align:center;direction:${DIR};opacity:0}
+#vr-card{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px;text-align:center;direction:${DIR};color:#fff;font-family:${FONT};background:radial-gradient(circle at 50% 0%,rgba(0,242,254,.22),transparent 55%),#0b1220;opacity:0}
 #vr-card .big{font-size:34px;font-weight:900;line-height:1.5}#vr-card .mid{font-size:19px;color:#cbd5e1;line-height:1.8;font-weight:700}
 #vr-card .url{font-size:22px;font-weight:900;color:#001116;background:linear-gradient(135deg,#00f2fe,#4facfe);padding:12px 20px;border-radius:14px;direction:ltr}
 #vr-card.out{padding-bottom:300px;justify-content:flex-start;padding-top:70px}
-#vr-arrow{position:fixed;left:0;right:0;bottom:40px;z-index:100001;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;direction:rtl;font-family:${FONT};text-align:center}
+#vr-arrow{position:fixed;left:0;right:0;bottom:40px;z-index:100001;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;direction:${DIR};font-family:${FONT};text-align:center}
 #vr-arrow .ar{font-size:92px;line-height:1;color:#ff2d3d;text-shadow:0 4px 18px rgba(0,0,0,.65);font-weight:900}
 #vr-arrow .tx{font-size:27px;font-weight:900;color:#fff;background:#e11d2e;padding:10px 22px;border-radius:16px;box-shadow:0 6px 22px rgba(0,0,0,.5)}
 #vr-arrow .tx2{font-size:19px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.9)}
@@ -61,6 +62,7 @@ function addVoice(mp4,tmp){
  const b=await chromium.launch();
  const ctx=await b.newContext({viewport:{width:360,height:640},deviceScaleFactor:3,locale:S.locale||'ar-MA'});
  await ctx.addInitScript(l=>{localStorage.setItem('voltride_language',l);localStorage.setItem('voltride_consent','denied');},lang);
+ if(S.storage) await ctx.addInitScript(o=>{for(const k in o)localStorage.setItem(k,o[k]);},S.storage);
  const p=await ctx.newPage();
  await p.goto(base+(S.page||'/index.html'));await p.waitForTimeout(800);
  await p.addStyleTag({content:CSS});
