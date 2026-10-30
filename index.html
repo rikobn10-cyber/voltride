@@ -123,6 +123,9 @@ input[type=range]:focus-visible{outline-offset:6px;border-radius:8px}
 .smart-main strong{display:block;font-size:22px;margin:4px 0}
 .smart-main small,.smart-mini small{color:var(--muted)}
 .smart-mini b{display:block;font-size:18px;margin-top:5px}
+/* reserve two lines (three on very narrow screens) for the status text, which JS fills after load: avoids layout shift (CLS) */
+#smartStatusSub{display:block;min-height:2.7em}
+@media(max-width:340px){#smartStatusSub{min-height:4.05em}}
 .status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;background:rgba(52,211,153,.1);color:#a7f3d0;border:1px solid rgba(52,211,153,.18)}
 .history-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .history-stat{background:rgba(2,6,23,.35);border:1px solid var(--line);border-radius:14px;padding:11px}
@@ -249,6 +252,11 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 .rc-red{background:rgba(244,63,94,.10);border-color:rgba(244,63,94,.38)}
 .rc-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .rc-num{background:rgba(2,6,23,.35);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.rc-result>div:last-child{min-width:0}
+/* reserve the final size of the return-check result before JS fills it (avoids CLS) */
+#rcFactorPill{min-height:24px}
+#rcDetail{min-height:2.7em}
+@media(max-width:430px){.rc-result strong{min-height:2.4em}}
 .rc-num small{display:block;color:var(--muted);font-size:10px}
 .rc-num b{display:block;margin-top:3px;font-size:17px}
 .rc-learn{margin-top:12px}
