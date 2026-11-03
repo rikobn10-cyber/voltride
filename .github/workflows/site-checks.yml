@@ -12,14 +12,14 @@ permissions:
 jobs:
   links:
     name: Internal links, canonicals, hreflang, sitemap
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - run: python3 tools/check_links.py
 
   generated:
     name: Generated files are up to date
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Re-run the generator and fail if it changes anything
@@ -29,7 +29,7 @@ jobs:
 
   a11y:
     name: Accessibility (axe-core)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       pull-requests: write

@@ -29,11 +29,11 @@ BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu
 GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
 # (path, priority, lastmod)
 SPRINT = "2026-10-26"
-SW_VERSION = "voltride-v16"
+SW_VERSION = "voltride-v17"
 IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "fr/article-9.html": "electric-scooter-winter-range-voltride.jpg", "en/article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
 # (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
 TODAY = "2026-10-27"
-STATIC_URLS = [("", "1.0", TODAY), ("blog.html", "0.9", "2026-11-01"), ("about.html", "0.6", TODAY), ("contact.html", "0.5", DATE),
+STATIC_URLS = [("", "1.0", TODAY), ("blog.html", "0.9", "2026-11-03"), ("about.html", "0.6", TODAY), ("contact.html", "0.5", DATE),
                ("privacy.html", "0.5", SPRINT)] + \
               [(g, "0.8", SPRINT) for g in GUIDES] + \
               [(f"article-{i}.html", "0.8", DATE) for i in range(1, 9)] + \
@@ -44,8 +44,8 @@ STATIC_URLS = [("", "1.0", TODAY), ("blog.html", "0.9", "2026-11-01"), ("about.h
                ("fr/blog.html", "0.5", "2026-11-01"), ("en/blog.html", "0.5", TODAY),
                ("fr/about.html", "0.5", TODAY), ("en/about.html", "0.5", TODAY),
                ("fr/article-11.html", "0.7", "2026-10-29"),
-               ("blog/charger-safety.html", "0.7", "2026-11-01"),
-               ("fr/blog/securite-chargeur-trottinette.html", "0.7", "2026-11-01")]
+               ("blog/charger-safety.html", "0.7", "2026-11-03"),
+               ("fr/blog/securite-chargeur-trottinette.html", "0.7", "2026-11-02")]
 
 
 def clean_path(p):
