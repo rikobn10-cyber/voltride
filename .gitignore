@@ -1,2 +1,4 @@
-a11y-report.md
 node_modules/
+*.tar.xz
+*.zip
+.DS_Store
