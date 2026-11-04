@@ -118,12 +118,13 @@ input[type=range]:focus-visible{outline-offset:6px;border-radius:8px}
 .secondary{border:1px solid var(--line);background:var(--card2);color:var(--text);padding:11px 13px;border-radius:12px}
 .danger{color:#fecdd3;border-color:rgba(244,63,94,.3)}
 .advice{border:1px solid rgba(52,211,153,.2);background:rgba(52,211,153,.06);border-radius:15px;padding:13px;line-height:1.7;color:#d1fae5;font-size:13px}
-.smart-panel{display:grid;grid-template-columns:1.15fr .85fr;gap:10px;margin:12px 0}
+.smart-panel{display:grid;grid-template-columns:1.15fr .85fr;gap:10px;margin:12px 0;min-height:88px}
 .smart-main,.smart-mini{border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(0,242,254,.08),rgba(167,139,250,.07));padding:14px}
 .smart-main strong{display:block;font-size:22px;margin:4px 0}
 .smart-main small,.smart-mini small{color:var(--muted)}
 .smart-mini b{display:block;font-size:18px;margin-top:5px}
 /* reserve two lines (three on very narrow screens) for the status text, which JS fills after load: avoids layout shift (CLS) */
+#smartStatusOut{min-height:1.8em}
 #smartStatusSub{display:block;min-height:2.7em}
 @media(max-width:340px){#smartStatusSub{min-height:4.05em}}
 .status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;background:rgba(52,211,153,.1);color:#a7f3d0;border:1px solid rgba(52,211,153,.18)}
@@ -243,8 +244,8 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 
 /* Return Check */
 .rc-card{border-color:rgba(0,242,254,.28);background:linear-gradient(135deg,rgba(0,242,254,.07),rgba(23,34,53,.98))}
-.rc-result{display:flex;gap:12px;align-items:center;padding:14px;border-radius:16px;margin-top:12px;border:1px solid}
-.rc-result strong{display:block;font-size:17px;margin-bottom:3px}
+.rc-result{display:flex;gap:12px;align-items:center;padding:14px;border-radius:16px;margin-top:12px;border:1px solid;min-height:56px}
+.rc-result strong{display:block;font-size:17px;margin-bottom:3px;min-height:1.7em}
 .rc-result .small{color:var(--text);opacity:.85}
 .rc-emoji{font-size:34px;line-height:1}
 .rc-green{background:rgba(52,211,153,.10);border-color:rgba(52,211,153,.35)}
@@ -254,6 +255,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 .rc-num{background:rgba(2,6,23,.35);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
 .rc-result>div:last-child{min-width:0}
 /* reserve the final size of the return-check result before JS fills it (avoids CLS) */
+#rcVerdict{min-height:1.7em}
 #rcFactorPill{min-height:24px}
 #rcDetail{min-height:2.7em}
 @media(max-width:430px){.rc-result strong{min-height:2.4em}}
