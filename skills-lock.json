@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "skills": {
+    "seo": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo/SKILL.md",
+      "computedHash": "2bf057d9877655f2cdb5e38f8f8867b6e48da39a48c53c8cdcb85bdffa47640a"
+    },
+    "seo-audit": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-audit/SKILL.md",
+      "computedHash": "564e0fe91eefb239cd61da0e7306dd4e1ae91dfa33f1e9dd0ed852549c8e51b4"
+    },
+    "seo-content": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-content/SKILL.md",
+      "computedHash": "d6465aef21852c36324f718525a601a7678b0b2b7a27840e31c23c88d00f8672"
+    },
+    "seo-google": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-google/SKILL.md",
+      "computedHash": "e43b05e5c0aab9b30d111ab56a88f0b4ab137b9fadbf101520bb95cbfd7949df"
+    },
+    "seo-hreflang": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-hreflang/SKILL.md",
+      "computedHash": "b707c20c8131c01bb405e20e496ba2f470d98fe84b8102e72572aa693eb0d5b3"
+    },
+    "seo-schema": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-schema/SKILL.md",
+      "computedHash": "a9f778b644825876fb03626d7fc4b8c32eee3d3b09f8de6ec56ab92ab00d4600"
+    },
+    "seo-sitemap": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-sitemap/SKILL.md",
+      "computedHash": "b19e75b55daf4460ed91648fa8c168d5c5913435f2eba651d4f0fb26af1abfee"
+    },
+    "seo-technical": {
+      "source": "agricidaniel/claude-seo",
+      "sourceType": "github",
+      "skillPath": "skills/seo-technical/SKILL.md",
+      "computedHash": "3665959837b60e4d99ba5d2f4236102c3bae140853332ada54c71901a2b2ec2e"
+    }
+  }
+}
