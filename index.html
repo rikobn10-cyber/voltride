@@ -961,6 +961,13 @@ function selectChips(selector, value){
 }
 
 function calculate(){
+  // Mark calculator as used (triggers install prompt)
+  if (!calculatorUsed) {
+    calculatorUsed = true;
+    Store.set("voltride_calculator_used", true);
+    showInstallBanner();
+  }
+
   const weight = Number(document.getElementById("weight").value);
   const speed = Number(document.getElementById("speed").value);
   const voltage = Number(document.getElementById("voltage").value);
@@ -1404,21 +1411,38 @@ function resetAppSettings(){
 
 /* ==== PWA install prompt ==== */
 let deferredInstallPrompt = null;
+let installPromptShown = false;
+let installDismissed = Store.get("voltride_install_dismissed", false);
+
+function showInstallBanner(){
+  if (installDismissed || installPromptShown || !deferredInstallPrompt) return;
+  document.getElementById("installBanner").classList.add("show");
+}
+
+function hideInstallBanner(){
+  document.getElementById("installBanner").classList.remove("show");
+}
+
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  document.getElementById("installBanner").classList.add("show");
+  // Don't show immediately - wait for 30s or calculator use
 });
+
 window.addEventListener("appinstalled", () => {
   deferredInstallPrompt = null;
-  document.getElementById("installBanner").classList.remove("show");
+  installPromptShown = false;
+  hideInstallBanner();
 });
+
 function triggerInstall(){
   if (deferredInstallPrompt) {
     deferredInstallPrompt.prompt();
     deferredInstallPrompt.userChoice.then(() => {
       deferredInstallPrompt = null;
-      document.getElementById("installBanner").classList.remove("show");
+      installPromptShown = false;
+      Store.set("voltride_install_dismissed", false);
+      hideInstallBanner();
     });
   } else {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -1427,6 +1451,28 @@ function triggerInstall(){
       : (lang === "ar" ? "استخدم قائمة المتصفح ← تثبيت التطبيق" : lang === "fr" ? "Menu navigateur → Installer l'app" : "Browser menu → Install app"));
   }
 }
+
+document.getElementById("installBtn").onclick = function(e){
+  e.preventDefault();
+  installDismissed = false;
+  Store.set("voltride_install_dismissed", false);
+  triggerInstall();
+};
+
+document.getElementById("installBanner").onclick = function(e){
+  if (e.target.id === "installBanner"){
+    installDismissed = true;
+    Store.set("voltride_install_dismissed", true);
+    hideInstallBanner();
+  }
+};
+
+// Show install banner after 30 seconds OR after calculator used
+setTimeout(() => showInstallBanner(), 30000);
+
+// Show after calculator is used once
+let calculatorUsed = Store.get("voltride_calculator_used", false);
+if (calculatorUsed) showInstallBanner();
 
 /* ==== Service Worker (اختياري، يُفعّل إن وُجد sw.js) ==== */
 if ("serviceWorker" in navigator) {
