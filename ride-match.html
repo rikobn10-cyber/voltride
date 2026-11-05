@@ -25,9 +25,6 @@
 .quiz-container{max-width:760px;margin:auto;padding:14px 0}
 .step{display:none;animation:fadeIn .3s ease-in}
 .step.active{display:block}
-.results.active{display:block}
-.results.active{display:block}
-.results.active{display:block}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .option-btn{width:100%;text-align:left;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:15px;text-align:center;cursor:pointer}
 .option-btn:hover,.option-btn:focus-visible{border-color:var(--cyan);background:var(--card2)}
@@ -172,8 +169,9 @@ function updateProgress(){
 }
 
 function showStep(step){
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step' + step).classList.add('active');
+  document.querySelectorAll('.step').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+  const el = document.getElementById('step' + step);
+  if (el) { el.style.display = 'block'; el.classList.add('active'); }
   updateProgress();
 }
 
@@ -190,7 +188,15 @@ function selectOption(step, value, btn){
   if (step < 3) {
     setTimeout(() => showStep(step + 1), 250);
   } else {
-    setTimeout(showResults, 250);
+    setTimeout(() => {
+      // Hide all steps explicitly
+      document.querySelectorAll('.step').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+      // Show results explicitly
+      const resultsEl = document.getElementById('results');
+      if (resultsEl) resultsEl.style.display = 'block';
+      // Show recommendations
+      showResults();
+    }, 250);
   }
 }
 
@@ -257,6 +263,7 @@ function getRecommendations(){
 
 function showResults(){
   const container = document.getElementById('recommendations');
+  const resultsEl = document.getElementById('results');
   let recommendations = [];
 
   try {
@@ -288,9 +295,13 @@ function showResults(){
     </div>
   `).join('');
 
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('results').classList.add('active');
-  document.getElementById('progressFill').style.width = '100%';
+  // Force hide all steps using style
+  document.querySelectorAll('.step').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+  // Force show results using style
+  if (resultsEl) resultsEl.style.display = 'block';
+  // Update progress
+  const fill = document.getElementById('progressFill');
+  if (fill) fill.style.width = '100%';
 }
 
 // Wire up each step's buttons with the correct step number
