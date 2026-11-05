@@ -46,7 +46,7 @@
 <header class="site-nav">
   <a class="brand" href="index.html"><i>⚡</i>VoltRide</a>
   <nav class="links" aria-label="صفحات الموقع">
-    <a href="index.html">التطبيق</a><a href="ride-match.html" aria-current="page">اختيار السكوتر</a><a href="blog.html">المدونة</a><a href="about.html">حول</a>
+    <a href="index.html">التطبيق</a><a href="ride-match.html" aria-current="page">اختيار السكوتر</a><a href="blog.html">المدونة</a><a href="accessories.html">الإكسسوارات</a><a href="about.html">حول</a>
   </nav>
 </header>
 <main id="main">
@@ -116,7 +116,41 @@
 
 // Scooters data (same as index.html catalog)
 const scooters = [
-  {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "price": 4200},
+  {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "price": 4200, "affiliateUrl": null},
+  {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "price": 6200, "affiliateUrl": null},
+  {"id": "xiaomi-essential", "name": "Xiaomi Essential", "cat": "budget", "speed": 20, "power": 250, "voltage": 36, "ah": 5.2, "price": 2500, "affiliateUrl": null},
+  {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 5.2, "price": 3000, "affiliateUrl": null},
+  {"id": "segway-max-g30", "name": "Segway Ninebot MAX G30", "cat": "commuter", "speed": 30, "power": 350, "voltage": 36, "ah": 15.3, "price": 6500, "affiliateUrl": null},
+  {"id": "segway-max-g2", "name": "Segway Ninebot Max G2", "cat": "commuter", "speed": 35, "power": 450, "voltage": 36, "ah": 15.3, "price": 8500, "affiliateUrl": null},
+  {"id": "segway-e2-plus", "name": "Segway Ninebot E2 Plus", "cat": "budget", "speed": 25, "power": 300, "voltage": 21.6, "ah": 10.2, "price": 3500, "affiliateUrl": null},
+  {"id": "navee-n40", "name": "Navee N40", "cat": "budget", "speed": 25, "power": 350, "voltage": 36, "ah": 10, "price": 4500, "affiliateUrl": null},
+  {"id": "navee-g5", "name": "Navee G5", "cat": "commuter", "speed": 32, "power": 350, "voltage": 48, "ah": 10.4, "price": 7500, "affiliateUrl": null},
+  {"id": "niu-kqi3-max", "name": "NIU KQi3 Max", "cat": "commuter", "speed": 38, "power": 450, "voltage": 48, "ah": 12.7, "price": 8000, "affiliateUrl": null},
+  {"id": "kukirin-g2-pro", "name": "KuKirin G2 Pro", "cat": "sport", "speed": 45, "power": 600, "voltage": 48, "ah": 15, "price": 7000, "affiliateUrl": null},
+  {"id": "kukirin-g2-max", "name": "KuKirin G2 Max", "cat": "sport", "speed": 55, "power": 1000, "voltage": 48, "ah": 20, "price": 8500, "affiliateUrl": null},
+  {"id": "kukirin-g3-pro", "name": "KuKirin G3 Pro", "cat": "sport", "speed": 65, "power": 2400, "voltage": 52, "ah": 23.2, "price": 12000, "affiliateUrl": null},
+  {"id": "kukirin-g4", "name": "KuKirin G4", "cat": "performance", "speed": 75, "power": 2000, "voltage": 60, "ah": 20, "price": 14500, "affiliateUrl": null},
+  {"id": "ecoxtrem-bison-gt", "name": "Ecoxtrem Bison GT", "cat": "sport", "speed": 45, "power": 800, "voltage": 48, "ah": 13, "price": 9500, "affiliateUrl": null},
+  {"id": "ecoxtrem-bison-m41", "name": "Ecoxtrem Bison M41", "cat": "sport", "speed": 50, "power": 1000, "voltage": 48, "ah": 18, "price": 11000, "affiliateUrl": null},
+  {"id": "dualtron-mini", "name": "Dualtron Mini", "cat": "sport", "speed": 45, "power": 1450, "voltage": 52, "ah": 17.5, "price": 10500, "affiliateUrl": null},
+  {"id": "dualtron-victor", "name": "Dualtron Victor", "cat": "performance", "speed": 80, "power": 4000, "voltage": 60, "ah": 24, "price": 25000, "affiliateUrl": null},
+  {"id": "dualtron-thunder-3", "name": "Dualtron Thunder 3", "cat": "performance", "speed": 100, "power": 11000, "voltage": 72, "ah": 40, "price": 45000, "affiliateUrl": null},
+  {"id": "vsett-8-plus", "name": "Vsett 8+", "cat": "sport", "speed": 45, "power": 1200, "voltage": 48, "ah": 16, "price": 9000, "affiliateUrl": null},
+  {"id": "vsett-9-plus", "name": "Vsett 9+", "cat": "sport", "speed": 53, "power": 1300, "voltage": 48, "ah": 21, "price": 12000, "affiliateUrl": null},
+  {"id": "vsett-10-plus", "name": "Vsett 10+", "cat": "performance", "speed": 75, "power": 2800, "voltage": 60, "ah": 28, "price": 18000, "affiliateUrl": null},
+  {"id": "apollo-city-pro", "name": "Apollo City Pro", "cat": "sport", "speed": 51, "power": 1000, "voltage": 52, "ah": 20, "price": 15000, "affiliateUrl": null},
+  {"id": "apollo-ghost", "name": "Apollo Ghost", "cat": "performance", "speed": 55, "power": 2000, "voltage": 52, "ah": 18.2, "price": 16500, "affiliateUrl": null},
+  {"id": "kaabo-wolf-king", "name": "Kaabo Wolf King GT", "cat": "performance", "speed": 100, "power": 4000, "voltage": 72, "ah": 35, "price": 35000, "affiliateUrl": null},
+  {"id": "gotrax-g4", "name": "Gotrax G4", "cat": "commuter", "speed": 32, "power": 350, "voltage": 36, "ah": 10.4, "price": 5500, "affiliateUrl": null},
+  {"id": "gotrax-gxl-v2", "name": "Gotrax GXL V2", "cat": "budget", "speed": 25, "power": 250, "voltage": 36, "ah": 5.2, "price": 3000, "affiliateUrl": null},
+  {"id": "inokim-oxo", "name": "Inokim OXO", "cat": "performance", "speed": 65, "power": 2000, "voltage": 60, "ah": 25.6, "price": 22000, "affiliateUrl": null},
+  {"id": "nami-burn-e2-max", "name": "Nami Burn-E 2 Max", "cat": "performance", "speed": 98, "power": 8400, "voltage": 72, "ah": 40, "price": 38000, "affiliateUrl": null},
+  {"id": "teverun-fighter-11", "name": "Teverun Fighter 11", "cat": "performance", "speed": 85, "power": 5000, "voltage": 60, "ah": 26, "price": 28000, "affiliateUrl": null},
+  {"id": "iscooter-w9", "name": "iScooter W9", "cat": "sport", "speed": 45, "power": 500, "voltage": 48, "ah": 14, "price": 6500, "affiliateUrl": "https://s.click.aliexpress.com/e/_EGAUMFs"},
+  {"id": "iscooter-ix4", "name": "iScooter iX4", "cat": "commuter", "speed": 45, "power": 800, "voltage": 48, "ah": 15, "price": 5000, "affiliateUrl": "https://s.click.aliexpress.com/e/_EvIBV8A"},
+  {"id": "iscooter-w9air", "name": "iScooter W9Air", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 10, "price": 3200, "affiliateUrl": "https://s.click.aliexpress.com/e/_EwpL2l8"},
+  {"id": "iscooter-w6", "name": "iScooter W6", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 10.5, "price": 2800, "affiliateUrl": "https://s.click.aliexpress.com/e/_EIqcG58"},
+  {"id": "iscooter-ix5s", "name": "iScooter iX5s", "cat": "sport", "speed": 45, "power": 1000, "voltage": 48, "ah": 15, "price": 7500, "affiliateUrl": "https://s.click.aliexpress.com/e/_EIosseQ"},
   {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "price": 6200},
   {"id": "xiaomi-essential", "name": "Xiaomi Essential", "cat": "budget", "speed": 20, "power": 250, "voltage": 36, "ah": 5.2, "price": 2500},
   {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 5.2, "price": 3000},
@@ -280,7 +314,9 @@ function showResults(){
 
   const catLabel = c => c === 'budget' ? 'ميزانية' : c === 'commuter' ? 'للنقل' : c === 'sport' ? 'رياضة' : 'أداء';
 
-  container.innerHTML = recommendations.map(r => `
+  container.innerHTML = recommendations.map(r => {
+    const buyUrl = r.s.affiliateUrl ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    return `
     <div class="recommendation">
       <h3>🏆 ${r.s.name}</h3>
       <table class="compare-table">
@@ -291,9 +327,10 @@ function showResults(){
         <tr><th>القدرة</th><td>${r.s.power} واط</td></tr>
         <tr><th>فئة</th><td>${catLabel(r.s.cat)}</td></tr>
       </table>
+      <a href="${buyUrl}" target="_blank" rel="sponsored nofollow" class="cta" style="margin-top:10px;display:inline-block">اشترِ الآن ←</a>
       <a href="index.html" class="cta" style="margin-top:10px;display:inline-block">افتح الحاسبة ←</a>
     </div>
-  `).join('');
+  `}).join('');
 
   // Force hide all steps using style
   document.querySelectorAll('.step').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });

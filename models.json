@@ -3,7 +3,7 @@
   "_notes": "Specs were supplied by the project owner and are NOT yet verified against manufacturer pages. Many models ship in several variants (voltage/Ah differ), so verify each entry before relying on it. 'price' is kept for internal use only and is never rendered or put in Schema.org. Custom hand-written text for some models lives in model_texts.json (keyed by id).",
   "updated": "2026-10-20",
   "models": [
-    {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "voltage": 36, "ah": 12.8, "motor": 300, "speed": 25, "price": 4200, "category": "commuter"},
+    {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "voltage": 36, "ah": 12.8, "motor": 300, "speed": 25, "price": 4200, "category": "commuter", "affiliateUrl": null},
     {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "voltage": 36, "ah": 12.4, "motor": 350, "speed": 25, "price": 6200, "category": "commuter"},
     {"id": "xiaomi-essential", "name": "Xiaomi Essential", "voltage": 36, "ah": 5.2, "motor": 250, "speed": 20, "price": 2500, "category": "budget"},
     {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "voltage": 36, "ah": 5.2, "motor": 300, "speed": 25, "price": 3000, "category": "budget"},
