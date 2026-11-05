@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>اختيار السكوتر المناسب — Ride Match | VoltRide</title>
+<meta name="description" content="اختبار تخصيص 3 خطوات لمساعدتك في اختيار أفضل 2-3 موديلات السكوتر الكهربائية حسب ميزانيتك، مدتك اليومية، وتفضيلاتك (السرعة أو الراحة).">
+<meta name="keywords" content="اختيار سكوتر, مقارنة سكوتر, دليل اختيار سكوتر">
+<link rel="canonical" href="https://voltride-4qj.pages.dev/ride-match">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ar_MA">
+<meta property="og:site_name" content="VoltRide">
+<meta property="og:title" content="اختيار السكوتر المناسب — Ride Match">
+<meta property="og:description" content="اختبار تخصيص 3 خطوات لمساعدتك في اختيار أفضل 2-3 موديلات السكوتر الكهربائية.">
+<meta property="og:url" content="https://voltride-4qj.pages.dev/ride-match">
+<meta property="og:image" content="https://voltride-4qj.pages.dev/og-image.png">
+<meta property="article:published_time" content="2026-10-27">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="stylesheet" href="site.css">
+<style>
+.quiz-container{max-width:760px;margin:auto;padding:14px 0}
+.step{display:none;animation:fadeIn .3s ease-in}
+.step.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.option-btn{width:100%;text-align:left;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:15px;text-align:center;cursor:pointer}
+.option-btn:hover,.option-btn:focus-visible{border-color:var(--cyan);background:var(--card2)}
+.option-btn.active{border-color:var(--cyan);background:linear-gradient(135deg,var(--cyan),var(--blue));color:#001116;font-weight:800}
+.results{margin-top:20px}
+.recommendation{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px;margin:12px 0}
+.recommendation h3{margin:0 0 12px;font-size:18px}
+.compare-table{width:100%;border-collapse:;margin-top:10px;font-size:13px}
+.compare-table th,.compare-table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center}
+.progress-bar{width:100%;background:var(--card2);border-radius:10px;height:24px;overflow:hidden;Margin:16px 0;display:flex}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));width:0%;transition:width .3s}
+.cta{display:block;width:100%;padding:14px;border-radius:13px;border:0;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#001116;font-weight:800;text-decoration:none;font-size:17px;cursor:pointer;margin:12px 0}
+.cta:hover{opacity:.9}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">انتقل إلى المحتوى</a>
+<div class="wrap">
+<header class="site-nav">
+  <a class="brand" href="index.html"><i>⚡</i>VoltRide</a>
+  <nav class="links" aria-label="صفحات الموقع">
+    <a href="index.html">التطبيق</a><a href="ride-match.html" aria-current="page">اختيار السكوتر</a><a href="blog.html">المدونة</a><a href="about.html">حول</a>
+  </nav>
+</header>
+<main id="main">
+<article class="quiz-container">
+<h1>🧭 Ride Match: اختيار السكوتر المناسب لك</h1>
+<p class="meta">3 خطوات بسيطة لمساعدتك في اختيار أفضل الخيارات</p>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div id="step1" class="step active">
+  <h2>1. ما هي ميزانيتك؟</h2>
+  <p class="meta">الموديلات الأرخص مناسبة للمبتدئين، والأغلى للوزن والمدى الطويل.</p>
+  <div class="options" id="budgetOptions">
+    <button class="option-btn" data-value="0-3000">أقل من 3000 درهم</button>
+    <button class="option-btn" data-value="3000-5000">3000-5000 درهم</button>
+    <button class="option-btn" data-value="5000-8000">5000-8000 درهم</button>
+    <button class="option-btn" data-value="8000+">أكثر من 8000 درهم</button>
+  </div>
+</div>
+
+<div id="step2" class="step">
+  <h2>2. ما هي مسافتك اليومية المتوسطة؟</h2>
+  <p class="meta">كلما زادت المسافة، زاد الحاجة إلى بطارية أكبر أو سعر أعلى.</p>
+  <div class="options" id="distanceOptions">
+    <button class="option-btn" data-value="0-10">0-10 كم (مدى قصير)</button>
+    <button class="option-btn" data-value="10-20">10-20 كم (مدى متوسط)</button>
+    <button class="option-btn" data-value="20-40">20-40 كم (مدى طويل)</button>
+    <button class="option-btn" data-value="40+">أكثر من 40 كم (رحلات طويلة جداً)</button>
+  </div>
+</div>
+
+<div id="step3" class="step">
+  <h2>3. ما هو تفضيلك؟</h2>
+  <p class="meta">السرعة العالية مقابل المدى والراحة.</p>
+  <div class="options" id="preferenceOptions">
+    <button class="option-btn" data-value="speed">سرعة عالية (للقيادة السريعة)</button>
+    <button class="option-btn" data-value="range">مدى طويل (للرحلات الطويلة)</button>
+    <button class="option-btn" data-value="comfort">راحة وسهولة (لكل المبتدئين)</button>
+    <button class="option-btn" data-value="weight">وزن خفيف (للحمل على الدرج)</button>
+  </div>
+</div>
+
+<div id="results" class="results">
+  <h2>🎯 توصياتنا لك</h2>
+  <p class="meta">استند إلى إجاباتك، هذه الموديلات الأفضل:</p>
+  <div id="recommendations">
+    <div class="recommendation">
+      <h3>جاري اختيار الموديلات...</h3>
+      <p>انتظر لحظة...</p>
+    </div>
+  </div>
+  <a href="index.html" class="cta">🔧 جرّب الحاسبة الكاملة ←</a>
+</div>
+
+</article>
+</main>
+<footer>
+<a href="index.html">الرئيسية</a><a href="blog.html">المدونة</a><a href="about.html">حول</a>
+<p>© 2026 VoltRide</p>
+</footer>
+</div>
+<script>
+// Scooters data
+const scooters = [
+  {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "price": 4200},
+  {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "price": 6200},
+  {"id": "xiaomi-essential", "name": "Xiaomi Essential", "cat": "budget", "speed": 20, "power": 250, "voltage": 36, "ah": 5.2, "price": 2500},
+  {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 5.2, "price": 3000},
+  {"id": "segway-max-g30", "name": "Segway Ninebot MAX G30", "cat": "commuter", "speed": 30, "power": 350, "voltage": 36, "ah": 15.3, "price": 6500},
+  {"id": "segway-max-g2", "name": "Segway Ninebot Max G2", "cat": "commuter", "speed": 35, "power": 450, "voltage": 36, "ah": 15.3, "price": 8500},
+  {"id": "segway-e2-plus", "name": "Segway Ninebot E2 Plus", "cat": "budget", "speed": 25, "power": 300, "voltage": 21.6, "ah": 10.2, "price": 3500},
+  {"id": "navee-n40", "name": "Navee N40", "cat": "budget", "speed": 25, "power": 350, "voltage": 36, "ah": 10, "price": 4500},
+  {"id": "navee-g5", "name": "Navee G5", "cat": "commuter", "speed": 32, "power": 350, "voltage": 48, "ah": 10.4, "price": 7500},
+  {"id": "niu-kqi3-max", "name": "NIU KQi3 Max", "cat": "commuter", "speed": 38, "power": 450, "voltage": 48, "ah": 12.7, "price": 8000},
+  {"id": "kukirin-g2-pro", "name": "KuKirin G2 Pro", "cat": "sport", "speed": 45, "power": 600, "voltage": 48, "ah": 15, "price": 7000},
+  {"id": "kukirin-g2-max", "name": "KuKirin G2 Max", "cat": "sport", "speed": 55, "power": 1000, "voltage": 48, "ah": 20, "price": 8500},
+  {"id": "kukirin-g3-pro", "name": "KuKirin G3 Pro", "cat": "sport", "speed": 65, "power": 2400, "voltage": 52, "ah": 23.2, "price": 12000},
+  {"id": "kukirin-g4", "name": "KuKirin G4", "cat": "performance", "speed": 75, "power": 2000, "voltage": 60, "ah": 20, "price": 14500},
+  {"id": "ecoxtrem-bison-gt", "name": "Ecoxtrem Bison GT", "cat": "sport", "speed": 45, "power": 800, "voltage": 48, "ah": 13, "price": 9500},
+  {"id": "ecoxtrem-bison-m41", "name": "Ecoxtrem Bison M41", "cat": "sport", "speed": 50, "power": 1000, "voltage": 48, "ah": 18, "price": 11000},
+  {"id": "dualtron-mini", "name": "Dualtron Mini", "cat": "sport", "speed": 45, "power": 1450, "voltage": 52, "ah": 17.5, "price": 10500},
+  {"id": "dualtron-victor", "name": "Dualtron Victor", "cat": "performance", "speed": 80, "power": 4000, "voltage": 60, "ah": 24, "price": 25000},
+  {"id": "dualtron-thunder-3", "name": "Dualtron Thunder 3", "cat": "performance", "speed": 100, "power": 11000, "voltage": 72, "ah": 40, "price": 45000},
+  {"id": "vsett-8-plus", "name": "Vsett 8+", "cat": "sport", "speed": 45, "power": 1200, "voltage": 48, "ah": 16, "price": 9000},
+  {"id": "vsett-9-plus", "name": "Vsett 9+", "cat": "sport", "speed": 53, "power": 1300, "voltage": 48, "ah": 21, "price": 12000},
+  {"id": "vsett-10-plus", "name": "Vsett 10+", "cat": "performance", "speed": 75, "power": 2800, "voltage": 60, "ah": 28, "price": 18000},
+  {"id": "apollo-city-pro", "name": "Apollo City Pro", "cat": "sport", "speed": 51, "power": 1000, "voltage": 52, "ah": 20, "price": 15000},
+  {"id": "apollo-ghost", "name": "Apollo Ghost", "cat": "performance", "speed": 55, "power": 2000, "voltage": 52, "ah": 18.2, "price": 16500},
+  {"id": "kaabo-wolf-king", "name": "Kaabo Wolf King GT", "cat": "performance", "speed": 100, "power": 4000, "voltage": 72, "ah": 35, "price": 35000},
+  {"id": "gotrax-g4", "name": "Gotrax G4", "cat": "commuter", "speed": 32, "power": 350, "voltage": 36, "ah": 10.4, "price": 5500},
+  {"id": "gotrax-gxl-v2", "name": "Gotrax GXL V2", "cat": "budget", "speed": 25, "power": 250, "voltage": 36, "ah": 5.2, "price": 3000},
+  {"id": "inokim-oxo", "name": "Inokim OXO", "cat": "performance", "speed": 65, "power": 2000, "voltage": 60, "ah": 25.6, "price": 22000},
+  {"id": "nami-burn-e2-max", "name": "Nami Burn-E 2 Max", "cat": "performance", "speed": 98, "power": 8400, "voltage": 72, "ah": 40, "price": 38000},
+  {"id": "teverun-fighter-11", "name": "Teverun Fighter 11", "cat": "performance", "speed": 85, "power": 5000, "voltage": 60, "ah": 26, "price": 28000}
+];
+
+let answers = {budget: null, distance: null, preference: null};
+let currentStep = 1;
+
+function updateProgress(){
+  const fill = document.getElementById('progressFill');
+  const percent = ((answers.budget ? 1 : 0) + (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0)) * 33.33;
+  fill.style.width = percent + '%';
+}
+
+function showStep(step){
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
+  updateProgress();
+}
+
+function selectOption(step, value){
+  document.querySelectorAll('#step' + step + ' .option-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  if(step === 1) answers.budget = value;
+  else if(step === 2) answers.distance = value;
+  else if(step === 3) answers.preference = value;
+
+  if(step < 3) {
+    setTimeout(() => showStep(step + 1), 300);
+  } else {
+    setTimeout(showResults, 300);
+  }
+}
+
+function filterScooters(){
+  const [minPrice, maxPrice] = answers.budget.split('-').map(Number);
+  const budgetMax = maxPrice === Infinity || maxPrice >= 45000 ? 45000 : (maxPrice || 50000);
+  const budgetMin = minPrice || 0;
+
+  let candidates = scooters.filter(s => s.price >= budgetMin && s.price <= budgetMax);
+
+  // Distance filter: estimate range using simple formula
+  candidates = candidates.filter(s => {
+    const estimatedRange = Math.round((s.voltage * s.ah * 0.9) / (s.power >= 1500 ? 90 : s.power >= 800 ? 60 : 45));
+    const maxDist = answers.distance.split('+')[0] || '40';
+    const minDist = Number(maxDist.split('-')[0]) || 0;
+    return estimatedRange >= minDist;
+  });
+
+  // Preference weighting
+  let scores = {};
+  candidates.forEach(s => {
+    let score = 0;
+    if(answers.preference === 'speed') score = s.speed * 1.5 - Math.abs(s.price - budgetMax);
+    else if(answers.preference === 'range') score = (s.voltage * s.ah) * 0.9 - Math.abs(s.price - budgetMax);
+    else if(answers.preference === 'comfort') score = 700 - Math.abs(s.price - 4500) - s.power;
+    else if(answers.preference === 'weight') score = 1000 - s.voltage - s.price;
+
+    scores[s.id] = score;
+  });
+
+  const sorted = Object.entries(scores)
+    .sort((a, b) => b[1] - a[1])
+    .map(e => scooters.find(s => s.id === e[0]))
+    .filter(Boolean)
+    .slice(0, 3);
+
+  return sorted.length ? sorted : scooters.slice(0, 3);
+}
+
+function showResults(){
+  const recommendations = filterScooters();
+  const container = document.getElementById('recommendations');
+
+  if(recommendations.length === 0){
+    container.innerHTML = '<div class="recommendation"><h3>عذراً</h3><p>لا يوجد موديل يناسب المعايير التي حددتها. جرّب تعديل إعدادات البحث.</p></div>';
+    return;
+  }
+
+  container.innerHTML = recommendations.map(s => `
+    <div class="recommendation">
+      <h3>${s.name}</h3>
+      <table class="compare-table">
+        <tr><th>السعر</th><td>${s.price.toLocaleString()} درهم</td></tr>
+        <tr><th>السرعة</th><td>${s.speed} كم/س</td></tr>
+        <tr><th>البطارية</th><td>${s.voltage}V ${s.ah}Ah</td></tr>
+        <tr><th>القدرة</th><td>${s.power} واط</td></tr>
+        <tr><th>فئة</th><td>${s.cat === 'budget' ? 'ميزانية' : s.cat === 'commuter' ? 'للنقل' : s.cat === 'sport' ? 'رياضة' : 'أداء'}</td></tr>
+      </table>
+      <a href="index.html" class="cta" style="margin-top:10px;display:inline-block">افتح الحاسبة ←</a>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('results').classList.add('active');
+}
+
+// Setup option buttons
+document.querySelectorAll('.option-btn').forEach((btn, i) => {
+  btn.addEventListener('click', function(e){
+    selectOption(i + 1, this.dataset.value);
+  });
+});
+</script>
+</body>
+</html>
