@@ -91,7 +91,7 @@
   </div>
 </div>
 
-<div id="results" class="results">
+<div id="results" class="results" style="display:none">
   <h2>🎯 توصياتنا لك</h2>
   <p class="meta">استند إلى إجاباتك، هذه الموديلات الأفضل:</p>
   <div id="recommendations">
@@ -111,7 +111,10 @@
 </footer>
 </div>
 <script>
-// Scooters data
+"use strict";
+/* ==== Ride Match logic ==== */
+
+// Scooters data (same as index.html catalog)
 const scooters = [
   {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "price": 4200},
   {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "price": 6200},
@@ -145,13 +148,24 @@ const scooters = [
   {"id": "teverun-fighter-11", "name": "Teverun Fighter 11", "cat": "performance", "speed": 85, "power": 5000, "voltage": 60, "ah": 26, "price": 28000}
 ];
 
+// Estimated range (same formula as index.html: 75kg, mixed terrain, balanced mode, speed capped at 25)
+function estimateRange(s){
+  const v = Number(s.voltage), ah = Number(s.ah), motor = Number(s.power) || 0;
+  if (!(v > 0 && ah > 0)) return 0;
+  const speed = Math.min(25, Number(s.speed) || 25);
+  const wf = 1, sf = 1 + (Math.max(0, speed - 20) * 0.035);
+  const tf = 1.12, mf = 1, mof = motor >= 1500 ? 1.10 : motor >= 800 ? 1.05 : 1;
+  const cap = motor >= 1500 ? 90 : motor >= 800 ? 60 : 45;
+  const cons = Math.min(cap, Math.max(7, 12.5 * wf * sf * tf * mf * mof));
+  return (v * ah * 0.9) / cons;
+}
+
 let answers = {budget: null, distance: null, preference: null};
-let currentStep = 1;
 
 function updateProgress(){
   const fill = document.getElementById('progressFill');
-  const percent = ((answers.budget ? 1 : 0) + (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0)) * 33.33;
-  fill.style.width = percent + '%';
+  const done = (answers.budget ? 1 : 0) + (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0);
+  fill.style.width = (done * 33.33) + '%';
 }
 
 function showStep(step){
@@ -160,75 +174,112 @@ function showStep(step){
   updateProgress();
 }
 
-function selectOption(step, value){
-  document.querySelectorAll('#step' + step + ' .option-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+// Single-choice per step: clear siblings, highlight selected
+function selectOption(step, value, btn){
+  const container = document.getElementById('step' + step);
+  container.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 
-  if(step === 1) answers.budget = value;
-  else if(step === 2) answers.distance = value;
-  else if(step === 3) answers.preference = value;
+  if (step === 1) answers.budget = value;
+  else if (step === 2) answers.distance = value;
+  else if (step === 3) answers.preference = value;
 
-  if(step < 3) {
-    setTimeout(() => showStep(step + 1), 300);
+  if (step < 3) {
+    setTimeout(() => showStep(step + 1), 250);
   } else {
-    setTimeout(showResults, 300);
+    setTimeout(showResults, 250);
   }
 }
 
-function filterScooters(){
-  const [minPrice, maxPrice] = answers.budget.split('-').map(Number);
-  const budgetMax = maxPrice === Infinity || maxPrice >= 45000 ? 45000 : (maxPrice || 50000);
-  const budgetMin = minPrice || 0;
+// Scoring system: never returns empty; always top-3 overall if nothing scores
+function getRecommendations(){
+  const budgetMatch = answers.budget;
+  const distanceMatch = answers.distance;
+  const pref = answers.preference || "comfort";
 
-  let candidates = scooters.filter(s => s.price >= budgetMin && s.price <= budgetMax);
+  // Parse budget
+  let budgetMin = 0, budgetMax = Infinity;
+  if (budgetMatch) {
+    const parts = budgetMatch.split('-');
+    budgetMin = Number(parts[0]) || 0;
+    budgetMax = parts[1] && parts[1] !== '+' ? Number(parts[1]) : Infinity;
+  }
 
-  // Distance filter: estimate range using simple formula
-  candidates = candidates.filter(s => {
-    const estimatedRange = Math.round((s.voltage * s.ah * 0.9) / (s.power >= 1500 ? 90 : s.power >= 800 ? 60 : 45));
-    const maxDist = answers.distance.split('+')[0] || '40';
-    const minDist = Number(maxDist.split('-')[0]) || 0;
-    return estimatedRange >= minDist;
-  });
+  // Parse distance (needed km)
+  let needKm = 10;
+  if (distanceMatch) {
+    const parts = distanceMatch.split('-');
+    if (distanceMatch.endsWith('+')) needKm = Number(parts[0]) || 40;
+    else needKm = Number(parts[1]) || 20;
+  }
 
-  // Preference weighting
-  let scores = {};
-  candidates.forEach(s => {
+  const scored = scooters.map(s => {
+    const range = estimateRange(s);
     let score = 0;
-    if(answers.preference === 'speed') score = s.speed * 1.5 - Math.abs(s.price - budgetMax);
-    else if(answers.preference === 'range') score = (s.voltage * s.ah) * 0.9 - Math.abs(s.price - budgetMax);
-    else if(answers.preference === 'comfort') score = 700 - Math.abs(s.price - 4500) - s.power;
-    else if(answers.preference === 'weight') score = 1000 - s.voltage - s.price;
+    let matchCount = 0;
 
-    scores[s.id] = score;
+    // Budget score (max 30)
+    if (s.price >= budgetMin && s.price <= budgetMax) {
+      score += 30; matchCount++;
+    } else {
+      // Partial: closer to range = more points
+      const dist = s.price < budgetMin ? budgetMin - s.price : s.price - budgetMax;
+      score += Math.max(0, 15 - dist / 500);
+    }
+
+    // Distance score (max 30)
+    if (range >= needKm) {
+      score += 30; matchCount++;
+    } else {
+      score += Math.max(0, 30 * (range / needKm));
+    }
+
+    // Preference score (max 40)
+    if (pref === 'speed') {
+      score += Math.min(40, s.speed * 0.55);
+    } else if (pref === 'range') {
+      score += Math.min(40, range * 0.45);
+    } else if (pref === 'weight') {
+      score += Math.max(0, 40 - s.price / 1500);
+    } else { // comfort
+      score += Math.max(0, 40 - Math.abs(s.price - 5000) / 300);
+    }
+
+    return {s, score, matchCount, range};
   });
 
-  const sorted = Object.entries(scores)
-    .sort((a, b) => b[1] - a[1])
-    .map(e => scooters.find(s => s.id === e[0]))
-    .filter(Boolean)
-    .slice(0, 3);
-
-  return sorted.length ? sorted : scooters.slice(0, 3);
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 3);
 }
 
 function showResults(){
-  const recommendations = filterScooters();
   const container = document.getElementById('recommendations');
+  let recommendations = [];
 
-  if(recommendations.length === 0){
-    container.innerHTML = '<div class="recommendation"><h3>عذراً</h3><p>لا يوجد موديل يناسب المعايير التي حددتها. جرّب تعديل إعدادات البحث.</p></div>';
+  try {
+    recommendations = getRecommendations();
+  } catch (err) {
+    // Error boundary fallback
+    recommendations = scooters.slice(0, 3).map(s => ({s, score: 0, matchCount: 0, range: estimateRange(s)}));
+  }
+
+  if (!recommendations || recommendations.length === 0) {
+    container.innerHTML = '<div class="recommendation"><h3>عذراً</h3><p>تعذّر العثور على موديلات. حاول مرة أخرى.</p></div>';
     return;
   }
 
-  container.innerHTML = recommendations.map(s => `
+  const catLabel = c => c === 'budget' ? 'ميزانية' : c === 'commuter' ? 'للنقل' : c === 'sport' ? 'رياضة' : 'أداء';
+
+  container.innerHTML = recommendations.map(r => `
     <div class="recommendation">
-      <h3>${s.name}</h3>
+      <h3>🏆 ${r.s.name}</h3>
       <table class="compare-table">
-        <tr><th>السعر</th><td>${s.price.toLocaleString()} درهم</td></tr>
-        <tr><th>السرعة</th><td>${s.speed} كم/س</td></tr>
-        <tr><th>البطارية</th><td>${s.voltage}V ${s.ah}Ah</td></tr>
-        <tr><th>القدرة</th><td>${s.power} واط</td></tr>
-        <tr><th>فئة</th><td>${s.cat === 'budget' ? 'ميزانية' : s.cat === 'commuter' ? 'للنقل' : s.cat === 'sport' ? 'رياضة' : 'أداء'}</td></tr>
+        <tr><th>السعر</th><td>${r.s.price.toLocaleString()} درهم</td></tr>
+        <tr><th>السرعة</th><td>${r.s.speed} كم/س</td></tr>
+        <tr><th>المدى المقدر</th><td>≈ ${Math.round(r.range)} كم</td></tr>
+        <tr><th>البطارية</th><td>${r.s.voltage}V ${r.s.ah}Ah</td></tr>
+        <tr><th>القدرة</th><td>${r.s.power} واط</td></tr>
+        <tr><th>فئة</th><td>${catLabel(r.s.cat)}</td></tr>
       </table>
       <a href="index.html" class="cta" style="margin-top:10px;display:inline-block">افتح الحاسبة ←</a>
     </div>
@@ -236,12 +287,16 @@ function showResults(){
 
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('results').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
 }
 
-// Setup option buttons
-document.querySelectorAll('.option-btn').forEach((btn, i) => {
-  btn.addEventListener('click', function(e){
-    selectOption(i + 1, this.dataset.value);
+// Wire up each step's buttons with the correct step number
+document.querySelectorAll('.step').forEach(stepEl => {
+  const stepNum = Number(stepEl.id.replace('step', ''));
+  stepEl.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      selectOption(stepNum, this.dataset.value, this);
+    });
   });
 });
 </script>
