@@ -453,13 +453,14 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
       <div class="metric"><small data-i18n="range">المدى</small><strong id="rangeOut">—</strong><em>km</em></div>
       <div class="metric"><small data-i18n="energy">طاقة البطارية</small><strong id="energyOut">—</strong><em>Wh</em></div>
       <div class="metric"><small data-i18n="consumption">الاستهلاك</small><strong id="consumptionOut">—</strong><em>Wh/km</em></div>
-      <div class="metric"><small data-i18n="chargeTime">وقت الشحن</small><strong id="chargeOut">—</strong><em>h</em></div>
-      <div class="metric"><small data-i18n="cost">تكلفة الشحنة</small><strong id="costOut">—</strong><em id="costCur"></em></div>
-      <div class="metric"><small data-i18n="reserve">احتياطي 10%</small><strong id="reserveOut">—</strong><em>km</em></div>
+      <div class="metric"><small data-i18n="chargeTime">وقت الشحن (تقديري)</small><strong id="chargeOut">—</strong><em>h</em></div>
+      <div class="metric"><small data-i18n="cost">تكلفة الطاقة المقدّرة</small><strong id="costOut">—</strong><em id="costCur"></em></div>
+      <div class="metric"><small data-i18n="reserve">المدى العملي (هامش أمان إضافي 10%)</small><strong id="reserveOut">—</strong><em>km</em></div>
     </div>
     <div class="advice" id="advice" style="margin-top:12px">⚡ أدخل بياناتك ثم اضغط «احسب الآن».</div>
     <button type="button" class="share-cta" id="shareResultBtn" style="margin-top:12px"><span aria-hidden="true">🖼️</span> <span data-i18n="shareResult">شارك نتيجتك كصورة</span></button>
     <p class="small" data-i18n="estimateNote">هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.</p>
+    <p id="calc-disclaimer" class="small" style="display:none" data-i18n="calcDisclaimer">لا تشمل هذه التكلفة خسائر الشحن من الشبكة.</p>
   </div>
 
   <div class="card">
@@ -681,7 +682,7 @@ const I18N = {
   ar:{
     quickSmart:"تحليل فوري",quickBattery:"طاقة وشحن",quickCost:"تكلفة واضحة",tagline:"رفيق السكوتر الذكي",heroText:"احسب مدى سكوترك، وقت الشحن وتكلفة الكهرباء خلال ثوانٍ.",smartBadge:"● تحليل ذكي",smartStatus:"حالة الرحلة",tripCost:"تكلفة الطاقة",perCharge:"/ شحنة",
     rider:"👤 الراكب والقيادة",weight:"الوزن",speed:"السرعة المتوسطة",terrain:"الطريق",flat:"مستوٍ",mixed:"مختلط",hills:"مرتفعات",mode:"نمط القيادة",eco:"اقتصادي",balanced:"متوازن",sport:"رياضي",
-    battery:"🔋 البطارية والسكوتر",voltage:"الفولت",capacity:"السعة Ah",motor:"قوة المحرك",charger:"الشاحن A",calculate:"احسب الآن ⚡",results:"📊 النتيجة",range:"المدى",energy:"طاقة البطارية",consumption:"الاستهلاك",chargeTime:"وقت الشحن",cost:"تكلفة الشحنة",reserve:"احتياطي 10%",estimateNote:"هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.",
+    battery:"🔋 البطارية والسكوتر",voltage:"الفولت",capacity:"السعة Ah",motor:"قوة المحرك",charger:"الشاحن A",calculate:"احسب الآن ⚡",results:"📊 النتيجة",range:"المدى",energy:"طاقة البطارية",consumption:"الاستهلاك",chargeTime:"وقت الشحن (تقديري)",cost:"تكلفة الطاقة المقدّرة",reserve:"المدى العملي (هامش أمان إضافي 10%)",calculateFirst:"احسب أولاً ثم سجّل الشحنة",estimateNote:"هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.",
     catalogTitle:"🛴 كتالوج السكوترات",catalogSub:"قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.",search:"ابحث عن سكوتر...",sortRange:"المدى",sortSpeed:"السرعة",sortPrice:"السعر",all:"الكل",budget:"اقتصادي",commuter:"تنقل",sportCat:"رياضي",performance:"أداء",
     safetyTitle:"🛡️ مركز السلامة",safetySub:"قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.",batteryCare:"العناية بالبطارية",safe1:"استخدم الشاحن الصحيح",safe1p:"لا تستخدم شاحناً بجهد أو موصل غير مطابق لمواصفات الشركة.",safe2:"الشحن في مكان مناسب",safe2p:"لا تشحن على سطح قابل للاشتعال أو في حرارة شديدة، وتجنب تغطية البطارية أثناء الشحن.",safe3:"توقف عند العلامات غير الطبيعية",safe3p:"إذا ظهرت انتفاخات أو دخان أو رائحة غير معتادة أو حرارة شديدة، أوقف الاستخدام والشحن واطلب فحصاً مختصاً.",tires:"الإطارات والفرامل",tireTitle:"ضغط مناسب",tireP:"اتبع ضغط الإطارات الموصى به من الشركة وافحصه دورياً.",brakeTitle:"فحص الفرامل",brakeP:"إذا كانت الفرامل ضعيفة أو تصدر صوتاً غير طبيعي أو تحتك، أوقف القيادة واطلب فحصاً مؤهلاً.",rideSafe:"قبل القيادة",helmet:"خوذة وإضاءة",helmetP:"استخدم خوذة مناسبة وإضاءة واضحة واحترم القوانين المحلية.",water:"الماء",waterP:"مقاومة الماء لا تعني أن السكوتر قابل للغمر. تجنب البرك والماء العميق.",
     errorsTitle:"🔧 تشخيص الأعطال",errorsSub:"معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.",errorNote:"الأكواد تختلف حسب الشركة والموديل. لا تفك البطارية أو لوحة التحكم إذا لم تكن مؤهلاً.",
@@ -691,8 +692,8 @@ const I18N = {
     savedScooterToast:"تم حفظ سكوترك",loadedScooterToast:"تم استخدام مواصفات سكوترك",needSaveFirst:"احفظ سكوترك أولاً",
     resetDone:"تمت إعادة ضبط VoltRide بنجاح",resetConfirm:"هل تريد إعادة VoltRide إلى الإعدادات الافتراضية؟",
     clearHistoryConfirm:"مسح سجل الشحن؟",
+    calcDisclaimer:"لا تشمل هذه التكلفة خسائر الشحن من الشبكة.",
     specsTransferred:"تم نقل المواصفات للحاسبة",
-    calculateFirst:"احسب أولاً ثم سجّل الشحنة",
     maxCompare:"يمكن مقارنة 3 فقط",
     chooseFirst:"اختر سكوتر أولاً",
     adviceLow:"⚠️ المدى التقديري منخفض. خفف السرعة، تحقق من ضغط الإطارات وحالة البطارية وخطط لمسار آمن.",adviceSport:"⚡ وضع Sport يزيد الاستهلاك. استخدمه عند الحاجة، خصوصاً في المسافات الطويلة.",adviceOk:"✅ إعداد متوازن. للحصول على نتيجة أقرب للواقع، أدخل متوسط سرعتك الحقيقي وحالة الطريق.",noResults:"لا توجد نتائج.",
@@ -709,7 +710,7 @@ const I18N = {
   fr:{
     quickSmart:"Analyse instantanée",quickBattery:"Énergie & charge",quickCost:"Coût clair",tagline:"Votre compagnon scooter",heroText:"Estimez autonomie, recharge et coût électrique en quelques secondes.",smartBadge:"● Analyse intelligente",smartStatus:"État du trajet",tripCost:"Coût énergétique",perCharge:"/ charge",
     rider:"👤 Pilote et conduite",weight:"Poids",speed:"Vitesse moyenne",terrain:"Terrain",flat:"Plat",mixed:"Mixte",hills:"Pentes",mode:"Mode",eco:"Éco",balanced:"Équilibré",sport:"Sport",
-    battery:"🔋 Batterie et scooter",voltage:"Tension",capacity:"Capacité Ah",motor:"Puissance moteur",charger:"Chargeur A",calculate:"Calculer ⚡",results:"📊 Résultat",range:"Autonomie",energy:"Énergie batterie",consumption:"Consommation",chargeTime:"Temps de charge",cost:"Coût de charge",reserve:"Réserve 10%",estimateNote:"Estimations indicatives. Le vent, la température, les pneus, la charge, la batterie, les freins et le terrain influencent le résultat.",
+    battery:"🔋 Batterie et scooter",voltage:"Tension",capacity:"Capacité Ah",motor:"Puissance moteur",charger:"Chargeur A",calculate:"Calculer ⚡",results:"📊 Résultat",range:"Autonomie",energy:"Énergie batterie",consumption:"Consommation",chargeTime:"Temps de charge estimé",cost:"Coût énergétique estimé",reserve:"Autonomie pratique (marge de sécurité supplémentaire de 10 %)",estimateNote:"Estimations indicatives. Le vent, la température, les pneus, la charge, la batterie, les freins et le terrain influencent le résultat.",
     catalogTitle:"🛴 Catalogue scooters",catalogSub:"Comparez les specs puis envoyez-les au calculateur.",search:"Rechercher un scooter...",sortRange:"Autonomie",sortSpeed:"Vitesse",sortPrice:"Prix",all:"Tous",budget:"Éco",commuter:"Ville",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Sécurité",safetySub:"Des règles simples pour réduire les risques.",batteryCare:"Batterie",safe1:"Utilisez le bon chargeur",safe1p:"Utilisez uniquement un chargeur conforme aux spécifications du fabricant.",safe2:"Rechargez dans un endroit adapté",safe2p:"Évitez les surfaces inflammables et la chaleur excessive.",safe3:"Arrêtez en cas d'anomalie",safe3p:"Gonflement, fumée, odeur inhabituelle ou chaleur extrême : arrêtez et faites contrôler.",tires:"Pneus et freins",tireTitle:"Bonne pression",tireP:"Respectez la pression recommandée par le fabricant.",brakeTitle:"Freins",brakeP:"Si les freins sont faibles, bruyants ou frottent, arrêtez et faites contrôler.",rideSafe:"Avant de rouler",helmet:"Casque et éclairage",helmetP:"Portez un casque adapté, soyez visible et respectez les règles locales.",water:"Eau",waterP:"La résistance à l'eau ne signifie pas immersion. Évitez l'eau profonde.",
     errorsTitle:"🔧 Diagnostic",errorsSub:"Informations générales avant de demander de l'aide.",errorNote:"Les codes varient selon la marque et le modèle. Ne démontez pas la batterie ou le contrôleur sans qualification.",
@@ -719,6 +720,7 @@ const I18N = {
     savedScooterToast:"Scooter enregistré",loadedScooterToast:"Specs chargées",needSaveFirst:"Enregistrez d'abord votre scooter",
     resetDone:"VoltRide réinitialisé avec succès",resetConfirm:"Réinitialiser VoltRide aux réglages par défaut ?",
     clearHistoryConfirm:"Effacer l'historique des charges ?",
+    calcDisclaimer:"Ce coût ne tient pas compte des pertes d'énergie lors de la recharge depuis le réseau.",
     specsTransferred:"Specs transférées au calculateur",
     calculateFirst:"Calculez d'abord puis enregistrez",
     maxCompare:"3 maximum",
@@ -737,7 +739,7 @@ const I18N = {
   en:{
     quickSmart:"Instant insight",quickBattery:"Energy & charge",quickCost:"Clear cost",tagline:"Your smart scooter companion",heroText:"Estimate range, charging time and electricity cost in seconds.",smartBadge:"● Smart analysis",smartStatus:"Trip status",tripCost:"Energy cost",perCharge:"/ charge",
     rider:"👤 Rider & riding",weight:"Weight",speed:"Average speed",terrain:"Terrain",flat:"Flat",mixed:"Mixed",hills:"Hills",mode:"Riding mode",eco:"Eco",balanced:"Balanced",sport:"Sport",
-    battery:"🔋 Battery & scooter",voltage:"Voltage",capacity:"Capacity Ah",motor:"Motor power",charger:"Charger A",calculate:"Calculate ⚡",results:"📊 Result",range:"Range",energy:"Battery energy",consumption:"Consumption",chargeTime:"Charge time",cost:"Charge cost",reserve:"10% reserve",estimateNote:"Estimates only. Wind, temperature, tire pressure, load, battery condition, brakes and terrain affect the result.",
+    battery:"🔋 Battery & scooter",voltage:"Voltage",capacity:"Capacity Ah",motor:"Motor power",charger:"Charger A",calculate:"Calculate ⚡",results:"📊 Result",range:"Range",energy:"Battery energy",consumption:"Consumption",chargeTime:"Estimated charging time",cost:"Estimated energy cost",reserve:"Practical range (additional 10% safety margin)",estimateNote:"Estimates only. Wind, temperature, tire pressure, load, battery condition, brakes and terrain affect the result.",
     catalogTitle:"🛴 Scooter catalog",catalogSub:"Compare specs and send them to the calculator.",search:"Search scooter...",sortRange:"Range",sortSpeed:"Speed",sortPrice:"Price",all:"All",budget:"Budget",commuter:"Commuter",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Safety center",safetySub:"Simple rules to reduce risk and protect your scooter.",batteryCare:"Battery care",safe1:"Use the correct charger",safe1p:"Use only a charger that matches the manufacturer's specifications.",safe2:"Charge in a suitable place",safe2p:"Avoid flammable surfaces and excessive heat.",safe3:"Stop for abnormal signs",safe3p:"Swelling, smoke, unusual odor or extreme heat: stop and seek qualified inspection.",tires:"Tires & brakes",tireTitle:"Correct pressure",tireP:"Follow the manufacturer's recommended tire pressure.",brakeTitle:"Brakes",brakeP:"If braking is weak, noisy or rubbing, stop riding and get it inspected.",rideSafe:"Before riding",helmet:"Helmet & lights",helmetP:"Wear a suitable helmet, stay visible and follow local rules.",water:"Water",waterP:"Water resistance does not mean submersible. Avoid deep water.",
     errorsTitle:"🔧 Troubleshooting",errorsSub:"General information before seeking help.",errorNote:"Codes vary by brand and model. Do not disassemble the battery or controller unless qualified.",
@@ -747,6 +749,7 @@ const I18N = {
     savedScooterToast:"Scooter saved",loadedScooterToast:"Saved specs loaded",needSaveFirst:"Save your scooter first",
     resetDone:"VoltRide reset successfully",resetConfirm:"Reset VoltRide to default settings?",
     clearHistoryConfirm:"Clear charging history?",
+    calcDisclaimer:"This estimate excludes energy losses during charging from the grid.",
     specsTransferred:"Specs transferred to calculator",
     calculateFirst:"Calculate first, then log the charge",
     maxCompare:"Maximum 3",
@@ -1004,6 +1007,8 @@ function calculate(){
 
   const advice = range < 15 ? t("adviceLow") : mode === "sport" ? t("adviceSport") : t("adviceOk");
   document.getElementById("advice").textContent = advice;
+  const disclaimer = document.getElementById("calc-disclaimer");
+  if (disclaimer) disclaimer.style.display = "block";
   if (typeof renderReturnCheck === "function") renderReturnCheck();
 
   const smart = document.getElementById("smartStatusOut");
