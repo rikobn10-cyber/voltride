@@ -3,7 +3,7 @@
 Run inside the site folder:   python3 build_models.py
 
 Reads  models.json (list of models) and model_texts.json (optional hand-written text by id).
-Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), rebuilds sitemap.xml, refreshes the models section of blog.html,
+Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), preserves the hand-maintained sitemap.xml, refreshes the models section of blog.html,
 the MODEL_PRESETS block of index.html and the PRECACHE list of sw.js.
 """
 import hashlib, html, json, math, os, re
@@ -177,15 +177,15 @@ def legal_block(m):
         return ('<div class="warning"><h3>⚖️ لا يندرج ضمن التروتينيت المنظَّم</h3>'
                 f'<p>سرعته المعلنة (نحو {sp} كم/س) تفوق كثيراً الحد المنشور للتروتينيت. بحسب ما نشرته الصحافة المغربية عن المرسوم 2.25.145 فالحد الأقصى <strong>25 كم/س</strong>. '
                 'لا نملك مصدراً مؤكداً عن تصنيف مركبة بهذه المواصفات في المغرب، لذلك <strong>لا تستعملها في الطرق العامة</strong> قبل أن تسأل الجهات المختصة (النقل أو الأمن الوطني أو شركة تأمين). '
-                'راجع <a href="article-7.html">مقال القانون</a> لما هو مؤكد وما هو غير مؤكد.</p></div>')
+                'راجع <a href="article-7">مقال القانون</a> لما هو مؤكد وما هو غير مؤكد.</p></div>')
     if t == "over":
         return ('<div class="warning"><h3>⚖️ سرعته المعلنة تتجاوز 25 كم/س</h3>'
                 f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، بينما الحد المنشور في الصحافة المغربية عن المرسوم 2.25.145 هو <strong>25 كم/س</strong> للتروتينيت. '
                 'قد تتيح بعض النسخ ضبط السرعة عبر التطبيق أو الإعدادات (تحقق من نسختك)، ولا نجزم بمدى كفاية ذلك قانونياً. '
-                'قدّرنا المدى أعلاه على سرعة 25 كم/س لأنها المرجع الواقعي داخل المدينة. راجع <a href="article-7.html">مقال القانون</a>.</p></div>')
+                'قدّرنا المدى أعلاه على سرعة 25 كم/س لأنها المرجع الواقعي داخل المدينة. راجع <a href="article-7">مقال القانون</a>.</p></div>')
     return ('<div class="tip"><h3>⚖️ ضمن الحد المنشور للسرعة</h3>'
             f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، أي ضمن الحد <strong>25 كم/س</strong> المنشور في الصحافة المغربية عن المرسوم 2.25.145. '
-            'تبقى شروط أخرى كالخوذة ومنع السماعات والمعدات، وبعضها لم نتأكد من تفاصيله. راجع <a href="article-7.html">مقال القانون</a>.</p></div>')
+            'تبقى شروط أخرى كالخوذة ومنع السماعات والمعدات، وبعضها لم نتأكد من تفاصيله. راجع <a href="article-7">مقال القانون</a>.</p></div>')
 
 
 def faqs(m, rows):
@@ -240,7 +240,7 @@ def page(m):
                     'اعتبر الأرقام هنا حدّاً أعلى نظرياً، وصحّحها بتجربتك عبر «معامل الواقع».</p></div>')
     faq_html = "\n".join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q, a in fq)
     sim = similar(m)
-    sim_links = " • ".join(f'<a href="{x["id"]}.html">{esc(x["name"])}</a>' for x in sim)
+    sim_links = " • ".join(f'<a href="{x["id"]}">{esc(x["name"])}</a>' for x in sim)
     battery_note = (f"طاقة بطاريته نحو {energy:.0f} Wh، وهي المرتبة {RANK[slug]} من {len(MODELS)} بين الموديلات المدرجة عندنا.")
 
     return f'''<!DOCTYPE html>
@@ -276,12 +276,12 @@ def page(m):
 <a class="skip" href="#main">انتقل إلى المحتوى</a>
 <div class="wrap">
 <header class="site-nav">
-  <a class="brand" href="index.html"><i>⚡</i>VoltRide</a>
+  <a class="brand" href="/"><i>⚡</i>VoltRide</a>
   <nav class="links" aria-label="صفحات الموقع">
-    <a href="index.html">التطبيق</a><a href="blog.html">المدونة</a><a href="about.html">حول</a><a href="privacy.html">الخصوصية</a><a href="contact.html">اتصل بنا</a>
+    <a href="/">التطبيق</a><a href="/blog">المدونة</a><a href="/about">حول</a><a href="/privacy">الخصوصية</a><a href="/contact">اتصل بنا</a>
   </nav>
 </header>
-<a href="blog.html" class="back">← العودة للمدونة</a>
+<a href="/blog" class="back">← العودة للمدونة</a>
 <main id="main">
 <article>
 <h1>كم مدى {esc(m["name"])} الواقعي؟ تقدير VoltRide للمغرب</h1>
@@ -322,11 +322,11 @@ def page(m):
 
 <h2>🔗 اقرأ أيضاً</h2>
 <ul>
-<li><a href="article-8.html">كم تكلفة شحن السكوتر الكهربائي شهرياً؟</a></li>
-<li><a href="article-4.html">5 أخطاء شائعة تقصّر عمر بطارية سكوترك</a></li>
-<li><a href="article-1.html">10 نصائح لزيادة مدى سكوترك</a></li>
-<li><a href="article-7.html">قانون التروتينيت في المغرب: ما الذي تؤكده المصادر؟</a></li>
-<li><a href="article-5.html">كيف تختار سكوترك الأول؟</a></li>
+<li><a href="article-8">كم تكلفة شحن السكوتر الكهربائي شهرياً؟</a></li>
+<li><a href="article-4">5 أخطاء شائعة تقصّر عمر بطارية سكوترك</a></li>
+<li><a href="article-1">10 نصائح لزيادة مدى سكوترك</a></li>
+<li><a href="article-7">قانون التروتينيت في المغرب: ما الذي تؤكده المصادر؟</a></li>
+<li><a href="article-5">كيف تختار سكوترك الأول؟</a></li>
 </ul>
 <p class="updated">موديلات قريبة في طاقة البطارية: {sim_links}</p>
 
@@ -338,7 +338,7 @@ def page(m):
 </article>
 </main>
 <footer>
-<a href="index.html">الرئيسية</a><a href="blog.html">المدونة</a><a href="about.html">حول</a><a href="privacy.html">الخصوصية</a><a href="contact.html">اتصل بنا</a>
+<a href="/">الرئيسية</a><a href="/blog">المدونة</a><a href="/about">حول</a><a href="/privacy">الخصوصية</a><a href="/contact">اتصل بنا</a>
 <a href="#" onclick="if(window.VoltConsent){{VoltConsent.open();}}return false;">إعدادات الكوكيز</a>
 <p>© 2026 VoltRide • الصور توضيحية</p>
 </footer>
@@ -372,16 +372,8 @@ def main():
         write(f"{m['id']}.html", page(m))
     print("pages written:", len(MODELS))
 
-    # sitemap
-    urls = STATIC_URLS + [(f"{m['id']}.html", "0.7", MOD) for m in MODELS]
-    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
-    sm += [f"  <url><loc>{BASE}/{clean_path(p)}</loc><lastmod>{lm}</lastmod><priority>{pr}</priority>"
-           + (f"<image:image><image:loc>{BASE}/{IMAGES[p]}</image:loc></image:image>" if p in IMAGES else "")
-           + "</url>" for p, pr, lm in urls]
-    assert len({u[0] for u in urls}) == len(urls), "duplicate sitemap URL"
-    sm.append("</urlset>\n")
-    write("sitemap.xml", "\n".join(sm))
-    print("sitemap urls:", len(urls))
+    # sitemap.xml is maintained separately; never overwrite its curated multilingual URLs.
+    print("sitemap preserved")
 
     # blog section grouped by category
     parts = ['<h2 class="center" style="margin:30px 0 6px;font-size:21px">🛴 مدى الموديلات: تقدير VoltRide</h2>',
@@ -393,7 +385,7 @@ def main():
         parts.append(f'<h2 style="margin:22px 0 10px;font-size:17px;color:var(--cyan)">سكوترات {CLASS_HEAD[cat]} ({len(group)})</h2>')
         for m in group:
             r = estimate(m, 75, "mixed", "balanced", min(LEGAL_LIMIT, m["speed"]))[0]
-            parts.append(f'<a href="{m["id"]}.html" class="article-card"><span class="cat">{CLASS_AR[cat]}</span>'
+            parts.append(f'<a href="{m["id"]}" class="article-card"><span class="cat">{CLASS_AR[cat]}</span>'
                          f'<h2>كم مدى {esc(m["name"])} الواقعي؟</h2>'
                          f'<p>بطارية {num(m["voltage"])}V {num(m["ah"])}Ah: تقدير نحو {r:.0f} كم في الاستعمال العادي، مع سيناريوهات وملاحظة قانونية.</p>'
                          f'<div class="meta">📅 20 أكتوبر 2026</div></a>')
@@ -405,7 +397,7 @@ def main():
     write("index.html", replace_block(read("index.html"), "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = ["))
 
     # internal-link section at the bottom of the calculator screen (crawlable text links to every model page)
-    links = "\n".join(f'      <a href="{m["id"]}.html">{esc(m["name"])}</a>' for m in MODELS)
+    links = "\n".join(f'      <a href="{m["id"]}">{esc(m["name"])}</a>' for m in MODELS)
     write("index.html", replace_block(read("index.html"), "<!--LINKS:START-->", "<!--LINKS:END-->", links, "</nav>"))
     print("index internal links:", len(MODELS))
 
