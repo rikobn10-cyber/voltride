@@ -33,6 +33,9 @@ footer p{margin-top:12px}
 .card-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;margin-top:16px}
 .card-box h2{margin-top:0}
 
+/* Recommendation section with light background needs dark text */
+.recommendation h3,.recommendation p{color:#001116}
+
 /* article */
 article{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:25px}
 article h1{font-size:26px;margin-bottom:15px;line-height:1.35;background:linear-gradient(90deg,var(--cyan),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
