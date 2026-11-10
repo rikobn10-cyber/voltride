@@ -59,6 +59,8 @@ for (const model of generatedModels) {
   assert.match(modelPage, /سرعة مرجعية لا تتجاوز 25 كم\/س/, model.id + ": range benchmark must be explained as non-legal");
   assert.match(modelPage, /هل يمكنني استخدامه قانونياً على الطرق العامة/, model.id + ": legal FAQ must be jurisdiction-neutral");
   assert.match(modelPage, /الدليل القانوني الخاص بالمغرب/, model.id + ": Morocco-specific legal guidance must be clearly labelled");
+  assert.match(sitemap, new RegExp("<loc>https://voltride-4qj\\\\.pages\\\\.dev/" + model.id + "</loc><lastmod>2026-11-10</lastmod>"), model.id + ": updated model page must have a current sitemap lastmod");
+
 }
 
 
