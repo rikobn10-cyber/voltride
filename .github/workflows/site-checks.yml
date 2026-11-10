@@ -27,6 +27,14 @@ jobs:
           python3 build_models.py
           git diff --stat --exit-code || (echo "::error::build_models.py changes committed files. Commit the regenerated output (or edit build_models.py instead of the generated pages)." && exit 1)
 
+  model_schema_v2:
+    name: Model data schema v2 validation
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate staged canonical model data
+        run: python3 tools/validate_model_schema_v2.py
+
   currency_locale:
     name: Currency locale detection tests
     runs-on: ubuntu-24.04
