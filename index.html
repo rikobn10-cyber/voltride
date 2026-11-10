@@ -841,6 +841,8 @@ function detectDefaultCurrency(){
     }
     if (CURRENCY_BY_REGION[region]) return CURRENCY_BY_REGION[region];
   }
+  // Some browsers expose only a language (for example, "ar") rather than a region.
+  if (Intl.DateTimeFormat().resolvedOptions().timeZone === "Africa/Casablanca") return "MAD";
   return "USD";
 }
 let tariffs = Object.assign({}, DEFAULT_TARIFFS, Store.get("voltride_tariffs", {}) || {});
