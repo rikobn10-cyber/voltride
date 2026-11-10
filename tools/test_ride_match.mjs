@@ -48,7 +48,7 @@ assert.equal(evaluate('rideMatchT("buy")'), "Buy now ←");
 evaluate('setRideMatchLanguage("ar")');
 assert.equal(evaluate("document.documentElement.dir"), "rtl");
 assert.match(html, /table-layout:fixed/);
-assert.match(html, /color:var\\(--cyan\\)/);
+assert.match(html, /color:var\(--cyan\)/);
 assert.doesNotMatch(html, /border-collapse:;/);
 assert.match(html, /data-value="commuter"/);
 assert.match(html, /data-value="performance"/);
