@@ -36,6 +36,20 @@ for (const model of modelCatalog) {
 
 assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\bMAD\b|درهم/);
 assert.doesNotMatch(html, /"price":\d+/);
+const sourceVerifiedAffiliateModels = {
+  "iscooter-w9": { speed: 45, power: 1000, voltage: 48, ah: 14 },
+  "iscooter-ix4": { speed: 45, power: 800, voltage: 48, ah: 15 },
+  "iscooter-w9air": { speed: 40, power: 800, voltage: 48, ah: 10 },
+  "iscooter-ix5s": { speed: 45, power: 1000, voltage: 48, ah: 15 }
+};
+for (const [id, specs] of Object.entries(sourceVerifiedAffiliateModels)) {
+  const model = rideModels.find(item => item.id === id);
+  assert.ok(model, id + ": sourced affiliate model must remain in Ride Match");
+  for (const [field, value] of Object.entries(specs)) assert.equal(model[field], value, id + ": " + field + " must match official manufacturer data");
+}
+const w6 = rideModels.find(item => item.id === "iscooter-w6");
+assert.equal(w6.eligible, false, "W6 regional battery variants must not be recommended until the affiliate SKU is matched to a region");
+assert.equal(evaluate('getRecommendations().some(r => r.s.id === "iscooter-w6")'), false, "region-ambiguous W6 must be excluded from recommendations");
 assert.match(html, /data-action="buy"/);
 assert.doesNotMatch(html, /indexOf\('اشترِ الآن'\)/);
 
