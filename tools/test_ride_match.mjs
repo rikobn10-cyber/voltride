@@ -8,7 +8,7 @@ assert.ok(scriptMatch, "Ride Match inline application script must exist");
 
 const context = {
   document: { documentElement: { lang: "ar", dir: "rtl" }, title: "", querySelectorAll: () => [], getElementById: () => ({ addEventListener: () => {}, style: { display: "none" } }) },
-  localStorage: { value: '"fr"', getItem: () => "'"fr"'", setItem: () => {} },
+  localStorage: { getItem: () => JSON.stringify("fr"), setItem: () => {} },
   setTimeout: () => 0,
   console
 };
