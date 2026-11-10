@@ -22,7 +22,7 @@ assert.equal(evaluate("uniqueScooters.length"), 35, "all unique models should re
 assert.equal(evaluate("new Set(uniqueScooters.map(s => s.id)).size"), 35, "model IDs must be unique");
 
 assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\bMAD\b|درهم/);
-assert.doesNotMatch(html, /"price":\\d+/);
+assert.doesNotMatch(html, /"price":\d+/);
 assert.match(html, /data-action="buy"/);
 assert.doesNotMatch(html, /indexOf\('اشترِ الآن'\)/);
 
