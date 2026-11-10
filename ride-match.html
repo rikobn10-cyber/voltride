@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1220">
 <title>اختيار السكوتر المناسب — Ride Match | VoltRide</title>
-<meta name="description" content="اختبار تخصيص 3 خطوات لمساعدتك في اختيار أفضل 2-3 موديلات السكوتر الكهربائية حسب ميزانيتك، مدتك اليومية، وتفضيلاتك (السرعة أو الراحة).">
+<meta name="description" content="اختبار من خطوتين لاختيار موديلات السكوتر الكهربائي وفق المسافة اليومية وأولوية القيادة.">
 <meta name="keywords" content="اختيار سكوتر, مقارنة سكوتر, دليل اختيار سكوتر">
 <link rel="canonical" href="https://voltride-4qj.pages.dev/ride-match">
 <meta property="og:type" content="article">
@@ -49,30 +49,19 @@
   <nav class="links" aria-label="Site pages">
     <a href="/" data-i18n="navApp">التطبيق</a><a href="/ride-match" aria-current="page" data-i18n="navRideMatch">اختيار السكوتر</a><a href="/blog" data-i18n="navBlog">المدونة</a><a href="/accessories" data-i18n="navAccessories">الإكسسوارات</a><a href="/about" data-i18n="navAbout">حول</a>
   </nav>
-  <div class="language-control"><label for="rideMatchLanguage" data-i18n="languageLabel">اللغة</label><select id="rideMatchLanguage" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div>
+  <div class="language-control"><label for="rideMatchLanguage" data-i18n="languageLabel">اللغة</label><select id="rideMatchLanguage" ><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div>
 </header>
 <main id="main">
 <article class="quiz-container">
 <h1 data-i18n="pageTitle">🧭 Ride Match: اختيار السكوتر المناسب لك</h1>
-<p class="meta" data-i18n="pageIntro">3 خطوات بسيطة لمساعدتك في اختيار أفضل الخيارات</p>
+<p class="meta" data-i18n="pageIntro">خطوتان بسيطتان لاختيار سكوتر يناسب استخدامك</p>
 
 <div class="progress-bar">
   <div class="progress-fill" id="progressFill"></div>
 </div>
 
 <div id="step1" class="step active">
-  <h2 data-i18n="budgetTitle">1. ما هي ميزانيتك المرجعية؟</h2>
-  <p class="meta" data-i18n="budgetNote">الأسعار المرجعية في قاعدة البيانات بالدرهم المغربي (MAD)، وقد لا تعكس الأسعار أو التوفر في بلدك.</p>
-  <div class="options" id="budgetOptions">
-    <button class="option-btn" data-value="0-3000" data-i18n="budget0">أقل من 3000 درهم</button>
-    <button class="option-btn" data-value="3000-5000" data-i18n="budget1">3000-5000 درهم</button>
-    <button class="option-btn" data-value="5000-8000" data-i18n="budget2">5000-8000 درهم</button>
-    <button class="option-btn" data-value="8000+" data-i18n="budget3">أكثر من 8000 درهم</button>
-  </div>
-</div>
-
-<div id="step2" class="step">
-  <h2 data-i18n="distanceTitle">2. ما هي مسافتك اليومية المتوسطة؟</h2>
+  <h2 data-i18n="distanceTitle">1. ما هي مسافتك اليومية المتوسطة؟</h2>
   <p class="meta" data-i18n="distanceNote">كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.</p>
   <div class="options" id="distanceOptions">
     <button class="option-btn" data-value="0-10" data-i18n="distance0">0-10 كم (مدى قصير)</button>
@@ -82,8 +71,8 @@
   </div>
 </div>
 
-<div id="step3" class="step">
-  <h2 data-i18n="preferenceTitle">3. ما هو تفضيلك؟</h2>
+<div id="step2" class="step">
+  <h2 data-i18n="preferenceTitle">2. ما هو تفضيلك؟</h2>
   <p class="meta" data-i18n="preferenceNote">اختر أولوية تدعمها المواصفات المتاحة للموديلات.</p>
   <div class="options" id="preferenceOptions">
     <button class="option-btn" data-value="speed" data-i18n="prefSpeed">سرعة عالية (للقيادة السريعة)</button>
@@ -95,7 +84,7 @@
 
 <div id="results" class="results" style="display:none">
   <h2 data-i18n="resultsTitle">🎯 توصياتنا لك</h2>
-  <p class="meta" data-i18n="resultsNote">استندت التوصيات إلى الميزانية المرجعية والمدى والفئة أو الأداء. بعض روابط الشراء روابط إحالة؛ قد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.</p>
+  <p class="meta" data-i18n="resultsNote">تعتمد التوصيات على المدى التقديري وتفضيلك، باستخدام المواصفات المتاحة للموديلات. بعض روابط الشراء روابط إحالة؛ قد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.</p>
   <div id="recommendations">
     <div class="recommendation">
       <h3 data-i18n="loadingTitle">جاري اختيار الموديلات...</h3>
@@ -116,9 +105,9 @@
 "use strict";
 
 const RIDE_MATCH_I18N = {
- ar:{navApp:"التطبيق",navRideMatch:"اختيار السكوتر",navBlog:"المدونة",navAccessories:"الإكسسوارات",navAbout:"حول",languageLabel:"اللغة",pageTitle:"🧭 Ride Match: اختيار السكوتر المناسب لك",pageIntro:"3 خطوات بسيطة لمساعدتك في اختيار أفضل الخيارات",budgetTitle:"1. ما هي ميزانيتك المرجعية؟",budgetNote:"الأسعار المرجعية في قاعدة البيانات بالدرهم المغربي (MAD)، وقد لا تعكس الأسعار أو التوفر في بلدك.",budget0:"أقل من 3000 درهم",budget1:"3000–5000 درهم",budget2:"5000–8000 درهم",budget3:"أكثر من 8000 درهم",distanceTitle:"2. ما هي مسافتك اليومية المتوسطة؟",distanceNote:"كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.",distance0:"0–10 كم (مدى قصير)",distance1:"10–20 كم (مدى متوسط)",distance2:"20–40 كم (مدى طويل)",distance3:"أكثر من 40 كم (رحلات طويلة جداً)",preferenceTitle:"3. ما أولويتك؟",preferenceNote:"اختر أولوية تدعمها المواصفات المتاحة للموديلات.",prefSpeed:"سرعة أعلى",prefRange:"مدى أطول",prefCommuter:"التنقل اليومي",prefPerformance:"أداء قوي",resultsTitle:"🎯 توصياتنا لك",resultsNote:"تعتمد التوصيات على الميزانية المرجعية والمدى والفئة أو الأداء. بعض روابط الشراء إحالة؛ وقد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.",loadingTitle:"جاري اختيار الموديلات…",loadingText:"يرجى الانتظار…",calculatorCta:"🔧 افتح الحاسبة الكاملة ←",footerHome:"الرئيسية",speed:"السرعة",range:"المدى التقديري",battery:"البطارية",power:"القدرة",category:"الفئة",buy:"اشترِ الآن ←",useCalculator:"افتح الحاسبة ←",catBudget:"اقتصادية",catCommuter:"تنقل يومي",catSport:"رياضية",catPerformance:"أداء",errorTitle:"عذراً",errorText:"تعذّر العثور على موديلات. حاول مرة أخرى."},
- fr:{navApp:"Application",navRideMatch:"Choisir un scooter",navBlog:"Blog",navAccessories:"Accessoires",navAbout:"À propos",languageLabel:"Langue",pageTitle:"🧭 Ride Match : trouvez le scooter adapté",pageIntro:"3 étapes simples pour trouver les meilleures options",budgetTitle:"1. Quel est votre budget indicatif ?",budgetNote:"Les budgets de référence sont stockés en MAD et peuvent ne pas refléter les prix ou la disponibilité dans votre pays.",budget0:"Moins de 3 000 MAD",budget1:"3 000–5 000 MAD",budget2:"5 000–8 000 MAD",budget3:"Plus de 8 000 MAD",distanceTitle:"2. Quelle distance parcourez-vous par jour ?",distanceNote:"Une distance plus longue nécessite généralement une batterie ou une autonomie supérieure.",distance0:"0–10 km (courte)",distance1:"10–20 km (moyenne)",distance2:"20–40 km (longue)",distance3:"Plus de 40 km (très longue)",preferenceTitle:"3. Quelle est votre priorité ?",preferenceNote:"Choisissez une priorité correspondant aux caractéristiques disponibles.",prefSpeed:"Vitesse élevée",prefRange:"Grande autonomie",prefCommuter:"Déplacements quotidiens",prefPerformance:"Performances élevées",resultsTitle:"🎯 Nos recommandations",resultsNote:"Les recommandations tiennent compte du budget indicatif, de l’autonomie et de la catégorie ou des performances. Certains liens d’achat sont affiliés ; VoltRide peut recevoir une commission sans frais supplémentaires pour vous.",loadingTitle:"Sélection des modèles…",loadingText:"Veuillez patienter…",calculatorCta:"🔧 Ouvrir le calculateur complet ←",footerHome:"Accueil",speed:"Vitesse",range:"Autonomie estimée",battery:"Batterie",power:"Puissance",category:"Catégorie",buy:"Acheter maintenant ←",useCalculator:"Ouvrir le calculateur ←",catBudget:"Économique",catCommuter:"Urbain",catSport:"Sport",catPerformance:"Performance",errorTitle:"Désolé",errorText:"Impossible de trouver des modèles. Veuillez réessayer."},
- en:{navApp:"App",navRideMatch:"Find a scooter",navBlog:"Blog",navAccessories:"Accessories",navAbout:"About",languageLabel:"Language",pageTitle:"🧭 Ride Match: find the right scooter",pageIntro:"3 simple steps to find the best options",budgetTitle:"1. What is your indicative budget?",budgetNote:"Reference budgets are stored in MAD and may not reflect prices or availability in your country.",budget0:"Under 3,000 MAD",budget1:"3,000–5,000 MAD",budget2:"5,000–8,000 MAD",budget3:"Over 8,000 MAD",distanceTitle:"2. How far do you travel each day?",distanceNote:"Longer trips generally require a larger battery or greater range.",distance0:"0–10 km (short)",distance1:"10–20 km (medium)",distance2:"20–40 km (long)",distance3:"Over 40 km (very long)",preferenceTitle:"3. What is your priority?",preferenceNote:"Choose a priority supported by the available model specifications.",prefSpeed:"Higher speed",prefRange:"Longer range",prefCommuter:"Daily commuting",prefPerformance:"High performance",resultsTitle:"🎯 Our recommendations",resultsNote:"Recommendations use the indicative budget, range and category or performance. Some purchase links are affiliate links; VoltRide may earn a commission at no extra cost to you.",loadingTitle:"Selecting models…",loadingText:"Please wait…",calculatorCta:"🔧 Open the full calculator ←",footerHome:"Home",speed:"Speed",range:"Estimated range",battery:"Battery",power:"Power",category:"Category",buy:"Buy now ←",useCalculator:"Open calculator ←",catBudget:"Budget",catCommuter:"Commuter",catSport:"Sport",catPerformance:"Performance",errorTitle:"Sorry",errorText:"No models could be found. Please try again."}
+ ar:{navApp:"التطبيق",navRideMatch:"اختيار السكوتر",navBlog:"المدونة",navAccessories:"الإكسسوارات",navAbout:"حول",languageLabel:"اللغة",pageTitle:"🧭 Ride Match: اختيار السكوتر المناسب لك",pageIntro:"خطوتان بسيطتان لاختيار سكوتر يناسب استخدامك",distanceTitle:"1. ما هي مسافتك اليومية المتوسطة؟",distanceNote:"كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.",distance0:"0–10 كم (مدى قصير)",distance1:"10–20 كم (مدى متوسط)",distance2:"20–40 كم (مدى طويل)",distance3:"أكثر من 40 كم (رحلات طويلة جداً)",preferenceTitle:"2. ما أولويتك؟",preferenceNote:"اختر أولوية تدعمها المواصفات المتاحة للموديلات.",prefSpeed:"سرعة أعلى",prefRange:"مدى أطول",prefCommuter:"التنقل اليومي",prefPerformance:"أداء قوي",resultsTitle:"🎯 توصياتنا لك",resultsNote:"تعتمد التوصيات على المدى التقديري وتفضيلك، باستخدام المواصفات المتاحة للموديلات. بعض روابط الشراء إحالة؛ وقد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.",loadingTitle:"جاري اختيار الموديلات…",loadingText:"يرجى الانتظار…",calculatorCta:"🔧 افتح الحاسبة الكاملة ←",footerHome:"الرئيسية",speed:"السرعة",range:"المدى التقديري",battery:"البطارية",power:"القدرة",category:"الفئة",buy:"اشترِ الآن ←",useCalculator:"افتح الحاسبة ←",catBudget:"اقتصادية",catCommuter:"تنقل يومي",catSport:"رياضية",catPerformance:"أداء",errorTitle:"عذراً",errorText:"تعذّر العثور على موديلات. حاول مرة أخرى."},
+ fr:{navApp:"Application",navRideMatch:"Choisir un scooter",navBlog:"Blog",navAccessories:"Accessoires",navAbout:"À propos",languageLabel:"Langue",pageTitle:"🧭 Ride Match : trouvez le scooter adapté",pageIntro:"Deux étapes simples pour trouver un scooter adapté à votre usage",distanceTitle:"1. Quelle distance parcourez-vous par jour ?",distanceNote:"Une distance plus longue nécessite généralement une batterie ou une autonomie supérieure.",distance0:"0–10 km (courte)",distance1:"10–20 km (moyenne)",distance2:"20–40 km (longue)",distance3:"Plus de 40 km (très longue)",preferenceTitle:"2. Quelle est votre priorité ?",preferenceNote:"Choisissez une priorité correspondant aux caractéristiques disponibles.",prefSpeed:"Vitesse élevée",prefRange:"Grande autonomie",prefCommuter:"Déplacements quotidiens",prefPerformance:"Performances élevées",resultsTitle:"🎯 Nos recommandations",resultsNote:"Les recommandations reposent sur l’autonomie estimée et votre priorité, à partir des caractéristiques disponibles. Certains liens d’achat sont affiliés ; VoltRide peut recevoir une commission sans frais supplémentaires.",loadingTitle:"Sélection des modèles…",loadingText:"Veuillez patienter…",calculatorCta:"🔧 Ouvrir le calculateur complet ←",footerHome:"Accueil",speed:"Vitesse",range:"Autonomie estimée",battery:"Batterie",power:"Puissance",category:"Catégorie",buy:"Acheter maintenant ←",useCalculator:"Ouvrir le calculateur ←",catBudget:"Économique",catCommuter:"Urbain",catSport:"Sport",catPerformance:"Performance",errorTitle:"Désolé",errorText:"Impossible de trouver des modèles. Veuillez réessayer."},
+ en:{navApp:"App",navRideMatch:"Find a scooter",navBlog:"Blog",navAccessories:"Accessories",navAbout:"About",languageLabel:"Language",pageTitle:"🧭 Ride Match: find the right scooter",pageIntro:"Two quick steps to find a scooter that fits your riding needs",distanceTitle:"1. How far do you travel each day?",distanceNote:"Longer trips generally require a larger battery or greater range.",distance0:"0–10 km (short)",distance1:"10–20 km (medium)",distance2:"20–40 km (long)",distance3:"Over 40 km (very long)",preferenceTitle:"2. What is your priority?",preferenceNote:"Choose a priority supported by the available model specifications.",prefSpeed:"Higher speed",prefRange:"Longer range",prefCommuter:"Daily commuting",prefPerformance:"High performance",resultsTitle:"🎯 Our recommendations",resultsNote:"Recommendations use estimated range and your priority, based on available model specifications. Some purchase links are affiliate links; VoltRide may earn a commission at no extra cost.",loadingTitle:"Selecting models…",loadingText:"Please wait…",calculatorCta:"🔧 Open the full calculator ←",footerHome:"Home",speed:"Speed",range:"Estimated range",battery:"Battery",power:"Power",category:"Category",buy:"Buy now ←",useCalculator:"Open calculator ←",catBudget:"Budget",catCommuter:"Commuter",catSport:"Sport",catPerformance:"Performance",errorTitle:"Sorry",errorText:"No models could be found. Please try again."}
 };
 function readRideMatchLanguage(){try{const saved=localStorage.getItem("voltride_language");const value=saved?JSON.parse(saved):null;return Object.prototype.hasOwnProperty.call(RIDE_MATCH_I18N,value)?value:"ar";}catch(_){return "ar";}}
 let rideMatchLang=readRideMatchLanguage();
@@ -136,43 +125,43 @@ function setRideMatchLanguage(next){
 
 /* ==== Ride Match logic ==== */
 
-// Scooters data (same as index.html catalog)
+// Catalog models plus separate affiliate-only entries; keep their sources and verification status distinct.
 const scooters = [
-  {"id":"xiaomi-pro-2","name":"Xiaomi Pro 2","cat":"commuter","speed":25,"power":300,"voltage":36,"ah":12.8,"price":4200,"affiliateUrl":null},
-  {"id":"xiaomi-4-pro","name":"Xiaomi 4 Pro","cat":"commuter","speed":25,"power":350,"voltage":36,"ah":12.4,"price":6200,"affiliateUrl":null},
-  {"id":"xiaomi-essential","name":"Xiaomi Essential","cat":"budget","speed":20,"power":250,"voltage":36,"ah":5.2,"price":2500,"affiliateUrl":null},
-  {"id":"xiaomi-3-lite","name":"Xiaomi Scooter 3 Lite","cat":"budget","speed":25,"power":300,"voltage":36,"ah":5.2,"price":3000,"affiliateUrl":null},
-  {"id":"segway-max-g30","name":"Segway Ninebot MAX G30","cat":"commuter","speed":30,"power":350,"voltage":36,"ah":15.3,"price":6500,"affiliateUrl":null},
-  {"id":"segway-max-g2","name":"Segway Ninebot Max G2","cat":"commuter","speed":35,"power":450,"voltage":36,"ah":15.3,"price":8500,"affiliateUrl":null},
-  {"id":"segway-e2-plus","name":"Segway Ninebot E2 Plus","cat":"budget","speed":25,"power":300,"voltage":21.6,"ah":10.2,"price":3500,"affiliateUrl":null},
-  {"id":"navee-n40","name":"Navee N40","cat":"budget","speed":25,"power":350,"voltage":36,"ah":10,"price":4500,"affiliateUrl":null},
-  {"id":"navee-g5","name":"Navee G5","cat":"commuter","speed":32,"power":350,"voltage":48,"ah":10.4,"price":7500,"affiliateUrl":null},
-  {"id":"niu-kqi3-max","name":"NIU KQi3 Max","cat":"commuter","speed":38,"power":450,"voltage":48,"ah":12.7,"price":8000,"affiliateUrl":null},
-  {"id":"kukirin-g2-pro","name":"KuKirin G2 Pro","cat":"sport","speed":45,"power":600,"voltage":48,"ah":15,"price":7000,"affiliateUrl":null},
-  {"id":"kukirin-g2-max","name":"KuKirin G2 Max","cat":"sport","speed":55,"power":1000,"voltage":48,"ah":20,"price":8500,"affiliateUrl":null},
-  {"id":"kukirin-g3-pro","name":"KuKirin G3 Pro","cat":"sport","speed":65,"power":2400,"voltage":52,"ah":23.2,"price":12000,"affiliateUrl":null},
-  {"id":"kukirin-g4","name":"KuKirin G4","cat":"performance","speed":75,"power":2000,"voltage":60,"ah":20,"price":14500,"affiliateUrl":null},
-  {"id":"ecoxtrem-bison-gt","name":"Ecoxtrem Bison GT","cat":"sport","speed":45,"power":800,"voltage":48,"ah":13,"price":9500,"affiliateUrl":null},
-  {"id":"ecoxtrem-bison-m41","name":"Ecoxtrem Bison M41","cat":"sport","speed":50,"power":1000,"voltage":48,"ah":18,"price":11000,"affiliateUrl":null},
-  {"id":"dualtron-mini","name":"Dualtron Mini","cat":"sport","speed":45,"power":1450,"voltage":52,"ah":17.5,"price":10500,"affiliateUrl":null},
-  {"id":"dualtron-victor","name":"Dualtron Victor","cat":"performance","speed":80,"power":4000,"voltage":60,"ah":24,"price":25000,"affiliateUrl":null},
-  {"id":"dualtron-thunder-3","name":"Dualtron Thunder 3","cat":"performance","speed":100,"power":11000,"voltage":72,"ah":40,"price":45000,"affiliateUrl":null},
-  {"id":"vsett-8-plus","name":"Vsett 8+","cat":"sport","speed":45,"power":1200,"voltage":48,"ah":16,"price":9000,"affiliateUrl":null},
-  {"id":"vsett-9-plus","name":"Vsett 9+","cat":"sport","speed":53,"power":1300,"voltage":48,"ah":21,"price":12000,"affiliateUrl":null},
-  {"id":"vsett-10-plus","name":"Vsett 10+","cat":"performance","speed":75,"power":2800,"voltage":60,"ah":28,"price":18000,"affiliateUrl":null},
-  {"id":"apollo-city-pro","name":"Apollo City Pro","cat":"sport","speed":51,"power":1000,"voltage":52,"ah":20,"price":15000,"affiliateUrl":null},
-  {"id":"apollo-ghost","name":"Apollo Ghost","cat":"performance","speed":55,"power":2000,"voltage":52,"ah":18.2,"price":16500,"affiliateUrl":null},
-  {"id":"kaabo-wolf-king","name":"Kaabo Wolf King GT","cat":"performance","speed":100,"power":4000,"voltage":72,"ah":35,"price":35000,"affiliateUrl":null},
-  {"id":"gotrax-g4","name":"Gotrax G4","cat":"commuter","speed":32,"power":350,"voltage":36,"ah":10.4,"price":5500,"affiliateUrl":null},
-  {"id":"gotrax-gxl-v2","name":"Gotrax GXL V2","cat":"budget","speed":25,"power":250,"voltage":36,"ah":5.2,"price":3000,"affiliateUrl":null},
-  {"id":"inokim-oxo","name":"Inokim OXO","cat":"performance","speed":65,"power":2000,"voltage":60,"ah":25.6,"price":22000,"affiliateUrl":null},
-  {"id":"nami-burn-e2-max","name":"Nami Burn-E 2 Max","cat":"performance","speed":98,"power":8400,"voltage":72,"ah":40,"price":38000,"affiliateUrl":null},
-  {"id":"teverun-fighter-11","name":"Teverun Fighter 11","cat":"performance","speed":85,"power":5000,"voltage":60,"ah":26,"price":28000,"affiliateUrl":null},
-  {"id":"iscooter-w9","name":"iScooter W9","cat":"sport","speed":45,"power":500,"voltage":48,"ah":14,"price":6500,"affiliateUrl":"https://s.click.aliexpress.com/e/_EGAUMFs"},
-  {"id":"iscooter-ix4","name":"iScooter iX4","cat":"commuter","speed":45,"power":800,"voltage":48,"ah":15,"price":5000,"affiliateUrl":"https://s.click.aliexpress.com/e/_EvIBV8A"},
-  {"id":"iscooter-w9air","name":"iScooter W9Air","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10,"price":3200,"affiliateUrl":"https://s.click.aliexpress.com/e/_EwpL2l8"},
-  {"id":"iscooter-w6","name":"iScooter W6","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10.5,"price":2800,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIqcG58"},
-  {"id":"iscooter-ix5s","name":"iScooter iX5s","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":15,"price":7500,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIosseQ"}
+  {"id":"xiaomi-pro-2","name":"Xiaomi Pro 2","cat":"commuter","speed":25,"power":300,"voltage":36,"ah":12.8,"affiliateUrl":null},
+  {"id":"xiaomi-4-pro","name":"Xiaomi 4 Pro","cat":"commuter","speed":25,"power":350,"voltage":36,"ah":12.4,"affiliateUrl":null},
+  {"id":"xiaomi-essential","name":"Xiaomi Essential","cat":"budget","speed":20,"power":250,"voltage":36,"ah":5.2,"affiliateUrl":null},
+  {"id":"xiaomi-3-lite","name":"Xiaomi Scooter 3 Lite","cat":"budget","speed":25,"power":300,"voltage":36,"ah":5.2,"affiliateUrl":null},
+  {"id":"segway-max-g30","name":"Segway Ninebot MAX G30","cat":"commuter","speed":30,"power":350,"voltage":36,"ah":15.3,"affiliateUrl":null},
+  {"id":"segway-max-g2","name":"Segway Ninebot Max G2","cat":"commuter","speed":35,"power":450,"voltage":36,"ah":15.3,"affiliateUrl":null},
+  {"id":"segway-e2-plus","name":"Segway Ninebot E2 Plus","cat":"budget","speed":25,"power":300,"voltage":21.6,"ah":10.2,"affiliateUrl":null},
+  {"id":"navee-n40","name":"Navee N40","cat":"budget","speed":25,"power":350,"voltage":36,"ah":10,"affiliateUrl":null},
+  {"id":"navee-g5","name":"Navee G5","cat":"commuter","speed":32,"power":350,"voltage":48,"ah":10.4,"affiliateUrl":null},
+  {"id":"niu-kqi3-max","name":"NIU KQi3 Max","cat":"commuter","speed":38,"power":450,"voltage":48,"ah":12.7,"affiliateUrl":null},
+  {"id":"kukirin-g2-pro","name":"KuKirin G2 Pro","cat":"sport","speed":45,"power":600,"voltage":48,"ah":15,"affiliateUrl":null},
+  {"id":"kukirin-g2-max","name":"KuKirin G2 Max","cat":"sport","speed":55,"power":1000,"voltage":48,"ah":20,"affiliateUrl":null},
+  {"id":"kukirin-g3-pro","name":"KuKirin G3 Pro","cat":"sport","speed":65,"power":2400,"voltage":52,"ah":23.2,"affiliateUrl":null},
+  {"id":"kukirin-g4","name":"KuKirin G4","cat":"performance","speed":75,"power":2000,"voltage":60,"ah":20,"affiliateUrl":null},
+  {"id":"ecoxtrem-bison-gt","name":"Ecoxtrem Bison GT","cat":"sport","speed":45,"power":800,"voltage":48,"ah":13,"affiliateUrl":null},
+  {"id":"ecoxtrem-bison-m41","name":"Ecoxtrem Bison M41","cat":"sport","speed":50,"power":1000,"voltage":48,"ah":18,"affiliateUrl":null},
+  {"id":"dualtron-mini","name":"Dualtron Mini","cat":"sport","speed":45,"power":1450,"voltage":52,"ah":17.5,"affiliateUrl":null},
+  {"id":"dualtron-victor","name":"Dualtron Victor","cat":"performance","speed":80,"power":4000,"voltage":60,"ah":24,"affiliateUrl":null},
+  {"id":"dualtron-thunder-3","name":"Dualtron Thunder 3","cat":"performance","speed":100,"power":11000,"voltage":72,"ah":40,"affiliateUrl":null},
+  {"id":"vsett-8-plus","name":"Vsett 8+","cat":"sport","speed":45,"power":1200,"voltage":48,"ah":16,"affiliateUrl":null},
+  {"id":"vsett-9-plus","name":"Vsett 9+","cat":"sport","speed":53,"power":1300,"voltage":48,"ah":21,"affiliateUrl":null},
+  {"id":"vsett-10-plus","name":"Vsett 10+","cat":"performance","speed":75,"power":2800,"voltage":60,"ah":28,"affiliateUrl":null},
+  {"id":"apollo-city-pro","name":"Apollo City Pro","cat":"sport","speed":51,"power":1000,"voltage":52,"ah":20,"affiliateUrl":null},
+  {"id":"apollo-ghost","name":"Apollo Ghost","cat":"performance","speed":55,"power":2000,"voltage":52,"ah":18.2,"affiliateUrl":null},
+  {"id":"kaabo-wolf-king","name":"Kaabo Wolf King GT","cat":"performance","speed":100,"power":4000,"voltage":72,"ah":35,"affiliateUrl":null},
+  {"id":"gotrax-g4","name":"Gotrax G4","cat":"commuter","speed":32,"power":350,"voltage":36,"ah":10.4,"affiliateUrl":null},
+  {"id":"gotrax-gxl-v2","name":"Gotrax GXL V2","cat":"budget","speed":25,"power":250,"voltage":36,"ah":5.2,"affiliateUrl":null},
+  {"id":"inokim-oxo","name":"Inokim OXO","cat":"performance","speed":65,"power":2000,"voltage":60,"ah":25.6,"affiliateUrl":null},
+  {"id":"nami-burn-e2-max","name":"Nami Burn-E 2 Max","cat":"performance","speed":98,"power":8400,"voltage":72,"ah":40,"affiliateUrl":null},
+  {"id":"teverun-fighter-11","name":"Teverun Fighter 11","cat":"performance","speed":85,"power":5000,"voltage":60,"ah":26,"affiliateUrl":null},
+  {"id":"iscooter-w9","name":"iScooter W9","cat":"sport","speed":45,"power":500,"voltage":48,"ah":14,"affiliateUrl":"https://s.click.aliexpress.com/e/_EGAUMFs"},
+  {"id":"iscooter-ix4","name":"iScooter iX4","cat":"commuter","speed":45,"power":800,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EvIBV8A"},
+  {"id":"iscooter-w9air","name":"iScooter W9Air","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10,"affiliateUrl":"https://s.click.aliexpress.com/e/_EwpL2l8"},
+  {"id":"iscooter-w6","name":"iScooter W6","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10.5,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIqcG58"},
+  {"id":"iscooter-ix5s","name":"iScooter iX5s","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIosseQ"}
 ];
 
 const uniqueScooters = (() => {
@@ -196,7 +185,7 @@ function estimateRange(s){
   return (v * ah * 0.9) / cons;
 }
 
-let answers = {budget: null, distance: null, preference: null};
+let answers = {distance: null, preference: null};
 let rideMatchCompletionTracked = false;
 
 document.getElementById("rideMatchLanguage").addEventListener("change",e=>setRideMatchLanguage(e.target.value));
@@ -204,8 +193,8 @@ setRideMatchLanguage(rideMatchLang);
 
 function updateProgress(){
   const fill = document.getElementById('progressFill');
-  const done = (answers.budget ? 1 : 0) + (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0);
-  fill.style.width = (done * 33.33) + '%';
+  const done = (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0);
+  fill.style.width = (done * 50) + '%';
 }
 
 function showStep(step){
@@ -221,11 +210,10 @@ function selectOption(step, value, btn){
   container.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
-  if (step === 1) answers.budget = value;
-  else if (step === 2) answers.distance = value;
-  else if (step === 3) answers.preference = value;
+  if (step === 1) answers.distance = value;
+  else if (step === 2) answers.preference = value;
 
-  if (step < 3) {
+  if (step < 2) {
     setTimeout(() => showStep(step + 1), 250);
   } else {
     setTimeout(() => {
@@ -239,7 +227,6 @@ function selectOption(step, value, btn){
       if (!rideMatchCompletionTracked) {
         rideMatchCompletionTracked = true;
         if (window.VoltAnalytics) window.VoltAnalytics.track("ride_match_complete", {
-          budget_range: answers.budget,
           distance_range: answers.distance,
           preference: answers.preference
         });
@@ -249,23 +236,6 @@ function selectOption(step, value, btn){
 }
 
 // Scoring system: never returns empty; always top-3 overall if nothing scores
-const BUDGET_RANGES = Object.freeze({
-  "0-3000": {min: 0, max: 2999},
-  "3000-5000": {min: 3000, max: 4999},
-  "5000-8000": {min: 5000, max: 8000},
-  "8000+": {min: 8001, max: Infinity}
-});
-
-function parseBudgetRange(value){
-  return BUDGET_RANGES[value] || {min: 0, max: Infinity};
-}
-
-function getBudgetScore(price, range){
-  if (price >= range.min && price <= range.max) return 30;
-  const distance = price < range.min ? range.min - price : price - range.max;
-  return Math.max(0, 15 - distance / 500);
-}
-
 function getPreferenceScore(s, pref, range){
   if (pref === "speed") return Math.min(40, Number(s.speed) * 0.55);
   if (pref === "range") return Math.min(40, range * 0.45);
@@ -275,7 +245,6 @@ function getPreferenceScore(s, pref, range){
 }
 
 function getRecommendations(){
-  const budgetRange = parseBudgetRange(answers.budget);
   const distanceMatch = answers.distance;
   const pref = answers.preference || "commuter";
 
@@ -291,11 +260,6 @@ function getRecommendations(){
     const range = estimateRange(s);
     let score = 0;
     let matchCount = 0;
-
-    // Budget score (max 30); explicit ranges prevent 8000+ from becoming 0+.
-    const budgetScore = getBudgetScore(Number(s.price), budgetRange);
-    score += budgetScore;
-    if (budgetScore === 30) matchCount++;
 
     // Distance score (max 30)
     if (range >= needKm) {
@@ -347,7 +311,7 @@ function renderResults(){
         <tr><th>${rideMatchT("power")}</th><td>${r.s.power} W</td></tr>
         <tr><th>${rideMatchT("category")}</th><td>${catLabel(r.s.cat)}</td></tr>
       </table>
-      <a href="${buyUrl}" target="_blank" rel="${buyRel}" class="cta" style="margin-top:10px;display:inline-block">${rideMatchT("buy")}</a>
+      <a data-action="buy" href="${buyUrl}" target="_blank" rel="${buyRel}" class="cta" style="margin-top:10px;display:inline-block">${rideMatchT("buy")}</a>
       <a href="/" class="cta" style="margin-top:10px;display:inline-block">${rideMatchT("useCalculator")}</a>
     </div>
   `}).join('');
@@ -366,7 +330,7 @@ function renderResults(){
 const recommendationsEl = document.getElementById('recommendations');
 if (recommendationsEl) recommendationsEl.addEventListener('click', function(event){
   const link = event.target.closest('a.cta');
-  if (!link || link.textContent.indexOf('اشترِ الآن') === -1) return;
+  if (!link || link.dataset.action !== "buy") return;
   const card = link.closest('.recommendation');
   const title = card && card.querySelector('h3');
   const productName = title ? title.textContent.replace(/^🏆\s*/, '').trim() : '';
