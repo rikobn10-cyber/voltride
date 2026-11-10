@@ -176,6 +176,7 @@ function estimateRange(s){
 }
 
 let answers = {budget: null, distance: null, preference: null};
+let rideMatchCompletionTracked = false;
 
 function updateProgress(){
   const fill = document.getElementById('progressFill');
@@ -211,11 +212,14 @@ function selectOption(step, value, btn){
       if (resultsEl) resultsEl.style.display = 'block';
       // Show recommendations
       showResults();
-      if (window.VoltAnalytics) window.VoltAnalytics.track("ride_match_complete", {
-        budget_range: answers.budget,
-        distance_range: answers.distance,
-        preference: answers.preference
-      });
+      if (!rideMatchCompletionTracked) {
+        rideMatchCompletionTracked = true;
+        if (window.VoltAnalytics) window.VoltAnalytics.track("ride_match_complete", {
+          budget_range: answers.budget,
+          distance_range: answers.distance,
+          preference: answers.preference
+        });
+      }
     }, 250);
   }
 }
@@ -343,10 +347,13 @@ if (recommendationsEl) recommendationsEl.addEventListener('click', function(even
   const title = card && card.querySelector('h3');
   const productName = title ? title.textContent.replace(/^🏆\s*/, '').trim() : '';
   const product = uniqueScooters.find(s => s.name === productName);
-  if (window.VoltAnalytics) window.VoltAnalytics.track("affiliate_click", {
-    item_id: product ? product.id : undefined,
-    link_type: product && product.affiliateUrl ? "affiliate" : "marketplace_search"
-  });
+  if (window.VoltAnalytics) {
+    const eventName = product && product.affiliateUrl ? "affiliate_click" : "marketplace_search_click";
+    window.VoltAnalytics.track(eventName, {
+      item_id: product ? product.id : undefined,
+      link_type: product && product.affiliateUrl ? "affiliate" : "marketplace_search"
+    });
+  }
 });
 
 document.querySelectorAll('.step').forEach(stepEl => {
