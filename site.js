@@ -106,6 +106,15 @@
     document.body.appendChild(el);
   }
 
+  // Custom product-usage events are sent only after explicit analytics consent.
+  window.VoltAnalytics = {
+    track: function (eventName, params) {
+      if (get() !== "granted" || typeof window.gtag !== "function") return false;
+      window.gtag("event", eventName, params || {});
+      return true;
+    }
+  };
+
   window.VoltConsent = {
     open: showBanner,
     status: get,
