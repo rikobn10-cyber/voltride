@@ -6,6 +6,7 @@ until exact model variants have adequate source evidence; legacy production
 consumers continue to read models.json during this foundation phase.
 """
 import json
+import math
 import re
 import sys
 from datetime import date
@@ -38,7 +39,7 @@ def valid_date(value):
 
 
 def positive_number(value):
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value > 0
 
 
 def validate_dataset(data):
@@ -67,7 +68,8 @@ def validate_dataset(data):
             fail(errors, p + ".id", "must be a lowercase kebab-case stable ID")
         elif mid in model_ids:
             fail(errors, p + ".id", "duplicate model ID")
-        model_ids.add(mid)
+        if isinstance(mid, str) and ID_RE.fullmatch(mid):
+            model_ids.add(mid)
         for key in ("name", "manufacturer"):
             if not isinstance(model[key], str) or not model[key].strip():
                 fail(errors, p + "." + key, "must be a non-empty string")
@@ -95,9 +97,10 @@ def validate_dataset(data):
                 fail(errors, q + ".variantId", "must be a lowercase kebab-case ID")
             elif vid in variant_ids:
                 fail(errors, q + ".variantId", "duplicate variant ID")
-            variant_ids.add(vid)
+            if isinstance(vid, str) and ID_RE.fullmatch(vid):
+                variant_ids.add(vid)
             market = variant["market"]
-            if not isinstance(market, list) or not market or any(not isinstance(x, str) or len(x) < 2 for x in market) or len(set(market)) != len(market):
+            if not isinstance(market, list) or not market or any(not isinstance(x, str) or len(x) < 2 for x in market) or (all(isinstance(x, str) for x in market) and len(set(market)) != len(market)):
                 fail(errors, q + ".market", "must be a non-empty array of unique market codes")
 
             battery = variant["battery"]
@@ -184,10 +187,10 @@ def validate_dataset(data):
                     fail(errors, z + ".url", "must be an absolute HTTPS URL")
                 if not isinstance(source.get("publisher"), str) or not source["publisher"].strip():
                     fail(errors, z + ".publisher", "must be non-empty")
-                if source.get("sourceType") not in SOURCE_TYPES:
+                if not isinstance(source.get("sourceType"), str) or source.get("sourceType") not in SOURCE_TYPES:
                     fail(errors, z + ".sourceType", "unsupported source type")
                 supports = source.get("supports")
-                if not isinstance(supports, list) or not supports or len(set(supports)) != len(supports) or any(x not in SOURCE_FIELDS for x in supports):
+                if not isinstance(supports, list) or not supports or any(not isinstance(x, str) for x in supports) or (all(isinstance(x, str) for x in supports) and len(set(supports)) != len(supports)) or any(isinstance(x, str) and x not in SOURCE_FIELDS for x in supports):
                     fail(errors, z + ".supports", "must be a non-empty unique array of supported field names")
                 else:
                     source_support.update(supports)
@@ -255,6 +258,33 @@ def self_test():
     assert validate_dataset(bad) == [], "unresolved variants may retain partial evidence"
     bad["models"][0]["variants"][0]["verification"]["status"] = "verified_variant"
     assert validate_dataset(bad), "verified status without evidence coverage must fail"
+    partial = json.loads(json.dumps(valid))
+    partial_variant = partial["models"][0]["variants"][0]
+    partial_variant["battery"]["nominalVoltageV"] = None
+    partial_variant["battery"]["capacityAh"] = None
+    partial_variant["battery"]["energyWh"] = None
+    partial_variant["battery"]["energyWhBasis"] = "unresolved"
+    partial_variant["motors"]["count"] = None
+    partial_variant["motors"]["ratedPowerW"] = None
+    partial_variant["motors"]["ratedPowerBasis"] = "unresolved"
+    partial_variant["speed"]["maxKmh"] = None
+    partial_variant["verification"]["status"] = "variant_unresolved"
+    partial_variant["verification"]["confidence"] = "low"
+    assert validate_dataset(partial) == [], "unresolved variants must support null measurements without guessed values"
+
+    bad = json.loads(json.dumps(valid))
+    bad["models"][0]["variants"][0]["motors"]["ratedPowerW"] = None
+    assert validate_dataset(bad), "verified variants must not omit rated motor power"
+
+    bad = json.loads(json.dumps(valid))
+    bad["models"][0]["variants"][0]["battery"]["nominalVoltageV"] = None
+    bad["models"][0]["variants"][0]["battery"]["energyWhBasis"] = "calculated_from_nominal_values"
+    assert validate_dataset(bad), "calculated Wh must not be accepted without both nominal inputs"
+
+    bad = json.loads(json.dumps(valid))
+    bad["models"][0]["variants"][0]["sources"][0]["sourceType"] = []
+    assert validate_dataset(bad), "malformed enum values must fail cleanly"
+
     print("Schema v2 validator self-tests passed.")
 
 
