@@ -50,6 +50,9 @@ for (const [id, specs] of Object.entries(sourceVerifiedAffiliateModels)) {
 const w6 = rideModels.find(item => item.id === "iscooter-w6");
 assert.equal(w6.eligible, false, "W6 regional battery variants must not be recommended until the affiliate SKU is matched to a region");
 assert.equal(evaluate('getRecommendations().some(r => r.s.id === "iscooter-w6")'), false, "region-ambiguous W6 must be excluded from recommendations");
+for (const id of ["ecoxtrem-bison-gt", "ecoxtrem-bison-m41"]) {
+  assert.equal(evaluate('getRecommendations().some(r => r.s.id === "' + id + '")'), false, id + ": unresolved regional/model variant must be excluded from recommendations");
+}
 assert.match(html, /data-action="buy"/);
 assert.doesNotMatch(html, /indexOf\('اشترِ الآن'\)/);
 
