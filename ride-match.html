@@ -140,8 +140,8 @@ const scooters = [
   {"id":"kukirin-g2-max","name":"KuKirin G2 Max","cat":"sport","speed":55,"power":1000,"voltage":48,"ah":20,"affiliateUrl":null},
   {"id":"kukirin-g3-pro","name":"KuKirin G3 Pro","cat":"sport","speed":65,"power":2400,"voltage":52,"ah":23.2,"affiliateUrl":null},
   {"id":"kukirin-g4","name":"KuKirin G4","cat":"performance","speed":75,"power":2000,"voltage":60,"ah":20,"affiliateUrl":null},
-  {"id":"ecoxtrem-bison-gt","name":"Ecoxtrem Bison GT","cat":"sport","speed":45,"power":800,"voltage":48,"ah":13,"affiliateUrl":null},
-  {"id":"ecoxtrem-bison-m41","name":"Ecoxtrem Bison M41","cat":"sport","speed":50,"power":1000,"voltage":48,"ah":18,"affiliateUrl":null},
+  {"id":"ecoxtrem-bison-gt","name":"Ecoxtrem Bison GT","cat":"sport","speed":45,"power":800,"voltage":48,"ah":13,"affiliateUrl":null,"eligible":false},
+  {"id":"ecoxtrem-bison-m41","name":"Ecoxtrem Bison M41","cat":"sport","speed":50,"power":1000,"voltage":48,"ah":18,"affiliateUrl":null,"eligible":false},
   {"id":"dualtron-mini","name":"Dualtron Mini","cat":"sport","speed":45,"power":1450,"voltage":52,"ah":17.5,"affiliateUrl":null},
   {"id":"dualtron-victor","name":"Dualtron Victor","cat":"performance","speed":80,"power":4000,"voltage":60,"ah":24,"affiliateUrl":null},
   {"id":"dualtron-thunder-3","name":"Dualtron Thunder 3","cat":"performance","speed":100,"power":11000,"voltage":72,"ah":40,"affiliateUrl":null},
@@ -156,11 +156,11 @@ const scooters = [
   {"id":"inokim-oxo","name":"Inokim OXO","cat":"performance","speed":65,"power":2000,"voltage":60,"ah":25.6,"affiliateUrl":null},
   {"id":"nami-burn-e2-max","name":"Nami Burn-E 2 Max","cat":"performance","speed":98,"power":8400,"voltage":72,"ah":40,"affiliateUrl":null},
   {"id":"teverun-fighter-11","name":"Teverun Fighter 11","cat":"performance","speed":85,"power":5000,"voltage":60,"ah":26,"affiliateUrl":null},
-  {"id":"iscooter-w9","name":"iScooter W9","cat":"sport","speed":45,"power":500,"voltage":48,"ah":14,"affiliateUrl":"https://s.click.aliexpress.com/e/_EGAUMFs"},
+  {"id":"iscooter-w9","name":"iScooter W9","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":14,"affiliateUrl":"https://s.click.aliexpress.com/e/_EGAUMFs"},
   {"id":"iscooter-ix4","name":"iScooter iX4","cat":"commuter","speed":45,"power":800,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EvIBV8A"},
-  {"id":"iscooter-w9air","name":"iScooter W9Air","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10,"affiliateUrl":"https://s.click.aliexpress.com/e/_EwpL2l8"},
-  {"id":"iscooter-w6","name":"iScooter W6","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10.5,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIqcG58"},
-  {"id":"iscooter-ix5s","name":"iScooter iX5s","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIosseQ"}
+  {"id":"iscooter-w9air","name":"iScooter W9Air","cat":"sport","speed":40,"power":800,"voltage":48,"ah":10,"affiliateUrl":"https://s.click.aliexpress.com/e/_EwpL2l8"},
+  {"id":"iscooter-w6","name":"iScooter W6","cat":"budget","speed":35,"power":500,"voltage":42,"ah":10.5,"eligible":false,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIqcG58"},
+  {"id":"iscooter-ix5s","name":"iScooter iX5S","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIosseQ"}
 ];
 
 const uniqueScooters = (() => {
@@ -255,7 +255,8 @@ function getRecommendations(){
     else needKm = Number(parts[1]) || 20;
   }
 
-  const scored = uniqueScooters.map(s => {
+  const eligibleScooters = uniqueScooters.filter(s => s.eligible !== false);
+  const scored = eligibleScooters.map(s => {
     const range = estimateRange(s);
     let score = 0;
     let matchCount = 0;

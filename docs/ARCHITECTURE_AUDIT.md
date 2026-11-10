@@ -354,3 +354,21 @@ bc8028b Fix blank screen (2026-11-05)
 
 *Proposed document date: 2026-11-05*  
 *Next review: After Cloudflare deployment evidence obtained*
+
+---
+
+## Appendix B — Status correction (2026-11-10)
+
+This document is an archival read-only snapshot from 2026-11-05. Several statements above no longer describe production:
+
+- Ride Match is now multilingual (AR/FR/EN); the language selector and language inheritance are implemented and regression-tested.
+- PR #41 merged global Ride Match and analytics improvements, accessory discovery, translated blog indexes, and production-host-only GA loading.
+- PR #43 corrected the global/legal framing of generated model pages.
+- PR #45 refreshed multilingual SEO metadata and sitemap lastmod values.
+- PR #49 implemented browser-region currency defaults and global-vs-Morocco-specific Arabic Open Graph locale handling.
+- Service-worker cache is now `voltride-v18`, not `v17`.
+- The canonical model catalog contains 30 entries. Ride Match contains those 30 plus five affiliate-only iScooter entries. Four iScooter records now have manufacturer-backed core specs; W6 is region-variant-sensitive and excluded from recommendation scoring pending SKU matching. See `MODEL_SOURCE_AUDIT_2026-11-10.md`.
+- GA4 production-host gating is implemented, but historical analytics still contains preview/legacy host data. Current GA4 key-event definitions require manual review and post-consent production verification.
+- Current production baseline and merge evidence are maintained in `VOLTRIDE_STATUS_AND_ROADMAP.md`; use that document instead of the historical Git/deployment snapshot in section 9 above.
+
+Do not use the older "Ride Match Arabic only", "no production deployment evidence", or "service worker v17" statements as current facts.
