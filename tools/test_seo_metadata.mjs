@@ -28,6 +28,10 @@ assert.doesNotMatch(frBlog, /href="\/fr\/article-6"/, "French blog must not link
 assert.doesNotMatch(arAccessories + enAccessories + frAccessories, /Tool Charger|Kids E-Moto/, "accessories pages must not promote unrelated products");
 assert.match(enAccessories, /hreflang="fr"/);
 assert.match(frAccessories, /hreflang="en"/);
+assert.match(readFileSync("blog.html", "utf8"), /href="\/accessories"/, "Arabic blog should link to accessories");
+assert.match(enBlog, /href="\/en\/accessories"/, "English blog should link to accessories");
+assert.match(frBlog, /href="\/fr\/accessories"/, "French blog should link to accessories");
+
 assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/en\/accessories<\/loc>/);
 assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/fr\/accessories<\/loc>/);
 
