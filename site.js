@@ -32,9 +32,10 @@
   function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
 
   function loadGA() {
+    // Re-enable a previously loaded GA instance after the visitor changes consent back to granted.
+    window["ga-disable-" + GA_ID] = false;
     if (window.__voltGA) return;
     window.__voltGA = true;
-    window["ga-disable-" + GA_ID] = false;
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { window.dataLayer.push(arguments); };
     var s = document.createElement("script");
