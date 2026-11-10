@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import vm from "node:vm";
 
 const html = readFileSync("ride-match.html", "utf8");
+const indexHtml = readFileSync("index.html", "utf8");
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/i);
 assert.ok(scriptMatch, "Ride Match inline application script must exist");
 
@@ -50,6 +51,12 @@ assert.equal(evaluate("document.documentElement.dir"), "rtl");
 assert.match(html, /table-layout:fixed/);
 assert.match(html, /color:var\(--cyan\)/);
 assert.doesNotMatch(html, /border-collapse:;/);
+assert.match(indexHtml, /specSpeed:"Vitesse"/);
+assert.match(indexHtml, /specSpeed:"Speed"/);
+assert.match(indexHtml, /t\("specSpeed"\)/);
+assert.match(indexHtml, /t\("compareSpeed"\)/);
+assert.match(indexHtml, /class="table-wrap"/);
+assert.match(indexHtml, /\.table-wrap\{width:100%/);
 assert.match(html, /data-value="commuter"/);
 assert.match(html, /data-value="performance"/);
 assert.doesNotMatch(html, /data-value="comfort"|data-value="weight"/);
