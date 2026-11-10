@@ -4,6 +4,7 @@ import vm from "node:vm";
 
 const html = readFileSync("ride-match.html", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
+const modelCatalog = JSON.parse(readFileSync("models.json", "utf8")).models;
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/i);
 assert.ok(scriptMatch, "Ride Match inline application script must exist");
 
@@ -20,6 +21,18 @@ const evaluate = expression => vm.runInContext(expression, context);
 assert.equal(evaluate("scooters.length"), 35, "duplicate model records should be removed");
 assert.equal(evaluate("uniqueScooters.length"), 35, "all unique models should remain");
 assert.equal(evaluate("new Set(uniqueScooters.map(s => s.id)).size"), 35, "model IDs must be unique");
+const rideModels = JSON.parse(evaluate("JSON.stringify(scooters)"));
+for (const model of modelCatalog) {
+  const rideModel = rideModels.find(item => item.id === model.id);
+  assert.ok(rideModel, model.id + ": catalog model must appear in Ride Match");
+  assert.equal(rideModel.name, model.name, model.id + ": name must match catalog");
+  assert.equal(rideModel.speed, model.speed, model.id + ": speed must match catalog");
+  assert.equal(rideModel.power, model.motor, model.id + ": motor power must match catalog");
+  assert.equal(rideModel.voltage, model.voltage, model.id + ": voltage must match catalog");
+  assert.equal(rideModel.ah, model.ah, model.id + ": battery capacity must match catalog");
+  assert.equal(rideModel.cat, model.category, model.id + ": category must match catalog");
+}
+
 
 assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\bMAD\b|درهم/);
 assert.doesNotMatch(html, /"price":\d+/);
