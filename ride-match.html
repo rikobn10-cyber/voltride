@@ -59,8 +59,8 @@
 </div>
 
 <div id="step1" class="step active">
-  <h2>1. ما هي ميزانيتك؟</h2>
-  <p class="meta">الموديلات الأرخص مناسبة للمبتدئين، والأغلى للوزن والمدى الطويل.</p>
+  <h2>1. ما هي ميزانيتك المرجعية؟</h2>
+  <p class="meta">الأسعار المرجعية في قاعدة البيانات بالدرهم المغربي (MAD)، وقد لا تعكس الأسعار أو التوفر في بلدك.</p>
   <div class="options" id="budgetOptions">
     <button class="option-btn" data-value="0-3000">أقل من 3000 درهم</button>
     <button class="option-btn" data-value="3000-5000">3000-5000 درهم</button>
@@ -82,18 +82,18 @@
 
 <div id="step3" class="step">
   <h2>3. ما هو تفضيلك؟</h2>
-  <p class="meta">السرعة العالية مقابل المدى والراحة.</p>
+  <p class="meta">اختر أولوية تدعمها المواصفات المتاحة للموديلات.</p>
   <div class="options" id="preferenceOptions">
     <button class="option-btn" data-value="speed">سرعة عالية (للقيادة السريعة)</button>
     <button class="option-btn" data-value="range">مدى طويل (للرحلات الطويلة)</button>
-    <button class="option-btn" data-value="comfort">راحة وسهولة (لكل المبتدئين)</button>
-    <button class="option-btn" data-value="weight">وزن خفيف (للحمل على الدرج)</button>
+    <button class="option-btn" data-value="commuter">تنقل يومي (فئة Commuter)</button>
+    <button class="option-btn" data-value="performance">أداء قوي (فئتا Sport وPerformance)</button>
   </div>
 </div>
 
 <div id="results" class="results" style="display:none">
   <h2>🎯 توصياتنا لك</h2>
-  <p class="meta">استند إلى إجاباتك، هذه الموديلات الأفضل:</p>
+  <p class="meta">استندت التوصيات إلى الميزانية المرجعية والمدى والفئة أو الأداء. بعض روابط الشراء روابط إحالة؛ قد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.</p>
   <div id="recommendations">
     <div class="recommendation">
       <h3>جاري اختيار الموديلات...</h3>
@@ -116,71 +116,51 @@
 
 // Scooters data (same as index.html catalog)
 const scooters = [
-  {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "price": 4200, "affiliateUrl": null},
-  {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "price": 6200, "affiliateUrl": null},
-  {"id": "xiaomi-essential", "name": "Xiaomi Essential", "cat": "budget", "speed": 20, "power": 250, "voltage": 36, "ah": 5.2, "price": 2500, "affiliateUrl": null},
-  {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 5.2, "price": 3000, "affiliateUrl": null},
-  {"id": "segway-max-g30", "name": "Segway Ninebot MAX G30", "cat": "commuter", "speed": 30, "power": 350, "voltage": 36, "ah": 15.3, "price": 6500, "affiliateUrl": null},
-  {"id": "segway-max-g2", "name": "Segway Ninebot Max G2", "cat": "commuter", "speed": 35, "power": 450, "voltage": 36, "ah": 15.3, "price": 8500, "affiliateUrl": null},
-  {"id": "segway-e2-plus", "name": "Segway Ninebot E2 Plus", "cat": "budget", "speed": 25, "power": 300, "voltage": 21.6, "ah": 10.2, "price": 3500, "affiliateUrl": null},
-  {"id": "navee-n40", "name": "Navee N40", "cat": "budget", "speed": 25, "power": 350, "voltage": 36, "ah": 10, "price": 4500, "affiliateUrl": null},
-  {"id": "navee-g5", "name": "Navee G5", "cat": "commuter", "speed": 32, "power": 350, "voltage": 48, "ah": 10.4, "price": 7500, "affiliateUrl": null},
-  {"id": "niu-kqi3-max", "name": "NIU KQi3 Max", "cat": "commuter", "speed": 38, "power": 450, "voltage": 48, "ah": 12.7, "price": 8000, "affiliateUrl": null},
-  {"id": "kukirin-g2-pro", "name": "KuKirin G2 Pro", "cat": "sport", "speed": 45, "power": 600, "voltage": 48, "ah": 15, "price": 7000, "affiliateUrl": null},
-  {"id": "kukirin-g2-max", "name": "KuKirin G2 Max", "cat": "sport", "speed": 55, "power": 1000, "voltage": 48, "ah": 20, "price": 8500, "affiliateUrl": null},
-  {"id": "kukirin-g3-pro", "name": "KuKirin G3 Pro", "cat": "sport", "speed": 65, "power": 2400, "voltage": 52, "ah": 23.2, "price": 12000, "affiliateUrl": null},
-  {"id": "kukirin-g4", "name": "KuKirin G4", "cat": "performance", "speed": 75, "power": 2000, "voltage": 60, "ah": 20, "price": 14500, "affiliateUrl": null},
-  {"id": "ecoxtrem-bison-gt", "name": "Ecoxtrem Bison GT", "cat": "sport", "speed": 45, "power": 800, "voltage": 48, "ah": 13, "price": 9500, "affiliateUrl": null},
-  {"id": "ecoxtrem-bison-m41", "name": "Ecoxtrem Bison M41", "cat": "sport", "speed": 50, "power": 1000, "voltage": 48, "ah": 18, "price": 11000, "affiliateUrl": null},
-  {"id": "dualtron-mini", "name": "Dualtron Mini", "cat": "sport", "speed": 45, "power": 1450, "voltage": 52, "ah": 17.5, "price": 10500, "affiliateUrl": null},
-  {"id": "dualtron-victor", "name": "Dualtron Victor", "cat": "performance", "speed": 80, "power": 4000, "voltage": 60, "ah": 24, "price": 25000, "affiliateUrl": null},
-  {"id": "dualtron-thunder-3", "name": "Dualtron Thunder 3", "cat": "performance", "speed": 100, "power": 11000, "voltage": 72, "ah": 40, "price": 45000, "affiliateUrl": null},
-  {"id": "vsett-8-plus", "name": "Vsett 8+", "cat": "sport", "speed": 45, "power": 1200, "voltage": 48, "ah": 16, "price": 9000, "affiliateUrl": null},
-  {"id": "vsett-9-plus", "name": "Vsett 9+", "cat": "sport", "speed": 53, "power": 1300, "voltage": 48, "ah": 21, "price": 12000, "affiliateUrl": null},
-  {"id": "vsett-10-plus", "name": "Vsett 10+", "cat": "performance", "speed": 75, "power": 2800, "voltage": 60, "ah": 28, "price": 18000, "affiliateUrl": null},
-  {"id": "apollo-city-pro", "name": "Apollo City Pro", "cat": "sport", "speed": 51, "power": 1000, "voltage": 52, "ah": 20, "price": 15000, "affiliateUrl": null},
-  {"id": "apollo-ghost", "name": "Apollo Ghost", "cat": "performance", "speed": 55, "power": 2000, "voltage": 52, "ah": 18.2, "price": 16500, "affiliateUrl": null},
-  {"id": "kaabo-wolf-king", "name": "Kaabo Wolf King GT", "cat": "performance", "speed": 100, "power": 4000, "voltage": 72, "ah": 35, "price": 35000, "affiliateUrl": null},
-  {"id": "gotrax-g4", "name": "Gotrax G4", "cat": "commuter", "speed": 32, "power": 350, "voltage": 36, "ah": 10.4, "price": 5500, "affiliateUrl": null},
-  {"id": "gotrax-gxl-v2", "name": "Gotrax GXL V2", "cat": "budget", "speed": 25, "power": 250, "voltage": 36, "ah": 5.2, "price": 3000, "affiliateUrl": null},
-  {"id": "inokim-oxo", "name": "Inokim OXO", "cat": "performance", "speed": 65, "power": 2000, "voltage": 60, "ah": 25.6, "price": 22000, "affiliateUrl": null},
-  {"id": "nami-burn-e2-max", "name": "Nami Burn-E 2 Max", "cat": "performance", "speed": 98, "power": 8400, "voltage": 72, "ah": 40, "price": 38000, "affiliateUrl": null},
-  {"id": "teverun-fighter-11", "name": "Teverun Fighter 11", "cat": "performance", "speed": 85, "power": 5000, "voltage": 60, "ah": 26, "price": 28000, "affiliateUrl": null},
-  {"id": "iscooter-w9", "name": "iScooter W9", "cat": "sport", "speed": 45, "power": 500, "voltage": 48, "ah": 14, "price": 6500, "affiliateUrl": "https://s.click.aliexpress.com/e/_EGAUMFs"},
-  {"id": "iscooter-ix4", "name": "iScooter iX4", "cat": "commuter", "speed": 45, "power": 800, "voltage": 48, "ah": 15, "price": 5000, "affiliateUrl": "https://s.click.aliexpress.com/e/_EvIBV8A"},
-  {"id": "iscooter-w9air", "name": "iScooter W9Air", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 10, "price": 3200, "affiliateUrl": "https://s.click.aliexpress.com/e/_EwpL2l8"},
-  {"id": "iscooter-w6", "name": "iScooter W6", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 10.5, "price": 2800, "affiliateUrl": "https://s.click.aliexpress.com/e/_EIqcG58"},
-  {"id": "iscooter-ix5s", "name": "iScooter iX5s", "cat": "sport", "speed": 45, "power": 1000, "voltage": 48, "ah": 15, "price": 7500, "affiliateUrl": "https://s.click.aliexpress.com/e/_EIosseQ"},
-  {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "price": 6200},
-  {"id": "xiaomi-essential", "name": "Xiaomi Essential", "cat": "budget", "speed": 20, "power": 250, "voltage": 36, "ah": 5.2, "price": 2500},
-  {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 5.2, "price": 3000},
-  {"id": "segway-max-g30", "name": "Segway Ninebot MAX G30", "cat": "commuter", "speed": 30, "power": 350, "voltage": 36, "ah": 15.3, "price": 6500},
-  {"id": "segway-max-g2", "name": "Segway Ninebot Max G2", "cat": "commuter", "speed": 35, "power": 450, "voltage": 36, "ah": 15.3, "price": 8500},
-  {"id": "segway-e2-plus", "name": "Segway Ninebot E2 Plus", "cat": "budget", "speed": 25, "power": 300, "voltage": 21.6, "ah": 10.2, "price": 3500},
-  {"id": "navee-n40", "name": "Navee N40", "cat": "budget", "speed": 25, "power": 350, "voltage": 36, "ah": 10, "price": 4500},
-  {"id": "navee-g5", "name": "Navee G5", "cat": "commuter", "speed": 32, "power": 350, "voltage": 48, "ah": 10.4, "price": 7500},
-  {"id": "niu-kqi3-max", "name": "NIU KQi3 Max", "cat": "commuter", "speed": 38, "power": 450, "voltage": 48, "ah": 12.7, "price": 8000},
-  {"id": "kukirin-g2-pro", "name": "KuKirin G2 Pro", "cat": "sport", "speed": 45, "power": 600, "voltage": 48, "ah": 15, "price": 7000},
-  {"id": "kukirin-g2-max", "name": "KuKirin G2 Max", "cat": "sport", "speed": 55, "power": 1000, "voltage": 48, "ah": 20, "price": 8500},
-  {"id": "kukirin-g3-pro", "name": "KuKirin G3 Pro", "cat": "sport", "speed": 65, "power": 2400, "voltage": 52, "ah": 23.2, "price": 12000},
-  {"id": "kukirin-g4", "name": "KuKirin G4", "cat": "performance", "speed": 75, "power": 2000, "voltage": 60, "ah": 20, "price": 14500},
-  {"id": "ecoxtrem-bison-gt", "name": "Ecoxtrem Bison GT", "cat": "sport", "speed": 45, "power": 800, "voltage": 48, "ah": 13, "price": 9500},
-  {"id": "ecoxtrem-bison-m41", "name": "Ecoxtrem Bison M41", "cat": "sport", "speed": 50, "power": 1000, "voltage": 48, "ah": 18, "price": 11000},
-  {"id": "dualtron-mini", "name": "Dualtron Mini", "cat": "sport", "speed": 45, "power": 1450, "voltage": 52, "ah": 17.5, "price": 10500},
-  {"id": "dualtron-victor", "name": "Dualtron Victor", "cat": "performance", "speed": 80, "power": 4000, "voltage": 60, "ah": 24, "price": 25000},
-  {"id": "dualtron-thunder-3", "name": "Dualtron Thunder 3", "cat": "performance", "speed": 100, "power": 11000, "voltage": 72, "ah": 40, "price": 45000},
-  {"id": "vsett-8-plus", "name": "Vsett 8+", "cat": "sport", "speed": 45, "power": 1200, "voltage": 48, "ah": 16, "price": 9000},
-  {"id": "vsett-9-plus", "name": "Vsett 9+", "cat": "sport", "speed": 53, "power": 1300, "voltage": 48, "ah": 21, "price": 12000},
-  {"id": "vsett-10-plus", "name": "Vsett 10+", "cat": "performance", "speed": 75, "power": 2800, "voltage": 60, "ah": 28, "price": 18000},
-  {"id": "apollo-city-pro", "name": "Apollo City Pro", "cat": "sport", "speed": 51, "power": 1000, "voltage": 52, "ah": 20, "price": 15000},
-  {"id": "apollo-ghost", "name": "Apollo Ghost", "cat": "performance", "speed": 55, "power": 2000, "voltage": 52, "ah": 18.2, "price": 16500},
-  {"id": "kaabo-wolf-king", "name": "Kaabo Wolf King GT", "cat": "performance", "speed": 100, "power": 4000, "voltage": 72, "ah": 35, "price": 35000},
-  {"id": "gotrax-g4", "name": "Gotrax G4", "cat": "commuter", "speed": 32, "power": 350, "voltage": 36, "ah": 10.4, "price": 5500},
-  {"id": "gotrax-gxl-v2", "name": "Gotrax GXL V2", "cat": "budget", "speed": 25, "power": 250, "voltage": 36, "ah": 5.2, "price": 3000},
-  {"id": "inokim-oxo", "name": "Inokim OXO", "cat": "performance", "speed": 65, "power": 2000, "voltage": 60, "ah": 25.6, "price": 22000},
-  {"id": "nami-burn-e2-max", "name": "Nami Burn-E 2 Max", "cat": "performance", "speed": 98, "power": 8400, "voltage": 72, "ah": 40, "price": 38000},
-  {"id": "teverun-fighter-11", "name": "Teverun Fighter 11", "cat": "performance", "speed": 85, "power": 5000, "voltage": 60, "ah": 26, "price": 28000}
+  {"id":"xiaomi-pro-2","name":"Xiaomi Pro 2","cat":"commuter","speed":25,"power":300,"voltage":36,"ah":12.8,"price":4200,"affiliateUrl":null},
+  {"id":"xiaomi-4-pro","name":"Xiaomi 4 Pro","cat":"commuter","speed":25,"power":350,"voltage":36,"ah":12.4,"price":6200,"affiliateUrl":null},
+  {"id":"xiaomi-essential","name":"Xiaomi Essential","cat":"budget","speed":20,"power":250,"voltage":36,"ah":5.2,"price":2500,"affiliateUrl":null},
+  {"id":"xiaomi-3-lite","name":"Xiaomi Scooter 3 Lite","cat":"budget","speed":25,"power":300,"voltage":36,"ah":5.2,"price":3000,"affiliateUrl":null},
+  {"id":"segway-max-g30","name":"Segway Ninebot MAX G30","cat":"commuter","speed":30,"power":350,"voltage":36,"ah":15.3,"price":6500,"affiliateUrl":null},
+  {"id":"segway-max-g2","name":"Segway Ninebot Max G2","cat":"commuter","speed":35,"power":450,"voltage":36,"ah":15.3,"price":8500,"affiliateUrl":null},
+  {"id":"segway-e2-plus","name":"Segway Ninebot E2 Plus","cat":"budget","speed":25,"power":300,"voltage":21.6,"ah":10.2,"price":3500,"affiliateUrl":null},
+  {"id":"navee-n40","name":"Navee N40","cat":"budget","speed":25,"power":350,"voltage":36,"ah":10,"price":4500,"affiliateUrl":null},
+  {"id":"navee-g5","name":"Navee G5","cat":"commuter","speed":32,"power":350,"voltage":48,"ah":10.4,"price":7500,"affiliateUrl":null},
+  {"id":"niu-kqi3-max","name":"NIU KQi3 Max","cat":"commuter","speed":38,"power":450,"voltage":48,"ah":12.7,"price":8000,"affiliateUrl":null},
+  {"id":"kukirin-g2-pro","name":"KuKirin G2 Pro","cat":"sport","speed":45,"power":600,"voltage":48,"ah":15,"price":7000,"affiliateUrl":null},
+  {"id":"kukirin-g2-max","name":"KuKirin G2 Max","cat":"sport","speed":55,"power":1000,"voltage":48,"ah":20,"price":8500,"affiliateUrl":null},
+  {"id":"kukirin-g3-pro","name":"KuKirin G3 Pro","cat":"sport","speed":65,"power":2400,"voltage":52,"ah":23.2,"price":12000,"affiliateUrl":null},
+  {"id":"kukirin-g4","name":"KuKirin G4","cat":"performance","speed":75,"power":2000,"voltage":60,"ah":20,"price":14500,"affiliateUrl":null},
+  {"id":"ecoxtrem-bison-gt","name":"Ecoxtrem Bison GT","cat":"sport","speed":45,"power":800,"voltage":48,"ah":13,"price":9500,"affiliateUrl":null},
+  {"id":"ecoxtrem-bison-m41","name":"Ecoxtrem Bison M41","cat":"sport","speed":50,"power":1000,"voltage":48,"ah":18,"price":11000,"affiliateUrl":null},
+  {"id":"dualtron-mini","name":"Dualtron Mini","cat":"sport","speed":45,"power":1450,"voltage":52,"ah":17.5,"price":10500,"affiliateUrl":null},
+  {"id":"dualtron-victor","name":"Dualtron Victor","cat":"performance","speed":80,"power":4000,"voltage":60,"ah":24,"price":25000,"affiliateUrl":null},
+  {"id":"dualtron-thunder-3","name":"Dualtron Thunder 3","cat":"performance","speed":100,"power":11000,"voltage":72,"ah":40,"price":45000,"affiliateUrl":null},
+  {"id":"vsett-8-plus","name":"Vsett 8+","cat":"sport","speed":45,"power":1200,"voltage":48,"ah":16,"price":9000,"affiliateUrl":null},
+  {"id":"vsett-9-plus","name":"Vsett 9+","cat":"sport","speed":53,"power":1300,"voltage":48,"ah":21,"price":12000,"affiliateUrl":null},
+  {"id":"vsett-10-plus","name":"Vsett 10+","cat":"performance","speed":75,"power":2800,"voltage":60,"ah":28,"price":18000,"affiliateUrl":null},
+  {"id":"apollo-city-pro","name":"Apollo City Pro","cat":"sport","speed":51,"power":1000,"voltage":52,"ah":20,"price":15000,"affiliateUrl":null},
+  {"id":"apollo-ghost","name":"Apollo Ghost","cat":"performance","speed":55,"power":2000,"voltage":52,"ah":18.2,"price":16500,"affiliateUrl":null},
+  {"id":"kaabo-wolf-king","name":"Kaabo Wolf King GT","cat":"performance","speed":100,"power":4000,"voltage":72,"ah":35,"price":35000,"affiliateUrl":null},
+  {"id":"gotrax-g4","name":"Gotrax G4","cat":"commuter","speed":32,"power":350,"voltage":36,"ah":10.4,"price":5500,"affiliateUrl":null},
+  {"id":"gotrax-gxl-v2","name":"Gotrax GXL V2","cat":"budget","speed":25,"power":250,"voltage":36,"ah":5.2,"price":3000,"affiliateUrl":null},
+  {"id":"inokim-oxo","name":"Inokim OXO","cat":"performance","speed":65,"power":2000,"voltage":60,"ah":25.6,"price":22000,"affiliateUrl":null},
+  {"id":"nami-burn-e2-max","name":"Nami Burn-E 2 Max","cat":"performance","speed":98,"power":8400,"voltage":72,"ah":40,"price":38000,"affiliateUrl":null},
+  {"id":"teverun-fighter-11","name":"Teverun Fighter 11","cat":"performance","speed":85,"power":5000,"voltage":60,"ah":26,"price":28000,"affiliateUrl":null},
+  {"id":"iscooter-w9","name":"iScooter W9","cat":"sport","speed":45,"power":500,"voltage":48,"ah":14,"price":6500,"affiliateUrl":"https://s.click.aliexpress.com/e/_EGAUMFs"},
+  {"id":"iscooter-ix4","name":"iScooter iX4","cat":"commuter","speed":45,"power":800,"voltage":48,"ah":15,"price":5000,"affiliateUrl":"https://s.click.aliexpress.com/e/_EvIBV8A"},
+  {"id":"iscooter-w9air","name":"iScooter W9Air","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10,"price":3200,"affiliateUrl":"https://s.click.aliexpress.com/e/_EwpL2l8"},
+  {"id":"iscooter-w6","name":"iScooter W6","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10.5,"price":2800,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIqcG58"},
+  {"id":"iscooter-ix5s","name":"iScooter iX5s","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":15,"price":7500,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIosseQ"}
 ];
+
+const uniqueScooters = (() => {
+  const seenIds = new Set();
+  return scooters.filter(s => {
+    if (!s.id || seenIds.has(s.id)) return false;
+    seenIds.add(s.id);
+    return true;
+  });
+})();
 
 // Estimated range (same formula as index.html: 75kg, mixed terrain, balanced mode, speed capped at 25)
 function estimateRange(s){
@@ -235,18 +215,35 @@ function selectOption(step, value, btn){
 }
 
 // Scoring system: never returns empty; always top-3 overall if nothing scores
-function getRecommendations(){
-  const budgetMatch = answers.budget;
-  const distanceMatch = answers.distance;
-  const pref = answers.preference || "comfort";
+const BUDGET_RANGES = Object.freeze({
+  "0-3000": {min: 0, max: 2999},
+  "3000-5000": {min: 3000, max: 4999},
+  "5000-8000": {min: 5000, max: 8000},
+  "8000+": {min: 8001, max: Infinity}
+});
 
-  // Parse budget
-  let budgetMin = 0, budgetMax = Infinity;
-  if (budgetMatch) {
-    const parts = budgetMatch.split('-');
-    budgetMin = Number(parts[0]) || 0;
-    budgetMax = parts[1] && parts[1] !== '+' ? Number(parts[1]) : Infinity;
-  }
+function parseBudgetRange(value){
+  return BUDGET_RANGES[value] || {min: 0, max: Infinity};
+}
+
+function getBudgetScore(price, range){
+  if (price >= range.min && price <= range.max) return 30;
+  const distance = price < range.min ? range.min - price : price - range.max;
+  return Math.max(0, 15 - distance / 500);
+}
+
+function getPreferenceScore(s, pref, range){
+  if (pref === "speed") return Math.min(40, Number(s.speed) * 0.55);
+  if (pref === "range") return Math.min(40, range * 0.45);
+  if (pref === "commuter") return s.cat === "commuter" ? 40 : s.cat === "budget" ? 30 : s.cat === "sport" ? 12 : 8;
+  if (pref === "performance") return s.cat === "performance" ? 40 : s.cat === "sport" ? 32 : s.cat === "commuter" ? 10 : 5;
+  return 0;
+}
+
+function getRecommendations(){
+  const budgetRange = parseBudgetRange(answers.budget);
+  const distanceMatch = answers.distance;
+  const pref = answers.preference || "commuter";
 
   // Parse distance (needed km)
   let needKm = 10;
@@ -256,19 +253,15 @@ function getRecommendations(){
     else needKm = Number(parts[1]) || 20;
   }
 
-  const scored = scooters.map(s => {
+  const scored = uniqueScooters.map(s => {
     const range = estimateRange(s);
     let score = 0;
     let matchCount = 0;
 
-    // Budget score (max 30)
-    if (s.price >= budgetMin && s.price <= budgetMax) {
-      score += 30; matchCount++;
-    } else {
-      // Partial: closer to range = more points
-      const dist = s.price < budgetMin ? budgetMin - s.price : s.price - budgetMax;
-      score += Math.max(0, 15 - dist / 500);
-    }
+    // Budget score (max 30); explicit ranges prevent 8000+ from becoming 0+.
+    const budgetScore = getBudgetScore(Number(s.price), budgetRange);
+    score += budgetScore;
+    if (budgetScore === 30) matchCount++;
 
     // Distance score (max 30)
     if (range >= needKm) {
@@ -277,16 +270,8 @@ function getRecommendations(){
       score += Math.max(0, 30 * (range / needKm));
     }
 
-    // Preference score (max 40)
-    if (pref === 'speed') {
-      score += Math.min(40, s.speed * 0.55);
-    } else if (pref === 'range') {
-      score += Math.min(40, range * 0.45);
-    } else if (pref === 'weight') {
-      score += Math.max(0, 40 - s.price / 1500);
-    } else { // comfort
-      score += Math.max(0, 40 - Math.abs(s.price - 5000) / 300);
-    }
+    // Preference score uses only attributes present in the model data.
+    score += getPreferenceScore(s, pref, range);
 
     return {s, score, matchCount, range};
   });
@@ -304,7 +289,7 @@ function showResults(){
     recommendations = getRecommendations();
   } catch (err) {
     // Error boundary fallback
-    recommendations = scooters.slice(0, 3).map(s => ({s, score: 0, matchCount: 0, range: estimateRange(s)}));
+    recommendations = uniqueScooters.slice(0, 3).map(s => ({s, score: 0, matchCount: 0, range: estimateRange(s)}));
   }
 
   if (!recommendations || recommendations.length === 0) {
@@ -312,10 +297,12 @@ function showResults(){
     return;
   }
 
-  const catLabel = c => c === 'budget' ? 'ميزانية' : c === 'commuter' ? 'للنقل' : c === 'sport' ? 'رياضة' : 'أداء';
+  const catLabel = c => c === "budget" ? "اقتصادية" : c === "commuter" ? "تنقل يومي" : c === "sport" ? "رياضية" : "أداء";
 
   container.innerHTML = recommendations.map(r => {
-    const buyUrl = r.s.affiliateUrl ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    const isAffiliate = Boolean(r.s.affiliateUrl);
+    const buyUrl = isAffiliate ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    const buyRel = isAffiliate ? "noopener sponsored nofollow" : "noopener nofollow";
     return `
     <div class="recommendation">
       <h3>🏆 ${r.s.name}</h3>
@@ -326,7 +313,7 @@ function showResults(){
         <tr><th>القدرة</th><td>${r.s.power} واط</td></tr>
         <tr><th>فئة</th><td>${catLabel(r.s.cat)}</td></tr>
       </table>
-      <a href="${buyUrl}" target="_blank" rel="sponsored nofollow" class="cta" style="margin-top:10px;display:inline-block">اشترِ الآن ←</a>
+      <a href="${buyUrl}" target="_blank" rel="${buyRel}" class="cta" style="margin-top:10px;display:inline-block">اشترِ الآن ←</a>
       <a href="/" class="cta" style="margin-top:10px;display:inline-block">افتح الحاسبة ←</a>
     </div>
   `}).join('');
