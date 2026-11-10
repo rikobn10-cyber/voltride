@@ -107,8 +107,9 @@ def validate_dataset(data):
             elif not set(battery).issubset({"nominalVoltageV", "capacityAh", "energyWh", "energyWhBasis", "energyWhSourceNote"}):
                 fail(errors, q + ".battery", "contains unsupported keys")
             for key in ("nominalVoltageV", "capacityAh"):
-                if not positive_number(battery.get(key)):
-                    fail(errors, q + ".battery." + key, "must be a positive number")
+                value = battery.get(key)
+                if value is not None and not positive_number(value):
+                    fail(errors, q + ".battery." + key, "must be null or a positive number")
             basis = battery.get("energyWhBasis")
             energy = battery.get("energyWh")
             if not isinstance(basis, str) or basis not in {"manufacturer_published", "calculated_from_nominal_values", "unresolved"}:
@@ -117,9 +118,11 @@ def validate_dataset(data):
                 fail(errors, q + ".battery.energyWh", "must be null when basis is unresolved")
             if basis in {"manufacturer_published", "calculated_from_nominal_values"} and not positive_number(energy):
                 fail(errors, q + ".battery.energyWh", "must be positive for a resolved basis")
-            if basis == "calculated_from_nominal_values" and positive_number(energy):
+            if basis == "calculated_from_nominal_values":
                 v, ah = battery.get("nominalVoltageV"), battery.get("capacityAh")
-                if positive_number(v) and positive_number(ah) and abs(energy - v * ah) / (v * ah) > 0.02:
+                if not positive_number(v) or not positive_number(ah):
+                    fail(errors, q + ".battery.energyWhBasis", "calculated Wh requires known nominal voltage and capacity")
+                elif positive_number(energy) and abs(energy - v * ah) / (v * ah) > 0.02:
                     fail(errors, q + ".battery.energyWh", "calculated Wh must match nominal voltage × Ah within 2%")
 
             motors = variant["motors"]
@@ -128,8 +131,9 @@ def validate_dataset(data):
                 motors = {}
             elif set(motors) != {"count", "ratedPowerW", "ratedPowerBasis", "peakPowerW", "peakPowerBasis"}:
                 fail(errors, q + ".motors", "must contain exactly count and rated/peak power with explicit bases")
-            if not isinstance(motors.get("count"), int) or isinstance(motors.get("count"), bool) or motors["count"] < 1:
-                fail(errors, q + ".motors.count", "must be a positive integer")
+            motor_count = motors.get("count")
+            if motor_count is not None and (not isinstance(motor_count, int) or isinstance(motor_count, bool) or motor_count < 1):
+                fail(errors, q + ".motors.count", "must be null or a positive integer")
             for key, basis_key in (("ratedPowerW", "ratedPowerBasis"), ("peakPowerW", "peakPowerBasis")):
                 value, power_basis = motors.get(key), motors.get(basis_key)
                 if value is not None and not positive_number(value):
@@ -204,13 +208,19 @@ def validate_dataset(data):
                 if not isinstance(verification["notes"], list) or any(not isinstance(x, str) for x in verification["notes"]):
                     fail(errors, q + ".verification.notes", "must be an array of strings")
                 if status == "verified_variant":
-                    required_evidence = {"identity", "battery", "motors", "speed", "rangeClaim"}
+                    required_evidence = {"identity", "battery", "motors", "speed"}
                     if not required_evidence.issubset(source_support):
-                        fail(errors, q + ".sources", "verified variants need source coverage for identity, battery, motors, speed and rangeClaim")
+                        fail(errors, q + ".sources", "verified variants need source coverage for identity, battery, motors and speed")
                     if verification["confidence"] != "high":
                         fail(errors, q + ".verification.confidence", "verified_variant requires high confidence")
-                    if battery.get("energyWhBasis") == "unresolved" or speed.get("maxKmh") is None:
-                        fail(errors, q + ".verification", "verified variants cannot contain unresolved battery energy or speed")
+                    if (not positive_number(battery.get("nominalVoltageV")) or
+                        not positive_number(battery.get("capacityAh")) or
+                        battery.get("energyWhBasis") == "unresolved" or
+                        motor_count is None or
+                        not positive_number(motors.get("ratedPowerW")) or
+                        motors.get("ratedPowerBasis") == "unresolved" or
+                        not isinstance(speed, dict) or speed.get("maxKmh") is None):
+                        fail(errors, q + ".verification", "verified variants require resolved battery, rated motor power/count, and speed")
 
     return errors
 
