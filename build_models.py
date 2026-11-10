@@ -447,10 +447,10 @@ def main():
     ride_path = "ride-match.html"
     ride_html = read(ride_path)
     if "/*SCOOTERS:START*/" in ride_html:
+        ride_html = replace_block(ride_html, "/*SCOOTERS:START*/", "/*SCOOTERS:END*/", ride_arr, "const uniqueScooters =")
+    else:
         ride_html, count = re.subn(r"const scooters = \[.*?\n\];",
                                    lambda _: "/*SCOOTERS:START*/\n" + ride_arr + "\n/*SCOOTERS:END*/",
-        ride_html, count = re.subn(r"const scooters = \\\\[.*?\\\\n\\\\];",
-                                   lambda _: "/*SCOOTERS:START*/\\n" + ride_arr + "\\n/*SCOOTERS:END*/",
                                    ride_html, count=1, flags=re.S)
         if count != 1:
             raise ValueError("Could not locate Ride Match scooters array for generation")
