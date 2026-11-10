@@ -12,7 +12,7 @@ BASE = "https://voltride-4qj.pages.dev"
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATE = "2026-10-20"      # publication date shown on model pages
 MOD = "2026-10-24"       # sitemap lastmod for pages touched on this date
-LEGAL_LIMIT = 25
+REFERENCE_SPEED = 25  # range-estimation benchmark only; not a universal legal limit
 EXTREME_SPEED = 80   # at/above this we treat the model as outside "trottinette" territory
 
 raw = json.load(open(os.path.join(ROOT, "models.json"), encoding="utf-8"))
@@ -71,7 +71,7 @@ def wh(m):
 
 def tier(m):
     s = m["speed"]
-    return "ok" if s <= LEGAL_LIMIT else "extreme" if s >= EXTREME_SPEED else "over"
+    return "reference" if s <= REFERENCE_SPEED else "extreme" if s >= EXTREME_SPEED else "over"
 
 
 def estimate(m, weight, terrain, mode, speed):
@@ -89,7 +89,7 @@ def estimate(m, weight, terrain, mode, speed):
 
 
 def scenarios(m):
-    sp = min(LEGAL_LIMIT, m["speed"])
+    sp = min(REFERENCE_SPEED, m["speed"])
     rows = [
         ("خفيف ومريح", "راكب 60 كغ، طريق مستوٍ، نمط اقتصادي", estimate(m, 60, "flat", "eco", sp)),
         ("استعمال عادي", "راكب 75 كغ، طريق مختلط، نمط متوازن", estimate(m, 75, "mixed", "balanced", sp)),
@@ -109,7 +109,7 @@ def similar(m, n=4):
 def gen_text(m):
     """Fallback text for models without hand-written text: built from category + numbers."""
     cat, w, mo = m["category"], wh(m), m["motor"]
-    mid = estimate(m, 75, "mixed", "balanced", min(LEGAL_LIMIT, m["speed"]))[0]
+    mid = estimate(m, 75, "mixed", "balanced", min(REFERENCE_SPEED, m["speed"]))[0]
     cls = CLASS_AR[cat]
     summary = (f"{m['name']} من فئة {cls}: بطارية {num(m['voltage'])}V × {num(m['ah'])}Ah (نحو {w:.0f} Wh، "
                f"المرتبة {RANK[m['id']]} من {len(MODELS)} في الطاقة بين الموديلات المدرجة عندنا) ومحرك {num(mo)} واط.")
@@ -130,7 +130,7 @@ def gen_text(m):
     not_fit = {
         "budget": "الراكب الثقيل، أو الطرق المرتفعة، أو من يقطع مسافات طويلة يومياً.",
         "commuter": "من يحتاج قوة كبيرة في المنحدرات الحادة أو يسلك مسارات ترابية.",
-        "sport": "من يحمل سكوتره كل يوم على الدرج، أو يريد الالتزام بالحد 25 كم/س دون ضبط السرعة.",
+        "sport": "من يحمل سكوتره كل يوم على الدرج، أو يحتاج سرعة قصوى أعلى من فئة هذا الموديل.",
         "performance": "التنقل اليومي الخفيف، والمبتدئون، ومن لا يستطيع حمل سكوتر ثقيل أو تخزينه.",
     }[cat]
     off = {
@@ -171,21 +171,26 @@ def svg(m):
 </svg>'''
 
 
-def legal_block(m):
+def speed_regulatory_note(m):
     sp, t = m["speed"], tier(m)
+    local = ' إذا كنت تقود في المغرب، راجع <a href="/article-7">الدليل القانوني الخاص بالمغرب</a>؛ فهو لا ينطبق خارج المغرب.'
     if t == "extreme":
-        return ('<div class="warning"><h3>⚖️ لا يندرج ضمن التروتينيت المنظَّم</h3>'
-                f'<p>سرعته المعلنة (نحو {sp} كم/س) تفوق كثيراً الحد المنشور للتروتينيت. بحسب ما نشرته الصحافة المغربية عن المرسوم 2.25.145 فالحد الأقصى <strong>25 كم/س</strong>. '
-                'لا نملك مصدراً مؤكداً عن تصنيف مركبة بهذه المواصفات في المغرب، لذلك <strong>لا تستعملها في الطرق العامة</strong> قبل أن تسأل الجهات المختصة (النقل أو الأمن الوطني أو شركة تأمين). '
-                'راجع <a href="/article-7">مقال القانون</a> لما هو مؤكد وما هو غير مؤكد.</p></div>')
+        return ('<div class="warning"><h3>⚖️ فئة أداء عالٍ — تحقّق من التصنيف المحلي</h3>'
+                f'<p>السرعة القصوى المعلنة لهذا الموديل نحو {sp} كم/س، وقد تضعه قدرته وسرعته ضمن فئة مركبات مختلفة عن سكوترات التنقل الخفيف. '
+                'تختلف القواعد حسب البلد والمدينة، بما في ذلك حدود السرعة والتصنيف والترخيص والتأمين ومتطلبات الحماية. '
+                'لا تفترض أن استعماله على الطرق العامة مسموح؛ تحقّق من الجهة المختصة في منطقتك قبل الاستخدام.</p></div>'
+                + f'<p class="updated">{local}</p>')
     if t == "over":
-        return ('<div class="warning"><h3>⚖️ سرعته المعلنة تتجاوز 25 كم/س</h3>'
-                f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، بينما الحد المنشور في الصحافة المغربية عن المرسوم 2.25.145 هو <strong>25 كم/س</strong> للتروتينيت. '
-                'قد تتيح بعض النسخ ضبط السرعة عبر التطبيق أو الإعدادات (تحقق من نسختك)، ولا نجزم بمدى كفاية ذلك قانونياً. '
-                'قدّرنا المدى أعلاه على سرعة 25 كم/س لأنها المرجع الواقعي داخل المدينة. راجع <a href="/article-7">مقال القانون</a>.</p></div>')
-    return ('<div class="tip"><h3>⚖️ ضمن الحد المنشور للسرعة</h3>'
-            f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، أي ضمن الحد <strong>25 كم/س</strong> المنشور في الصحافة المغربية عن المرسوم 2.25.145. '
-            'تبقى شروط أخرى كالخوذة ومنع السماعات والمعدات، وبعضها لم نتأكد من تفاصيله. راجع <a href="/article-7">مقال القانون</a>.</p></div>')
+        return ('<div class="warning"><h3>⚖️ السرعة المعلنة أعلى من المرجع الحسابي</h3>'
+                f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، وهي أعلى من سرعة 25 كم/س التي تستخدمها VoltRide كمرجع حسابي لمقارنة تقديرات المدى. '
+                'هذا الرقم ليس حداً قانونياً عالمياً؛ تختلف حدود السرعة وتصنيفات المركبات حسب البلد والمدينة. '
+                'كما أن خفض السرعة عبر التطبيق لا يضمن وحده استيفاء المتطلبات المحلية. تحقّق من الجهات المختصة قبل استخدامه على الطرق العامة.</p></div>'
+                + f'<p class="updated">{local}</p>')
+    return ('<div class="tip"><h3>⚖️ السرعة وحدها لا تحدد قانونية الاستخدام</h3>'
+            f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، وهي لا تتجاوز المرجع الحسابي 25 كم/س المستخدم في تقديرات VoltRide. '
+            'هذا لا يثبت أن المركبة مسموح بها في الطرق العامة؛ فقد تعتمد القواعد المحلية أيضاً على تصنيف المركبة والعمر والخوذة والإضاءة والتأمين. '
+            'راجع المصادر الرسمية في بلدك قبل الاستخدام.</p></div>'
+            + f'<p class="updated">{local}</p>')
 
 
 def faqs(m, rows):
@@ -193,17 +198,17 @@ def faqs(m, rows):
     days = max(1, math.floor(mid / 10))
     sp, t = m["speed"], tier(m)
     if t == "extreme":
-        a3 = "سرعته وقدرته أعلى بكثير من الحد المنشور للتروتينيت (25 كم/س) بحسب الصحافة المغربية، ولا نملك مصدراً مؤكداً عن تصنيفه. لا تستعمله في الطرق العامة قبل الاستفسار لدى الجهات المختصة."
+        a3 = f"سرعته وقدرته مرتفعتان (سرعة معلنة نحو {sp} كم/س)، وقد يخضع لتصنيف مختلف عن السكوترات الخفيفة. تختلف شروط الطرق العامة والترخيص والتأمين والحماية حسب البلد؛ تحقّق من الجهة المحلية المختصة قبل الاستخدام."
     elif t == "over":
-        a3 = f"سرعته المعلنة (نحو {sp} كم/س) تتجاوز الحد المنشور 25 كم/س للتروتينيت. قد تتيح نسخ ضبط السرعة، لكن تحقق من الجهات المختصة ولا تعتمد على هذا الموقع وحده."
+        a3 = f"سرعته المعلنة نحو {sp} كم/س، أعلى من مرجع VoltRide الحسابي البالغ 25 كم/س. هذا المرجع ليس قانوناً عالمياً، كما أن محدد السرعة لا يضمن وحده قانونية الاستخدام. تحقّق من القواعد المحلية."
     else:
-        a3 = f"سرعته المعلنة (نحو {sp} كم/س) ضمن الحد المنشور 25 كم/س، لكن الخوذة إلزامية ومنع السماعات ساريان بحسب ما نُشر، فراجع مقال القانون."
+        a3 = f"سرعته المعلنة نحو {sp} كم/س، لكنها لا تكفي وحدها لإثبات السماح باستخدامه على الطرق العامة. تختلف القواعد حسب البلد وقد تشمل تصنيف المركبة والعمر والخوذة والإضاءة والتأمين."
     return [
         ("كم مرة أحتاج لشحنه؟",
          f"بحسب تقدير VoltRide (سيناريو الاستعمال العادي: مدى نحو {mid:.0f} كم)، إن كنت تقطع نحو 10 كم يومياً فقد يكفيك شحن كل {days} {'يوم' if days == 1 else 'أيام'} تقريباً. الرقم تقريبي، ويتأثر بوزنك وطريقك. الأفضل ألا تنزل البطارية إلى الصفر باستمرار."),
         ("كيف أطيل عمر بطاريته؟",
          "تجنب الشحن في الحرارة العالية، ولا تترك البطارية فارغة أو ممتلئة أسابيع طويلة، واستعمل الشاحن الأصلي أو المطابق، واتبع توصية الشركة لموديلك. التفاصيل في مقال أخطاء تقصّر عمر البطارية."),
-        ("هل يمكنني استعماله في طرق المغرب قانونياً؟", a3),
+        ("هل يمكنني استخدامه قانونياً على الطرق العامة؟", a3),
     ]
 
 
@@ -214,7 +219,7 @@ def page(m):
     energy = wh(m)
     mid = rows[1][2][0]
     url = f"{BASE}/{slug}"            # clean URL: Cloudflare Pages redirects *.html to the extensionless URL
-    title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide للمغرب"
+    title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide"
     desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
             f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
     fq = faqs(m, rows)
@@ -230,7 +235,7 @@ def page(m):
         f'<tr><td><strong>{esc(n)}</strong><br><small>{esc(d)}</small></td><td class="winner">{r:.0f} كم</td><td>{c:.1f} Wh/كم</td></tr>'
         for n, d, (r, c) in rows)
     extra = ""
-    if m["speed"] > LEGAL_LIMIT:
+    if m["speed"] > REFERENCE_SPEED:
         r_max, _ = estimate(m, 75, "flat", "balanced", m["speed"])
         extra = (f'<p class="updated">للمقارنة فقط: عند السرعة القصوى المعلنة ({m["speed"]} كم/س) على طريق مستوٍ بوزن 75 كغ، '
                  f'يهبط التقدير إلى نحو {r_max:.0f} كم، ولا يصلح هذا الاستعمال في الطرق العامة بحسب الحد المنشور.</p>')
@@ -253,7 +258,7 @@ def page(m):
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="article">
-<meta property="og:locale" content="ar_MA">
+<meta property="og:locale" content="ar">
 <meta property="og:site_name" content="VoltRide">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
@@ -284,7 +289,7 @@ def page(m):
 <a href="/blog" class="back">← العودة للمدونة</a>
 <main id="main">
 <article>
-<h1>كم مدى {esc(m["name"])} الواقعي؟ تقدير VoltRide للمغرب</h1>
+<h1>كم مدى {esc(m["name"])} الواقعي؟ تقدير VoltRide</h1>
 <div class="meta">📅 {DATE} • ✍️ فريق VoltRide • فئة: {CLASS_AR[m["category"]]}</div>
 {svg(m)}
 <p>الرقم المكتوب على علبة أي سكوتر هو مدى «مثالي» يُقاس غالباً لراكب خفيف وطريق مستوٍ وسرعة معتدلة، لذلك يبدو الواقع أقل منه. هنا نعرض <strong>تقدير VoltRide</strong> لمدى {esc(m["name"])} في ثلاثة سيناريوهات، محسوباً من مواصفات البطارية. هو تقدير نظري وليس قياساً ميدانياً. {esc(t["summary"])}</p>
@@ -305,11 +310,11 @@ def page(m):
 {srows}
 </table>
 </div>
-<p class="updated">محسوبة على سرعة {sp} كم/س، و90% من طاقة البطارية قابلة للاستعمال. كيف نحسب؟ اقرأ المنهجية في <a href="/about">صفحة حول</a>.</p>
+<p class="updated">محسوبة على سرعة مرجعية لا تتجاوز {REFERENCE_SPEED} كم/س (أو السرعة القصوى المعلنة إذا كانت أقل)، و90% من طاقة البطارية قابلة للاستعمال. هذا مرجع حسابي للمقارنة وليس حداً قانونياً عالمياً. كيف نحسب؟ اقرأ المنهجية في <a href="/about">صفحة حول</a>.</p>
 {extra}
 {low_conf}
 
-{legal_block(m)}
+{speed_regulatory_note(m)}
 
 <h2>🏞️ ملاءمة الطرق الوعرة</h2>
 <p>{esc(t["offroad"])}</p>
@@ -325,7 +330,7 @@ def page(m):
 <li><a href="/article-8">كم تكلفة شحن السكوتر الكهربائي شهرياً؟</a></li>
 <li><a href="/article-4">5 أخطاء شائعة تقصّر عمر بطارية سكوترك</a></li>
 <li><a href="/article-1">10 نصائح لزيادة مدى سكوترك</a></li>
-<li><a href="/article-7">قانون التروتينيت في المغرب: ما الذي تؤكده المصادر؟</a></li>
+<li><a href="/article-7">دليل قانوني خاص بالمغرب: قواعد التروتينيت</a></li>
 <li><a href="/article-5">كيف تختار سكوترك الأول؟</a></li>
 </ul>
 <p class="updated">موديلات قريبة في طاقة البطارية: {sim_links}</p>
@@ -384,7 +389,7 @@ def main():
             continue
         parts.append(f'<h2 style="margin:22px 0 10px;font-size:17px;color:var(--cyan)">سكوترات {CLASS_HEAD[cat]} ({len(group)})</h2>')
         for m in group:
-            r = estimate(m, 75, "mixed", "balanced", min(LEGAL_LIMIT, m["speed"]))[0]
+            r = estimate(m, 75, "mixed", "balanced", min(REFERENCE_SPEED, m["speed"]))[0]
             parts.append(f'<a href="/{m["id"]}" class="article-card"><span class="cat">{CLASS_AR[cat]}</span>'
                          f'<h2>كم مدى {esc(m["name"])} الواقعي؟</h2>'
                          f'<p>بطارية {num(m["voltage"])}V {num(m["ah"])}Ah: تقدير نحو {r:.0f} كم في الاستعمال العادي، مع سيناريوهات وملاحظة قانونية.</p>'
