@@ -1497,7 +1497,10 @@ document.addEventListener("DOMContentLoaded", () => {
   ["voltage","capacity","motor","charger"].forEach(id =>
     document.getElementById(id).addEventListener("input", calculate)
   );
-  document.getElementById("calculateBtn").onclick = calculate;
+  document.getElementById("calculateBtn").onclick = () => {
+    calculate();
+    if (window.VoltAnalytics) window.VoltAnalytics.track("calculator_use", { method: "button" });
+  };
   document.getElementById("rcDist").oninput = e => { rc.dist = Number(e.target.value); saveReturnState(); renderReturnCheck(); };
   document.getElementById("rcBat").oninput = e => { rc.bat = Number(e.target.value); saveReturnState(); renderReturnCheck(); };
   document.querySelectorAll("#rcWeatherChips .chip[data-value]").forEach(c => c.onclick = () => {
