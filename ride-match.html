@@ -156,11 +156,11 @@ const scooters = [
   {"id":"inokim-oxo","name":"Inokim OXO","cat":"performance","speed":65,"power":2000,"voltage":60,"ah":25.6,"affiliateUrl":null},
   {"id":"nami-burn-e2-max","name":"Nami Burn-E 2 Max","cat":"performance","speed":98,"power":8400,"voltage":72,"ah":40,"affiliateUrl":null},
   {"id":"teverun-fighter-11","name":"Teverun Fighter 11","cat":"performance","speed":85,"power":5000,"voltage":60,"ah":26,"affiliateUrl":null},
-  {"id":"iscooter-w9","name":"iScooter W9","cat":"sport","speed":45,"power":500,"voltage":48,"ah":14,"affiliateUrl":"https://s.click.aliexpress.com/e/_EGAUMFs"},
+  {"id":"iscooter-w9","name":"iScooter W9","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":14,"affiliateUrl":"https://s.click.aliexpress.com/e/_EGAUMFs"},
   {"id":"iscooter-ix4","name":"iScooter iX4","cat":"commuter","speed":45,"power":800,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EvIBV8A"},
-  {"id":"iscooter-w9air","name":"iScooter W9Air","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10,"affiliateUrl":"https://s.click.aliexpress.com/e/_EwpL2l8"},
-  {"id":"iscooter-w6","name":"iScooter W6","cat":"budget","speed":25,"power":300,"voltage":36,"ah":10.5,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIqcG58"},
-  {"id":"iscooter-ix5s","name":"iScooter iX5s","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIosseQ"}
+  {"id":"iscooter-w9air","name":"iScooter W9Air","cat":"sport","speed":40,"power":800,"voltage":48,"ah":10,"affiliateUrl":"https://s.click.aliexpress.com/e/_EwpL2l8"},
+  {"id":"iscooter-w6","name":"iScooter W6","cat":"budget","speed":35,"power":500,"voltage":42,"ah":10.5,"eligible":false,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIqcG58"},
+  {"id":"iscooter-ix5s","name":"iScooter iX5S","cat":"sport","speed":45,"power":1000,"voltage":48,"ah":15,"affiliateUrl":"https://s.click.aliexpress.com/e/_EIosseQ"}
 ];
 
 const uniqueScooters = (() => {
@@ -255,7 +255,8 @@ function getRecommendations(){
     else needKm = Number(parts[1]) || 20;
   }
 
-  const scored = uniqueScooters.map(s => {
+  const eligibleScooters = uniqueScooters.filter(s => s.eligible !== false);
+  const scored = eligibleScooters.map(s => {
     const range = estimateRange(s);
     let score = 0;
     let matchCount = 0;
