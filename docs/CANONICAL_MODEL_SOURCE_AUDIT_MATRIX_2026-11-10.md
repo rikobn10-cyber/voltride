@@ -42,14 +42,15 @@ This document tracks manufacturer-source verification for the 30 records in `mod
 | `ecoxtrem-bison-gt` | EcoXtrem has a Bison GT 1000W product and a separate Bison 800W product. | Current 800W GT row may mix products; excluded from recommendations pending SKU resolution. |
 | `ecoxtrem-bison-m41` | Multiple M41 battery/motor configurations exist (including 52V 20Ah single/dual variants). | Current 48V 18Ah / 1000W / 50km/h not tied to exact SKU; excluded pending resolution. |
 
-## Remaining unverified records
+## Additional source checks and remaining unverified records
 
-These records have not yet been matched to a sufficiently specific primary manufacturer source and exact generation/SKU in this pass. Their current values must remain **provisional**, not “manufacturer verified”:
+GOTRAX's official GXL V2 product page and battery parts listing support 36V, 5.2Ah, 250W average motor power, and 15.5mph (about 25km/h). This matches the current `gotrax-gxl-v2` catalog row. The official product page currently advertises up to 12.5 miles of range, while older GOTRAX product/editorial material states 9–12 miles; range is therefore retained as a manufacturer claim, not a guaranteed real-world value.
 
-- `gotrax-gxl-v2`
-- `apollo-ghost`
-- `kaabo-wolf-king`
-- `nami-burn-e2-max`
+The following records have not yet been matched to a sufficiently specific primary manufacturer source and exact generation/SKU in this pass. Their current values must remain **provisional**, not “manufacturer verified”:
+
+- `apollo-ghost` — Apollo's legacy article confirms a 52V 18.2Ah battery, but the full motor rating and exact model revision still need a primary spec sheet.
+- `kaabo-wolf-king` — the official Kaabo USA result found is for King GT Pro, not sufficient proof for the catalog's Wolf King GT row; do not substitute one model's figures for the other.
+- `nami-burn-e2-max` — exact primary manufacturer evidence for the catalog's specific Burn-E 2 Max configuration remains outstanding.
 
 The Apollo City Pro, INOKIM OXO, Teverun Fighter 11, and the variant-sensitive models above also need SKU-level resolution despite having useful manufacturer evidence.
 
@@ -62,6 +63,9 @@ The Apollo City Pro, INOKIM OXO, Teverun Fighter 11, and the variant-sensitive m
 - Apollo City Pro 2023: https://apolloscooters.ca/pages/tech-specs-apollo-city-2023-pro
 - Apollo City 2023–24 battery: https://apolloscooters.co/products/apollo-city-city-pro-2023-battery-assembly
 - GOTRAX G4: https://gotrax.com/products/g4-electric-scooter-for-adults
+- GOTRAX GXL V2: https://gotrax.com/products/gxl-commuter-scooter-hand-brake-edition
+- GOTRAX GXL V2 battery: https://gotrax.com/products/36v-5-4ah-escooter-battery
+- Apollo Ghost legacy article: https://apolloscooters.co/blogs/news/apollo-ghost-best-adult-electric-scooter
 - INOKIM current global range: https://inokim.com/
 - INOKIM OXO older specification reference: https://www.manualslib.com/manual/1580367/Inokim-Oxo.html?page=4
 - Teverun Fighter Eleven: https://teverun-europe.com/product/fighter-eleven-2/
