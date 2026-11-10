@@ -1476,13 +1476,6 @@ setTimeout(() => showInstallBanner(), 30000);
 let calculatorUsed = Store.get("voltride_calculator_used", false);
 if (calculatorUsed) showInstallBanner();
 
-/* ==== Service Worker (اختياري، يُفعّل إن وُجد sw.js) ==== */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  });
-}
-
 window.addEventListener("load", () => {
   setTimeout(() => {
     const s = document.getElementById("splash");
