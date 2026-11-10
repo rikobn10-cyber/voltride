@@ -60,8 +60,13 @@ def to_local(page_path, ref):
         rel = path.lstrip("/")
     else:
         rel = os.path.normpath(os.path.join(os.path.dirname(page_path), path)).replace(os.sep, "/")
-    if rel in ("", "."): rel = "index.html"
-    elif rel.endswith("/"): rel += "index.html"
+    if rel in ("", "."):
+        rel = "index.html"
+    elif rel.endswith("/"):
+        rel += "index.html"
+    elif not os.path.splitext(os.path.basename(rel))[1]:
+        # Cloudflare Pages serves extensionless clean URLs from the matching .html file.
+        rel += ".html"
     return rel, sp.fragment
 
 
