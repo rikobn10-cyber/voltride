@@ -21,18 +21,13 @@ assert.equal(evaluate("scooters.length"), 35, "duplicate model records should be
 assert.equal(evaluate("uniqueScooters.length"), 35, "all unique models should remain");
 assert.equal(evaluate("new Set(uniqueScooters.map(s => s.id)).size"), 35, "model IDs must be unique");
 
-const budget = value => JSON.parse(evaluate("JSON.stringify(parseBudgetRange(" + JSON.stringify(value) + "))"));
-assert.deepEqual(budget("0-3000"), { min: 0, max: 2999 });
-assert.deepEqual(budget("3000-5000"), { min: 3000, max: 4999 });
-assert.deepEqual(budget("5000-8000"), { min: 5000, max: 8000 });
-assert.deepEqual(budget("8000+"), { min: 8001, max: null });
-assert.equal(evaluate('getBudgetScore(8500, parseBudgetRange("8000+"))'), 30);
-assert.notEqual(evaluate('getBudgetScore(8000, parseBudgetRange("8000+"))'), 30);
-assert.equal(evaluate('getBudgetScore(2500, parseBudgetRange("0-3000"))'), 30);
-assert.equal(evaluate('getBudgetScore(3500, parseBudgetRange("3000-5000"))'), 30);
+assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\\bMAD\\b|درهم/);
+assert.doesNotMatch(html, /"price":\\d+/);
+assert.match(html, /data-action="buy"/);
+assert.doesNotMatch(html, /indexOf\\('اشترِ الآن'\\)/);
 
 for (const preference of ["speed", "range", "commuter", "performance"]) {
-  evaluate('answers = { budget: "8000+", distance: "20-40", preference: "' + preference + '" }');
+  evaluate('"answers = { distance: "20-40", preference: "' + preference + '" }');
   const ids = JSON.parse(evaluate("JSON.stringify(getRecommendations().map(r => r.s.id))"));
   assert.equal(ids.length, 3, preference + ": should return three recommendations");
   assert.equal(new Set(ids).size, 3, preference + ": recommendations must be unique");
@@ -60,4 +55,4 @@ assert.match(indexHtml, /\.table-wrap\{width:100%/);
 assert.match(html, /data-value="commuter"/);
 assert.match(html, /data-value="performance"/);
 assert.doesNotMatch(html, /data-value="comfort"|data-value="weight"/);
-console.log("Ride Match tests passed: unique models, budget boundaries, supported preferences, and affiliate disclosure.");
+console.log("Ride Match tests passed: unique models, global budget-neutral recommendations, supported preferences, and affiliate disclosure.");
