@@ -335,7 +335,8 @@ function showResults(){
 
 // Wire up each step's buttons with the correct step number
 // Track outbound purchase clicks from recommendation cards without collecting personal data.
-document.getElementById('recommendations').addEventListener('click', function(event){
+const recommendationsEl = document.getElementById('recommendations');
+if (recommendationsEl) recommendationsEl.addEventListener('click', function(event){
   const link = event.target.closest('a.cta');
   if (!link || link.textContent.indexOf('اشترِ الآن') === -1) return;
   const card = link.closest('.recommendation');
