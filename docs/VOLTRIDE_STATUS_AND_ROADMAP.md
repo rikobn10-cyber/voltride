@@ -45,7 +45,7 @@ Changes prepared for review:
 10. Remove unrelated tool-charger and children's e-moto listings from the accessories page; add Arabic, English and French accessories guidance and sitemap entries.
 11. Extend regression tests for these behaviours and content-discovery rules.
 
-**Important:** This branch has not been merged. Wait for all CI checks to finish and pass. Do not claim production has these changes until the merge commit has a successful Cloudflare production deployment and live-site verification.
+**Status (2026-11-10):** PR #41 was merged as `a0bccd0fbc03226385c43944d6dc13b10caacc37`. The merge passed Ride Match, consent, SEO metadata, generated-file, internal-link, sitemap, and accessibility checks, and the post-deploy live-site workflow succeeded. Production-only GA gating, affiliate click tracking, Ride Match budget removal, catalog alignment, accessory-page cleanup, and blog discovery improvements are therefore in production.
 
 ## 4. Findings and priorities
 
@@ -102,7 +102,7 @@ VoltRide is ready to shift from repair mode to measured growth when:
 - no high-severity accessibility, broken-link, SEO or deployment issues remain;
 - performance and editorial work is prioritized using actual user/search data rather than guesswork.
 
-**Next checkpoint:** finish CI on `fix/global-ride-match-analytics-cleanup`, merge only on full success, verify production, then perform a final post-deploy crawl and analytics smoke test.
+**Next checkpoint:** complete the current manufacturer-source audit and verify GA4 event receipt on the production host after explicit consent; then address Search Console discovery/indexing for priority URLs. Keep administrative GA4 key-event configuration separate from code changes.
 
 ## 7. Global scope correction for generated model pages
 
@@ -123,3 +123,33 @@ PR #45 consolidates the metadata cleanup on a fresh review branch so CI can vali
 ## 9. Global currency and locale behavior
 
 The default display currency is now selected from the browser's regional locale, not the UI language: Morocco (MA) defaults to MAD (with an Africa/Casablanca timezone fallback when the browser omits its region), supported euro-area regions default to EUR, and the United States defaults to USD. Unsupported regions fall back to USD because the app currently offers only MAD, USD and EUR. A manually selected currency remains stored and takes precedence over automatic detection. Global Arabic utility/editorial pages no longer advertise the country-specific Open Graph locale `ar_MA`; articles whose subject is specifically Moroccan law, local prices or local market context retain `ar_MA`. Regression tests cover region selection and global Arabic locale metadata. This does not yet provide automatic FX updates or full local-currency coverage; those require a separate product decision and reliable rate source.
+
+
+## 10. Latest release verification and remaining work (2026-11-10)
+
+### Completed release state
+- PR #41 (global Ride Match, analytics host gating, consent-gated affiliate events, accessory cleanup, multilingual blog discovery, one homepage H1, service-worker v18) merged successfully.
+- PR #43 (globalized generated model pages and jurisdiction-neutral legal copy) merged successfully.
+- PR #45 (metadata cleanup and sitemap dates) merged successfully.
+- PR #49 (browser-region currency defaults and global Arabic metadata) merged successfully.
+- Latest verified main commit: `26c1d53d18a23b7ba311d6772112480a53cb9036`; Cloudflare deployment and post-deploy live-site checks succeeded. CI reported 81 pages with zero blocking accessibility violations and zero warnings.
+- Current production SEO crawl: 50 pages; no missing titles/descriptions, overlong titles/descriptions, noindex issues, or canonicalized-page issues. Thin-content observations remain for Contact and Ride Match; 13 heading-order observations are informational and need semantic review, not mechanical edits.
+
+### Measurement and search findings
+- GA4 property is connected and the production stream uses `G-M4CWL77NBK`; measurement-health API reported one web stream, three configured key events, and no Admin API configuration errors.
+- Current key events are `purchase`, `close_convert_lead`, and `qualify_lead`. They do not match the site's custom events (`calculator_use`, `ride_match_complete`, `affiliate_click`, `marketplace_search_click`). No key-event counts were recorded in the latest 28-day report. Do not mark marketplace searches as purchases. GA4 Admin event configuration requires a manual owner decision; it was not changed by this repository work.
+- GA4's 2026-10-13 to 2026-11-09 acquisition report recorded 18 organic-search sessions, 15 engaged sessions, and zero key events. It also contains legacy Netlify and Cloudflare preview hostnames, so historical totals are not yet a clean production-only baseline. The current code excludes preview hosts going forward; historic rows remain unchanged.
+- Search Console is connected to the Pages property. Homepage is indexed with matching user/Google canonical. Ride Match, Accessories, Arabic/English/French blog indexes and sampled Article 8 variants were unknown to Google at inspection time. Re-submit priority URLs after confirming the deployed sitemap and monitor recrawl; unknown is not a permanent exclusion verdict.
+- Last 3 months of Search Console page data is extremely sparse (three rows, two clicks total), so avoid over-interpreting ranking/CTR conclusions.
+
+### Product-source audit
+- See [MODEL_SOURCE_AUDIT_2026-11-10.md](MODEL_SOURCE_AUDIT_2026-11-10.md). Four iScooter affiliate-only model specifications were checked against manufacturer sources and corrected where necessary. W6 has regional battery variants and is excluded from recommendation scoring until its affiliate SKU is matched.
+- All five AliExpress short-link destinations remain unverified. The canonical 30-model catalog still needs a full manufacturer-source audit; presence in project data is not proof of manufacturer accuracy.
+
+### Remaining phases, in order
+1. Verify affiliate redirect destinations and exact regional SKUs; keep uncertain links/specs out of trusted recommendation paths.
+2. Complete manufacturer source records for the canonical 30 models, prioritizing models with the most recommendation exposure.
+3. Complete GA4 production event smoke test with explicit consent, then decide manually which meaningful events become key events. Keep purchase reserved for actual purchases.
+4. Re-submit priority URLs in Search Console and track index status/canonical consistency after Google recrawls.
+5. Review heading hierarchy and thin content page-by-page; improve content only where it helps users and search intent.
+6. Re-baseline GA4 after enough post-host-gating production data accumulates; do not use old preview-host traffic as current production performance.
