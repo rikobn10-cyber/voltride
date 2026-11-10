@@ -1,0 +1,60 @@
+{
+  "_notes": "Ride Match-only data kept outside the canonical catalog. Core scooter specifications must come from models.json via build_models.py. Affiliate-only entries are separate because they are not part of the 30-model canonical SEO catalog. Affiliate short links have not been resolved to final destinations or matched to exact regional SKUs; do not treat link presence as source verification.",
+  "excludedModelIds": [
+    "ecoxtrem-bison-gt",
+    "ecoxtrem-bison-m41"
+  ],
+  "affiliateOnlyModels": [
+    {
+      "id": "iscooter-w9",
+      "name": "iScooter W9",
+      "cat": "sport",
+      "speed": 45,
+      "power": 1000,
+      "voltage": 48,
+      "ah": 14,
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EGAUMFs"
+    },
+    {
+      "id": "iscooter-ix4",
+      "name": "iScooter iX4",
+      "cat": "commuter",
+      "speed": 45,
+      "power": 800,
+      "voltage": 48,
+      "ah": 15,
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EvIBV8A"
+    },
+    {
+      "id": "iscooter-w9air",
+      "name": "iScooter W9Air",
+      "cat": "sport",
+      "speed": 40,
+      "power": 800,
+      "voltage": 48,
+      "ah": 10,
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EwpL2l8"
+    },
+    {
+      "id": "iscooter-w6",
+      "name": "iScooter W6",
+      "cat": "budget",
+      "speed": 35,
+      "power": 500,
+      "voltage": 42,
+      "ah": 10.5,
+      "eligible": false,
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EIqcG58"
+    },
+    {
+      "id": "iscooter-ix5s",
+      "name": "iScooter iX5S",
+      "cat": "sport",
+      "speed": 45,
+      "power": 1000,
+      "voltage": 48,
+      "ah": 15,
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EIosseQ"
+    }
+  ]
+}

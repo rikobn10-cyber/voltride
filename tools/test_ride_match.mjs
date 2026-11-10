@@ -5,6 +5,7 @@ import vm from "node:vm";
 const html = readFileSync("ride-match.html", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
 const modelCatalog = JSON.parse(readFileSync("models.json", "utf8")).models;
+const rideMatchData = JSON.parse(readFileSync("ride_match_data.json", "utf8"));
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/i);
 assert.ok(scriptMatch, "Ride Match inline application script must exist");
 
@@ -32,6 +33,21 @@ for (const model of modelCatalog) {
   assert.equal(rideModel.ah, model.ah, model.id + ": battery capacity must match catalog");
   assert.equal(rideModel.cat, model.category, model.id + ": category must match catalog");
 }
+
+for (const model of rideMatchData.affiliateOnlyModels) {
+  const rideModel = rideModels.find(item => item.id === model.id);
+  assert.ok(rideModel, model.id + ": affiliate-only model must appear in Ride Match");
+  for (const [field, value] of Object.entries(model)) {
+    assert.equal(rideModel[field], value, model.id + ": " + field + " must match affiliate-only source");
+  }
+}
+for (const id of rideMatchData.excludedModelIds) {
+  const rideModel = rideModels.find(item => item.id === id);
+  assert.ok(rideModel, id + ": excluded canonical model must exist");
+  assert.equal(rideModel.eligible, false, id + ": configured exclusions must stay ineligible");
+}
+assert.match(html, /\/\*SCOOTERS:START\*\/[\s\S]*?\/\*SCOOTERS:END\*\//,
+  "Ride Match scooter records must be generator-owned");
 
 
 assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\bMAD\b|درهم/);
