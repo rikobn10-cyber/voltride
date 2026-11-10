@@ -291,7 +291,7 @@ def page(m):
 <a href="/blog" class="back">← العودة للمدونة</a>
 <main id="main">
 <article>
-<h1>كم مدى {esc(m["name"])} الواقعي؟ تقدير VoltRide</h1>
+<h1>{esc(title)}</h1>
 <div class="meta">📅 {DATE} • ✍️ فريق VoltRide • فئة: {CLASS_AR[m["category"]]}</div>
 {svg(m)}
 <p>الرقم المكتوب على علبة أي سكوتر هو مدى «مثالي» يُقاس غالباً لراكب خفيف وطريق مستوٍ وسرعة معتدلة، لذلك يبدو الواقع أقل منه. هنا نعرض <strong>تقدير VoltRide</strong> لمدى {esc(m["name"])} في ثلاثة سيناريوهات، محسوباً من مواصفات البطارية. هو تقدير نظري وليس قياساً ميدانياً. {esc(t["summary"])}</p>
