@@ -52,6 +52,11 @@ for (const path of titleAuditFiles) {
 }
 assert.doesNotMatch(readFileSync("blog.html", "utf8").match(/<title>(.*?)<\/title>/i)?.[1] || "", /المغرب/, "Arabic blog title should be global, not Morocco-specific");
 
+for (const path of ["index.html", "blog.html", "about.html", "contact.html", "privacy.html", "accessories.html", "ride-match.html", "article-7.html", "article-8.html", "blog/charger-safety.html"]) {
+  assert.doesNotMatch(readFileSync(path, "utf8"), /<meta property="og:locale" content="ar_MA">/, path + ": global Arabic page must not claim a Morocco-only locale");
+}
+
+
 const generatedModels = JSON.parse(readFileSync("models.json", "utf8")).models;
 for (const model of generatedModels) {
   const modelPage = readFileSync(model.id + ".html", "utf8");
