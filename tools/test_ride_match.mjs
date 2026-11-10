@@ -46,7 +46,7 @@ for (const id of rideMatchData.excludedModelIds) {
   assert.ok(rideModel, id + ": excluded canonical model must exist");
   assert.equal(rideModel.eligible, false, id + ": configured exclusions must stay ineligible");
 }
-assert.match(html, /\/\*SCOOTERS:START\*\/[\\s\\S]*?\/\*SCOOTERS:END\*\//,
+assert.match(html, /\/\*SCOOTERS:START\*\/[\s\S]*?\/\*SCOOTERS:END\*\//,
   "Ride Match scooter records must be generator-owned");
 
 
