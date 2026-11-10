@@ -25,8 +25,6 @@ jobs:
       - name: Re-run the generator and fail if it changes anything
         run: |
           python3 build_models.py
-          echo '--- DIAGNOSTIC: first generated page diff ---'
-          git diff --unified=2 -- xiaomi-pro-2.html
           git diff --stat --exit-code || (echo "::error::build_models.py changes committed files. Commit the regenerated output (or edit build_models.py instead of the generated pages)." && exit 1)
 
   a11y:
