@@ -117,3 +117,5 @@ This change must pass the generated-files check before merge. The 25 km/h benchm
 PR #44 shortens the 13 previously flagged page titles, the eight long meta descriptions, and the four generated model titles that exceeded the 60-character target. It also removes the Morocco-only positioning from the Arabic blog index and refreshes sitemap `lastmod` values for the updated model and content URLs. These changes are covered by regression tests. Heading-order observations remain informational and should be reviewed in a separate semantic-accessibility pass rather than changed mechanically.
 
 Generated model pages now shorten only titles that would exceed 60 characters; the H1 is generated from the same title string to prevent metadata/content drift.
+
+PR #45 consolidates the metadata cleanup on a fresh review branch so CI can validate the final generated-page and sitemap state before merge.
