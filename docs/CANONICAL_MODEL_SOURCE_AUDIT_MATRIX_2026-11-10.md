@@ -1,0 +1,85 @@
+# Canonical 30-model source audit matrix — 2026-11-10
+
+## Purpose and decision rule
+
+This document tracks manufacturer-source verification for the 30 records in `models.json`. It is an audit record, not a declaration that every row is verified. A model is only safe to normalize when the exact generation, battery pack, motor configuration, and destination-market variant are identified. Rated motor power, peak power, battery nominal voltage, cell/pack capacity, and regional speed limits must remain distinct fields where the manufacturer distinguishes them.
+
+**No product data or generated pages were changed in this audit pass.** The findings below identify where the current catalog is supported, variant-dependent, or materially inconsistent. Manufacturer-claimed range and speed are not independent real-world test results.
+
+## Newly rechecked records
+
+| Catalog ID | Current catalog values (V / Ah / motor W / km/h) | Manufacturer evidence found | Audit disposition |
+|---|---|---|---|
+| `xiaomi-pro-2` | 36 / 12.8 / 300 / 25 | Xiaomi Spain lists model DDHBC11NEB, 37V nominal, 12.4Ah / 446Wh, 300W rated / 600W max, 25 km/h. | **Flag battery semantics/capacity.** Current 36V × 12.8Ah is not the manufacturer-published nominal pack figure. Retain rated motor as 300W; do not conflate with 600W peak. |
+| `xiaomi-essential` | 36 / 5.2 / 250 / 20 | Xiaomi Spain lists DDHBC05NEB, 36V, 5.1Ah / 183Wh, 250W rated / 500W max, 20 km/h. | **Minor capacity mismatch.** Confirm whether catalog 5.2Ah is a rounded or alternate pack; official published capacity is 5.1Ah. |
+| `segway-e2-plus` | 21.6 / 10.2 / 300 / 25 | Segway E2 Plus E II regional product/manual data lists 21.6V, 220Wh / 10.2Ah, 300W rated / 500W max, 25 km/h. | **Core values align for E2 Plus E II.** Add explicit generation/market identity; do not assume all E2 Plus generations share this exact pack. |
+| `apollo-city-pro` | 52 / 20 / 1000 / 51 | Apollo's City Pro 2023 specification page identifies dual motors at 500W nominal each / 1000W peak each, 51 km/h. Apollo's battery replacement listing identifies 48V 20Ah for City/City Pro 2023–24. | **Material variant/semantics issue.** Catalog's 52V conflicts with the documented 48V pack. Motor field 1000W may be total nominal (2 × 500W), not peak; exact field meaning must be resolved before correction. |
+| `gotrax-g4` | 36 / 10.4 / 350 / 32 | GOTRAX official G4 listing specifies 36V 10.4Ah, 500W motor, 20mph / 32km/h. | **Material motor mismatch.** Catalog's 350W is not supported by the current official G4 listing; update only after confirming exact G4/G4 Pro generation. |
+| `inokim-oxo` | 60 / 25.6 / 2000 / 65 | INOKIM's current global page lists OXO at 60V 26Ah, 2600W peak and 65km/h. An older OXO manual lists 60V 25.6Ah and dual 800W motors (1300W peak each). | **Generation/configuration-dependent.** Current and older manufacturer/distributor materials differ. Do not replace 25.6Ah or 2000W until the catalog's OXO generation and whether motor power is nominal or peak are identified. |
+| `teverun-fighter-11` | 60 / 26 / 5000 / 85 | Teverun Europe lists Fighter Eleven (60V 26Ah, dual 1600W motors, 5000W peak, up to 80km/h); Teverun's global Fighter 11/11+ page lists 4900W peak and 85km/h, with 60V 26Ah for 11 and 35Ah for 11+. | **Variant/source discrepancy.** The catalog's 26Ah matches Eleven, while 85km/h matches another official regional/product page. Confirm exact SKU/market before normalizing speed. |
+
+## Earlier source sample — retained findings, not re-certified in this pass
+
+| Catalog ID | Manufacturer evidence / concern | Current disposition |
+|---|---|---|
+| `xiaomi-3-lite` | Xiaomi 3 Lite: 36V 5.2Ah, 300W rated, 25km/h. | Core values align. |
+| `xiaomi-4-pro` | Original 4 Pro: 36V 12.4Ah, 350W rated / 700W max, 25km/h. Do not mix with 2nd Gen. | Core values align for original generation; label generation explicitly. |
+| `segway-max-g30` | Segway distinguishes G30 (25km/h) from G30P (30km/h); 36V pack, 551Wh, 350W nominal. | Current name G30 with 30km/h appears to conflate G30P. |
+| `segway-max-g2` | Segway support lists 36V 15.3Ah, 450W nominal / 1000W max; 35km/h is enabled higher-speed configuration, while factory default is 32km/h. | Variant/configuration-dependent; do not present 35km/h as universal. |
+| `navee-n40` | NAVEE manual lists 37V nominal, 10Ah, 350W, 25km/h, range under specified test conditions. | Catalog 36V may be rounding/field semantics; reconcile against 37V before changing. |
+| `navee-g5` | NAVEE official G5 page: 36V, 275.4Wh (7.65Ah), 400W rated / 800W max, US 32km/h / EU 25km/h, range up to 45km at 15km/h. | **Material mismatch:** catalog 48V / 10.4Ah / 350W. Correct variant and rated-vs-peak schema first. |
+| `niu-kqi3-max` | NIU official US listing: 48V 13Ah / 608.4Wh, 450W rated / 900W max, 32km/h. EU listing: same pack/power, 25km/h. | **Material mismatch:** catalog 12.7Ah and 38km/h. Correct capacity; speed must be market-specific (not 38). |
+| `kukirin-g2-pro` | Official listings vary by generation/market; 48V 15–15.6Ah and 600W rated are reported. | Variant label/source SKU required. |
+| `kukirin-g2-max` | KuKirin official listing: 48V 20.8Ah, 1000W rated / 1200W peak, 55km/h. | **Capacity mismatch:** catalog says 20Ah; use 20.8Ah only after matching generation. |
+| `kukirin-g3-pro` | Official listings show 52V 23–23.4Ah, dual 1200W rated motors (2400W total), 65km/h. | Exact pack SKU needed; 23.2Ah is not a universal figure. |
+| `kukirin-g4` | Official listing in the prior sample: 60V 20Ah, 2000W rated, 70km/h. | Catalog 75km/h needs exact variant/source confirmation. |
+| `vsett-8-plus` | 48V 16Ah, dual 600W motors (1200W total), approx. 40–45km/h. | Core values align for documented version. |
+| `vsett-9-plus` | 48V 21Ah, dual 650W motors (1300W total), up to 53km/h. | Core values align for 21Ah version. |
+| `vsett-10-plus` | 60V 20.8/25.6/28Ah variants, dual 1400W motors; speed varies by configuration. | Catalog 28Ah/2800W is one configuration, not universal. |
+| `dualtron-mini` | Multiple Mini generations and battery/motor configurations exist. | Not verifiable as a single generic model; generation required. |
+| `dualtron-victor` | Prior source sample supports a 60V 24Ah, 4000W max, 80km/h version. | Version-specific; retain provisional variant label. |
+| `dualtron-thunder-3` | Prior source sample lists 72V 40Ah, 10,800W max, 100km/h. | Catalog 11,000W differs; verify exact manufacturer spec before correction. |
+| `ecoxtrem-bison-gt` | EcoXtrem has a Bison GT 1000W product and a separate Bison 800W product. | Current 800W GT row may mix products; excluded from recommendations pending SKU resolution. |
+| `ecoxtrem-bison-m41` | Multiple M41 battery/motor configurations exist (including 52V 20Ah single/dual variants). | Current 48V 18Ah / 1000W / 50km/h not tied to exact SKU; excluded pending resolution. |
+
+## Remaining unverified records
+
+These records have not yet been matched to a sufficiently specific primary manufacturer source and exact generation/SKU in this pass. Their current values must remain **provisional**, not “manufacturer verified”:
+
+- `gotrax-gxl-v2`
+- `apollo-ghost`
+- `kaabo-wolf-king`
+- `nami-burn-e2-max`
+
+The Apollo City Pro, INOKIM OXO, Teverun Fighter 11, and the variant-sensitive models above also need SKU-level resolution despite having useful manufacturer evidence.
+
+## Primary source links
+
+- Xiaomi Pro 2: https://www.mi.com/es/mi-electric-scooter-Pro2/specs/
+- Xiaomi Essential: https://www.mi.com/es/mi-electric-scooter-essential/specs/
+- Segway E2 Plus E II: https://ma-fr.segway.com/ekickscooter/products/e2-plus-e-ii.html
+- Segway E2 Plus E II manual: https://store-ca.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf
+- Apollo City Pro 2023: https://apolloscooters.ca/pages/tech-specs-apollo-city-2023-pro
+- Apollo City 2023–24 battery: https://apolloscooters.co/products/apollo-city-city-pro-2023-battery-assembly
+- GOTRAX G4: https://gotrax.com/products/g4-electric-scooter-for-adults
+- INOKIM current global range: https://inokim.com/
+- INOKIM OXO older specification reference: https://www.manualslib.com/manual/1580367/Inokim-Oxo.html?page=4
+- Teverun Fighter Eleven: https://teverun-europe.com/product/fighter-eleven-2/
+- Teverun Fighter 11 / 11+: https://teverun.com/product/fighter-eleven-plus/
+- NAVEE G5: https://www.naveetech.com/navee-g5/
+- NIU KQi3 Max US: https://shopca.niu.com/collections/kqi3-series/products/niu-kqi3-max-electric-kick-scooter-for-adults
+- NIU KQi3 Max EU: https://shopeu.niu.com/en-fr/collections/kick-scooter/products/niu-kqi3-max-electric-kick-scooter-for-adults-eu-version
+- Segway MAX G30/G30P: https://arab.segway.com/product-info/kickscooter-max.html
+- Segway MAX G2: https://support.segway.com/support_product.php?segcatid=80
+- KuKirin G2 Max: https://kukirinmobility.com/products/kukirin-g2-max-electric-scooter
+
+## Next implementation gate
+
+Before changing `models.json`, the data schema and generator must be reviewed together. At minimum, the canonical model record needs to distinguish:
+
+1. nominal battery voltage and Ah/Wh (without silently deriving one from rounded values);
+2. rated motor power and peak motor power, including motor count and whether a value is per motor or combined;
+3. top speed by regional SKU/configuration, not one unqualified global number;
+4. manufacturer source URL, exact variant/SKU, market, verification date, and confidence/status.
+
+Only after exact variants are resolved should the canonical records be changed and the full generated diff reviewed. Any change must regenerate model pages and dependent model presets, then pass model scoring, generated-file, SEO, internal-link, accessibility, and live-site checks. Until then, flagged and unresolved records should not be presented as fully verified.
