@@ -99,3 +99,9 @@ table small{color:var(--muted);font-size:11px}
 /* Compact, consistent entry link for Ride Match in the scooter catalog. */
 .ride-match-entry{display:inline-flex;align-items:center;justify-content:center;max-width:100%;box-sizing:border-box;margin:0 auto;padding:10px 16px;border:1px solid rgba(0,242,254,.35);border-radius:11px;background:rgba(0,242,254,.08);color:var(--cyan);font-size:14px;font-weight:700;line-height:1.45;text-align:center;text-decoration:none;overflow-wrap:anywhere;transition:background .2s ease,border-color .2s ease}
 .ride-match-entry:hover,.ride-match-entry:focus-visible{background:rgba(0,242,254,.15);border-color:var(--cyan);outline-offset:3px}
+
+/* Shared language switcher used by localized static pages. */
+.lang-switch{display:flex;justify-content:flex-end;gap:6px;margin:0 0 12px}
+.lang-switch a,.lang-switch span{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:36px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);font-size:13px;font-weight:800;text-decoration:none;color:var(--muted)}
+.lang-switch a:hover,.lang-switch a:focus-visible{color:var(--cyan);border-color:var(--cyan)}
+.lang-switch span[aria-current]{background:rgba(0,242,254,.12);color:var(--cyan);border-color:rgba(0,242,254,.4)}
