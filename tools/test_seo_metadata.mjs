@@ -15,7 +15,7 @@ assert.ok(frDescription.length >= 80, "French article 10 must have a valid meta 
 assert.match(frDescription, /Casque.*antivol.*éclairage/i);
 const enContact = readFileSync("en/contact.html", "utf8");
 const frContact = readFileSync("fr/contact.html", "utf8");
-assert.notEqual(enContact.match(/<title>(.*?)<\\/title>/i)?.[1], frContact.match(/<title>(.*?)<\\/title>/i)?.[1], "localized contact pages should have distinct titles");
+assert.notEqual(enContact.match(/<title>(.*?)<\/title>/i)?.[1], frContact.match(/<title>(.*?)<\/title>/i)?.[1], "localized contact pages should have distinct titles");
 assert.doesNotMatch(frArticle, /<meta\s+name="description"\s+content">/i, "malformed description attribute must not return");
 
 const schemaTag = '<script type="application/ld+json">';
