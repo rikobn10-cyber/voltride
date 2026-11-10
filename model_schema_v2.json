@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://voltride-4qj.pages.dev/schemas/model-data-v2.schema.json",
+  "title": "VoltRide canonical model data v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "models"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/model"
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "publisher",
+        "sourceType",
+        "supports",
+        "checkedAt"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceType": {
+          "enum": [
+            "official_product_page",
+            "official_manual",
+            "official_support_page",
+            "official_regulatory_document",
+            "authorized_retailer",
+            "other"
+          ]
+        },
+        "supports": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "identity",
+              "battery",
+              "motors",
+              "speed",
+              "rangeClaim",
+              "dimensions",
+              "weight",
+              "other"
+            ]
+          }
+        },
+        "checkedAt": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "manufacturer",
+        "category",
+        "variants"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manufacturer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "enum": [
+            "budget",
+            "commuter",
+            "sport",
+            "performance"
+          ]
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/variant"
+          }
+        }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "variantId",
+        "market",
+        "battery",
+        "motors",
+        "speed",
+        "rangeClaim",
+        "sources",
+        "verification"
+      ],
+      "properties": {
+        "variantId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "generation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sku": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "market": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 2
+          }
+        },
+        "battery": {
+          "$ref": "#/$defs/battery"
+        },
+        "motors": {
+          "$ref": "#/$defs/motors"
+        },
+        "speed": {
+          "$ref": "#/$defs/speed"
+        },
+        "rangeClaim": {
+          "$ref": "#/$defs/rangeClaim"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        }
+      }
+    },
+    "battery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nominalVoltageV",
+        "capacityAh",
+        "energyWh",
+        "energyWhBasis"
+      ],
+      "properties": {
+        "nominalVoltageV": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "capacityAh": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "energyWh": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "energyWhBasis": {
+          "enum": [
+            "manufacturer_published",
+            "calculated_from_nominal_values",
+            "unresolved"
+          ]
+        },
+        "energyWhSourceNote": {
+          "type": "string"
+        }
+      }
+    },
+    "motors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "ratedPowerW",
+        "ratedPowerBasis",
+        "peakPowerW",
+        "peakPowerBasis"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ratedPowerW": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "ratedPowerBasis": {
+          "enum": [
+            "per_motor",
+            "combined",
+            "unresolved"
+          ]
+        },
+        "peakPowerW": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "peakPowerBasis": {
+          "enum": [
+            "per_motor",
+            "combined",
+            "unresolved"
+          ]
+        }
+      }
+    },
+    "speed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxKmh",
+        "conditions"
+      ],
+      "properties": {
+        "maxKmh": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "rangeClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxKm",
+        "basis",
+        "conditions"
+      ],
+      "properties": {
+        "maxKm": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "basis": {
+          "const": "manufacturer_claim"
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "confidence",
+        "checkedAt",
+        "notes"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified_variant",
+            "provisional",
+            "variant_unresolved",
+            "source_conflict",
+            "excluded"
+          ]
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low",
+            "unrated"
+          ]
+        },
+        "checkedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
