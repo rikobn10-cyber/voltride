@@ -34,6 +34,15 @@ assert.match(frBlog, /href="\/fr\/accessories"/, "French blog should link to acc
 
 assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/en\/accessories<\/loc>/);
 assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/fr\/accessories<\/loc>/);
+const generatedModels = JSON.parse(readFileSync("models.json", "utf8")).models;
+for (const model of generatedModels) {
+  const modelPage = readFileSync(model.id + ".html", "utf8");
+  assert.doesNotMatch(modelPage, /تقدير VoltRide للمغرب|الصحافة المغربية|هل يمكنني استعماله في طرق المغرب قانونياً|content="ar_MA"/, model.id + ": generated model page must not present Moroccan law as global");
+  assert.match(modelPage, /سرعة مرجعية لا تتجاوز 25 كم\/س/, model.id + ": range benchmark must be explained as non-legal");
+  assert.match(modelPage, /هل يمكنني استخدامه قانونياً على الطرق العامة/, model.id + ": legal FAQ must be jurisdiction-neutral");
+  assert.match(modelPage, /الدليل القانوني الخاص بالمغرب/, model.id + ": Morocco-specific legal guidance must be clearly labelled");
+}
+
 
 assert.doesNotMatch(frArticle, /<meta\s+name="description"\s+content">/i, "malformed description attribute must not return");
 

@@ -103,3 +103,11 @@ VoltRide is ready to shift from repair mode to measured growth when:
 - performance and editorial work is prioritized using actual user/search data rather than guesswork.
 
 **Next checkpoint:** finish CI on `fix/global-ride-match-analytics-cleanup`, merge only on full success, verify production, then perform a final post-deploy crawl and analytics smoke test.
+
+## 7. Global scope correction for generated model pages
+
+The model-page generator previously described the 25 km/h estimate benchmark as Moroccan law, used Morocco-specific wording in all 30 model titles/FAQs, and marked generated pages with the `ar_MA` locale. This contradicted the global positioning.
+
+Branch `fix/globalize-generated-model-pages` changes `LEGAL_LIMIT` to `REFERENCE_SPEED` (a calculation benchmark, not a universal legal limit), makes road-use guidance jurisdiction-neutral, changes model-page titles and Open Graph locale, and labels the Morocco legal article as relevant only to riders in Morocco. It also updates the model-specific copy and regenerates all 30 model pages.
+
+This change must pass the generated-files check before merge. The 25 km/h benchmark remains in range calculations for consistent comparison; it must not be presented as a universal legal rule. Model specifications remain unverified against manufacturers until a source-verification project is completed.
