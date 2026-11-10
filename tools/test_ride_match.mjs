@@ -21,13 +21,13 @@ assert.equal(evaluate("scooters.length"), 35, "duplicate model records should be
 assert.equal(evaluate("uniqueScooters.length"), 35, "all unique models should remain");
 assert.equal(evaluate("new Set(uniqueScooters.map(s => s.id)).size"), 35, "model IDs must be unique");
 
-assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\\bMAD\\b|درهم/);
+assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\bMAD\b|درهم/);
 assert.doesNotMatch(html, /"price":\\d+/);
 assert.match(html, /data-action="buy"/);
-assert.doesNotMatch(html, /indexOf\\('اشترِ الآن'\\)/);
+assert.doesNotMatch(html, /indexOf\('اشترِ الآن'\)/);
 
 for (const preference of ["speed", "range", "commuter", "performance"]) {
-  evaluate('"answers = { distance: "20-40", preference: "' + preference + '" }');
+  evaluate('answers = { distance: "20-40", preference: "' + preference + '" }');
   const ids = JSON.parse(evaluate("JSON.stringify(getRecommendations().map(r => r.s.id))"));
   assert.equal(ids.length, 3, preference + ": should return three recommendations");
   assert.equal(new Set(ids).size, 3, preference + ": recommendations must be unique");
