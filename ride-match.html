@@ -21,6 +21,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="stylesheet" href="site.css">
+<script src="site.js" defer></script>
 <style>
 .quiz-container{max-width:760px;margin:auto;padding:14px 0}
 .step{display:none;animation:fadeIn .3s ease-in}
@@ -210,6 +211,11 @@ function selectOption(step, value, btn){
       if (resultsEl) resultsEl.style.display = 'block';
       // Show recommendations
       showResults();
+      if (window.VoltAnalytics) window.VoltAnalytics.track("ride_match_complete", {
+        budget_range: answers.budget,
+        distance_range: answers.distance,
+        preference: answers.preference
+      });
     }, 250);
   }
 }
@@ -328,6 +334,20 @@ function showResults(){
 }
 
 // Wire up each step's buttons with the correct step number
+// Track outbound purchase clicks from recommendation cards without collecting personal data.
+document.getElementById('recommendations').addEventListener('click', function(event){
+  const link = event.target.closest('a.cta');
+  if (!link || link.textContent.indexOf('اشترِ الآن') === -1) return;
+  const card = link.closest('.recommendation');
+  const title = card && card.querySelector('h3');
+  const productName = title ? title.textContent.replace(/^🏆\s*/, '').trim() : '';
+  const product = uniqueScooters.find(s => s.name === productName);
+  if (window.VoltAnalytics) window.VoltAnalytics.track("affiliate_click", {
+    item_id: product ? product.id : undefined,
+    link_type: product && product.affiliateUrl ? "affiliate" : "marketplace_search"
+  });
+});
+
 document.querySelectorAll('.step').forEach(stepEl => {
   const stepNum = Number(stepEl.id.replace('step', ''));
   stepEl.querySelectorAll('.option-btn').forEach(btn => {
