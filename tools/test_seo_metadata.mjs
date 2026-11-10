@@ -10,6 +10,7 @@ const frDescription = description(frArticle);
 assert.ok(homeDescription.length >= 80, "homepage must have a complete meta description");
 assert.doesNotMatch(homeDescription, /Morocco|Maroc|المغرب|MAD|درهم/i, "homepage description should not target one country or currency");
 assert.match(home, /<title>VoltRide.*مدى السكوتر الكهربائي/);
+assert.equal((home.match(/<h1\\b/gi) || []).length, 1, "homepage should have exactly one primary H1 heading");
 assert.ok(frDescription.length >= 80, "French article 10 must have a valid meta description");
 assert.match(frDescription, /Casque.*antivol.*éclairage/i);
 assert.doesNotMatch(frArticle, /<meta\s+name="description"\s+content">/i, "malformed description attribute must not return");
