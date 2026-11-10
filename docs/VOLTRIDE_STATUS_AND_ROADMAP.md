@@ -119,3 +119,7 @@ PR #44 shortens the 13 previously flagged page titles, the eight long meta descr
 Generated model pages now shorten only titles that would exceed 60 characters; the H1 is generated from the same title string to prevent metadata/content drift.
 
 PR #45 consolidates the metadata cleanup on a fresh review branch so CI can validate the final generated-page and sitemap state before merge.
+
+## 9. Global currency and locale behavior
+
+The default display currency is now selected from the browser's regional locale, not the UI language: Morocco (MA) defaults to MAD (with an Africa/Casablanca timezone fallback when the browser omits its region), supported euro-area regions default to EUR, and the United States defaults to USD. Unsupported regions fall back to USD because the app currently offers only MAD, USD and EUR. A manually selected currency remains stored and takes precedence over automatic detection. Global Arabic utility/editorial pages no longer advertise the country-specific Open Graph locale `ar_MA`; articles whose subject is specifically Moroccan law, local prices or local market context retain `ar_MA`. Regression tests cover region selection and global Arabic locale metadata. This does not yet provide automatic FX updates or full local-currency coverage; those require a separate product decision and reliable rate source.
