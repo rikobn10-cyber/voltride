@@ -69,7 +69,7 @@ def validate_dataset(data):
         for key in ("name", "manufacturer"):
             if not isinstance(model[key], str) or not model[key].strip():
                 fail(errors, p + "." + key, "must be a non-empty string")
-        if model["category"] not in {"budget", "commuter", "sport", "performance"}:
+        if not isinstance(model["category"], str) or model["category"] not in {"budget", "commuter", "sport", "performance"}:
             fail(errors, p + ".category", "unsupported category")
         if not isinstance(model["variants"], list):
             fail(errors, p + ".variants", "must be an array")
@@ -104,7 +104,7 @@ def validate_dataset(data):
                     fail(errors, q + ".battery." + key, "must be a positive number")
             basis = battery.get("energyWhBasis")
             energy = battery.get("energyWh")
-            if basis not in {"manufacturer_published", "calculated_from_nominal_values", "unresolved"}:
+            if not isinstance(basis, str) or basis not in {"manufacturer_published", "calculated_from_nominal_values", "unresolved"}:
                 fail(errors, q + ".battery.energyWhBasis", "unsupported basis")
             if basis == "unresolved" and energy is not None:
                 fail(errors, q + ".battery.energyWh", "must be null when basis is unresolved")
@@ -125,7 +125,7 @@ def validate_dataset(data):
                 value, power_basis = motors.get(key), motors.get(basis_key)
                 if value is not None and not positive_number(value):
                     fail(errors, q + ".motors." + key, "must be null or a positive number")
-                if power_basis not in {"per_motor", "combined", "unresolved"}:
+                if not isinstance(power_basis, str) or power_basis not in {"per_motor", "combined", "unresolved"}:
                     fail(errors, q + ".motors." + basis_key, "unsupported power basis")
                 if value is None and power_basis != "unresolved":
                     fail(errors, q + ".motors." + basis_key, "must be unresolved when power is unknown")
@@ -186,9 +186,9 @@ def validate_dataset(data):
                 fail(errors, q + ".verification", "must contain exactly status, confidence, checkedAt and notes")
             else:
                 status = verification["status"]
-                if status not in STATUSES:
+                if not isinstance(status, str) or status not in STATUSES:
                     fail(errors, q + ".verification.status", "unsupported verification status")
-                if verification["confidence"] not in CONFIDENCE:
+                if not isinstance(verification["confidence"], str) or verification["confidence"] not in CONFIDENCE:
                     fail(errors, q + ".verification.confidence", "unsupported confidence")
                 if not valid_date(verification["checkedAt"]):
                     fail(errors, q + ".verification.checkedAt", "must be an ISO date")
