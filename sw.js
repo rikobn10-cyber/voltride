@@ -4,7 +4,7 @@ const PRECACHE = [
   "./", "index.html", "offline.html", "manifest.json",
   "site.css", "site.js", "icon-192.png", "icon-512.png",
   "icon-maskable-192.png", "icon-maskable-512.png", "blog.html", "about.html",
-  "privacy.html", "contact.html", "article-1.html", "article-2.html",
+  "privacy.html", "contact.html", "accessories.html", "en/accessories.html", "fr/accessories.html", "article-1.html", "article-2.html",
   "article-3.html", "article-4.html", "article-5.html", "article-6.html",
   "article-7.html", "article-8.html", "article-9.html", "article-10.html",
   "guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html", "electric-scooter-winter-range-voltride.jpg",
