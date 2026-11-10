@@ -9,6 +9,8 @@ const body = { children: [], appendChild(node) { node.parentNode = this; this.ch
 const document = {
   readyState: "complete",
   cookie: "",
+  listeners: {},
+  addEventListener(name, callback) { this.listeners[name] = callback; },
   documentElement: { lang: "ar" },
   head, body,
   createElement(tag) { return { tagName: tag, children: [], setAttribute() {}, appendChild(node) { this.children.push(node); } }; },
@@ -30,6 +32,10 @@ assert.ok(banner(), "first visit should show the consent banner");
 click(0);
 assert.equal(storage.get("voltride_consent"), "granted");
 assert.equal(gaScripts().length, 1, "accepting should load GA once");
+const sponsoredLink = { href: "https://shop.example/item", dataset: {}, relList: { contains: value => value === "sponsored" } };
+document.listeners.click({ target: { closest: selector => selector === "a[rel~='sponsored']" ? sponsoredLink : null } });
+assert.ok(window.dataLayer.some(args => args[0] === "event" && args[1] === "affiliate_click"), "consented sponsored clicks should be tracked");
+
 const gaDisableKey = Object.keys(window).find(key => key.startsWith("ga-disable-"));
 assert.ok(gaDisableKey, "GA disable flag should be initialized");
 assert.equal(window[gaDisableKey], false);
@@ -47,7 +53,7 @@ const previewStorage = new Map([["voltride_consent", "granted"]]);
 const previewHead = { children: [], appendChild(node) { node.parentNode = this; this.children.push(node); } };
 const previewBody = { children: [], appendChild(node) { node.parentNode = this; this.children.push(node); }, removeChild(node) { this.children = this.children.filter(item => item !== node); node.parentNode = null; } };
 const previewDocument = {
-  readyState: "complete", cookie: "", documentElement: { lang: "en" }, head: previewHead, body: previewBody,
+  readyState: "complete", cookie: "", listeners: {}, addEventListener(name, callback) { this.listeners[name] = callback; }, documentElement: { lang: "en" }, head: previewHead, body: previewBody,
   createElement(tag) { return { tagName: tag, children: [], setAttribute() {}, appendChild(node) { this.children.push(node); } }; },
   getElementById(id) { return [...previewHead.children, ...previewBody.children].find(node => node.id === id) || null; },
   querySelector() { return null; }, querySelectorAll() { return []; }
@@ -64,6 +70,9 @@ vm.runInContext(source, previewContext);
 assert.equal(previewWindow.__voltGA, undefined, "preview hosts must not initialize GA");
 assert.equal(previewHead.children.filter(node => node.tagName === "script" && /googletagmanager/.test(node.src || "")).length, 0, "preview hosts must not inject GA");
 assert.equal(previewWindow.VoltAnalytics.track("ride_match_complete"), false, "preview hosts must not send product events");
+const previewLink = { href: "https://shop.example/item", dataset: {}, relList: { contains: value => value === "sponsored" } };
+previewDocument.listeners.click({ target: { closest: selector => selector === "a[rel~='sponsored']" ? previewLink : null } });
+assert.equal(previewWindow.__voltGA, undefined, "sponsored clicks on preview hosts must not initialize GA");
 assert.equal(previewBody.children.some(node => node.id === "voltConsent"), false, "preview hosts must not show the analytics consent banner");
 
 console.log("Consent tests passed: production-only GA, accept/reject/re-accept, and preview exclusion.");
