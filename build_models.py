@@ -219,7 +219,7 @@ def page(m):
     energy = wh(m)
     mid = rows[1][2][0]
     url = f"{BASE}/{slug}"            # clean URL: Cloudflare Pages redirects *.html to the extensionless URL
-    title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide"
+    title = f"كم مدى {m['name']} الواقعي؟"
     desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
             f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
     fq = faqs(m, rows)
