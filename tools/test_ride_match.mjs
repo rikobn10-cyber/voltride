@@ -7,7 +7,8 @@ const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/i);
 assert.ok(scriptMatch, "Ride Match inline application script must exist");
 
 const context = {
-  document: { querySelectorAll: () => [], getElementById: () => null },
+  document: { documentElement: { lang: "ar", dir: "rtl" }, title: "", querySelectorAll: () => [], getElementById: () => ({ addEventListener: () => {}, style: { display: "none" } }) },
+  localStorage: { value: '"fr"', getItem: () => "'"fr"'", setItem: () => {} },
   setTimeout: () => 0,
   console
 };
@@ -37,6 +38,18 @@ for (const preference of ["speed", "range", "commuter", "performance"]) {
 }
 
 assert.match(html, /بعض روابط الشراء روابط إحالة/);
+assert.equal(evaluate("rideMatchLang"), "fr", "Ride Match should inherit the saved site language");
+assert.equal(evaluate('rideMatchT("speed")'), "Vitesse");
+assert.equal(evaluate('rideMatchT("resultsTitle")'), "🎯 Nos recommandations");
+evaluate('setRideMatchLanguage("en")');
+assert.equal(evaluate("document.documentElement.lang"), "en");
+assert.equal(evaluate("document.documentElement.dir"), "ltr");
+assert.equal(evaluate('rideMatchT("buy")'), "Buy now ←");
+evaluate('setRideMatchLanguage("ar")');
+assert.equal(evaluate("document.documentElement.dir"), "rtl");
+assert.match(html, /table-layout:fixed/);
+assert.match(html, /color:var\\(--cyan\\)/);
+assert.doesNotMatch(html, /border-collapse:;/);
 assert.match(html, /data-value="commuter"/);
 assert.match(html, /data-value="performance"/);
 assert.doesNotMatch(html, /data-value="comfort"|data-value="weight"/);
