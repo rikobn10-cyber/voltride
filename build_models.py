@@ -220,6 +220,8 @@ def page(m):
     mid = rows[1][2][0]
     url = f"{BASE}/{slug}"            # clean URL: Cloudflare Pages redirects *.html to the extensionless URL
     title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide"
+    if len(title + " | VoltRide") > 60:
+        title = f"كم مدى {m['name']} الواقعي؟"
     desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
             f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
     fq = faqs(m, rows)
@@ -289,7 +291,7 @@ def page(m):
 <a href="/blog" class="back">← العودة للمدونة</a>
 <main id="main">
 <article>
-<h1>كم مدى {esc(m["name"])} الواقعي؟ تقدير VoltRide</h1>
+<h1>{esc(title)}</h1>
 <div class="meta">📅 {DATE} • ✍️ فريق VoltRide • فئة: {CLASS_AR[m["category"]]}</div>
 {svg(m)}
 <p>الرقم المكتوب على علبة أي سكوتر هو مدى «مثالي» يُقاس غالباً لراكب خفيف وطريق مستوٍ وسرعة معتدلة، لذلك يبدو الواقع أقل منه. هنا نعرض <strong>تقدير VoltRide</strong> لمدى {esc(m["name"])} في ثلاثة سيناريوهات، محسوباً من مواصفات البطارية. هو تقدير نظري وليس قياساً ميدانياً. {esc(t["summary"])}</p>

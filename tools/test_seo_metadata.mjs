@@ -34,13 +34,37 @@ assert.match(frBlog, /href="\/fr\/accessories"/, "French blog should link to acc
 
 assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/en\/accessories<\/loc>/);
 assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/fr\/accessories<\/loc>/);
+
+const titleAuditFiles = [
+  "article-7.html", "article-choosing-charger.html", "blog.html",
+  "en/article-10.html", "en/article-4.html", "en/article-8.html",
+  "en/blog/charger-safety.html", "en/blog/choosing-charger.html",
+  "fr/article-10.html", "fr/article-11.html", "fr/article-7.html",
+  "fr/article-8.html", "fr/comment-choisir-chargeur-trottinette.html",
+  "en/article-7.html", "fr/about.html"
+];
+for (const path of titleAuditFiles) {
+  const page = readFileSync(path, "utf8");
+  const title = page.match(/<title>(.*?)<\/title>/i)?.[1] || "";
+  const description = page.match(/<meta name="description" content="(.*?)">/i)?.[1] || "";
+  assert.ok(title.length > 0 && title.length <= 60, path + ": title should be concise");
+  assert.ok(description.length > 0 && description.length <= 160, path + ": meta description should be concise");
+}
+assert.doesNotMatch(readFileSync("blog.html", "utf8").match(/<title>(.*?)<\/title>/i)?.[1] || "", /المغرب/, "Arabic blog title should be global, not Morocco-specific");
+
 const generatedModels = JSON.parse(readFileSync("models.json", "utf8")).models;
 for (const model of generatedModels) {
   const modelPage = readFileSync(model.id + ".html", "utf8");
+  const modelTitle = modelPage.match(/<title>(.*?)<\/title>/i)?.[1] || "";
+  assert.ok(modelTitle.length > 0 && modelTitle.length <= 60, model.id + ": generated model title should be concise");
+  const modelH1 = modelPage.match(/<h1>(.*?)<\/h1>/i)?.[1] || "";
+  assert.equal(modelH1, modelTitle.replace(" | VoltRide", ""), model.id + ": H1 should match the generated title");
   assert.doesNotMatch(modelPage, /تقدير VoltRide للمغرب|الصحافة المغربية|هل يمكنني استعماله في طرق المغرب قانونياً|content="ar_MA"/, model.id + ": generated model page must not present Moroccan law as global");
   assert.match(modelPage, /سرعة مرجعية لا تتجاوز 25 كم\/س/, model.id + ": range benchmark must be explained as non-legal");
   assert.match(modelPage, /هل يمكنني استخدامه قانونياً على الطرق العامة/, model.id + ": legal FAQ must be jurisdiction-neutral");
   assert.match(modelPage, /الدليل القانوني الخاص بالمغرب/, model.id + ": Morocco-specific legal guidance must be clearly labelled");
+  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + model.id + "</loc><lastmod>2026-11-10</lastmod>"), model.id + ": updated model page must have a current sitemap lastmod");
+
 }
 
 
