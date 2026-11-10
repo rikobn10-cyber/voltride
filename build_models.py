@@ -443,12 +443,12 @@ def main():
             item["eligible"] = False
         ride_scooters.append(item)
     ride_scooters.extend(RIDE_MATCH_AFFILIATE_ONLY)
-    ride_arr = "const scooters = [\\n  " + ",\\n  ".join(json.dumps(s, ensure_ascii=False) for s in ride_scooters) + "\\n];"
+    ride_arr = "const scooters = [\n  " + ",\n  ".join(json.dumps(s, ensure_ascii=False) for s in ride_scooters) + "\n];"
     ride_path = "ride-match.html"
     ride_html = read(ride_path)
     if "/*SCOOTERS:START*/" in ride_html:
-        ride_html = replace_block(ride_html, "/*SCOOTERS:START*/", "/*SCOOTERS:END*/", ride_arr, "const uniqueScooters =")
-    else:
+        ride_html, count = re.subn(r"const scooters = \[.*?\n\];",
+                                   lambda _: "/*SCOOTERS:START*/\n" + ride_arr + "\n/*SCOOTERS:END*/",
         ride_html, count = re.subn(r"const scooters = \\\\[.*?\\\\n\\\\];",
                                    lambda _: "/*SCOOTERS:START*/\\n" + ride_arr + "\\n/*SCOOTERS:END*/",
                                    ride_html, count=1, flags=re.S)
