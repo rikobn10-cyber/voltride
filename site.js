@@ -113,6 +113,18 @@
   }
 
   // Custom product-usage events are sent only after explicit analytics consent.
+  // Record affiliate-link clicks across content pages after explicit analytics consent.
+  document.addEventListener("click", function (event) {
+    var link = event.target && event.target.closest ? event.target.closest("a[rel~='sponsored']") : null;
+    if (!link || (link.dataset && link.dataset.action === "buy")) return;
+    if (window.VoltAnalytics) {
+      window.VoltAnalytics.track("affiliate_click", {
+        link_url: link.href,
+        page_path: window.location.pathname
+      });
+    }
+  });
+
   window.VoltAnalytics = {
     track: function (eventName, params) {
       if (!analyticsAllowed() || get() !== "granted" || typeof window.gtag !== "function") return false;
