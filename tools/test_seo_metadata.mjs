@@ -55,7 +55,8 @@ assert.doesNotMatch(readFileSync("blog.html", "utf8").match(/<title>(.*?)<\/titl
 const generatedModels = JSON.parse(readFileSync("models.json", "utf8")).models;
 for (const model of generatedModels) {
   const modelPage = readFileSync(model.id + ".html", "utf8");
-  const modelTitle = modelPage.match(/<title>(.*?)<\/title>/i)?.[1] || "";\n  assert.ok(modelTitle.length > 0 && modelTitle.length <= 60, model.id + ": generated model title should be concise");
+  const modelTitle = modelPage.match(/<title>(.*?)<\/title>/i)?.[1] || "";
+  assert.ok(modelTitle.length > 0 && modelTitle.length <= 60, model.id + ": generated model title should be concise");
   assert.doesNotMatch(modelPage, /تقدير VoltRide للمغرب|الصحافة المغربية|هل يمكنني استعماله في طرق المغرب قانونياً|content="ar_MA"/, model.id + ": generated model page must not present Moroccan law as global");
   assert.match(modelPage, /سرعة مرجعية لا تتجاوز 25 كم\/س/, model.id + ": range benchmark must be explained as non-legal");
   assert.match(modelPage, /هل يمكنني استخدامه قانونياً على الطرق العامة/, model.id + ": legal FAQ must be jurisdiction-neutral");
