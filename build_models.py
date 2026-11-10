@@ -177,15 +177,15 @@ def legal_block(m):
         return ('<div class="warning"><h3>⚖️ لا يندرج ضمن التروتينيت المنظَّم</h3>'
                 f'<p>سرعته المعلنة (نحو {sp} كم/س) تفوق كثيراً الحد المنشور للتروتينيت. بحسب ما نشرته الصحافة المغربية عن المرسوم 2.25.145 فالحد الأقصى <strong>25 كم/س</strong>. '
                 'لا نملك مصدراً مؤكداً عن تصنيف مركبة بهذه المواصفات في المغرب، لذلك <strong>لا تستعملها في الطرق العامة</strong> قبل أن تسأل الجهات المختصة (النقل أو الأمن الوطني أو شركة تأمين). '
-                'راجع <a href="article-7">مقال القانون</a> لما هو مؤكد وما هو غير مؤكد.</p></div>')
+                'راجع <a href="/article-7">مقال القانون</a> لما هو مؤكد وما هو غير مؤكد.</p></div>')
     if t == "over":
         return ('<div class="warning"><h3>⚖️ سرعته المعلنة تتجاوز 25 كم/س</h3>'
                 f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، بينما الحد المنشور في الصحافة المغربية عن المرسوم 2.25.145 هو <strong>25 كم/س</strong> للتروتينيت. '
                 'قد تتيح بعض النسخ ضبط السرعة عبر التطبيق أو الإعدادات (تحقق من نسختك)، ولا نجزم بمدى كفاية ذلك قانونياً. '
-                'قدّرنا المدى أعلاه على سرعة 25 كم/س لأنها المرجع الواقعي داخل المدينة. راجع <a href="article-7">مقال القانون</a>.</p></div>')
+                'قدّرنا المدى أعلاه على سرعة 25 كم/س لأنها المرجع الواقعي داخل المدينة. راجع <a href="/article-7">مقال القانون</a>.</p></div>')
     return ('<div class="tip"><h3>⚖️ ضمن الحد المنشور للسرعة</h3>'
             f'<p>سرعة {esc(m["name"])} المعلنة نحو {sp} كم/س، أي ضمن الحد <strong>25 كم/س</strong> المنشور في الصحافة المغربية عن المرسوم 2.25.145. '
-            'تبقى شروط أخرى كالخوذة ومنع السماعات والمعدات، وبعضها لم نتأكد من تفاصيله. راجع <a href="article-7">مقال القانون</a>.</p></div>')
+            'تبقى شروط أخرى كالخوذة ومنع السماعات والمعدات، وبعضها لم نتأكد من تفاصيله. راجع <a href="/article-7">مقال القانون</a>.</p></div>')
 
 
 def faqs(m, rows):
@@ -240,7 +240,7 @@ def page(m):
                     'اعتبر الأرقام هنا حدّاً أعلى نظرياً، وصحّحها بتجربتك عبر «معامل الواقع».</p></div>')
     faq_html = "\n".join(f'<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>' for q, a in fq)
     sim = similar(m)
-    sim_links = " • ".join(f'<a href="{x["id"]}">{esc(x["name"])}</a>' for x in sim)
+    sim_links = " • ".join(f'<a href="/{x["id"]}">{esc(x["name"])}</a>' for x in sim)
     battery_note = (f"طاقة بطاريته نحو {energy:.0f} Wh، وهي المرتبة {RANK[slug]} من {len(MODELS)} بين الموديلات المدرجة عندنا.")
 
     return f'''<!DOCTYPE html>
@@ -322,11 +322,11 @@ def page(m):
 
 <h2>🔗 اقرأ أيضاً</h2>
 <ul>
-<li><a href="article-8">كم تكلفة شحن السكوتر الكهربائي شهرياً؟</a></li>
-<li><a href="article-4">5 أخطاء شائعة تقصّر عمر بطارية سكوترك</a></li>
-<li><a href="article-1">10 نصائح لزيادة مدى سكوترك</a></li>
-<li><a href="article-7">قانون التروتينيت في المغرب: ما الذي تؤكده المصادر؟</a></li>
-<li><a href="article-5">كيف تختار سكوترك الأول؟</a></li>
+<li><a href="/article-8">كم تكلفة شحن السكوتر الكهربائي شهرياً؟</a></li>
+<li><a href="/article-4">5 أخطاء شائعة تقصّر عمر بطارية سكوترك</a></li>
+<li><a href="/article-1">10 نصائح لزيادة مدى سكوترك</a></li>
+<li><a href="/article-7">قانون التروتينيت في المغرب: ما الذي تؤكده المصادر؟</a></li>
+<li><a href="/article-5">كيف تختار سكوترك الأول؟</a></li>
 </ul>
 <p class="updated">موديلات قريبة في طاقة البطارية: {sim_links}</p>
 
@@ -385,7 +385,7 @@ def main():
         parts.append(f'<h2 style="margin:22px 0 10px;font-size:17px;color:var(--cyan)">سكوترات {CLASS_HEAD[cat]} ({len(group)})</h2>')
         for m in group:
             r = estimate(m, 75, "mixed", "balanced", min(LEGAL_LIMIT, m["speed"]))[0]
-            parts.append(f'<a href="{m["id"]}" class="article-card"><span class="cat">{CLASS_AR[cat]}</span>'
+            parts.append(f'<a href="/{m["id"]}" class="article-card"><span class="cat">{CLASS_AR[cat]}</span>'
                          f'<h2>كم مدى {esc(m["name"])} الواقعي؟</h2>'
                          f'<p>بطارية {num(m["voltage"])}V {num(m["ah"])}Ah: تقدير نحو {r:.0f} كم في الاستعمال العادي، مع سيناريوهات وملاحظة قانونية.</p>'
                          f'<div class="meta">📅 20 أكتوبر 2026</div></a>')
@@ -397,7 +397,7 @@ def main():
     write("index.html", replace_block(read("index.html"), "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = ["))
 
     # internal-link section at the bottom of the calculator screen (crawlable text links to every model page)
-    links = "\n".join(f'      <a href="{m["id"]}">{esc(m["name"])}</a>' for m in MODELS)
+    links = "\n".join(f'      <a href="/{m["id"]}">{esc(m["name"])}</a>' for m in MODELS)
     write("index.html", replace_block(read("index.html"), "<!--LINKS:START-->", "<!--LINKS:END-->", links, "</nav>"))
     print("index internal links:", len(MODELS))
 
