@@ -10,8 +10,27 @@ const frDescription = description(frArticle);
 assert.ok(homeDescription.length >= 80, "homepage must have a complete meta description");
 assert.doesNotMatch(homeDescription, /Morocco|Maroc|المغرب|MAD|درهم/i, "homepage description should not target one country or currency");
 assert.match(home, /<title>VoltRide.*مدى السكوتر الكهربائي/);
+assert.equal((home.match(/<h1\b/gi) || []).length, 1, "homepage should have exactly one primary H1 heading");
 assert.ok(frDescription.length >= 80, "French article 10 must have a valid meta description");
 assert.match(frDescription, /Casque.*antivol.*éclairage/i);
+const enContact = readFileSync("en/contact.html", "utf8");
+const frContact = readFileSync("fr/contact.html", "utf8");
+assert.notEqual(enContact.match(/<title>(.*?)<\/title>/i)?.[1], frContact.match(/<title>(.*?)<\/title>/i)?.[1], "localized contact pages should have distinct titles");
+const enBlog = readFileSync("en/blog.html", "utf8");
+const frBlog = readFileSync("fr/blog.html", "utf8");
+const arAccessories = readFileSync("accessories.html", "utf8");
+const enAccessories = readFileSync("en/accessories.html", "utf8");
+const frAccessories = readFileSync("fr/accessories.html", "utf8");
+const sitemap = readFileSync("sitemap.xml", "utf8");
+assert.ok((enBlog.match(/class="article-card"/g) || []).length >= 10, "English blog should surface its translated articles");
+assert.ok((frBlog.match(/class="article-card"/g) || []).length >= 6, "French blog should surface its translated articles");
+assert.doesNotMatch(frBlog, /href="\/fr\/article-6"/, "French blog must not link to an untranslated article");
+assert.doesNotMatch(arAccessories + enAccessories + frAccessories, /Tool Charger|Kids E-Moto/, "accessories pages must not promote unrelated products");
+assert.match(enAccessories, /hreflang="fr"/);
+assert.match(frAccessories, /hreflang="en"/);
+assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/en\/accessories<\/loc>/);
+assert.match(sitemap, /<loc>https:\/\/voltride-4qj\.pages\.dev\/fr\/accessories<\/loc>/);
+
 assert.doesNotMatch(frArticle, /<meta\s+name="description"\s+content">/i, "malformed description attribute must not return");
 
 const schemaTag = '<script type="application/ld+json">';

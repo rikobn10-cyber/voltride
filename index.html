@@ -528,7 +528,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 
 <section id="catalog" class="screen">
   <div class="hero">
-    <h1 data-i18n="catalogTitle">🛴 كتالوج السكوترات</h1>
+    <h2 data-i18n="catalogTitle">🛴 كتالوج السكوترات</h2>
     <p data-i18n="catalogSub">قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.</p>
   </div>
   <div class="card">
@@ -555,7 +555,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 
 <section id="safety" class="screen">
   <div class="hero">
-    <h1 data-i18n="safetyTitle">🛡️ مركز السلامة</h1>
+    <h2 data-i18n="safetyTitle">🛡️ مركز السلامة</h2>
     <p data-i18n="safetySub">قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.</p>
   </div>
   <div class="card"><h2>🔋 <span data-i18n="batteryCare">العناية بالبطارية</span></h2><div class="list">
@@ -575,7 +575,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 
 <section id="errors" class="screen">
   <div class="hero">
-    <h1 data-i18n="errorsTitle">🔧 تشخيص الأعطال</h1>
+    <h2 data-i18n="errorsTitle">🔧 تشخيص الأعطال</h2>
     <p data-i18n="errorsSub">معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.</p>
   </div>
   <div class="card">
@@ -586,7 +586,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 
 <section id="settings" class="screen">
   <div class="hero">
-    <h1 data-i18n="settingsTitle">⚙️ الإعدادات</h1>
+    <h2 data-i18n="settingsTitle">⚙️ الإعدادات</h2>
     <p data-i18n="settingsSub">خصص VoltRide كما تريد.</p>
   </div>
   <div class="card">
@@ -1475,13 +1475,6 @@ setTimeout(() => showInstallBanner(), 30000);
 // Show after calculator is used once
 let calculatorUsed = Store.get("voltride_calculator_used", false);
 if (calculatorUsed) showInstallBanner();
-
-/* ==== Service Worker (اختياري، يُفعّل إن وُجد sw.js) ==== */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  });
-}
 
 window.addEventListener("load", () => {
   setTimeout(() => {
