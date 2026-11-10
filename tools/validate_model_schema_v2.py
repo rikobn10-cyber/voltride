@@ -60,6 +60,8 @@ def validate_dataset(data):
         if not required.issubset(model):
             fail(errors, p, f"missing keys: {sorted(required - set(model))}")
             continue
+        if set(model) != required:
+            fail(errors, p, f"unexpected keys: {sorted(set(model) - required)}")
         mid = model["id"]
         if not isinstance(mid, str) or not ID_RE.fullmatch(mid):
             fail(errors, p + ".id", "must be a lowercase kebab-case stable ID")
@@ -85,6 +87,9 @@ def validate_dataset(data):
             if not keys.issubset(variant):
                 fail(errors, q, f"missing keys: {sorted(keys - set(variant))}")
                 continue
+            allowed_variant_keys = keys | {"generation", "sku"}
+            if not set(variant).issubset(allowed_variant_keys):
+                fail(errors, q, f"unexpected keys: {sorted(set(variant) - allowed_variant_keys)}")
             vid = variant["variantId"]
             if not isinstance(vid, str) or not ID_RE.fullmatch(vid):
                 fail(errors, q + ".variantId", "must be a lowercase kebab-case ID")
@@ -99,6 +104,8 @@ def validate_dataset(data):
             if not isinstance(battery, dict):
                 fail(errors, q + ".battery", "must be an object")
                 battery = {}
+            elif not set(battery).issubset({"nominalVoltageV", "capacityAh", "energyWh", "energyWhBasis", "energyWhSourceNote"}):
+                fail(errors, q + ".battery", "contains unsupported keys")
             for key in ("nominalVoltageV", "capacityAh"):
                 if not positive_number(battery.get(key)):
                     fail(errors, q + ".battery." + key, "must be a positive number")
@@ -119,6 +126,8 @@ def validate_dataset(data):
             if not isinstance(motors, dict):
                 fail(errors, q + ".motors", "must be an object")
                 motors = {}
+            elif set(motors) != {"count", "ratedPowerW", "ratedPowerBasis", "peakPowerW", "peakPowerBasis"}:
+                fail(errors, q + ".motors", "must contain exactly count and rated/peak power with explicit bases")
             if not isinstance(motors.get("count"), int) or isinstance(motors.get("count"), bool) or motors["count"] < 1:
                 fail(errors, q + ".motors.count", "must be a positive integer")
             for key, basis_key in (("ratedPowerW", "ratedPowerBasis"), ("peakPowerW", "peakPowerBasis")):
