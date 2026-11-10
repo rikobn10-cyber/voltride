@@ -48,3 +48,58 @@ This audit does **not** certify the five AliExpress short links as valid, curren
 - Confirm whether each affiliate link remains active and tagged to the intended affiliate account.
 - Complete the same primary-source audit for all 30 canonical models, recording manufacturer URLs and date checked.
 - Consider adding an explicit source URL, variant/region, and verification date to the canonical data schema in a separately reviewed data-model change.
+
+
+---
+
+## Initial source sampling of the canonical 30-model catalog
+
+The following primary-source checks were completed as a first sample. This is **not** a complete verification of all 30 records. Where model generations or regional variants differ, a generic record should not be described as a single universal specification.
+
+| Catalog model | Manufacturer/official source finding | Current catalog concern | Action |
+|---|---|---|---|
+| Xiaomi Electric Scooter 3 Lite | Xiaomi publishes 300W rated, 36V 5.2Ah, 25 km/h for the 3 Lite. | Current core values align. | Retain; source-backed sample. |
+| Xiaomi Electric Scooter 4 Pro (original generation) | Xiaomi publishes 350W rated, 700W max, 36V 12.4Ah, 25 km/h. | Current core values appear aligned with original generation; do not confuse with 4 Pro 2nd Gen. | Retain; generation label should be explicit in future source metadata. |
+| Segway MAX G30 / G30P | Segway distinguishes G30 at 25 km/h and G30P at 30 km/h; 36V battery and 350W nominal motor. | Catalog name says G30 while speed value 30 corresponds to G30P. | Resolve suffix/region before treating speed as universal. |
+| Segway MAX G2 | Segway support lists 36V, 15.3Ah, 450W nominal and up to 35 km/h under the unlocked configuration. | Current 35 km/h is an unlocked/market-dependent maximum, not necessarily a road-legal region speed. | Retain only with explicit variant and legal-context caveat. |
+| NAVEE N40 | NAVEE manual lists 37V nominal, 10Ah, 350W, 25 km/h and about 40 km under specified test conditions. | Catalog voltage uses 36V; this may be nominal-voltage rounding/model-market issue. | Reconcile field semantics before editing generated catalog. |
+| NAVEE G5 | NAVEE publishes 36V 275.4Wh (about 7.65Ah), 400W rated / 800W max, 32 km/h US or 25 km/h EU, and about 45 km at 15 km/h. | Catalog currently has 48V, 10.4Ah and 350W. This is a material mismatch. | Flag for correction in a dedicated canonical-data/generator PR; do not silently patch only Ride Match. |
+| NIU KQi3 Max | NIU publishes 48V 13Ah / 608.4Wh, 450W rated / 900W max, 32 km/h US or 25 km/h EU. | Catalog has 12.7Ah and 38 km/h. | Flag capacity and speed for variant-aware correction. |
+| KuKirin G2 Pro | Official listings show 48V 15–15.6Ah, 600W rated, 45 km/h; some 2026 variants differ. | Catalog's 15Ah may represent a particular version but does not identify it. | Record generation/variant before normalization. |
+| KuKirin G2 Max | Official listings show 48V 20.8Ah, 1000W rated, 55 km/h. | Catalog capacity is 20Ah. | Flag for correction in canonical-data/generator PR. |
+| KuKirin G3 Pro | Official listings show 52V 23–23.4Ah, dual 1200W rated motors (2400W combined), 65 km/h. | Catalog capacity is 23.2Ah; nearby variants/listings use 23Ah or 23.4Ah. | Resolve exact battery SKU; do not assume decimal differences are interchangeable. |
+| KuKirin G4 | Official listings show 60V 20Ah, 2000W rated, 70 km/h. | Catalog speed is 75 km/h. | Flag top-speed correction for canonical-data/generator PR. |
+| VSETT 8+ | Official VSETT page lists 48V 16Ah and dual 600W motors (1200W total), about 40–45 km/h. | Current core values align. | Retain; source-backed sample. |
+| VSETT 9+ | Official VSETT page lists 48V 21Ah and dual 650W motors (1300W total), up to 53 km/h. | Current core values align with the 21Ah variant. | Retain; variant label should be explicit. |
+| VSETT 10+ | Official VSETT page lists dual 1400W motors, 60V battery variants 20.8/25.6/28Ah and 70–80 km/h depending on version. | Catalog's 60V 28Ah and 2800W align with one variant; 75 km/h is within the published range. | Retain as variant-specific, not universal. |
+| Dualtron Victor | Distributor specification for Victor 60V 24Ah lists 4000W max and 80 km/h. | Current core values align with that version. | Retain; specify Victor generation/version. |
+| Dualtron Thunder 3 | Distributor listing identifies 72V 40Ah and 10,800W max, 100 km/h. | Catalog uses 11,000W. | Flag exact maximum-power correction; small but measurable mismatch. |
+| Dualtron Mini | Distributor catalogue contains multiple Mini generations and battery configurations (including 52V 17.5Ah). | A single generic Mini row cannot be verified without the exact generation and motor configuration. | Keep provisional; identify generation before certification. |
+| Ecoxtrem Bison GT | EcoXtrem's own regional store lists Bison GT 1000W, 48V 13Ah; a separate Bison 800W product also exists. Retailer pages vary in speed claims and distinguish limited/unlocked modes. | Catalog's Bison GT row is 800W and 45 km/h, potentially conflating the GT 1000W and Bison 800W products. | Excluded from Ride Match recommendations pending exact SKU/generation resolution. |
+| Ecoxtrem M41 | Official/distributor listings show multiple M41 variants (including 52V 20Ah single- and dual-motor models); some list 25 km/h public-road mode and higher private-property speeds. | Catalog's 48V 18Ah / 1000W / 50 km/h combination is not tied to a specific M41 variant. | Excluded from Ride Match recommendations pending exact SKU/generation resolution. |
+
+### Sources used for the initial sample
+
+- Xiaomi 3 Lite: https://www.mi.com/global/product/xiaomi-electric-scooter-3-lite/
+- Xiaomi 4 Pro (original): https://www.mi.com/global/product/xiaomi-electric-scooter-4-pro/
+- Segway MAX G30/G30P: https://arab.segway.com/product-info/kickscooter-max.html
+- Segway MAX G2: https://support.segway.com/support_product.php?segcatid=80
+- NAVEE N40 manual: https://service.naveetech.com/wp-content/uploads/2024/07/NAVEE-N40-Instruction-Manual-EU-version.pdf
+- NAVEE G5: https://www.naveetech.com/navee-g5/
+- NIU KQi3 Max: https://www.niu.com/en/kickscooterlaunch/specs
+- KuKirin G2 Pro: https://kukirinmobility.com/products/kukirin-g2-pro-electric-scooter
+- KuKirin G2 Max: https://kukirinmobility.com/en-us/products/kukirin-g2-max-electric-scooter
+- KuKirin G3 Pro: https://kukirinmobility.com/products/kukirin-g3-pro-electric-scooter
+- KuKirin G4: https://kukirinmobility.com/products/kukirin-g4-electric-scooter
+- VSETT 8+: https://vsettscooters.com/pages/vsett-8-plus-electric-scooter
+- VSETT 9+: https://vsettscooters.com/pages/vsett-9-plus
+- VSETT 10+: https://vsettscooters.com/pages/vsett-10-plus
+- Dualtron Victor: https://dualtron.uk/products/dualtron-victor-new-24ah
+- Dualtron Thunder 3: https://dualtron.uk/products/dualtron-thunder-3
+- Dualtron Mini variants: https://dualtron.uk/collections/dualtron-mini
+- EcoXtrem Bison GT and Bison 800W: https://ecoxtrem.ma/produit/trottinette-electrique-bison-gt-1000w/ and https://ecoxtrem.ma/produit/trottinette-electrique-bison-800w/
+- EcoXtrem M41 variants: https://ecoxtrem.fr/produit/trottinette-electrique-ecoxtrem-armored-one/ and https://ecoxtrem.fr/produit/trottinette-electrique-ecoxtrem-m41-tank-a-double-moteur/
+
+### Safe next implementation
+
+Do not patch `models.json` alone. A canonical data correction must be planned as a separate change that traces `build_models.py` output effects, updates the source and all required generated representations consistently, reviews every generated diff, and passes the generated-files, model, SEO, link, accessibility and live-deployment checks. Until then, the flagged records must not be represented as fully manufacturer-verified.
