@@ -143,7 +143,7 @@ The default display currency is now selected from the browser's regional locale,
 - Last 3 months of Search Console page data is extremely sparse (three rows, two clicks total), so avoid over-interpreting ranking/CTR conclusions.
 
 ### Product-source audit
-- See [MODEL_SOURCE_AUDIT_2026-11-10.md](MODEL_SOURCE_AUDIT_2026-11-10.md). Four iScooter affiliate-only model specifications were checked against manufacturer sources and corrected where necessary. W6 has regional battery variants and is excluded from recommendation scoring until its affiliate SKU is matched.
+- See [MODEL_SOURCE_AUDIT_2026-11-10.md](MODEL_SOURCE_AUDIT_2026-11-10.md). Four iScooter affiliate-only model specifications were checked against manufacturer sources and corrected where necessary. W6 has regional battery variants and is excluded from recommendation scoring until its affiliate SKU is matched. Ecoxtrem Bison GT and M41 are also excluded from Ride Match recommendations until the exact model/region variants are resolved.
 - All five AliExpress short-link destinations remain unverified. The canonical 30-model catalog still needs a full manufacturer-source audit; presence in project data is not proof of manufacturer accuracy.
 
 ### Remaining phases, in order
