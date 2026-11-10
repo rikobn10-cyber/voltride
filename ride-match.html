@@ -27,17 +27,17 @@
 .step{display:none;animation:fadeIn .3s ease-in}
 .step.active{display:block}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.option-btn{width:100%;text-align:left;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:15px;text-align:center;cursor:pointer}
+.option-btn{width:100%;text-align:center;padding:14px;margin:8px 0;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:15px;cursor:pointer}
 .option-btn:hover,.option-btn:focus-visible{border-color:var(--cyan);background:var(--card2)}
 .option-btn.active{border-color:var(--cyan);background:linear-gradient(135deg,var(--cyan),var(--blue));color:#001116;font-weight:800}
 .results{margin-top:20px}
-.recommendation{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px;margin:12px 0}
-.recommendation h3{margin:0 0 12px;font-size:18px}
-.compare-table{width:100%;border-collapse:;margin-top:10px;font-size:13px}
-.compare-table th,.compare-table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center}
+.recommendation{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px;margin:12px 0}
+.recommendation h3{margin:0 0 12px;font-size:18px;line-height:1.45;color:var(--cyan);overflow-wrap:anywhere}
+.compare-table{width:100%;max-width:100%;table-layout:fixed;border-collapse:collapse;margin-top:10px;font-size:13px}
+.compare-table th,.compare-table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:start;vertical-align:top;overflow-wrap:anywhere;word-break:normal}.compare-table th{width:42%;color:var(--muted);font-weight:700}.compare-table td{color:var(--text);font-weight:700;direction:ltr;text-align:end;unicode-bidi:plaintext}
 .progress-bar{width:100%;background:var(--card2);border-radius:10px;height:24px;overflow:hidden;Margin:16px 0;display:flex}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));width:0%;transition:width .3s}
-.cta{display:block;width:100%;padding:14px;border-radius:13px;border:0;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#001116;font-weight:800;text-decoration:none;font-size:17px;cursor:pointer;margin:12px 0}
+.cta{display:block;width:100%;box-sizing:border-box;padding:14px;border-radius:13px;border:0;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#001116;font-weight:800;text-decoration:none;font-size:17px;cursor:pointer;margin:12px 0;text-align:center}.language-control{display:flex;align-items:center;gap:8px}.language-control label{color:var(--muted);font-size:12px}.language-control select{min-height:40px;background:var(--card2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
 .cta:hover{opacity:.9}
 </style>
 </head>
@@ -46,73 +46,94 @@
 <div class="wrap">
 <header class="site-nav">
   <a class="brand" href="/"><i>⚡</i>VoltRide</a>
-  <nav class="links" aria-label="صفحات الموقع">
-    <a href="/">التطبيق</a><a href="/ride-match" aria-current="page">اختيار السكوتر</a><a href="/blog">المدونة</a><a href="/accessories">الإكسسوارات</a><a href="/about">حول</a>
+  <nav class="links" aria-label="Site pages">
+    <a href="/" data-i18n="navApp">التطبيق</a><a href="/ride-match" aria-current="page" data-i18n="navRideMatch">اختيار السكوتر</a><a href="/blog" data-i18n="navBlog">المدونة</a><a href="/accessories" data-i18n="navAccessories">الإكسسوارات</a><a href="/about" data-i18n="navAbout">حول</a>
   </nav>
+  <div class="language-control"><label for="rideMatchLanguage" data-i18n="languageLabel">اللغة</label><select id="rideMatchLanguage" aria-label="Language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select></div>
 </header>
 <main id="main">
 <article class="quiz-container">
-<h1>🧭 Ride Match: اختيار السكوتر المناسب لك</h1>
-<p class="meta">3 خطوات بسيطة لمساعدتك في اختيار أفضل الخيارات</p>
+<h1 data-i18n="pageTitle">🧭 Ride Match: اختيار السكوتر المناسب لك</h1>
+<p class="meta" data-i18n="pageIntro">3 خطوات بسيطة لمساعدتك في اختيار أفضل الخيارات</p>
 
 <div class="progress-bar">
   <div class="progress-fill" id="progressFill"></div>
 </div>
 
 <div id="step1" class="step active">
-  <h2>1. ما هي ميزانيتك المرجعية؟</h2>
-  <p class="meta">الأسعار المرجعية في قاعدة البيانات بالدرهم المغربي (MAD)، وقد لا تعكس الأسعار أو التوفر في بلدك.</p>
+  <h2 data-i18n="budgetTitle">1. ما هي ميزانيتك المرجعية؟</h2>
+  <p class="meta" data-i18n="budgetNote">الأسعار المرجعية في قاعدة البيانات بالدرهم المغربي (MAD)، وقد لا تعكس الأسعار أو التوفر في بلدك.</p>
   <div class="options" id="budgetOptions">
-    <button class="option-btn" data-value="0-3000">أقل من 3000 درهم</button>
-    <button class="option-btn" data-value="3000-5000">3000-5000 درهم</button>
-    <button class="option-btn" data-value="5000-8000">5000-8000 درهم</button>
-    <button class="option-btn" data-value="8000+">أكثر من 8000 درهم</button>
+    <button class="option-btn" data-value="0-3000" data-i18n="budget0">أقل من 3000 درهم</button>
+    <button class="option-btn" data-value="3000-5000" data-i18n="budget1">3000-5000 درهم</button>
+    <button class="option-btn" data-value="5000-8000" data-i18n="budget2">5000-8000 درهم</button>
+    <button class="option-btn" data-value="8000+" data-i18n="budget3">أكثر من 8000 درهم</button>
   </div>
 </div>
 
 <div id="step2" class="step">
-  <h2>2. ما هي مسافتك اليومية المتوسطة؟</h2>
-  <p class="meta">كلما زادت المسافة، زاد الحاجة إلى بطارية أكبر أو سعر أعلى.</p>
+  <h2 data-i18n="distanceTitle">2. ما هي مسافتك اليومية المتوسطة؟</h2>
+  <p class="meta" data-i18n="distanceNote">كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.</p>
   <div class="options" id="distanceOptions">
-    <button class="option-btn" data-value="0-10">0-10 كم (مدى قصير)</button>
-    <button class="option-btn" data-value="10-20">10-20 كم (مدى متوسط)</button>
-    <button class="option-btn" data-value="20-40">20-40 كم (مدى طويل)</button>
-    <button class="option-btn" data-value="40+">أكثر من 40 كم (رحلات طويلة جداً)</button>
+    <button class="option-btn" data-value="0-10" data-i18n="distance0">0-10 كم (مدى قصير)</button>
+    <button class="option-btn" data-value="10-20" data-i18n="distance1">10-20 كم (مدى متوسط)</button>
+    <button class="option-btn" data-value="20-40" data-i18n="distance2">20-40 كم (مدى طويل)</button>
+    <button class="option-btn" data-value="40+" data-i18n="distance3">أكثر من 40 كم (رحلات طويلة جداً)</button>
   </div>
 </div>
 
 <div id="step3" class="step">
-  <h2>3. ما هو تفضيلك؟</h2>
-  <p class="meta">اختر أولوية تدعمها المواصفات المتاحة للموديلات.</p>
+  <h2 data-i18n="preferenceTitle">3. ما هو تفضيلك؟</h2>
+  <p class="meta" data-i18n="preferenceNote">اختر أولوية تدعمها المواصفات المتاحة للموديلات.</p>
   <div class="options" id="preferenceOptions">
-    <button class="option-btn" data-value="speed">سرعة عالية (للقيادة السريعة)</button>
-    <button class="option-btn" data-value="range">مدى طويل (للرحلات الطويلة)</button>
-    <button class="option-btn" data-value="commuter">تنقل يومي (فئة Commuter)</button>
-    <button class="option-btn" data-value="performance">أداء قوي (فئتا Sport وPerformance)</button>
+    <button class="option-btn" data-value="speed" data-i18n="prefSpeed">سرعة عالية (للقيادة السريعة)</button>
+    <button class="option-btn" data-value="range" data-i18n="prefRange">مدى طويل (للرحلات الطويلة)</button>
+    <button class="option-btn" data-value="commuter" data-i18n="prefCommuter">تنقل يومي (فئة Commuter)</button>
+    <button class="option-btn" data-value="performance" data-i18n="prefPerformance">أداء قوي (فئتا Sport وPerformance)</button>
   </div>
 </div>
 
 <div id="results" class="results" style="display:none">
-  <h2>🎯 توصياتنا لك</h2>
-  <p class="meta">استندت التوصيات إلى الميزانية المرجعية والمدى والفئة أو الأداء. بعض روابط الشراء روابط إحالة؛ قد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.</p>
+  <h2 data-i18n="resultsTitle">🎯 توصياتنا لك</h2>
+  <p class="meta" data-i18n="resultsNote">استندت التوصيات إلى الميزانية المرجعية والمدى والفئة أو الأداء. بعض روابط الشراء روابط إحالة؛ قد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.</p>
   <div id="recommendations">
     <div class="recommendation">
-      <h3>جاري اختيار الموديلات...</h3>
-      <p>انتظر لحظة...</p>
+      <h3 data-i18n="loadingTitle">جاري اختيار الموديلات...</h3>
+      <p data-i18n="loadingText">انتظر لحظة...</p>
     </div>
   </div>
-  <a href="/" class="cta">🔧 جرّب الحاسبة الكاملة ←</a>
+  <a href="/" class="cta" data-i18n="calculatorCta">🔧 جرّب الحاسبة الكاملة ←</a>
 </div>
 
 </article>
 </main>
 <footer>
-<a href="/">الرئيسية</a><a href="/blog">المدونة</a><a href="/about">حول</a>
+<a href="/" data-i18n="footerHome">الرئيسية</a><a href="/blog" data-i18n="navBlog">المدونة</a><a href="/about" data-i18n="navAbout">حول</a>
 <p>© 2026 VoltRide</p>
 </footer>
 </div>
 <script>
 "use strict";
+
+const RIDE_MATCH_I18N = {
+ ar:{navApp:"التطبيق",navRideMatch:"اختيار السكوتر",navBlog:"المدونة",navAccessories:"الإكسسوارات",navAbout:"حول",languageLabel:"اللغة",pageTitle:"🧭 Ride Match: اختيار السكوتر المناسب لك",pageIntro:"3 خطوات بسيطة لمساعدتك في اختيار أفضل الخيارات",budgetTitle:"1. ما هي ميزانيتك المرجعية؟",budgetNote:"الأسعار المرجعية في قاعدة البيانات بالدرهم المغربي (MAD)، وقد لا تعكس الأسعار أو التوفر في بلدك.",budget0:"أقل من 3000 درهم",budget1:"3000–5000 درهم",budget2:"5000–8000 درهم",budget3:"أكثر من 8000 درهم",distanceTitle:"2. ما هي مسافتك اليومية المتوسطة؟",distanceNote:"كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.",distance0:"0–10 كم (مدى قصير)",distance1:"10–20 كم (مدى متوسط)",distance2:"20–40 كم (مدى طويل)",distance3:"أكثر من 40 كم (رحلات طويلة جداً)",preferenceTitle:"3. ما أولويتك؟",preferenceNote:"اختر أولوية تدعمها المواصفات المتاحة للموديلات.",prefSpeed:"سرعة أعلى",prefRange:"مدى أطول",prefCommuter:"التنقل اليومي",prefPerformance:"أداء قوي",resultsTitle:"🎯 توصياتنا لك",resultsNote:"تعتمد التوصيات على الميزانية المرجعية والمدى والفئة أو الأداء. بعض روابط الشراء إحالة؛ وقد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.",loadingTitle:"جاري اختيار الموديلات…",loadingText:"يرجى الانتظار…",calculatorCta:"🔧 افتح الحاسبة الكاملة ←",footerHome:"الرئيسية",speed:"السرعة",range:"المدى التقديري",battery:"البطارية",power:"القدرة",category:"الفئة",buy:"اشترِ الآن ←",useCalculator:"افتح الحاسبة ←",catBudget:"اقتصادية",catCommuter:"تنقل يومي",catSport:"رياضية",catPerformance:"أداء",errorTitle:"عذراً",errorText:"تعذّر العثور على موديلات. حاول مرة أخرى."},
+ fr:{navApp:"Application",navRideMatch:"Choisir un scooter",navBlog:"Blog",navAccessories:"Accessoires",navAbout:"À propos",languageLabel:"Langue",pageTitle:"🧭 Ride Match : trouvez le scooter adapté",pageIntro:"3 étapes simples pour trouver les meilleures options",budgetTitle:"1. Quel est votre budget indicatif ?",budgetNote:"Les budgets de référence sont stockés en MAD et peuvent ne pas refléter les prix ou la disponibilité dans votre pays.",budget0:"Moins de 3 000 MAD",budget1:"3 000–5 000 MAD",budget2:"5 000–8 000 MAD",budget3:"Plus de 8 000 MAD",distanceTitle:"2. Quelle distance parcourez-vous par jour ?",distanceNote:"Une distance plus longue nécessite généralement une batterie ou une autonomie supérieure.",distance0:"0–10 km (courte)",distance1:"10–20 km (moyenne)",distance2:"20–40 km (longue)",distance3:"Plus de 40 km (très longue)",preferenceTitle:"3. Quelle est votre priorité ?",preferenceNote:"Choisissez une priorité correspondant aux caractéristiques disponibles.",prefSpeed:"Vitesse élevée",prefRange:"Grande autonomie",prefCommuter:"Déplacements quotidiens",prefPerformance:"Performances élevées",resultsTitle:"🎯 Nos recommandations",resultsNote:"Les recommandations tiennent compte du budget indicatif, de l’autonomie et de la catégorie ou des performances. Certains liens d’achat sont affiliés ; VoltRide peut recevoir une commission sans frais supplémentaires pour vous.",loadingTitle:"Sélection des modèles…",loadingText:"Veuillez patienter…",calculatorCta:"🔧 Ouvrir le calculateur complet ←",footerHome:"Accueil",speed:"Vitesse",range:"Autonomie estimée",battery:"Batterie",power:"Puissance",category:"Catégorie",buy:"Acheter maintenant ←",useCalculator:"Ouvrir le calculateur ←",catBudget:"Économique",catCommuter:"Urbain",catSport:"Sport",catPerformance:"Performance",errorTitle:"Désolé",errorText:"Impossible de trouver des modèles. Veuillez réessayer."},
+ en:{navApp:"App",navRideMatch:"Find a scooter",navBlog:"Blog",navAccessories:"Accessories",navAbout:"About",languageLabel:"Language",pageTitle:"🧭 Ride Match: find the right scooter",pageIntro:"3 simple steps to find the best options",budgetTitle:"1. What is your indicative budget?",budgetNote:"Reference budgets are stored in MAD and may not reflect prices or availability in your country.",budget0:"Under 3,000 MAD",budget1:"3,000–5,000 MAD",budget2:"5,000–8,000 MAD",budget3:"Over 8,000 MAD",distanceTitle:"2. How far do you travel each day?",distanceNote:"Longer trips generally require a larger battery or greater range.",distance0:"0–10 km (short)",distance1:"10–20 km (medium)",distance2:"20–40 km (long)",distance3:"Over 40 km (very long)",preferenceTitle:"3. What is your priority?",preferenceNote:"Choose a priority supported by the available model specifications.",prefSpeed:"Higher speed",prefRange:"Longer range",prefCommuter:"Daily commuting",prefPerformance:"High performance",resultsTitle:"🎯 Our recommendations",resultsNote:"Recommendations use the indicative budget, range and category or performance. Some purchase links are affiliate links; VoltRide may earn a commission at no extra cost to you.",loadingTitle:"Selecting models…",loadingText:"Please wait…",calculatorCta:"🔧 Open the full calculator ←",footerHome:"Home",speed:"Speed",range:"Estimated range",battery:"Battery",power:"Power",category:"Category",buy:"Buy now ←",useCalculator:"Open calculator ←",catBudget:"Budget",catCommuter:"Commuter",catSport:"Sport",catPerformance:"Performance",errorTitle:"Sorry",errorText:"No models could be found. Please try again."}
+};
+function readRideMatchLanguage(){try{const saved=localStorage.getItem("voltride_language");const value=saved?JSON.parse(saved):null;return Object.prototype.hasOwnProperty.call(RIDE_MATCH_I18N,value)?value:"ar";}catch(_){return "ar";}}
+let rideMatchLang=readRideMatchLanguage();
+function rideMatchT(key){return (RIDE_MATCH_I18N[rideMatchLang]&&RIDE_MATCH_I18N[rideMatchLang][key])||RIDE_MATCH_I18N.en[key]||key;}
+function setRideMatchLanguage(next){
+ if(!Object.prototype.hasOwnProperty.call(RIDE_MATCH_I18N,next))return;
+ rideMatchLang=next;
+ try{localStorage.setItem("voltride_language",JSON.stringify(next));}catch(_){}
+ document.documentElement.lang=next;document.documentElement.dir=next==="ar"?"rtl":"ltr";
+ document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=rideMatchT(el.dataset.i18n);});
+ const selector=document.getElementById("rideMatchLanguage");if(selector)selector.value=next;
+ document.title=rideMatchT("pageTitle")+" | VoltRide";
+ if(typeof renderResults==="function"&&document.getElementById("results")?.style.display==="block")renderResults();
+}
+
 /* ==== Ride Match logic ==== */
 
 // Scooters data (same as index.html catalog)
@@ -178,6 +199,9 @@ function estimateRange(s){
 let answers = {budget: null, distance: null, preference: null};
 let rideMatchCompletionTracked = false;
 
+document.getElementById("rideMatchLanguage").addEventListener("change",e=>setRideMatchLanguage(e.target.value));
+setRideMatchLanguage(rideMatchLang);
+
 function updateProgress(){
   const fill = document.getElementById('progressFill');
   const done = (answers.budget ? 1 : 0) + (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0);
@@ -211,7 +235,7 @@ function selectOption(step, value, btn){
       const resultsEl = document.getElementById('results');
       if (resultsEl) resultsEl.style.display = 'block';
       // Show recommendations
-      showResults();
+      renderResults();
       if (!rideMatchCompletionTracked) {
         rideMatchCompletionTracked = true;
         if (window.VoltAnalytics) window.VoltAnalytics.track("ride_match_complete", {
@@ -290,7 +314,7 @@ function getRecommendations(){
   return scored.slice(0, 3);
 }
 
-function showResults(){
+function renderResults(){
   const container = document.getElementById('recommendations');
   const resultsEl = document.getElementById('results');
   let recommendations = [];
@@ -303,11 +327,11 @@ function showResults(){
   }
 
   if (!recommendations || recommendations.length === 0) {
-    container.innerHTML = '<div class="recommendation"><h3>عذراً</h3><p>تعذّر العثور على موديلات. حاول مرة أخرى.</p></div>';
+    container.innerHTML = '<div class="recommendation"><h3>' + rideMatchT("errorTitle") + '</h3><p>' + rideMatchT("errorText") + '</p></div>';
     return;
   }
 
-  const catLabel = c => c === "budget" ? "اقتصادية" : c === "commuter" ? "تنقل يومي" : c === "sport" ? "رياضية" : "أداء";
+  const catLabel = c => c === "budget" ? rideMatchT("catBudget") : c === "commuter" ? rideMatchT("catCommuter") : c === "sport" ? rideMatchT("catSport") : rideMatchT("catPerformance");
 
   container.innerHTML = recommendations.map(r => {
     const isAffiliate = Boolean(r.s.affiliateUrl);
@@ -317,14 +341,14 @@ function showResults(){
     <div class="recommendation">
       <h3>🏆 ${r.s.name}</h3>
       <table class="compare-table">
-        <tr><th>السرعة</th><td>${r.s.speed} كم/س</td></tr>
-        <tr><th>المدى المقدر</th><td>≈ ${Math.round(r.range)} كم</td></tr>
-        <tr><th>البطارية</th><td>${r.s.voltage}V ${r.s.ah}Ah</td></tr>
-        <tr><th>القدرة</th><td>${r.s.power} واط</td></tr>
-        <tr><th>فئة</th><td>${catLabel(r.s.cat)}</td></tr>
+        <tr><th>${rideMatchT("speed")}</th><td>${r.s.speed} km/h</td></tr>
+        <tr><th>${rideMatchT("range")}</th><td>≈ ${Math.round(r.range)} km</td></tr>
+        <tr><th>${rideMatchT("battery")}</th><td>${r.s.voltage}V • ${r.s.ah}Ah</td></tr>
+        <tr><th>${rideMatchT("power")}</th><td>${r.s.power} W</td></tr>
+        <tr><th>${rideMatchT("category")}</th><td>${catLabel(r.s.cat)}</td></tr>
       </table>
-      <a href="${buyUrl}" target="_blank" rel="${buyRel}" class="cta" style="margin-top:10px;display:inline-block">اشترِ الآن ←</a>
-      <a href="/" class="cta" style="margin-top:10px;display:inline-block">افتح الحاسبة ←</a>
+      <a href="${buyUrl}" target="_blank" rel="${buyRel}" class="cta" style="margin-top:10px;display:inline-block">${rideMatchT("buy")}</a>
+      <a href="/" class="cta" style="margin-top:10px;display:inline-block">${rideMatchT("useCalculator")}</a>
     </div>
   `}).join('');
 
