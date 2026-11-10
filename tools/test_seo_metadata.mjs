@@ -57,6 +57,8 @@ for (const model of generatedModels) {
   const modelPage = readFileSync(model.id + ".html", "utf8");
   const modelTitle = modelPage.match(/<title>(.*?)<\/title>/i)?.[1] || "";
   assert.ok(modelTitle.length > 0 && modelTitle.length <= 60, model.id + ": generated model title should be concise");
+  const modelH1 = modelPage.match(/<h1>(.*?)<\/h1>/i)?.[1] || "";
+  assert.equal(modelH1, modelTitle.replace(" | VoltRide", ""), model.id + ": H1 should match the generated title");
   assert.doesNotMatch(modelPage, /تقدير VoltRide للمغرب|الصحافة المغربية|هل يمكنني استعماله في طرق المغرب قانونياً|content="ar_MA"/, model.id + ": generated model page must not present Moroccan law as global");
   assert.match(modelPage, /سرعة مرجعية لا تتجاوز 25 كم\/س/, model.id + ": range benchmark must be explained as non-legal");
   assert.match(modelPage, /هل يمكنني استخدامه قانونياً على الطرق العامة/, model.id + ": legal FAQ must be jurisdiction-neutral");
