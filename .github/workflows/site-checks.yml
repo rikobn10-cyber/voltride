@@ -27,6 +27,16 @@ jobs:
           python3 build_models.py
           git diff --stat --exit-code || (echo "::error::build_models.py changes committed files. Commit the regenerated output (or edit build_models.py instead of the generated pages)." && exit 1)
 
+  ride_match:
+    name: Ride Match scoring tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node tools/test_ride_match.mjs
+
   a11y:
     name: Accessibility (axe-core)
     runs-on: ubuntu-24.04
