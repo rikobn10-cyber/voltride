@@ -128,6 +128,22 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertIsNone(g4["legacy_fields"]["peakMotorPowerW"])
         self.assertEqual(g4["legacy_fields"]["energyWh"], 1200)
 
+    def test_inokim_oxo_2026_keeps_rated_and_peak_power_per_motor(self):
+        result = project_verified_variant(
+            DATA, "inokim-oxo", "inokim-oxo-2026-us", "US"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 57.6)
+        self.assertEqual(result["legacy_fields"]["ah"], 26)
+        self.assertEqual(result["legacy_fields"]["motor"], 2000)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 2600)
+        self.assertEqual(result["legacy_fields"]["speed"], 64.9)
+
+    def test_rejects_vsett_8_plus_until_battery_and_power_basis_are_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "vsett-8-plus", "vsett-8-plus-global-unresolved", "Global"
+            )
+
     def test_gotrax_g4_original_projects_exact_us_variant_and_gear_range(self):
         result = project_verified_variant(
             DATA, "gotrax-g4", "gotrax-g4-us-original-42015315951731", "US"

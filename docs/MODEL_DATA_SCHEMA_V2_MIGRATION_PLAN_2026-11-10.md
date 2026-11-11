@@ -170,11 +170,11 @@ These are work queues, not permission to overwrite current production values wit
 
 ## 9. Staged migration checkpoint — 2026-11-11
 
-- `model_data_v2.json` now contains 20 model identities and 23 variants (16 verified, 7 intentionally unresolved): Verified: Xiaomi Scooter 3 Lite (UK), Xiaomi Pro 2 (HK), NIU KQi3 Max (US/EU), KuKirin G2 Pro (EU), KuKirin G3 Pro (EU-OPEN), Apollo City Pro 2023 (CA), Apollo Ghost (US), GOTRAX GXL V2 (US), GOTRAX G4 Original (US), VSETT 9+ 48V/21Ah (Global), Segway MAX G2 (US 051501U / EU 051501E), NAVEE N40, KuKirin G2 Max (EU-OPEN), and KuKirin G4 (EU-OPEN). Unresolved: Xiaomi 4 Pro (voltage absent), NAVEE G5 (Ah absent in US/EU listings), Segway MAX G30 family (G30/G30P suffix and Ah unresolved), Kaabo Wolf King GT (motor basis/exact speed unresolved), and Teverun Fighter 11 (rated-power basis unresolved), and VSETT 10+ 28Ah (power/speed/range mapping unresolved).
+- `model_data_v2.json` now contains 22 model identities and 25 variants (17 verified, 8 intentionally unresolved): Verified: Xiaomi Scooter 3 Lite (UK), Xiaomi Pro 2 (HK), NIU KQi3 Max (US/EU), KuKirin G2 Pro (EU), KuKirin G3 Pro (EU-OPEN), Apollo City Pro 2023 (CA), Apollo Ghost (US), GOTRAX GXL V2 (US), GOTRAX G4 Original (US), VSETT 9+ 48V/21Ah (Global), Segway MAX G2 (US 051501U / EU 051501E), NAVEE N40, KuKirin G2 Max (EU-OPEN), and KuKirin G4 (EU-OPEN). Unresolved: Xiaomi 4 Pro (voltage absent), NAVEE G5 (Ah absent in US/EU listings), Segway MAX G30 family (G30/G30P suffix and Ah unresolved), Kaabo Wolf King GT (motor basis/exact speed unresolved), and Teverun Fighter 11 (rated-power basis unresolved), and VSETT 10+ 28Ah (power/speed/range mapping unresolved).
 - The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
-- All 23 variant records pass the schema-v2 validator; the adapter projects the 16 verified variants and rejects the 7 unresolved variants. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
-- The remaining 10 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
-- The explicit-variant adapter is implemented and covered by 24 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
+- All 25 variant records pass the schema-v2 validator; the adapter projects the 17 verified variants and rejects the 8 unresolved variants. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
+- The remaining 8 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
+- The explicit-variant adapter is implemented and covered by 26 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
 
 
 ### Compatibility adapter implementation
@@ -216,3 +216,6 @@ Apollo Ghost is added as a verified US-market variant with separate 800W rated /
 
 
 GOTRAX G4 Original has been added as a verified US variant, explicitly distinct from G4 Pro. VSETT 10+ 28Ah is represented as unresolved because the official page does not identify rated-vs-peak motor basis, exact speed for that battery option, or a clear range-to-capacity pairing.
+
+
+INOKIM OXO 2026 has been added as a verified US-market variant with separate rated and peak power per motor; it is kept distinct from older 60V OXO generations. VSETT 8+ is recorded as unresolved because the official source writes battery capacity as '16A' (not unambiguous Ah) and does not identify rated-vs-peak motor power basis.
