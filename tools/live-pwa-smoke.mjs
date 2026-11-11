@@ -118,7 +118,7 @@ try {
   console.log(JSON.stringify({
     status: "passed",
     manifest: { display: manifest.display, icons: manifest.icons.length, startUrl: manifest.start_url },
-    serviceWorker: { version: workerInfo.version, active: workerInfo.activeState, precacheEntries: workerInfo.urls.length },
+    serviceWorker: { version: workerInfo.activeVersion, active: workerInfo.activeState, precacheEntries: workerInfo.urls.length },
     offline: { rideMatch: "passed", modelPage: "passed", fallback: "passed" },
     analytics: "consent declined; no synthetic events sent",
     pageErrors: errors
