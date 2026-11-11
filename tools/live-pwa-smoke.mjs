@@ -49,20 +49,28 @@ try {
     const registration = await navigator.serviceWorker.ready;
     if (!registration.active) throw new Error("service worker has no active worker");
     const script = await fetch("/sw.js", { cache: "no-store" }).then(r => r.text());
-    const version = script.match(/const VERSION = ["']([^"']+)["']/)?.[1];
-    if (!version) throw new Error("service worker cache version is missing");
-    const cache = await caches.open(version);
+    const servedVersion = script.match(/const VERSION = ["']([^"']+)["']/)?.[1];
+    if (!servedVersion) throw new Error("service worker cache version is missing");
+    const activeVersion = await new Promise((resolve, reject) => {
+      const channel = new MessageChannel();
+      const timer = setTimeout(() => reject(new Error("active service worker version probe timed out")), 5000);
+      channel.port1.onmessage = event => { clearTimeout(timer); resolve(event.data?.version); };
+      registration.active.postMessage({ type: "GET_VERSION" }, [channel.port2]);
+    });
+    const cache = await caches.open(activeVersion);
     const urls = (await cache.keys()).map(request => new URL(request.url).pathname);
     return {
       scope: registration.scope,
       activeState: registration.active.state,
-      version,
+      servedVersion,
+      activeVersion,
       urls,
       controlled: Boolean(navigator.serviceWorker.controller)
     };
   });
   assert.equal(workerInfo.activeState, "activated", "service worker must be activated");
-  assert.equal(workerInfo.version, "voltride-v21", "the new service worker version must be active");
+  assert.equal(workerInfo.servedVersion, "voltride-v21", "the deployed service worker script must be v21");
+  assert.equal(workerInfo.activeVersion, "voltride-v21", "the active service worker must be v21");
   assert.ok(workerInfo.scope.startsWith(base + "/"), "service worker scope must match production origin");
   for (const path of ["/offline.html", "/ride-match.html", "/navee-g5.html"]) {
     assert.ok(workerInfo.urls.some(url => url.endsWith(path)), "precache must include " + path);
