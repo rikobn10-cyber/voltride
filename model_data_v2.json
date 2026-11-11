@@ -2,6 +2,122 @@
   "schemaVersion": 2,
   "models": [
     {
+      "id": "niu-kqi3-max",
+      "name": "NIU KQi3 Max",
+      "manufacturer": "NIU",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "niu-kqi3-max-us",
+          "sku": null,
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 13,
+            "energyWh": 608.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 900,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 32.2,
+            "conditions": "20mph manufacturer US-market maximum, converted to 32.2km/h."
+          },
+          "rangeClaim": {
+            "maxKm": 64.4,
+            "basis": "manufacturer_claim",
+            "conditions": "40 miles manufacturer range claim, converted to 64.4km."
+          },
+          "sources": [
+            {
+              "url": "https://shop.niu.com/products/niu-kqi3-max-electric-kick-scooter-for-adults",
+              "publisher": "NIU",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact KQi3 Max model identity and market-specific speed are documented on NIU's official product page.",
+              "Battery energy is stored as the manufacturer-published Wh value; it is not recalculated from nominal voltage and Ah."
+            ]
+          }
+        },
+        {
+          "variantId": "niu-kqi3-max-eu",
+          "sku": null,
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 13,
+            "energyWh": 608.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 900,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "25km/h manufacturer EU-market maximum."
+          },
+          "rangeClaim": {
+            "maxKm": 65,
+            "basis": "manufacturer_claim",
+            "conditions": "65km manufacturer range claim."
+          },
+          "sources": [
+            {
+              "url": "https://shopeu.niu.com/en-fr/collections/kick-scooter/products/niu-kqi3-max-electric-kick-scooter-for-adults-eu-version",
+              "publisher": "NIU",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact KQi3 Max model identity and market-specific speed are documented on NIU's official product page.",
+              "Battery energy is stored as the manufacturer-published Wh value; it is not recalculated from nominal voltage and Ah."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "xiaomi-3-lite",
       "name": "Xiaomi Scooter 3 Lite",
       "manufacturer": "Xiaomi",
@@ -59,6 +175,69 @@
               "Exact manufacturer model code MJDDHBC03ZM is identified.",
               "Rated motor power is 300W; peak power is not published on the cited page and remains null.",
               "Manufacturer-published battery energy is retained as 187Wh; it is not recomputed from rounded nominal values."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "xiaomi-pro-2",
+      "name": "Xiaomi Pro 2",
+      "manufacturer": "Xiaomi",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "xiaomi-pro-2-ddhbc11neb-es",
+          "sku": "DDHBC11NEB",
+          "market": [
+            "ES"
+          ],
+          "battery": {
+            "nominalVoltageV": 37,
+            "capacityAh": 12.4,
+            "energyWh": 446,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Xiaomi Spain publishes 37V nominal, 12.4Ah and 446Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 300,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 600,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Manufacturer maximum speed; Spain-market specification."
+          },
+          "rangeClaim": {
+            "maxKm": 45,
+            "basis": "manufacturer_claim",
+            "conditions": "Xiaomi stated maximum range; test conditions should not be interpreted as real-world guarantee."
+          },
+          "sources": [
+            {
+              "url": "https://www.mi.com/es/mi-electric-scooter-Pro2/specs/",
+              "publisher": "Xiaomi",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact product code DDHBC11NEB is identified.",
+              "Manufacturer-published 37V, 12.4Ah and 446Wh are retained; legacy 36V/12.8Ah is not reused.",
+              "Rated 300W and peak 600W remain separate fields."
             ]
           }
         }
