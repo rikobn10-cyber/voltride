@@ -110,11 +110,18 @@ async function matchPage(cache, req) {
 async function offlineNavigationFallback(cache, req) {
   const page = await matchPage(cache, req);
   if (page) {
+    const requestedPath = new URL(req.url).pathname;
+    const cachedPath = page.url ? new URL(page.url).pathname : requestedPath;
+    // Redirect clean URLs to the exact cached .html URL. Some browsers reject
+    // a cached Response whose URL differs from the navigation request URL.
+    if (cachedPath !== requestedPath && page.url) {
+      return Response.redirect(page.url, 302);
+    }
     return page;
   }
   const offlineUrl = new URL("offline.html", self.registration.scope).href;
   const fallback = await cache.match(offlineUrl);
-  return fallback || Response.error();
+  return fallback ? Response.redirect(offlineUrl, 302) : Response.error();
 }
 
 async function networkIsReachable() {
