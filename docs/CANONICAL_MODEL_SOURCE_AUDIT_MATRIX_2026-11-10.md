@@ -125,3 +125,9 @@ The staged V2 dataset now contains 3 model identities and 4 verified variants. T
 - `kukirin-g3-pro-eu-open-current`: the official listing identifies 52V/23.4Ah, two 1200W rated motors, up to 65km/h in dual-motor mode and up to 80km range. The page explicitly distinguishes this open configuration from German ABE and Spain VMP versions. V2 uses market code `EU-OPEN` and calculates 1216.8Wh from the published nominal V × Ah.
 
 The staged V2 dataset now contains 5 model identities and 6 verified variants. The two KuKirin records do not alter legacy production data until consumer migration is completed.
+
+
+### Apollo City Pro 2023 variant evidence — 2026-11-11
+
+- `apollo-city-pro-2023-ca`: Apollo's 2023 Pro technical page identifies the dual-motor configuration, 500W nominal and 1000W peak per motor, and 51km/h top speed. Apollo's official battery assembly page identifies a 48V/20Ah pack and confirms compatibility with City Pro 2023-24. The V2 record keeps rated and peak power per motor separate, records 960Wh as calculated (not manufacturer-published), and leaves range claim null because the cited City Pro spec page did not establish a specific range figure.
+
