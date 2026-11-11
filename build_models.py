@@ -153,30 +153,159 @@ RANK = {m["id"]: i + 1 for i, m in enumerate(sorted(MODELS, key=lambda x: -wh(x)
 
 
 def similar(m, n=4):
-    others = sorted((x for x in MODELS if x["id"] != m["id"]), key=lambda x: abs(wh(x) - wh(m)))
+    others = [x for x in MODELS if x["id"] != m["id"] and x["category"] == m["category"]]
     return others[:n]
 
 
+
+def estimate_variant(v, weight, terrain, mode):
+    usable = v["energyWh"] * 0.9
+    wf = 1 + (weight - 75) * 0.0045
+    speed = min(REFERENCE_SPEED, v["speed"])
+    sf = 1 + max(0, speed - 20) * 0.035
+    tf = {"flat": 1, "mixed": 1.12, "hills": 1.30}[terrain]
+    mf = {"eco": 0.88, "balanced": 1, "sport": 1.14}[mode]
+    motor = v["motor"]
+    mof = 1.10 if motor >= 1500 else 1.05 if motor >= 800 else 1
+    cap = 90 if motor >= 1500 else 60 if motor >= 800 else 45
+    consumption = min(cap, max(7, 12.5 * wf * sf * tf * mf * mof))
+    return usable / consumption, consumption
+
+
+def verified_variant_page_sections(variants):
+    if not variants:
+        pending = ('<div class="note"><h3>لم يتم التحقق من نسخة هذا الموديل بعد</h3>'
+                   '<p>لا نعرض هنا مواصفات أو تقديرات مأخوذة من سجل قديم غير محسوم. '
+                   'سنضيف بيانات هذا الموديل عندما تتوفر نسخة محددة وسوق ومصادر موثوقة من الشركة.</p></div>')
+        range_pending = pending.replace(
+            "</div>",
+            '<p>عند توفر نسخة موثقة، سيُحسب المدى بسرعة مرجعية لا تتجاوز 25 كم/س؛ هذا مرجع حسابي للمقارنة وليس حداً قانونياً.</p></div>'
+        )
+        return pending, range_pending
+
+    spec_sections = []
+    range_sections = []
+    for v in variants:
+        basis = ("منشورة من الشركة المصنّعة" if v["energyWhBasis"] == "manufacturer_published"
+                 else "محسوبة من الجهد الاسمي × السعة")
+        source = (f'<a href="{esc(v["sourceUrl"])}" target="_blank" rel="noopener noreferrer">'
+                  f'{esc(v["sourcePublisher"] or "مصدر الشركة")}</a>') if v.get("sourceUrl") else "—"
+        sku = f' • SKU: {esc(v["sku"])}' if v.get("sku") else ""
+        generation = f' • الجيل: {esc(v["generation"])}' if v.get("generation") else ""
+        claim = (f'<p class="updated">المدى المعلن من الشركة لهذه النسخة: {num(v["rangeClaimKm"])} كم. '
+                 'هذا ادعاء الشركة وليس تقديراً ميدانياً.</p>') if v.get("rangeClaimKm") else (
+                 '<p class="updated">لا تتوفر قيمة مدى منشورة ومتحقق منها لهذه النسخة.</p>')
+        spec_sections.append(
+            f'<section class="table-wrap"><h3>{esc(v["label"])}{generation}{sku}</h3>'
+            '<table><tr><th>السوق</th><th>الفولت الاسمي</th><th>السعة</th><th>الطاقة</th><th>قوة المحرك الاسمية</th><th>السرعة القصوى</th></tr>'
+            f'<tr><td>{esc(v["market"])}</td><td>{num(v["voltage"])} V</td><td>{num(v["ah"])} Ah</td>'
+            f'<td>{num(v["energyWh"])} Wh</td><td>{num(v["motor"])} W</td><td>{num(v["speed"])} كم/س</td></tr></table>'
+            f'<p class="updated">أساس الطاقة: {basis}. {esc(v.get("energyWhSourceNote") or "")}<br>المصدر: {source}</p>{claim}</section>'
+        )
+        scenarios = [
+            ("خفيف ومريح", "راكب 60 كغ، طريق مستوٍ، نمط اقتصادي", estimate_variant(v, 60, "flat", "eco")[0]),
+            ("استعمال عادي", "راكب 75 كغ، طريق مختلط، نمط متوازن", estimate_variant(v, 75, "mixed", "balanced")[0]),
+            ("ظروف صعبة", "راكب 90 كغ، مرتفعات، نمط متوازن", estimate_variant(v, 90, "hills", "balanced")[0]),
+        ]
+        rows = "\n".join(
+            f'<tr><td><strong>{name}</strong><br><small>{description}</small></td><td class="winner">≈ {range_km:.0f} كم</td></tr>'
+            for name, description, range_km in scenarios
+        )
+        range_sections.append(
+            f'<section class="table-wrap"><h3>{esc(v["label"])} — تقدير المدى</h3>'
+            '<table><tr><th>السيناريو</th><th>المدى المقدّر</th></tr>'
+            f'{rows}</table>'
+            f'<p class="updated">التقدير مبني على {num(v["energyWh"])} Wh، مع استخدام 90% من الطاقة القابلة للاستعمال وسرعة مرجعية لا تتجاوز {REFERENCE_SPEED} كم/س (أو سرعة النسخة إذا كانت أقل). '
+            'ليس اختباراً ميدانياً ولا ضماناً للمدى الفعلي.</p></section>'
+        )
+    return "\n".join(spec_sections), "\n".join(range_sections)
+
+
+def migrate_model_page(page_html, model, variants):
+    spec_html, range_html = verified_variant_page_sections(variants)
+    intro = (f'<p>تختلف مواصفات {esc(model["name"])} باختلاف الجيل والسوق ورقم النسخة. '
+             'نعرض أدناه فقط النسخ التي أمكن ربطها بمصادر موثوقة من الشركة المصنّعة. '
+             'اختر السوق ورقم النسخة المطابقين للملصق الموجود على سكوترك قبل الاعتماد على أي رقم.</p>')
+    page_html, n = re.subn(r'<p>الرقم المكتوب على علبة أي سكوتر.*?</p>', intro, page_html, count=1, flags=re.S)
+    if n != 1:
+        raise ValueError(f"Could not replace legacy model intro for {model['id']}")
+    page_html, n = re.subn(
+        r'<h2>📋 المواصفات المرجعية</h2>.*?(?=<h2>📏 ثلاثة سيناريوهات للمدى \(تقدير VoltRide\)</h2>)',
+        '<h2>📋 مواصفات النسخ الموثقة حسب السوق</h2>\n' + spec_html + '\n',
+        page_html, count=1, flags=re.S
+    )
+    if n != 1:
+        raise ValueError(f"Could not replace legacy specification table for {model['id']}")
+    range_block = (
+        '<h2>📏 تقدير المدى حسب النسخة (منهجية VoltRide)</h2>\n' + range_html +
+        '<div class="warning"><h3>تنبيه حول السرعة والقانون</h3>'
+        '<p>لا تثبت السرعة المعلنة وحدها قانونية استخدام المركبة على الطرق العامة. '
+        'تختلف حدود السرعة والتصنيف والترخيص والتأمين ومتطلبات الحماية حسب البلد والمدينة. '
+        'تحقّق من الجهة المختصة في منطقتك قبل الاستخدام.</p></div>'
+        '<p class="updated">إذا كنت تقود في المغرب، راجع <a href="/article-7">الدليل القانوني الخاص بالمغرب</a>؛ فهو لا ينطبق خارج المغرب.</p>\n'
+    )
+    page_html, n = re.subn(
+        r'<h2>📏 ثلاثة سيناريوهات للمدى \(تقدير VoltRide\)</h2>.*?(?=<h2>🏞️ ملاءمة الطرق الوعرة</h2>)',
+        range_block, page_html, count=1, flags=re.S
+    )
+    if n != 1:
+        raise ValueError(f"Could not replace legacy range estimates for {model['id']}")
+    page_html = page_html.replace("موديلات قريبة في طاقة البطارية:", "موديلات أخرى من الفئة نفسها:")
+    page_html = page_html.replace(
+        f'سنعبّئ الحاسبة بمواصفات {esc(model["name"])} لتعدّل وزنك وطريقك وترى النتيجة فوراً، ثم صحّحها برحلاتك الفعلية.',
+        'افتح الحاسبة واختر السوق والنسخة الموثقة المطابقة لسكوترك قبل حساب المدى.'
+    )
+    page_html = page_html.replace(f'<a href="/?model={model["id"]}">احسب الآن ←</a>', '<a href="/">افتح الحاسبة ←</a>')
+    page_html = page_html.replace("</div>\n\n<h2>🔗 اقرأ أيضاً</h2>", "</div>\n<h2>🔗 اقرأ أيضاً</h2>")
+    if model["id"] not in TEXTS:
+        category = model["category"]
+        fit = {
+            "budget": "من يريد سكوتراً بسيطاً وخفيفاً للاستخدام الحضري؛ طابق النسخة والسوق أولاً.",
+            "commuter": "التنقل اليومي داخل المدينة بعد التحقق من مواصفات النسخة الفعلية.",
+            "sport": "من يريد أداءً أعلى من فئة التنقل، مع التحقق من الجيل والسوق.",
+            "performance": "مستخدم خبير يراجع مواصفات النسخة ومتطلبات السلامة المحلية.",
+        }[category]
+        not_fit = {
+            "budget": "الراكب الثقيل، أو الطرق المرتفعة، أو من يقطع مسافات طويلة يومياً.",
+            "commuter": "من يحتاج قوة كبيرة في المنحدرات الحادة أو يسلك مسارات ترابية.",
+            "sport": "من يحمل سكوتره كل يوم على الدرج، أو يحتاج سرعة قصوى أعلى من فئة هذا الموديل.",
+            "performance": "التنقل اليومي الخفيف، والمبتدئون، ومن لا يستطيع حمل سكوتر ثقيل أو تخزينه.",
+        }[category]
+        offroad = {
+            "budget": "مصمم للأسفلت الناعم والمسافات القصيرة. تحقق من نوع الإطار (هوائي أو مصمت) فهو يحدد تحمّله للحفر، ولا ننصح به للمسارات الترابية.",
+            "commuter": "للأسفلت والطرق المدنية. يتحمل الحفر الصغيرة والأرصفة المنخفضة بحذر، وليس للمسارات الوعرة.",
+            "sport": "يتحمل الطرق المتشققة والمسارات الترابية الخفيفة أفضل من سكوترات التنقل. قد تختلف النسخ في التعليق وعرض الإطار، فتحقق من نسختك قبل الاعتماد عليه خارج الأسفلت.",
+            "performance": "قد تكون هذه الفئة أثقل أو أعلى أداءً من سكوترات التنقل؛ تحقق من مواصفات النسخة، واستعمل معدات الحماية والمسارات المسموحة.",
+        }[category]
+        page_html, n = re.subn(
+            r'<p><strong>يناسب:</strong>.*?</p>',
+            f'<p><strong>يناسب:</strong> {esc(fit)}<br><strong>لا يناسب:</strong> {esc(not_fit)}</p>',
+            page_html, count=1, flags=re.S
+        )
+        if n != 1:
+            raise ValueError(f"Could not replace legacy fit copy for {model['id']}")
+        page_html, n = re.subn(
+            r'(<h2>🏞️ ملاءمة الطرق الوعرة</h2>\s*<p>).*?(</p>)',
+            lambda match: match.group(1) + esc(offroad) + match.group(2),
+            page_html, count=1, flags=re.S
+        )
+        if n != 1:
+            raise ValueError(f"Could not replace legacy terrain copy for {model['id']}")
+    return page_html
+
+
 def gen_text(m):
-    """Fallback text for models without hand-written text: built from category + numbers."""
-    cat, w, mo = m["category"], wh(m), m["motor"]
-    mid = estimate(m, 75, "mixed", "balanced", min(REFERENCE_SPEED, m["speed"]))[0]
+    """Fallback editorial text; never derive user-facing specifications from legacy fields."""
+    cat = m["category"]
     cls = CLASS_AR[cat]
-    summary = (f"{m['name']} من فئة {cls}: بطارية {num(m['voltage'])}V × {num(m['ah'])}Ah (نحو {w:.0f} Wh، "
-               f"المرتبة {RANK[m['id']]} من {len(MODELS)} في الطاقة بين الموديلات المدرجة عندنا) ومحرك {num(mo)} واط.")
-    if mid < 15:
-        dist = "رحلات قصيرة جداً (حتى نحو 8–10 كم ذهاباً وإياباً)"
-    elif mid < 30:
-        dist = "رحلات يومية قصيرة إلى متوسطة"
-    elif mid < 60:
-        dist = "رحلات يومية متوسطة إلى طويلة"
-    else:
-        dist = "مسافات طويلة، وربما أسبوعاً من الاستعمال الخفيف بين شحنتين"
+    dist = "استخدام يناسب فئة الموديل بعد اختيار النسخة الموثقة المطابقة للسوق"
+    summary = (f"{m['name']} من فئة {cls}. تختلف المواصفات باختلاف الجيل والسوق ورقم النسخة؛ "
+               "اعتمد فقط على مواصفات النسخة الموثقة المطابقة لسكوترك.")
     fit = {
-        "budget": f"من يريد سكوتراً بسيطاً وخفيفاً بميزانية صغيرة لـ{dist}.",
-        "commuter": f"التنقل اليومي في المدينة: {dist}.",
-        "sport": f"من يريد عزماً وسرعة أكبر من سكوترات التنقل: {dist}.",
-        "performance": f"المستخدم الخبير الباحث عن القوة والمدى: {dist}.",
+        "budget": f"من يريد سكوتراً بسيطاً وخفيفاً للاستخدام الحضري؛ طابق النسخة والسوق أولاً.",
+        "commuter": f"التنقل اليومي داخل المدينة بعد التحقق من مواصفات النسخة الفعلية.",
+        "sport": f"من يريد أداءً أعلى من فئة التنقل، مع التحقق من الجيل والسوق.",
+        "performance": f"مستخدم خبير يراجع مواصفات النسخة ومتطلبات السلامة المحلية.",
     }[cat]
     not_fit = {
         "budget": "الراكب الثقيل، أو الطرق المرتفعة، أو من يقطع مسافات طويلة يومياً.",
@@ -188,12 +317,8 @@ def gen_text(m):
         "budget": "مصمم للأسفلت الناعم والمسافات القصيرة. تحقق من نوع الإطار (هوائي أو مصمت) فهو يحدد تحمّله للحفر، ولا ننصح به للمسارات الترابية.",
         "commuter": "للأسفلت والطرق المدنية. يتحمل الحفر الصغيرة والأرصفة المنخفضة بحذر، وليس للمسارات الوعرة.",
         "sport": "يتحمل الطرق المتشققة والمسارات الترابية الخفيفة أفضل من سكوترات التنقل. قد تختلف النسخ في التعليق وعرض الإطار، فتحقق من نسختك قبل الاعتماد عليه خارج الأسفلت.",
-        "performance": "قوة المحرك تسمح بالمسارات والطلعات القوية، لكن الوزن الكبير والسرعات العالية يتطلبان خبرة وخوذة وحماية كاملة. استعمله في أرض خاصة أو مسارات مسموحة.",
+        "performance": "قد تكون هذه الفئة أثقل أو أعلى أداءً من سكوترات التنقل؛ تحقق من مواصفات النسخة، واستعمل معدات الحماية والمسارات المسموحة.",
     }[cat]
-    if mo <= 350:
-        off += " ومحركه الصغير يتعب في المنحدرات الحادة مع الراكب الثقيل."
-    elif mo >= 4000:
-        off += " وقدرته الكبيرة تعني تسارعاً عنيفاً، فلا تجرّبها دون تدرّج."
     return {"summary": summary, "fit": fit, "not_fit": not_fit, "offroad": off}
 
 
@@ -244,37 +369,29 @@ def speed_regulatory_note(m):
             + f'<p class="updated">{local}</p>')
 
 
-def faqs(m, rows):
-    mid = rows[1][2][0]
-    days = max(1, math.floor(mid / 10))
-    sp, t = m["speed"], tier(m)
-    if t == "extreme":
-        a3 = f"سرعته وقدرته مرتفعتان (سرعة معلنة نحو {sp} كم/س)، وقد يخضع لتصنيف مختلف عن السكوترات الخفيفة. تختلف شروط الطرق العامة والترخيص والتأمين والحماية حسب البلد؛ تحقّق من الجهة المحلية المختصة قبل الاستخدام."
-    elif t == "over":
-        a3 = f"سرعته المعلنة نحو {sp} كم/س، أعلى من مرجع VoltRide الحسابي البالغ 25 كم/س. هذا المرجع ليس قانوناً عالمياً، كما أن محدد السرعة لا يضمن وحده قانونية الاستخدام. تحقّق من القواعد المحلية."
-    else:
-        a3 = f"سرعته المعلنة نحو {sp} كم/س، لكنها لا تكفي وحدها لإثبات السماح باستخدامه على الطرق العامة. تختلف القواعد حسب البلد وقد تشمل تصنيف المركبة والعمر والخوذة والإضاءة والتأمين."
+def faqs(m, rows=None):
     return [
-        ("كم مرة أحتاج لشحنه؟",
-         f"بحسب تقدير VoltRide (سيناريو الاستعمال العادي: مدى نحو {mid:.0f} كم)، إن كنت تقطع نحو 10 كم يومياً فقد يكفيك شحن كل {days} {'يوم' if days == 1 else 'أيام'} تقريباً. الرقم تقريبي، ويتأثر بوزنك وطريقك. الأفضل ألا تنزل البطارية إلى الصفر باستمرار."),
-        ("كيف أطيل عمر بطاريته؟",
-         "تجنب الشحن في الحرارة العالية، ولا تترك البطارية فارغة أو ممتلئة أسابيع طويلة، واستعمل الشاحن الأصلي أو المطابق، واتبع توصية الشركة لموديلك. التفاصيل في مقال أخطاء تقصّر عمر البطارية."),
-        ("هل يمكنني استخدامه قانونياً على الطرق العامة؟", a3),
+        ("كيف أتحقق من نسخة السكوتر التي أملكها؟",
+         "قارن اسم الجيل ورقم SKU والسوق المكتوب على ملصق المنتج مع النسخة المعروضة في جدول المواصفات. لا تفترض أن موديلين بالاسم التجاري نفسه متطابقان."),
+        ("هل المدى المقدّر مضمون؟",
+         "لا. تقديرات VoltRide حسابية للمقارنة وليست اختباراً ميدانياً أو ضماناً. يتغير المدى الفعلي حسب وزن الراكب والحرارة والضغط والإطارات والتضاريس والسرعة وحالة البطارية."),
+        ("هل يمكنني استخدامه قانونياً على الطرق العامة؟",
+         "لا تكفي مواصفات السرعة وحدها لتحديد قانونية الاستخدام. تختلف القواعد حسب البلد والمدينة وقد تشمل تصنيف المركبة والعمر والخوذة والإضاءة والتأمين؛ تحقّق من الجهة المحلية المختصة.")
     ]
 
 
-def page(m):
+def page(m, variant_options):
     slug = m["id"]
+    variants = variant_options.get(slug, [])
     t = text_for(m)
     rows, sp = scenarios(m)
     energy = wh(m)
     mid = rows[1][2][0]
     url = f"{BASE}/{slug}"            # clean URL: Cloudflare Pages redirects *.html to the extensionless URL
-    title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide"
+    title = f"مواصفات {m['name']} حسب السوق"
     if len(title + " | VoltRide") > 60:
-        title = f"كم مدى {m['name']} الواقعي؟"
-    desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
-            f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
+        title = f"{m['name']} — النسخ الموثقة"
+    desc = f"مواصفات النسخ الموثقة من {m['name']} حسب السوق، مع مصادر الشركة وتقديرات مدى نظرية توضح طريقة الحساب."
     fq = faqs(m, rows)
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in fq]}
@@ -301,7 +418,7 @@ def page(m):
     sim_links = " • ".join(f'<a href="/{x["id"]}">{esc(x["name"])}</a>' for x in sim)
     battery_note = (f"طاقة بطاريته نحو {energy:.0f} Wh، وهي المرتبة {RANK[slug]} من {len(MODELS)} بين الموديلات المدرجة عندنا.")
 
-    return f'''<!DOCTYPE html>
+    page_html = f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -404,6 +521,7 @@ def page(m):
 </body>
 </html>
 '''
+    return migrate_model_page(page_html, m, variants)
 
 
 def replace_block(text, start, end, block, fallback_before):
@@ -424,36 +542,40 @@ def write(name, s):
 
 
 def main():
+    # Build the canonical verified V2 choices once; model pages, calculator and catalog share this projection.
+    variant_options = build_verified_variant_options()
+
     # remove stale model pages that are no longer in models.json
     ids = {m["id"] for m in MODELS}
     for m in MODELS:
-        write(f"{m['id']}.html", page(m))
+        write("{}.html".format(m["id"]), page(m, variant_options))
+
     print("pages written:", len(MODELS))
 
     # sitemap.xml is maintained separately; never overwrite its curated multilingual URLs.
     print("sitemap preserved")
 
     # blog section grouped by category
-    parts = ['<h2 class="center" style="margin:30px 0 6px;font-size:21px">🛴 مدى الموديلات: تقدير VoltRide</h2>',
-             '<p class="center updated" style="margin-bottom:14px">تقديرات نظرية لثلاثين موديلاً بحسب مواصفاتها المرجعية، وليست اختبارات ميدانية.</p>']
+    parts = ['<h2 class="center" style="margin:30px 0 6px;font-size:21px">🛴 مواصفات موديلات VoltRide حسب السوق</h2>',
+             '<p class="center updated" style="margin-bottom:14px">تظهر المواصفات فقط للنسخ التي أمكن التحقق منها من مصادر الشركة. الموديلات الأخرى قيد مراجعة النسخة والسوق.</p>']
     for cat in ("budget", "commuter", "sport", "performance"):
         group = [m for m in MODELS if m["category"] == cat]
         if not group:
             continue
         parts.append(f'<h2 style="margin:22px 0 10px;font-size:17px;color:var(--cyan)">سكوترات {CLASS_HEAD[cat]} ({len(group)})</h2>')
         for m in group:
-            r = estimate(m, 75, "mixed", "balanced", min(REFERENCE_SPEED, m["speed"]))[0]
+            choices = variant_options.get(m["id"], [])
+            status = f"{len(choices)} نسخة موثقة حسب السوق" if choices else "النسخة والسوق قيد التحقق"
             parts.append(f'<a href="/{m["id"]}" class="article-card"><span class="cat">{CLASS_AR[cat]}</span>'
-                         f'<h2>كم مدى {esc(m["name"])} الواقعي؟</h2>'
-                         f'<p>بطارية {num(m["voltage"])}V {num(m["ah"])}Ah: تقدير نحو {r:.0f} كم في الاستعمال العادي، مع سيناريوهات وملاحظة قانونية.</p>'
-                         f'<div class="meta">📅 20 أكتوبر 2026</div></a>')
+                         f'<h2>{esc(m["name"])} — المواصفات حسب السوق</h2>'
+                         f'<p>{status}. افتح صفحة الموديل لمراجعة النسخة ومصدر الشركة.</p>'
+                         f'<div class="meta">📅 11 نوفمبر 2026</div></a>')
     write("blog.html", replace_block(read("blog.html"), "<!--MODELS:START-->", "<!--MODELS:END-->", "\n".join(parts), "</main>"))
 
     # index presets
     presets = {m["id"]: {"name": m["name"], "voltage": m["voltage"], "ah": m["ah"], "motor": m["motor"]} for m in MODELS}
     block = "const MODEL_PRESETS = " + json.dumps(presets, ensure_ascii=False) + ";"
     write("index.html", replace_block(read("index.html"), "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = ["))
-    variant_options = build_verified_variant_options()
     variant_block = "const MODEL_VARIANTS = " + json.dumps(variant_options, ensure_ascii=False, separators=(",", ":")) + ";"
     write("index.html", replace_block(read("index.html"), "/*MODEL_VARIANTS:START*/", "/*MODEL_VARIANTS:END*/", variant_block, "/*SCOOTERS:START*/"))
 
