@@ -170,10 +170,10 @@ These are work queues, not permission to overwrite current production values wit
 
 ## 9. Staged migration checkpoint — 2026-11-11
 
-- `model_data_v2.json` now contains 15 model identities and 18 variants (14 verified, 4 intentionally unresolved): Verified: Xiaomi Scooter 3 Lite (UK), Xiaomi Pro 2 (HK), NIU KQi3 Max (US/EU), KuKirin G2 Pro (EU), KuKirin G3 Pro (EU-OPEN), Apollo City Pro 2023 (CA), GOTRAX GXL V2 (US), and VSETT 9+ 48V/21Ah (Global), Segway MAX G2 (US 051501U / EU 051501E), NAVEE N40, KuKirin G2 Max (EU-OPEN), and KuKirin G4 (EU-OPEN). Unresolved: Xiaomi 4 Pro (voltage absent), NAVEE G5 (Ah absent in US/EU listings), and Segway MAX G30 family (G30/G30P suffix and Ah unresolved).
+- `model_data_v2.json` now contains 18 model identities and 21 variants (15 verified, 6 intentionally unresolved): Verified: Xiaomi Scooter 3 Lite (UK), Xiaomi Pro 2 (HK), NIU KQi3 Max (US/EU), KuKirin G2 Pro (EU), KuKirin G3 Pro (EU-OPEN), Apollo City Pro 2023 (CA), GOTRAX GXL V2 (US), and VSETT 9+ 48V/21Ah (Global), Segway MAX G2 (US 051501U / EU 051501E), NAVEE N40, KuKirin G2 Max (EU-OPEN), and KuKirin G4 (EU-OPEN). Unresolved: Xiaomi 4 Pro (voltage absent), NAVEE G5 (Ah absent in US/EU listings), and Segway MAX G30 family (G30/G30P suffix and Ah unresolved).
 - The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
 - All 18 variant records pass the schema-v2 validator; the adapter projects the 14 verified variants and rejects the 4 unresolved variants. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
-- The remaining 15 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
+- The remaining 12 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
 - The explicit-variant adapter is implemented and covered by 19 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
 
 
@@ -210,3 +210,6 @@ Segway MAX G2 now has separate US and EU variants. The US 051501U supports up to
 
 
 NAVEE N40, KuKirin G2 Max and KuKirin G4 have now been added as verified exact official listing/manual variants. The N40 uses the official manual's 37V/10Ah/370Wh; G2 Max and G4 are explicitly EU-OPEN, with Wh calculated from published V × Ah. G4 peak power is left null because the source says at least 2400W rather than an exact peak rating.
+
+
+Apollo Ghost is added as a verified US-market variant with separate 800W rated / 1000W peak per-motor values and 947Wh manufacturer-published battery energy. Kaabo Wolf King GT and Teverun Fighter 11 are added as unresolved records: their official sources do not settle motor-power basis and/or exact speed ceiling. Teverun's 25km/h factory road-use limit is kept separate from its unrestricted 85km/h specification.
