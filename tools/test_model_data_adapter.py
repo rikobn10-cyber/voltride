@@ -128,6 +128,28 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertIsNone(g4["legacy_fields"]["peakMotorPowerW"])
         self.assertEqual(g4["legacy_fields"]["energyWh"], 1200)
 
+    def test_apollo_ghost_keeps_per_motor_rated_and_peak_values_separate(self):
+        result = project_verified_variant(
+            DATA, "apollo-ghost", "apollo-ghost-us-2020", "US"
+        )
+        self.assertEqual(result["legacy_fields"]["motor"], 1600)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 2000)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 947)
+        self.assertEqual(result["legacy_fields"]["speed"], 55)
+        self.assertEqual(result["range_claim"]["max_km"], 62)
+
+    def test_rejects_kaabo_wolf_king_gt_until_power_and_speed_are_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "kaabo-wolf-king", "kaabo-wolf-king-gt-global-unresolved", "Global"
+            )
+
+    def test_rejects_teverun_fighter_11_until_rated_power_basis_is_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "teverun-fighter-11", "teverun-fighter-11-60v26ah-global-unresolved", "Global"
+            )
+
     def test_segway_max_g2_preserves_us_eu_speed_and_peak_power(self):
         us = project_verified_variant(
             DATA, "segway-max-g2", "segway-max-g2-us-051501u", "US"
