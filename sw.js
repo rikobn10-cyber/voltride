@@ -113,8 +113,9 @@ async function offlineNavigationFallback(cache, req) {
 async function networkIsReachable() {
   if (self.navigator && self.navigator.onLine === false) return false;
   try {
-    const probeUrl = new URL("manifest.json", self.registration.scope).href;
-    const response = await fetch(new Request(probeUrl, { cache: "no-store" }));
+    const probeUrl = new URL("manifest.json", self.registration.scope);
+    probeUrl.searchParams.set("_vr_connectivity_probe", String(Date.now()) + "-" + Math.random().toString(36).slice(2));
+    const response = await fetchWithTimeout(new Request(probeUrl.href, { cache: "no-store" }), 1500);
     return Boolean(response && response.ok);
   } catch (_) {
     return false;
