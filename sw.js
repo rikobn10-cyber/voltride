@@ -155,7 +155,13 @@ self.addEventListener("fetch", (event) => {
   if (url.pathname.endsWith("/sw.js")) return;
 
   if (req.mode === "navigate") {
-    event.respondWith(navigate(req));
+    event.respondWith((async () => {
+      const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+      for (const client of clients) client.postMessage({ type: "VOLT_SW_DIAG", stage: "navigation-intercepted", url: req.url, mode: req.mode });
+      const response = await navigate(req);
+      for (const client of clients) client.postMessage({ type: "VOLT_SW_DIAG", stage: "navigation-response", url: req.url, status: response.status, type: response.type });
+      return response;
+    })());
     return;
   }
   event.respondWith(staleWhileRevalidate(event));
