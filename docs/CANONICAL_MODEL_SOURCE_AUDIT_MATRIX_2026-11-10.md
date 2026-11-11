@@ -107,7 +107,7 @@ The following first-party pages were rechecked on 2026-11-11. Findings are recor
 
 ### Migration boundary
 
-Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 10 model identities stay out of V2 until their own variant evidence is complete.
+Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 8 model identities stay out of V2 until their own variant evidence is complete.
 
 
 ### Additional exact variants migrated on 2026-11-11
@@ -116,7 +116,7 @@ Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. Thi
 - `niu-kqi3-max-us`: NIU's official US listing identifies 48V, 13Ah/608.4Wh, 450W rated/900W max, 20mph top speed and 40-mile range. The dataset stores the metric conversions (32.2km/h and 64.4km) and records the original imperial units in conditions.
 - `niu-kqi3-max-eu`: NIU's official EU listing identifies the same pack and motor values, but 25km/h top speed and 65km range. This is a separate variant; no global speed is inferred.
 
-The staged V2 dataset now contains 20 model identities and 23 variants (16 verified, 7 unresolved). The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
+The staged V2 dataset now contains 22 model identities and 25 variants (17 verified, 8 unresolved). The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
 
 
 ### KuKirin G-series exact variant evidence — 2026-11-11
@@ -124,7 +124,7 @@ The staged V2 dataset now contains 20 model identities and 23 variants (16 verif
 - `kukirin-g2-pro-eu-current`: the KuKirin EU official listing identifies 48V/15.6Ah, 600W rated rear motor, up to 1000W peak, 45km/h and up to 58km range. The legacy catalog's 15Ah is not carried forward. V2 calculates 748.8Wh from the published nominal V × Ah and labels the value as calculated.
 - `kukirin-g3-pro-eu-open-current`: the official listing identifies 52V/23.4Ah, two 1200W rated motors, up to 65km/h in dual-motor mode and up to 80km range. The page explicitly distinguishes this open configuration from German ABE and Spain VMP versions. V2 uses market code `EU-OPEN` and calculates 1216.8Wh from the published nominal V × Ah.
 
-The staged V2 dataset now contains 20 model identities and 23 variants (16 verified, 7 unresolved). The two KuKirin records do not alter legacy production data until consumer migration is completed.
+The staged V2 dataset now contains 22 model identities and 25 variants (17 verified, 8 unresolved). The two KuKirin records do not alter legacy production data until consumer migration is completed.
 
 
 ### Apollo City Pro 2023 variant evidence — 2026-11-11
