@@ -167,3 +167,13 @@ The default display currency is now selected from the browser's regional locale,
 ### Migration gate — unchanged
 
 Production consumers (`build_models.py`, static model pages, homepage catalog and Ride Match) still use legacy `models.json`. Do not switch them wholesale to V2. Next, implement an explicit market/variant selection contract and a compatibility projection for high-confidence records, retain a safe and clearly marked fallback for unresolved legacy entries only where product behavior requires it, and test each consumer independently. Review generated output before any generator run; `build_models.py` rewrites model pages, homepage catalog sections and service-worker precache data. Keep all consumer migration in separate PRs with CI and preview verification.
+
+
+## 2026-11-11 — calculator V2 selector implementation (review branch)
+
+- Branch `feat/calculator-v2-market-variant-selector` adds a market/variant picker to the calculator using only high-confidence `verified_variant` records that pass `project_verified_variant`.
+- The generated selector exposes 22 market choices across 19 model identities (21 verified variant records; the M41 variant is selectable for both MA and EU).
+- Model deep links and the catalog “Use” action no longer auto-fill the legacy catalog specifications. They open the explicit variant selector; models without a projectable V2 variant require manual entry instead of silently falling back to legacy values.
+- When a variant is selected, the calculator uses its combined rated motor power and preserves manufacturer-published Wh versus calculated Wh basis. Manual edits clear the selected-variant provenance and recalculate energy from the entered voltage and Ah.
+- Unresolved V2 records are excluded from the selector. The catalog card display, comparison table, generated model-page specifications and Ride Match still require their own staged migration; they are not switched by this calculator-only phase.
+- No production merge or deployment has been made for this phase; CI and preview review are required.
