@@ -252,7 +252,7 @@ def migrate_model_page(page_html, model, variants):
         'افتح الحاسبة واختر السوق والنسخة الموثقة المطابقة لسكوترك قبل حساب المدى.'
     )
     page_html = page_html.replace(f'<a href="/?model={model["id"]}">احسب الآن ←</a>', '<a href="/">افتح الحاسبة ←</a>')
-    page_html = page_html.replace("</div>\\n\\n<h2>🔗 اقرأ أيضاً</h2>", "</div>\\n<h2>🔗 اقرأ أيضاً</h2>")
+    page_html = page_html.replace("</div>\n\n<h2>🔗 اقرأ أيضاً</h2>", "</div>\\n<h2>🔗 اقرأ أيضاً</h2>")
     if model["id"] not in TEXTS:
         category = model["category"]
         fit = {
