@@ -1399,6 +1399,10 @@ function openCompare(){
       options.map(v => '<option value="' + escapeHTML(v.key) + '"' + (selected && selected.key === v.key ? ' selected' : '') + '>' + escapeHTML(v.label) + '</option>').join("") +
       '</select></td>';
   }).join("") + '</tr>';
+  const sourceRow = '<tr><td>' + escapeHTML(t("compareSource")) + '</td>' + items.map(s => {
+    const v = selectedFor(s);
+    return '<td>' + (v && v.sourceUrl ? '<a href="' + escapeHTML(v.sourceUrl) + '" target="_blank" rel="noopener noreferrer">' + escapeHTML(v.sourcePublisher || t("catalogSourceLink")) + '</a>' : '—') + '</td>';
+  }).join("") + '</tr>';
   const row = (label, getter, suffix) => '<tr><td>' + escapeHTML(label) + '</td>' + items.map(s => {
     const v = selectedFor(s), value = v ? getter(v) : null;
     return '<td>' + (value === null || value === undefined || value === "" ? '—' : escapeHTML(String(value)) + (suffix || "")) + '</td>';
@@ -1412,7 +1416,7 @@ function openCompare(){
     row(t("catalogBatteryEnergy"), v => v.energyWh, " Wh") +
     row(t("catalogRangeClaim"), v => v.rangeClaimKm, " km") +
     row(t("compareEnergyBasis"), v => v.energyWhBasis === "manufacturer_published" ? t("variantEnergyManufacturer") : t("variantEnergyCalculated"), "") +
-    row(t("compareSource"), v => v.sourcePublisher || null, "") +
+    sourceRow +
     '</table></div>' +
     '<p class="small">' + escapeHTML(t("catalogVariantRequired")) + '</p>' +
     '<button class="secondary" id="clearCompare" style="width:100%;margin-top:12px">' + t("clearCompare") + '</button>';
