@@ -54,13 +54,13 @@ class ModelDataAdapterTests(unittest.TestCase):
 
     def test_rejects_non_verified_variant(self):
         fixture = json.loads(json.dumps(DATA))
-        fixture["models"][0]["variants"][0]["verification"]["status"] = "provisional"
+        next(m for m in fixture["models"] if m["id"] == "xiaomi-3-lite")["variants"][0]["verification"]["status"] = "provisional"
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "Global")
 
     def test_never_substitutes_peak_power_for_missing_rated_power(self):
         fixture = json.loads(json.dumps(DATA))
-        motors = fixture["models"][0]["variants"][0]["motors"]
+        motors = next(m for m in fixture["models"] if m["id"] == "xiaomi-3-lite")["variants"][0]["motors"]
         motors["ratedPowerW"] = None
         motors["ratedPowerBasis"] = "unresolved"
         motors["peakPowerW"] = 600
