@@ -72,6 +72,68 @@
       ]
     },
     {
+      "id": "apollo-ghost",
+      "name": "Apollo Ghost",
+      "manufacturer": "Apollo",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "apollo-ghost-us-2020",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 18.2,
+            "energyWh": 947,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Apollo publishes a 52V 18.2Ah / 947Wh battery for the Ghost."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 800,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "per_motor"
+          },
+          "speed": {
+            "maxKmh": 55,
+            "conditions": "Apollo Ghost official article states up to 55km/h (34mph)."
+          },
+          "rangeClaim": {
+            "maxKm": 62,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 62km in lowest speed settings; Apollo also reports approx. 40km average and about 22.5km at max-speed/full-power settings. Original article test used an 80kg rider."
+          },
+          "sources": [
+            {
+              "url": "https://apolloscooters.co/blogs/news/apollo-ghost-best-adult-electric-scooter",
+              "publisher": "Apollo Scooters USA",
+              "sourceType": "other",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Apollo's official brand article identifies the Ghost, dual 800W rated motors, 1000W peak per motor, 55km/h maximum, and 52V/18.2Ah/947Wh battery.",
+              "The 62km range is the manufacturer's lowest-speed claim; the same article reports about 40km average and much less at maximum speed, so the test conditions are preserved.",
+              "Motor values remain per motor; the adapter combines to 1600W rated and 2000W peak."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "gotrax-gxl-v2",
       "name": "GOTRAX GXL V2",
       "manufacturer": "GOTRAX",
@@ -138,6 +200,68 @@
               "GOTRAX's official replacement battery page explicitly lists GXL V2 compatibility and 36V 5.2Ah capacity.",
               "Speed and range are converted from the original US units; the original units remain documented in conditions.",
               "Battery energy is calculated as 36V × 5.2Ah and is labelled as calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "kaabo-wolf-king",
+      "name": "Kaabo Wolf King GT",
+      "manufacturer": "Kaabo",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "kaabo-wolf-king-gt-global-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 72,
+            "capacityAh": 35,
+            "energyWh": 2520,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 72V nominal × 35Ah; Kaabo's official page publishes voltage and Ah, not Wh for this listing."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": null,
+            "conditions": "Kaabo's official global page states 100+km/h; it does not publish an exact maximum speed for this Wolf King GT listing."
+          },
+          "rangeClaim": {
+            "maxKm": 180,
+            "basis": "manufacturer_claim",
+            "conditions": "Kaabo official global page lists up to 180km; full test conditions are not specified in the overview."
+          },
+          "sources": [
+            {
+              "url": "https://www.kaabo.com/",
+              "publisher": "Kaabo",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Kaabo's official global site lists Wolf King GT with 72V/35Ah, dual 2000W motors, 180km maximum range and 100+km/h maximum-speed wording.",
+              "The overview does not state whether 2000W x2 is rated or peak power and does not give an exact top-speed ceiling; motor ratings and speed remain null.",
+              "Do not conflate Wolf King GT with the separate King GT Pro listing."
             ]
           }
         }
@@ -873,6 +997,68 @@
               "Official page distinguishes G30 (25km/h) and G30P (30km/h); the current catalog identity does not preserve the suffix needed to choose one.",
               "Official page publishes 36V and 551Wh but not Ah; capacityAh remains null.",
               "Do not use the current catalog's 30km/h value as a universal G30 specification."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "teverun-fighter-11",
+      "name": "Teverun Fighter 11",
+      "manufacturer": "Teverun",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "teverun-fighter-11-60v26ah-global-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 60,
+            "capacityAh": 26,
+            "energyWh": 1560,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 60V nominal × 26Ah; official product page does not publish Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 85,
+            "conditions": "Teverun official Fighter 11 specification table; unrestricted maximum, distinct from factory road-use speed limit."
+          },
+          "rangeClaim": {
+            "maxKm": 80,
+            "basis": "manufacturer_claim",
+            "conditions": "Official Fighter 11 (not 11+) range claim; page distinguishes the 26Ah base model from the 35Ah 11+."
+          },
+          "sources": [
+            {
+              "url": "https://teverun.com/product/fighter-eleven-plus/",
+              "publisher": "Teverun",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official table distinguishes Fighter 11 (60V/26Ah, 85km/h, 80km) from Fighter 11+ (60V/35Ah, 85km/h, 120km).",
+              "The table lists 4900W peak power but does not establish rated power or whether the figure is per-motor or combined; power fields remain unresolved rather than using the legacy 5000W as rated.",
+              "Teverun's after-sale guide states factory speed is limited to 25km/h; 85km/h is the unrestricted specification and must not be presented as road-use default."
             ]
           }
         }
