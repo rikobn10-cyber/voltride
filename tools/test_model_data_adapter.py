@@ -103,6 +103,20 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
 
+    def test_segway_max_g2_preserves_us_eu_speed_and_peak_power(self):
+        us = project_verified_variant(
+            DATA, "segway-max-g2", "segway-max-g2-us-051501u", "US"
+        )
+        eu = project_verified_variant(
+            DATA, "segway-max-g2", "segway-max-g2-e-051501e", "EU"
+        )
+        self.assertEqual(us["legacy_fields"]["speed"], 35)
+        self.assertEqual(us["legacy_fields"]["peakMotorPowerW"], 1000)
+        self.assertEqual(eu["legacy_fields"]["speed"], 25)
+        self.assertEqual(eu["legacy_fields"]["peakMotorPowerW"], 900)
+        self.assertEqual(us["legacy_fields"]["energyWh"], 551)
+        self.assertEqual(eu["legacy_fields"]["energyWh"], 551)
+
     def test_vsett_9_plus_aggregates_two_rated_motors_without_guessing_peak(self):
         result = project_verified_variant(
             DATA, "vsett-9-plus", "vsett-9-plus-48v-21ah-global", "Global"
