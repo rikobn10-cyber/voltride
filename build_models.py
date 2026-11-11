@@ -20,9 +20,6 @@ MODELS = raw["models"]
 BY_ID = {m["id"]: m for m in MODELS}
 TEXTS_PATH = os.path.join(ROOT, "model_texts.json")
 TEXTS = json.load(open(TEXTS_PATH, encoding="utf-8")) if os.path.exists(TEXTS_PATH) else {}
-RIDE_MATCH_DATA = json.load(open(os.path.join(ROOT, "ride_match_data.json"), encoding="utf-8"))
-RIDE_MATCH_EXCLUDED_IDS = set(RIDE_MATCH_DATA.get("excludedModelIds", []))
-RIDE_MATCH_AFFILIATE_ONLY = RIDE_MATCH_DATA.get("affiliateOnlyModels", [])
 
 MODEL_DATA_V2_PATH = os.path.join(ROOT, "model_data_v2.json")
 MODEL_DATA_V2 = json.load(open(MODEL_DATA_V2_PATH, encoding="utf-8"))
@@ -479,38 +476,27 @@ def main():
     write("index.html", t)
     print("catalog scooters:", len(scoot))
 
-    # Ride Match is generated from the canonical catalog plus explicitly separate affiliate-only entries.
-    # This prevents its core model specifications from drifting away from models.json.
-    core_ids = {m["id"] for m in MODELS}
-    affiliate_ids = [m["id"] for m in RIDE_MATCH_AFFILIATE_ONLY]
-    if len(affiliate_ids) != len(set(affiliate_ids)) or core_ids.intersection(affiliate_ids):
-        raise ValueError("Ride Match affiliate-only IDs must be unique and must not overlap models.json")
-    unknown_exclusions = RIDE_MATCH_EXCLUDED_IDS - core_ids
-    if unknown_exclusions:
-        raise ValueError("Ride Match exclusions reference unknown canonical IDs: " + ", ".join(sorted(unknown_exclusions)))
-    ride_scooters = []
-    for m in MODELS:
-        item = {"id": m["id"], "name": m["name"], "cat": m["category"], "speed": m["speed"],
-                "power": m["motor"], "voltage": m["voltage"], "ah": m["ah"],
-                "affiliateUrl": m.get("affiliateUrl")}
-        if m["id"] in RIDE_MATCH_EXCLUDED_IDS:
-            item["eligible"] = False
-        ride_scooters.append(item)
-    for affiliate_model in RIDE_MATCH_AFFILIATE_ONLY:
-        item = dict(affiliate_model)
-        item["affiliateDestinationVerified"] = item.get("affiliateDestinationVerified") is True
-        ride_scooters.append(item)
-    ride_arr = "const scooters = [\n  " + ",\n  ".join(json.dumps(s, ensure_ascii=False) for s in ride_scooters) + "\n];"
+    # Ride Match is generated exclusively from adapter-projectable, high-confidence V2 variants.
+    # Legacy catalog values and unverified affiliate-only products are never eligible for recommendations.
+    ride_models = []
+    for model in MODEL_DATA_V2.get("models", []):
+        variants = variant_options.get(model["id"], [])
+        if not variants:
+            continue
+        ride_models.append({
+            "id": model["id"],
+            "name": model["name"],
+            "cat": model["category"],
+            "variants": variants,
+        })
+    ride_markets = sorted({variant["market"] for model in ride_models for variant in model["variants"]})
+    ride_block = "const RIDE_MATCH_MODELS = " + json.dumps(ride_models, ensure_ascii=False, separators=(",", ":")) + ";\\n"
+    ride_block += "const RIDE_MATCH_MARKETS = " + json.dumps(ride_markets, ensure_ascii=False) + ";"
     ride_path = "ride-match.html"
     ride_html = read(ride_path)
-    if "/*SCOOTERS:START*/" in ride_html:
-        ride_html = replace_block(ride_html, "/*SCOOTERS:START*/", "/*SCOOTERS:END*/", ride_arr, "const uniqueScooters =")
-    else:
-        ride_html, count = re.subn(r"const scooters = \[.*?\n\];",
-                                   lambda _: "/*SCOOTERS:START*/\n" + ride_arr + "\n/*SCOOTERS:END*/",
-                                   ride_html, count=1, flags=re.S)
-        if count != 1:
-            raise ValueError("Could not locate Ride Match scooters array for generation")
+    if "/*RIDE_VARIANTS:START*/" not in ride_html or "/*RIDE_VARIANTS:END*/" not in ride_html:
+        raise ValueError("Ride Match V2 variant marker is missing")
+    ride_html = replace_block(ride_html, "/*RIDE_VARIANTS:START*/", "/*RIDE_VARIANTS:END*/", ride_block, "const RIDE_MATCH_MODELS =")
     # Keep the generated page aligned with the verified-destination safety gate.
     old_cta = '''    const isAffiliate = Boolean(r.s.affiliateUrl);
     const buyUrl = isAffiliate ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
