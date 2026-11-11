@@ -31,6 +31,31 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["provenance"]["battery_energy_wh"], 187)
         self.assertEqual(result["provenance"]["variant_id"], "xiaomi-3-lite-mjddhbc03zm-uk")
 
+    def test_selector_options_include_only_high_confidence_projectable_variants(self):
+        from build_models import build_verified_variant_options
+        options = build_verified_variant_options()
+        expected = 0
+        for model in DATA["models"]:
+            for variant in model["variants"]:
+                verification = variant.get("verification", {})
+                if verification.get("status") == "verified_variant" and verification.get("confidence") == "high":
+                    for market in variant["market"]:
+                        expected += 1
+                        self.assertIn(model["id"], options)
+                        found = [item for item in options[model["id"]]
+                                 if item["variantId"] == variant["variantId"] and item["market"] == market]
+                        self.assertEqual(len(found), 1)
+                        self.assertGreater(found[0]["voltage"], 0)
+                        self.assertGreater(found[0]["ah"], 0)
+                        self.assertGreater(found[0]["motor"], 0)
+                        self.assertGreater(found[0]["energyWh"], 0)
+        self.assertEqual(sum(len(items) for items in options.values()), expected)
+        for model in DATA["models"]:
+            for variant in model["variants"]:
+                if variant.get("verification", {}).get("status") != "verified_variant":
+                    self.assertFalse(any(item["variantId"] == variant["variantId"]
+                                         for item in options.get(model["id"], [])))
+
     def test_requires_explicit_market(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "")
