@@ -105,7 +105,9 @@ jobs:
       - name: Install axe + Playwright
         run: |
           npm install --no-save --no-package-lock playwright@1.56.0 @axe-core/playwright@4
-          npx playwright install --with-deps chromium
+          # GitHub's ubuntu-24.04 runner already has browser system libraries.
+          # Avoid install-deps: it invokes apt and can fail on transient runner DNS.
+          npx playwright install chromium
       - name: Serve the site and run axe
         run: |
           python3 -m http.server 8080 >/dev/null 2>&1 &
@@ -123,6 +125,6 @@ jobs:
             const marker = '<!-- a11y-report -->';
             const { data: comments } = await github.rest.issues.listComments({ ...context.repo, issue_number: context.issue.number });
             const old = comments.find(c => c.body && c.body.includes(marker));
-            const payload = { ...context.repo, body: marker + '\n' + body };
+            const payload = { ...context.repo, body: marker + '\\n' + body };
             if (old) await github.rest.issues.updateComment({ ...payload, comment_id: old.id });
             else await github.rest.issues.createComment({ ...payload, issue_number: context.issue.number });
