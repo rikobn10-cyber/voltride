@@ -71,7 +71,10 @@ async function navigate(req) {
     if (res && res.ok) cache.put(req, res.clone());
     return res;
   } catch (_) {
-    const page = await matchPage(cache, req);\n    if (page) return page;\n    const offlineUrl = new URL("offline.html", self.registration.scope).href;\n    return (await cache.match(offlineUrl)) || Response.error();
+    const page = await matchPage(cache, req);
+    if (page) return page;
+    const offlineUrl = new URL("offline.html", self.registration.scope).href;
+    return (await cache.match(offlineUrl)) || Response.error();
   }
 }
 
