@@ -139,12 +139,6 @@ function setRideMatchLanguage(next){
 
 /* ==== Ride Match logic ==== */
 
-// Catalog models plus separate affiliate-only entries; keep their sources and verification status distinct.
-/*RIDE_VARIANTS:START*/
-const RIDE_MATCH_MODELS = [];
-const RIDE_MATCH_MARKETS = [];
-/*RIDE_VARIANTS:END*/
-
 // Estimated range (same formula as index.html: 75kg, mixed terrain, balanced mode, speed capped at 25)
 function getEligibleScooters(){
   if (!answers.market) return [];
