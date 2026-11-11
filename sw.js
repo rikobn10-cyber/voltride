@@ -74,9 +74,12 @@ function fetchWithTimeout(req, ms) {
 async function matchPage(cache, req) {
   const url = new URL(req.url);
   const path = url.pathname;
-  const tries = [req, path];
-  if (path === "/" || path.endsWith("/")) tries.push(path + "index.html");
-  else if (!/\.[a-z0-9]+$/i.test(path)) tries.push(path + ".html");
+  const tries = [req, new URL(path, self.registration.scope).href];
+  if (path === "/" || path.endsWith("/")) {
+    tries.push(new URL("index.html", new URL(path, self.registration.scope)).href);
+  } else if (!/\\.[a-z0-9]+$/i.test(path)) {
+    tries.push(new URL(path.replace(/^\\//, "") + ".html", self.registration.scope).href);
+  }
   for (const t of tries) {
     const hit = await cache.match(t, { ignoreSearch: true });
     if (hit) return hit;
