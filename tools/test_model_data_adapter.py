@@ -98,7 +98,7 @@ class ModelDataAdapterTests(unittest.TestCase):
             "peakPowerBasis": "per_motor",
         }
         result = project_verified_variant(
-            fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "Global"
+            fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "UK"
         )
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
