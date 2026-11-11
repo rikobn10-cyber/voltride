@@ -103,6 +103,31 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
 
+    def test_navee_n40_projects_official_manual_values(self):
+        result = project_verified_variant(
+            DATA, "navee-n40", "navee-n40-nkp21111-a25-global", "Global"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 37)
+        self.assertEqual(result["legacy_fields"]["ah"], 10)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 370)
+        self.assertEqual(result["legacy_fields"]["motor"], 350)
+        self.assertEqual(result["legacy_fields"]["speed"], 25)
+        self.assertEqual(result["range_claim"]["max_km"], 40)
+
+    def test_kukirin_g2_max_and_g4_keep_eu_open_variants_explicit(self):
+        g2 = project_verified_variant(
+            DATA, "kukirin-g2-max", "kukirin-g2-max-eu-open-current", "EU-OPEN"
+        )
+        g4 = project_verified_variant(
+            DATA, "kukirin-g4", "kukirin-g4-eu-open-current", "EU-OPEN"
+        )
+        self.assertEqual(g2["legacy_fields"]["ah"], 20.8)
+        self.assertEqual(g2["legacy_fields"]["peakMotorPowerW"], 1200)
+        self.assertEqual(g4["legacy_fields"]["speed"], 70)
+        self.assertEqual(g4["legacy_fields"]["motor"], 2000)
+        self.assertIsNone(g4["legacy_fields"]["peakMotorPowerW"])
+        self.assertEqual(g4["legacy_fields"]["energyWh"], 1200)
+
     def test_segway_max_g2_preserves_us_eu_speed_and_peak_power(self):
         us = project_verified_variant(
             DATA, "segway-max-g2", "segway-max-g2-us-051501u", "US"
