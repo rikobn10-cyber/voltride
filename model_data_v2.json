@@ -1759,7 +1759,7 @@
     },
     {
       "id": "segway-e2-plus",
-      "name": "Segway Ninebot E2 Plus E II",
+      "name": "Segway Ninebot E2 Plus",
       "manufacturer": "Segway",
       "category": "budget",
       "variants": [
@@ -1817,6 +1817,77 @@
               "Segway publishes 21.6V and 220Wh but not battery Ah on the cited page; capacity remains null and must not be inferred by dividing Wh by voltage.",
               "Rated 300W and maximum 500W motor output are separate.",
               "The adapter must reject this record until battery Ah and exact SKU identity are established."
+            ]
+          }
+        },
+        {
+          "variantId": "segway-e2-plus-us-051402u",
+          "generation": "E2 Plus",
+          "sku": "051402U",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 21.6,
+            "capacityAh": 10.2,
+            "energyWh": 220,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 21.6V, 10.2Ah and 220Wh; the published 220Wh value is retained."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 300,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 500,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "US model 051402U; manufacturer maximum speed 15.5mph (25km/h)."
+          },
+          "rangeClaim": {
+            "maxKm": 25,
+            "basis": "manufacturer_claim",
+            "conditions": "Theoretical range: 75kg rider, 25°C, average 70% of maximum speed on pavement. Manufacturer typical range at maximum speed is approximately 20km."
+          },
+          "sources": [
+            {
+              "url": "https://support.segway.com/support_product.php?segcatid=87",
+              "publisher": "Segway Support",
+              "sourceType": "official_support_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://support.segway.com/product_files/20240227082859_Ninebot%20Kickscooter%20E2%20Plus%20Product%20Manual.pdf",
+              "publisher": "Segway",
+              "sourceType": "official_product_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Segway's official US support page and American product manual identify the exact E2 Plus model code 051402U.",
+              "The manual publishes 21.6V, 10.2Ah and 220Wh; battery capacity is not inferred from voltage and energy.",
+              "The same official sources separate 300W nominal motor power from 500W maximum power.",
+              "The US 051402U generation is distinct from the E2 Plus E II FR record; the FR record remains unresolved because its cited regional product page omits Ah.",
+              "Theoretical 25km range and typical 20km at maximum speed are manufacturer test claims with stated test conditions."
             ]
           }
         }
