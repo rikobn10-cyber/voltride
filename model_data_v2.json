@@ -389,10 +389,10 @@
       "category": "budget",
       "variants": [
         {
-          "variantId": "xiaomi-3-lite-mjddhbc03zm-global",
+          "variantId": "xiaomi-3-lite-mjddhbc03zm-uk",
           "sku": "MJDDHBC03ZM",
           "market": [
-            "Global"
+            "UK"
           ],
           "battery": {
             "nominalVoltageV": 36,
@@ -419,7 +419,7 @@
           },
           "sources": [
             {
-              "url": "https://www.mi.com/global/product/xiaomi-electric-scooter-3-lite/specs/",
+              "url": "https://www.mi.com/uk/product/xiaomi-electric-scooter-3-lite/specs/",
               "publisher": "Xiaomi",
               "sourceType": "official_product_page",
               "supports": [
@@ -437,7 +437,7 @@
             "confidence": "high",
             "checkedAt": "2026-11-11",
             "notes": [
-              "Exact manufacturer model code MJDDHBC03ZM is identified.",
+              "Exact manufacturer model code MJDDHBC03ZM is identified on Xiaomi UK's official specifications page.",
               "Rated motor power is 300W; peak power is not published on the cited page and remains null.",
               "Manufacturer-published battery energy is retained as 187Wh; it is not recomputed from rounded nominal values."
             ]
@@ -452,17 +452,17 @@
       "category": "commuter",
       "variants": [
         {
-          "variantId": "xiaomi-pro-2-ddhbc11neb-es",
+          "variantId": "xiaomi-pro-2-ddhbc11neb-hk",
           "sku": "DDHBC11NEB",
           "market": [
-            "ES"
+            "HK"
           ],
           "battery": {
             "nominalVoltageV": 37,
-            "capacityAh": 12.4,
-            "energyWh": 446,
+            "capacityAh": 12.8,
+            "energyWh": 474,
             "energyWhBasis": "manufacturer_published",
-            "energyWhSourceNote": "Xiaomi Spain publishes 37V nominal, 12.4Ah and 446Wh."
+            "energyWhSourceNote": "Xiaomi Hong Kong publishes 37V nominal, 12,800mAh and 474Wh."
           },
           "motors": {
             "count": 1,
@@ -482,7 +482,7 @@
           },
           "sources": [
             {
-              "url": "https://www.mi.com/es/mi-electric-scooter-Pro2/specs/",
+              "url": "https://www.mi.com/hk/mi-electric-scooter-Pro2/specs/",
               "publisher": "Xiaomi",
               "sourceType": "official_product_page",
               "supports": [
@@ -500,8 +500,8 @@
             "confidence": "high",
             "checkedAt": "2026-11-11",
             "notes": [
-              "Exact product code DDHBC11NEB is identified.",
-              "Manufacturer-published 37V, 12.4Ah and 446Wh are retained; legacy 36V/12.8Ah is not reused.",
+              "Exact product code DDHBC11NEB is identified on Xiaomi's official Hong Kong specifications page.",
+              "Manufacturer-published 37V, 12.8Ah and 474Wh are retained; the legacy 36V nominal figure is not reused.",
               "Rated 300W and peak 600W remain separate fields."
             ]
           }
