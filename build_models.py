@@ -492,9 +492,6 @@ def main():
     ride_markets = sorted({variant["market"] for model in ride_models for variant in model["variants"]})
     ride_block = "const RIDE_MATCH_MODELS = " + json.dumps(ride_models, ensure_ascii=False, separators=(",", ":")) + ";\n"
     ride_block += "const RIDE_MATCH_MARKETS = " + json.dumps(ride_markets, ensure_ascii=False) + ";"
-    print("RIDE_BLOCK_DEBUG_BEGIN")
-    print(ride_block)
-    print("RIDE_BLOCK_DEBUG_END")
     ride_path = "ride-match.html"
     ride_html = read(ride_path)
     if "/*RIDE_VARIANTS:START*/" not in ride_html or "/*RIDE_VARIANTS:END*/" not in ride_html:
