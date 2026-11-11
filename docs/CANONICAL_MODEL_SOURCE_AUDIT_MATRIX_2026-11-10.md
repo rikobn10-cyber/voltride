@@ -164,3 +164,10 @@ The staged V2 dataset now contains 12 model identities and 15 variants (11 verif
 - segway-max-g2-e-051501e: Segway's official EU product page and manual identify EU model 051501E, 36V/15.3Ah/551Wh, 450W nominal/900W max, 25km/h and up to 70km theoretical range. The 900W EU maximum is not conflated with the 1000W US maximum.
 
 The current legacy segway-max-g2 row matches the US maximum only when higher speed is enabled; V2 preserves both US and EU variants separately.
+
+
+### Additional official variants — 2026-11-11
+
+- navee-n40-nkp21111-a25-global: NAVEE's official N40 manual identifies model NKP21111-A25, 37V/10Ah/370Wh, 350W rated motor, 25km/h maximum speed and approx. 40km range under its stated 75kg/25°C/15km/h test. Peak power is not published.
+- kukirin-g2-max-eu-open-current: KuKirin's official G2 Max page identifies 48V/20.8Ah, 1000W rated/1200W peak, 55km/h and up to 70km. It explicitly excludes German ABE and Spain VMP variants; Wh is calculated from nominal V × Ah.
+- kukirin-g4-eu-open-current: KuKirin's official G4 page identifies 60V/20Ah, 2000W rated rear motor, up to 70km/h and up to 75km. It says peak output is at least 2400W, not an exact figure, so peak power remains null; Wh is calculated from nominal V × Ah. Both KuKirin records are tagged EU-OPEN, not treated as universal legal configurations.
