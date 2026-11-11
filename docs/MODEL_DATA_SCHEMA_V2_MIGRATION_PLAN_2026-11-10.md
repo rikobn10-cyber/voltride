@@ -201,3 +201,6 @@ NAVEE G5 US/EU records were added as unresolved evidence variants: official sour
 
 
 Segway MAX G30 family is represented as an unresolved record because the official page distinguishes G30 (25km/h) from G30P (30km/h) while the legacy catalog does not retain the suffix, and the page omits Ah. Its speed and capacity stay null; the adapter rejects it.
+
+
+VSETT 9+ 48V/21Ah has been added as a verified global listing variant. The adapter aggregates two explicit 650W rated motors to 1300W combined; peak power remains null because the official page does not publish it.
