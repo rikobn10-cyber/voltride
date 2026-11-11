@@ -361,8 +361,9 @@ def faqs(m, rows):
     ]
 
 
-def page(m):
+def page(m, variant_options):
     slug = m["id"]
+    variants = variant_options.get(slug, [])
     t = text_for(m)
     rows, sp = scenarios(m)
     energy = wh(m)
@@ -371,8 +372,7 @@ def page(m):
     title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide"
     if len(title + " | VoltRide") > 60:
         title = f"كم مدى {m['name']} الواقعي؟"
-    desc = (f"تقدير مدى {m['name']} في ثلاثة سيناريوهات (60 و75 و90 كغ) انطلاقاً من بطارية {num(m['voltage'])}V {num(m['ah'])}Ah، "
-            f"مع المواصفات المرجعية وملاحظة قانونية حول السرعة.")
+    desc = f"مواصفات النسخ الموثقة من {m['name']} حسب السوق، مع مصادر الشركة وتقديرات مدى نظرية توضح طريقة الحساب."
     fq = faqs(m, rows)
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in fq]}
@@ -399,7 +399,7 @@ def page(m):
     sim_links = " • ".join(f'<a href="/{x["id"]}">{esc(x["name"])}</a>' for x in sim)
     battery_note = (f"طاقة بطاريته نحو {energy:.0f} Wh، وهي المرتبة {RANK[slug]} من {len(MODELS)} بين الموديلات المدرجة عندنا.")
 
-    return f'''<!DOCTYPE html>
+    page_html = f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -502,6 +502,7 @@ def page(m):
 </body>
 </html>
 '''
+    return migrate_model_page(page_html, m, variants)
 
 
 def replace_block(text, start, end, block, fallback_before):
