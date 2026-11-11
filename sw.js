@@ -71,6 +71,13 @@ async function offlineNavigationFallback(cache, req) {
   return (await cache.match(offlineUrl)) || Response.error();
 }
 
+async function offlineNavigationFallback(cache, req) {
+  const page = await matchPage(cache, req);
+  if (page) return page;
+  const offlineUrl = new URL("offline.html", self.registration.scope).href;
+  return (await cache.match(offlineUrl)) || Response.error();
+}
+
 async function navigate(req) {
   const cache = await caches.open(VERSION);
   try {
