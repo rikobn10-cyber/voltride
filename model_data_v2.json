@@ -1692,6 +1692,135 @@
           }
         }
       ]
+    },
+    {
+      "id": "xiaomi-essential",
+      "name": "Xiaomi Electric Scooter Essential",
+      "manufacturer": "Xiaomi",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "xiaomi-essential-ddhbc05neb-es",
+          "generation": "Essential",
+          "sku": "DDHBC05NEB",
+          "market": [
+            "ES"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 5.1,
+            "energyWh": 183,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Xiaomi Spain publishes 36V, 5.1Ah and 183Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 250,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 500,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 20,
+            "conditions": "Xiaomi Spain specification for DDHBC05NEB."
+          },
+          "rangeClaim": {
+            "maxKm": null,
+            "basis": "unresolved",
+            "conditions": "No range figure carried into this record from the cited specification page."
+          },
+          "sources": [
+            {
+              "url": "https://www.mi.com/es/mi-electric-scooter-essential/specs/",
+              "publisher": "Xiaomi Spain",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact model code DDHBC05NEB is identified by Xiaomi Spain.",
+              "Manufacturer-published battery is 36V, 5.1Ah and 183Wh; legacy 5.2Ah is not reused.",
+              "Rated motor power is 250W and maximum power 500W, kept as separate fields.",
+              "No range claim is asserted from the cited page."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "segway-e2-plus",
+      "name": "Segway Ninebot E2 Plus E II",
+      "manufacturer": "Segway",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "segway-e2-plus-e-ii-fr",
+          "generation": "E2 Plus E II",
+          "sku": null,
+          "market": [
+            "FR"
+          ],
+          "battery": {
+            "nominalVoltageV": 21.6,
+            "capacityAh": null,
+            "energyWh": 220,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway France publishes 21.6V and 220Wh; the cited product page does not state Ah."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 300,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 500,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Segway France E2 Plus E II product page; generation-specific maximum."
+          },
+          "rangeClaim": {
+            "maxKm": 25,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 25km at 15km/h under manufacturer test conditions."
+          },
+          "sources": [
+            {
+              "url": "https://ma-fr.segway.com/ekickscooter/products/e2-plus-e-ii.html",
+              "publisher": "Segway France",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact E2 Plus E II generation is identified on Segway's regional product page.",
+              "Segway publishes 21.6V and 220Wh but not battery Ah on the cited page; capacity remains null and must not be inferred by dividing Wh by voltage.",
+              "Rated 300W and maximum 500W motor output are separate.",
+              "The adapter must reject this record until battery Ah and exact SKU identity are established."
+            ]
+          }
+        }
+      ]
     }
   ]
 }
