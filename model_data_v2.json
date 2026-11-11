@@ -499,6 +499,136 @@
       ]
     },
     {
+      "id": "segway-max-g2",
+      "name": "Segway Ninebot MAX G2",
+      "manufacturer": "Segway-Ninebot",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "segway-max-g2-us-051501u",
+          "sku": "051501U",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 15.3,
+            "energyWh": 551,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 35,
+            "conditions": "US model 051501U: factory default approx. 32km/h; up to 35km/h after enabling higher speed in the Segway-Ninebot app."
+          },
+          "rangeClaim": {
+            "maxKm": 70,
+            "basis": "manufacturer_claim",
+            "conditions": "Theoretical range at approx. 16km/h with 75kg rider and 25°C; at max speed, approx. 40km at 35km/h or 45km at 32km/h."
+          },
+          "sources": [
+            {
+              "url": "https://support.segway.com/support_product.php?segcatid=80",
+              "publisher": "Segway-Ninebot Support",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact US model code 051501U is identified on Segway's official support page.",
+              "Segway publishes 36V, 15.3Ah/551Wh, 450W nominal/1000W max, 32km/h factory default and up to 35km/h after app enablement.",
+              "The maximum speed field records the enabled maximum; default speed and activation condition are explicit in conditions."
+            ]
+          }
+        },
+        {
+          "variantId": "segway-max-g2-e-051501e",
+          "sku": "051501E",
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 15.3,
+            "energyWh": 551,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 900,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "EU MAX G2 E model 051501E; factory maximum speed."
+          },
+          "rangeClaim": {
+            "maxKm": 70,
+            "basis": "manufacturer_claim",
+            "conditions": "Theoretical range at approx. 16km/h with 75kg rider and 25°C; typical range varies with speed and conditions."
+          },
+          "sources": [
+            {
+              "url": "https://eu-en.segway.com/ekickscooter/products/max-g2-e.html",
+              "publisher": "Segway-Ninebot EU",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://assets.segway-cdn.com/User-Manuals/Multi-Language-UM/UM_Ninebot-KickScooter-MAX-G2_EN-FR-DE-IT-SP-POL-NL-PT.pdf",
+              "publisher": "Segway-Ninebot",
+              "sourceType": "official_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact EU model code 051501E is identified in Segway's official multilingual manual.",
+              "The EU product page lists 36V/551Wh, 450W nominal/900W max, 25km/h and 70km theoretical range; the manual supplies 15.3Ah and model-code detail.",
+              "EU speed and peak power are kept separate from the US 051501U configuration."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "segway-max-g30",
       "name": "Segway Ninebot MAX G30 family",
       "manufacturer": "Segway-Ninebot",
