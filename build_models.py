@@ -20,9 +20,6 @@ MODELS = raw["models"]
 BY_ID = {m["id"]: m for m in MODELS}
 TEXTS_PATH = os.path.join(ROOT, "model_texts.json")
 TEXTS = json.load(open(TEXTS_PATH, encoding="utf-8")) if os.path.exists(TEXTS_PATH) else {}
-RIDE_MATCH_DATA = json.load(open(os.path.join(ROOT, "ride_match_data.json"), encoding="utf-8"))
-RIDE_MATCH_EXCLUDED_IDS = set(RIDE_MATCH_DATA.get("excludedModelIds", []))
-RIDE_MATCH_AFFILIATE_ONLY = RIDE_MATCH_DATA.get("affiliateOnlyModels", [])
 
 MODEL_DATA_V2_PATH = os.path.join(ROOT, "model_data_v2.json")
 MODEL_DATA_V2 = json.load(open(MODEL_DATA_V2_PATH, encoding="utf-8"))
