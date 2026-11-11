@@ -44,7 +44,7 @@ jobs:
       - name: Every sitemap URL answers 200 directly (no redirect)
         run: |
           fail=0
-          for u in $(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed -e 's/<loc>//' -e 's/<\/loc>//'); do
+          for u in $(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed -e 's/<loc>//' -e 's#</loc>##'); do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$u")
             if [ "$code" != "200" ]; then echo "::error title=sitemap URL not 200::$code $u"; fail=1; fi
           done
@@ -56,6 +56,8 @@ jobs:
       - name: Install axe + Playwright
         run: |
           npm install --no-save --no-package-lock playwright@1.56.0 @axe-core/playwright@4
-          npx playwright install --with-deps chromium
+          # GitHub's ubuntu-24.04 runner already has browser system libraries.
+          # Avoid install-deps: it invokes apt and can fail on transient runner DNS.
+          npx playwright install chromium
       - name: Accessibility against the live site
         run: node tools/a11y.mjs "$LIVE"
