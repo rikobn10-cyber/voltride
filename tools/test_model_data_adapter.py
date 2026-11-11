@@ -70,6 +70,36 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertIn("function handleModelVariantChange()", html)
         self.assertNotIn("const p = slug && Object.prototype.hasOwnProperty.call(MODEL_PRESETS, slug)", html)
 
+    def test_catalog_hides_legacy_specs_until_a_verified_v2_variant_is_selected(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        start = html.index("function renderCatalog(){")
+        end = html.index("\nfunction toggleFavorite", start)
+        catalog = html[start:end]
+        self.assertIn("getCatalogVariantOptions(s.id)", catalog)
+        self.assertIn("getSelectedCatalogVariant(s.id)", catalog)
+        self.assertIn("data-catalog-variant", catalog)
+        self.assertNotIn("s.voltage", catalog)
+        self.assertNotIn("s.ah", catalog)
+        self.assertNotIn("s.power", catalog)
+        self.assertNotIn("s.speed", catalog)
+        self.assertIn("catalogPending", catalog)
+
+    def test_compare_uses_explicitly_selected_v2_variant_for_every_spec_row(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        start = html.index("function openCompare(){")
+        end = html.index("\nfunction useScooter", start)
+        compare = html[start:end]
+        self.assertIn("getSelectedCatalogVariant(s.id)", compare)
+        self.assertIn("data-compare-variant", compare)
+        self.assertIn("const v = selectedFor(s)", compare)
+        self.assertIn("compareVariant", compare)
+        self.assertIn("compareEnergyBasis", compare)
+        self.assertIn("compareSource", compare)
+        self.assertNotIn("s.voltage", compare)
+        self.assertNotIn("s.ah", compare)
+        self.assertNotIn("s.power", compare)
+        self.assertNotIn("s.speed", compare)
+
     def test_requires_explicit_market(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "")
