@@ -264,7 +264,7 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 .rc-learn .grid2{margin-top:8px}
 
 /* Install banner (PWA) */
-.install-banner{display:none;margin:10px 0;padding:12px;border:1px solid rgba(0,242,254,.32);background:linear-gradient(135deg,rgba(0,242,254,.08),rgba(167,139,250,.05));border-radius:14px;align-items:center;gap:10px}
+.install-banner{display:none;position:fixed;inset-inline:12px;bottom:calc(68px + env(safe-area-inset-bottom, 0px));z-index:1000;margin:0;padding:12px;border:1px solid rgba(0,242,254,.32);background:linear-gradient(135deg,rgba(0,242,254,.08),rgba(23,34,53,.98));border-radius:14px;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(0,0,0,.28)}
 .install-banner.show{display:flex}
 .install-banner p{margin:0;font-size:12px;flex:1;line-height:1.5}
 .install-banner button{white-space:nowrap}
