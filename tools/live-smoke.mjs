@@ -12,6 +12,9 @@ try {
   // Calculator: verify a real browser interaction produces numeric outputs.
   const home = await page.goto(base + "/", { waitUntil: "domcontentloaded", timeout: 30000 });
   assert.ok(home && home.ok(), "homepage must load successfully");
+  // The test context is not a consenting visitor: explicitly decline analytics and keep GA traffic clean.
+  const consentBanner = page.locator("#voltConsent");
+  if (await consentBanner.count()) await consentBanner.locator("button.no").click();
   await page.locator("#calculateBtn").waitFor({ state: "visible", timeout: 15000 });
   await page.locator("#calculateBtn").click();
   await page.waitForFunction(() => {
