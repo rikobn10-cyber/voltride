@@ -56,7 +56,7 @@ The Apollo City Pro, INOKIM OXO, Teverun Fighter 11, and the variant-sensitive m
 
 ## Primary source links
 
-- Xiaomi Pro 2: https://www.mi.com/es/mi-electric-scooter-Pro2/specs/
+- Xiaomi Pro 2: https://www.mi.com/hk/mi-electric-scooter-Pro2/specs/
 - Xiaomi Essential: https://www.mi.com/es/mi-electric-scooter-essential/specs/
 - Segway E2 Plus E II: https://ma-fr.segway.com/ekickscooter/products/e2-plus-e-ii.html
 - Segway E2 Plus E II manual: https://store-ca.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf
