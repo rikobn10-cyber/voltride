@@ -10,6 +10,15 @@ const context = await browser.newContext({
 const page = await context.newPage();
 const errors = [];
 const serviceWorkerDiagnostics = [];
+await context.addInitScript(() => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.addEventListener("message", event => {
+      if (event.data && event.data.type === "VOLT_SW_DIAG") {
+        console.log("VOLT_SW_DIAG", JSON.stringify(event.data));
+      }
+    });
+  }
+});
 page.on("console", message => {
   if (message.text().includes("VOLT_SW_DIAG")) serviceWorkerDiagnostics.push(message.text());
 });
@@ -118,13 +127,6 @@ try {
   console.log("PWA direct offline navigation probe", JSON.stringify(navigationProbe));
   assert.equal(navigationProbe.status, 200, "service worker navigation fallback must return HTTP 200");
   assert.equal(navigationProbe.offlineText, true, "service worker navigation fallback must return offline page content");
-  await page.evaluate(() => {
-    navigator.serviceWorker.addEventListener("message", event => {
-      if (event.data && event.data.type === "VOLT_SW_DIAG") {
-        console.log("VOLT_SW_DIAG", JSON.stringify(event.data));
-      }
-    });
-  });
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 15000 });
   assert.ok(ride?.ok(), "cached Ride Match clean URL must load offline");
   await page.locator("#rideMarket").waitFor({ state: "visible", timeout: 5000 });
@@ -146,8 +148,8 @@ try {
   }
   const fallbackDiagnostic = await page.evaluate(() => ({ url: location.href, title: document.title, online: navigator.onLine, controlled: Boolean(navigator.serviceWorker.controller), body: document.body.innerText.slice(0, 300) })).catch(error => ({ error: error.message }));
   console.log("PWA fallback diagnostic", JSON.stringify({ status: fallback?.status(), navigationError: fallbackNavigationError, diagnostic: fallbackDiagnostic, serviceWorkerDiagnostics }));
-  assert.ok(serviceWorkerDiagnostics.some(line => line.includes("navigation-intercepted")), "service worker must intercept the uncached navigation");
-  assert.ok(serviceWorkerDiagnostics.some(line => line.includes("navigation-response")), "service worker must report a navigation response");
+  assert.ok(serviceWorkerDiagnostics.some(line => line.includes("navigation-intercepted") && line.includes("pwa-offline-test")), "service worker must intercept the uncached navigation");
+  assert.ok(serviceWorkerDiagnostics.some(line => line.includes("navigation-response") && line.includes("pwa-offline-test")), "service worker must report the uncached navigation response");
   await page.getByText("لا يوجد اتصال بالإنترنت").waitFor({ state: "visible", timeout: 5000 });
   assert.ok(fallback || fallbackNavigationError, "offline fallback navigation must be attempted");
   assert.deepEqual(errors, [], "PWA routes must not throw uncaught browser errors");
