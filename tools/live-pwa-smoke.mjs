@@ -71,6 +71,18 @@ try {
   assert.equal(workerInfo.activeState, "activated", "service worker must be activated");
   assert.equal(workerInfo.servedVersion, "voltride-v21", "the deployed service worker script must be v21");
   assert.equal(workerInfo.activeVersion, "voltride-v21", "the active service worker must be v21");
+  const cacheDiagnostics = await page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.ready;
+    return await new Promise((resolve, reject) => {
+      const channel = new MessageChannel();
+      const timer = setTimeout(() => reject(new Error("service worker cache diagnostic timed out")), 5000);
+      channel.port1.onmessage = event => { clearTimeout(timer); resolve(event.data); };
+      registration.active.postMessage({ type: "DEBUG_CACHE", url: new URL("/ride-match", registration.scope).href }, [channel.port2]);
+    });
+  });
+  console.log("PWA service worker cache diagnostics", JSON.stringify(cacheDiagnostics));
+  assert.equal(cacheDiagnostics.pageStatus, 200, "active worker must find the cached Ride Match clean URL");
+  assert.equal(cacheDiagnostics.fallbackStatus, 200, "active worker must find the cached offline fallback");
   assert.ok(workerInfo.scope.startsWith(base + "/"), "service worker scope must match production origin");
   for (const path of ["/offline.html", "/ride-match.html", "/navee-g5.html"]) {
     assert.ok(workerInfo.urls.some(url => url.endsWith(path)), "precache must include " + path);
