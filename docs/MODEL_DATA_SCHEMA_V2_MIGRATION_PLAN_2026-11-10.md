@@ -170,10 +170,10 @@ These are work queues, not permission to overwrite current production values wit
 
 ## 9. Staged migration checkpoint — 2026-11-11
 
-- `model_data_v2.json` now contains 18 model identities and 21 variants (15 verified, 6 intentionally unresolved): Verified: Xiaomi Scooter 3 Lite (UK), Xiaomi Pro 2 (HK), NIU KQi3 Max (US/EU), KuKirin G2 Pro (EU), KuKirin G3 Pro (EU-OPEN), Apollo City Pro 2023 (CA), Apollo Ghost (US), GOTRAX GXL V2 (US), VSETT 9+ 48V/21Ah (Global), Segway MAX G2 (US 051501U / EU 051501E), NAVEE N40, KuKirin G2 Max (EU-OPEN), and KuKirin G4 (EU-OPEN). Unresolved: Xiaomi 4 Pro (voltage absent), NAVEE G5 (Ah absent in US/EU listings), Segway MAX G30 family (G30/G30P suffix and Ah unresolved), Kaabo Wolf King GT (motor basis/exact speed unresolved), and Teverun Fighter 11 (rated-power basis unresolved).
+- `model_data_v2.json` now contains 20 model identities and 23 variants (16 verified, 7 intentionally unresolved): Verified: Xiaomi Scooter 3 Lite (UK), Xiaomi Pro 2 (HK), NIU KQi3 Max (US/EU), KuKirin G2 Pro (EU), KuKirin G3 Pro (EU-OPEN), Apollo City Pro 2023 (CA), Apollo Ghost (US), GOTRAX GXL V2 (US), VSETT 9+ 48V/21Ah (Global), Segway MAX G2 (US 051501U / EU 051501E), NAVEE N40, KuKirin G2 Max (EU-OPEN), and KuKirin G4 (EU-OPEN). Unresolved: Xiaomi 4 Pro (voltage absent), NAVEE G5 (Ah absent in US/EU listings), Segway MAX G30 family (G30/G30P suffix and Ah unresolved), Kaabo Wolf King GT (motor basis/exact speed unresolved), and Teverun Fighter 11 (rated-power basis unresolved).
 - The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
 - All 21 variant records pass the schema-v2 validator; the adapter projects the 15 verified variants and rejects the 6 unresolved variants. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
-- The remaining 12 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
+- The remaining 10 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
 - The explicit-variant adapter is implemented and covered by 22 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
 
 
@@ -213,3 +213,6 @@ NAVEE N40, KuKirin G2 Max and KuKirin G4 have now been added as verified exact o
 
 
 Apollo Ghost is added as a verified US-market variant with separate 800W rated / 1000W peak per-motor values and 947Wh manufacturer-published battery energy. Kaabo Wolf King GT and Teverun Fighter 11 are added as unresolved records: their official sources do not settle motor-power basis and/or exact speed ceiling. Teverun's 25km/h factory road-use limit is kept separate from its unrestricted 85km/h specification.
+
+
+GOTRAX G4 Original has been added as a verified US variant, explicitly distinct from G4 Pro. VSETT 10+ 28Ah is represented as unresolved because the official page does not identify rated-vs-peak motor basis, exact speed for that battery option, or a clear range-to-capacity pairing.
