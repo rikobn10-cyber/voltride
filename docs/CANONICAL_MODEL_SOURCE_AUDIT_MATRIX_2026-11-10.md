@@ -107,7 +107,7 @@ The following first-party pages were rechecked on 2026-11-11. Findings are recor
 
 ### Migration boundary
 
-Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 23 model identities stay out of V2 until their own variant evidence is complete.
+Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 22 model identities stay out of V2 until their own variant evidence is complete.
 
 
 ### Additional exact variants migrated on 2026-11-11
