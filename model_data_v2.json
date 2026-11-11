@@ -1821,6 +1821,429 @@
           }
         }
       ]
+    },
+    {
+      "id": "dualtron-mini",
+      "name": "Dualtron Mini",
+      "manufacturer": "Dualtron / Minimotors",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "dualtron-mini-52v-lg-21ah-global",
+          "generation": "Dualtron Mini family; exact generation and regional configuration unresolved",
+          "sku": null,
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 21,
+            "energyWh": 1092,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated from manufacturer-listed 52V × 21Ah option; Minimotors does not publish Wh in this table."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": 1450,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Minimotors official product detail lists 25km/h for Dualtron Mini; confirm exact market limit before use."
+          },
+          "rangeClaim": {
+            "maxKm": 60,
+            "basis": "manufacturer_claim",
+            "conditions": "Minimotors official table pairs this claimed range with the corresponding battery option under 75kg load, 25km/h and flat-road continuous riding."
+          },
+          "sources": [
+            {
+              "url": "https://www.minimotors.com/product_detail.html?code=1990363951451971586",
+              "publisher": "Minimotors",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Minimotors lists a 52V 21Ah battery option and 60km claimed mileage for Dualtron Mini.",
+              "The official table lists maximum motor output 1450W but does not state rated motor power; the adapter must reject this record.",
+              "The table includes several battery options without identifying the legacy catalog's exact generation/market/SKU; this is a family evidence record, not a production-certified variant."
+            ]
+          }
+        },
+        {
+          "variantId": "dualtron-mini-52v-cn-19-2ah-global",
+          "generation": "Dualtron Mini family; exact generation and regional configuration unresolved",
+          "sku": null,
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 19.2,
+            "energyWh": 998.4,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated from manufacturer-listed 52V × 19.2Ah option; Minimotors does not publish Wh in this table."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": 1450,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Minimotors official product detail lists 25km/h for Dualtron Mini; confirm exact market limit before use."
+          },
+          "rangeClaim": {
+            "maxKm": 55,
+            "basis": "manufacturer_claim",
+            "conditions": "Minimotors official table pairs this claimed range with the corresponding battery option under 75kg load, 25km/h and flat-road continuous riding."
+          },
+          "sources": [
+            {
+              "url": "https://www.minimotors.com/product_detail.html?code=1990363951451971586",
+              "publisher": "Minimotors",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Minimotors lists a 52V 19.2Ah battery option and 55km claimed mileage for Dualtron Mini.",
+              "The official table lists maximum motor output 1450W but does not state rated motor power; the adapter must reject this record.",
+              "The table includes several battery options without identifying the legacy catalog's exact generation/market/SKU; this is a family evidence record, not a production-certified variant."
+            ]
+          }
+        },
+        {
+          "variantId": "dualtron-mini-52v-lg-17-5ah-global",
+          "generation": "Dualtron Mini family; exact generation and regional configuration unresolved",
+          "sku": null,
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 17.5,
+            "energyWh": 910,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated from manufacturer-listed 52V × 17.5Ah option; Minimotors does not publish Wh in this table."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": 1450,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Minimotors official product detail lists 25km/h for Dualtron Mini; confirm exact market limit before use."
+          },
+          "rangeClaim": {
+            "maxKm": 50,
+            "basis": "manufacturer_claim",
+            "conditions": "Minimotors official table pairs this claimed range with the corresponding battery option under 75kg load, 25km/h and flat-road continuous riding."
+          },
+          "sources": [
+            {
+              "url": "https://www.minimotors.com/product_detail.html?code=1990363951451971586",
+              "publisher": "Minimotors",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Minimotors lists a 52V 17.5Ah battery option and 50km claimed mileage for Dualtron Mini.",
+              "The official table lists maximum motor output 1450W but does not state rated motor power; the adapter must reject this record.",
+              "The table includes several battery options without identifying the legacy catalog's exact generation/market/SKU; this is a family evidence record, not a production-certified variant."
+            ]
+          }
+        },
+        {
+          "variantId": "dualtron-mini-52v-cn-13ah-global",
+          "generation": "Dualtron Mini family; exact generation and regional configuration unresolved",
+          "sku": null,
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 13,
+            "energyWh": 676,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated from manufacturer-listed 52V × 13Ah option; Minimotors does not publish Wh in this table."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": 1450,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Minimotors official product detail lists 25km/h for Dualtron Mini; confirm exact market limit before use."
+          },
+          "rangeClaim": {
+            "maxKm": 40,
+            "basis": "manufacturer_claim",
+            "conditions": "Minimotors official table pairs this claimed range with the corresponding battery option under 75kg load, 25km/h and flat-road continuous riding."
+          },
+          "sources": [
+            {
+              "url": "https://www.minimotors.com/product_detail.html?code=1990363951451971586",
+              "publisher": "Minimotors",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Minimotors lists a 52V 13Ah battery option and 40km claimed mileage for Dualtron Mini.",
+              "The official table lists maximum motor output 1450W but does not state rated motor power; the adapter must reject this record.",
+              "The table includes several battery options without identifying the legacy catalog's exact generation/market/SKU; this is a family evidence record, not a production-certified variant."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "dualtron-victor",
+      "name": "Dualtron Victor",
+      "manufacturer": "Dualtron / Minimotors",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "dualtron-victor-60v24ah-global-unresolved",
+          "generation": "Dualtron Victor (original product family)",
+          "sku": null,
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 60,
+            "capacityAh": 24,
+            "energyWh": 1440,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated from official 60V × 24Ah battery option; manufacturer table does not publish Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": 4000,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 80,
+            "conditions": "Minimotors official table lists 80km/h; market speed restrictions may be lower."
+          },
+          "rangeClaim": {
+            "maxKm": 85,
+            "basis": "manufacturer_claim",
+            "conditions": "Official table pairs 85km with the 60V/24Ah option under 75±5kg load and 25km/h flat-road continuous riding."
+          },
+          "sources": [
+            {
+              "url": "https://www.minimotors.com/product_detail.html?code=1990363951451971586",
+              "publisher": "Minimotors",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Minimotors identifies Dualtron Victor with 60V/24Ah and 60V/30Ah battery options; this record captures the 24Ah option only.",
+              "The official table states MAX 4000W dual hub motor but does not publish rated power; rated power remains null and the adapter rejects this record.",
+              "The 30Ah option is a separate configuration and is not merged into this 24Ah record."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "dualtron-thunder-3",
+      "name": "Dualtron Thunder 3",
+      "manufacturer": "Dualtron / Minimotors",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "dualtron-thunder-3-ed2301-72v40ah-global",
+          "generation": "Thunder 3 (ED2301)",
+          "sku": "ED2301",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 72,
+            "capacityAh": 40,
+            "energyWh": 2880,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated from manufacturer manual 72V × 40Ah; manual specifies these values but does not state Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 2500,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": 5400,
+            "peakPowerBasis": "per_motor"
+          },
+          "speed": {
+            "maxKmh": 100,
+            "conditions": "Manufacturer manual lists 100km/h unrestricted; the factory road-use speed limit may be 25km/h by market."
+          },
+          "rangeClaim": {
+            "maxKm": 125,
+            "basis": "manufacturer_claim",
+            "conditions": "Manufacturer manual claims around 125km; conditions vary and this is not an independent real-world test."
+          },
+          "sources": [
+            {
+              "url": "https://minimotors.oss-eu-central-1.aliyuncs.com/upload/2023thunder3%28PRODUCT%20MANUAL_.pdf",
+              "publisher": "Minimotors",
+              "sourceType": "official_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Minimotors official Thunder 3 (ED2301) manual lists 72V/40Ah, two 2500W nominal motors, two 5400W maximum motors, 100km/h maximum speed and around 125km range.",
+              "The legacy 11000W figure is not carried forward: the manual's 5400W × 2 equals 10800W combined maximum.",
+              "Wh is labelled calculated from 72V × 40Ah, not manufacturer-published.",
+              "Market road-use limits can be lower than the unrestricted maximum."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "nami-burn-e2-max",
+      "name": "NAMI Burn-E 2 Max",
+      "manufacturer": "NAMI",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "nami-burn-e-max-legacy-generation-unresolved",
+          "generation": "Burn-E MAX (manufacturer manual); equivalence to legacy Burn-E 2 Max not established",
+          "sku": null,
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 72,
+            "capacityAh": 40,
+            "energyWh": 2880,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NAMI manual explicitly lists 72V 40Ah and 2.88kWh for BURN-E MAX."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 1500,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": null,
+            "conditions": "The cited manual does not establish an unrestricted maximum speed for the exact legacy Burn-E 2 Max configuration."
+          },
+          "rangeClaim": {
+            "maxKm": null,
+            "basis": "manufacturer_claim",
+            "conditions": "No range claim is assigned because the current BURN-E MAX page may refer to a different generation than the legacy Burn-E 2 Max catalog record."
+          },
+          "sources": [
+            {
+              "url": "https://nami-electric.com/wp-content/uploads/2022/03/USER-MANUAL-BURNE-3-1.pdf",
+              "publisher": "NAMI Electric",
+              "sourceType": "official_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "NAMI's official manual documents a BURN-E MAX configuration with 72V/40Ah/2.88kWh and 2 × 1.5kW motors.",
+              "The source uses the name BURN-E MAX; it does not prove that this exact manual generation is the legacy catalog's BURN-E 2 Max.",
+              "Speed and range are intentionally left null until the exact generation is matched. Do not project this record into production."
+            ]
+          }
+        }
+      ]
     }
   ]
 }
