@@ -1,4 +1,5 @@
 import json
+import re
 import unittest
 import sys
 from pathlib import Path
@@ -30,6 +31,44 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["range_claim"]["max_km"], 20)
         self.assertEqual(result["provenance"]["battery_energy_wh"], 187)
         self.assertEqual(result["provenance"]["variant_id"], "xiaomi-3-lite-mjddhbc03zm-uk")
+
+    def test_selector_options_include_only_high_confidence_projectable_variants(self):
+        from build_models import build_verified_variant_options
+        options = build_verified_variant_options()
+        expected = 0
+        for model in DATA["models"]:
+            for variant in model["variants"]:
+                verification = variant.get("verification", {})
+                if verification.get("status") == "verified_variant" and verification.get("confidence") == "high":
+                    for market in variant["market"]:
+                        expected += 1
+                        self.assertIn(model["id"], options)
+                        found = [item for item in options[model["id"]]
+                                 if item["variantId"] == variant["variantId"] and item["market"] == market]
+                        self.assertEqual(len(found), 1)
+                        self.assertGreater(found[0]["voltage"], 0)
+                        self.assertGreater(found[0]["ah"], 0)
+                        self.assertGreater(found[0]["motor"], 0)
+                        self.assertGreater(found[0]["energyWh"], 0)
+        self.assertEqual(sum(len(items) for items in options.values()), expected)
+        for model in DATA["models"]:
+            for variant in model["variants"]:
+                if variant.get("verification", {}).get("status") != "verified_variant":
+                    self.assertFalse(any(item["variantId"] == variant["variantId"]
+                                         for item in options.get(model["id"], [])))
+
+    def test_generated_index_variant_options_match_adapter_projection(self):
+        from build_models import build_verified_variant_options
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        match = re.search(r"const MODEL_VARIANTS = (.*);", html)
+        self.assertIsNotNone(match, "index.html must contain generated V2 variant options")
+        self.assertEqual(json.loads(match.group(1)), build_verified_variant_options())
+
+    def test_model_deep_links_no_longer_autofill_legacy_specs(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn("openModelVariantPicker(slug)", html)
+        self.assertIn("function handleModelVariantChange()", html)
+        self.assertNotIn("const p = slug && Object.prototype.hasOwnProperty.call(MODEL_PRESETS, slug)", html)
 
     def test_requires_explicit_market(self):
         with self.assertRaises(VariantProjectionError):

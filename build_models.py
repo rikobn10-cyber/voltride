@@ -2,11 +2,11 @@
 """VoltRide programmatic SEO generator (v3: 30 models).
 Run inside the site folder:   python3 build_models.py
 
-Reads  models.json (list of models) and model_texts.json (optional hand-written text by id).
-Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), preserves the hand-maintained sitemap.xml, refreshes the models section of blog.html,
-the MODEL_PRESETS block of index.html and the PRECACHE list of sw.js.
+Reads models.json for legacy model pages/catalogs and model_texts.json for optional editorial text. Reads model_data_v2.json for high-confidence, market-specific calculator options through the compatibility adapter.
+Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), preserves the hand-maintained sitemap.xml, refreshes blog.html, MODEL_PRESETS and MODEL_VARIANTS in index.html, and the PRECACHE list of sw.js.
 """
 import hashlib, html, json, math, os, re
+from model_data_adapter import VariantProjectionError, project_verified_variant
 
 BASE = "https://voltride-4qj.pages.dev"
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -23,6 +23,57 @@ TEXTS = json.load(open(TEXTS_PATH, encoding="utf-8")) if os.path.exists(TEXTS_PA
 RIDE_MATCH_DATA = json.load(open(os.path.join(ROOT, "ride_match_data.json"), encoding="utf-8"))
 RIDE_MATCH_EXCLUDED_IDS = set(RIDE_MATCH_DATA.get("excludedModelIds", []))
 RIDE_MATCH_AFFILIATE_ONLY = RIDE_MATCH_DATA.get("affiliateOnlyModels", [])
+
+MODEL_DATA_V2_PATH = os.path.join(ROOT, "model_data_v2.json")
+MODEL_DATA_V2 = json.load(open(MODEL_DATA_V2_PATH, encoding="utf-8"))
+
+
+def build_verified_variant_options():
+    """Build explicit market choices only from high-confidence, adapter-projectable V2 variants."""
+    options = {}
+    for model in MODEL_DATA_V2.get("models", []):
+        for variant in model.get("variants", []):
+            verification = variant.get("verification", {})
+            if verification.get("status") != "verified_variant" or verification.get("confidence") != "high":
+                continue
+            for market in variant.get("market", []):
+                try:
+                    projection = project_verified_variant(
+                        MODEL_DATA_V2, model["id"], variant["variantId"], market
+                    )
+                except VariantProjectionError as exc:
+                    raise ValueError(
+                        f"High-confidence variant cannot be projected: {model['id']} / "
+                        f"{variant['variantId']} / {market}: {exc}"
+                    ) from exc
+                fields = projection["legacy_fields"]
+                battery = variant.get("battery", {})
+                source = next(iter(variant.get("sources", [])), {})
+                generation = variant.get("generation") or ""
+                sku = variant.get("sku") or ""
+                label_parts = [market, generation, sku]
+                label = " — ".join(part for part in label_parts if part)
+                option = {
+                    "key": f"{variant['variantId']}::{market}",
+                    "variantId": variant["variantId"],
+                    "market": market,
+                    "label": label or variant["variantId"],
+                    "generation": generation or None,
+                    "sku": sku or None,
+                    "voltage": fields["voltage"],
+                    "ah": fields["ah"],
+                    "motor": fields["motor"],
+                    "energyWh": fields["energyWh"],
+                    "energyWhBasis": fields["energyWhBasis"],
+                    "energyWhSourceNote": battery.get("energyWhSourceNote"),
+                    "speed": fields["speed"],
+                    "rangeClaimKm": projection["range_claim"].get("max_km"),
+                    "sourcePublisher": source.get("publisher"),
+                    "sourceUrl": source.get("url"),
+                }
+                options.setdefault(model["id"], []).append(option)
+    return options
+
 
 CLASS_AR = {"budget": "اقتصادي", "commuter": "تنقل يومي", "sport": "رياضي", "performance": "عالي الأداء"}
 CLASS_HEAD = {"budget": "اقتصادية", "commuter": "للتنقل اليومي", "sport": "رياضية", "performance": "عالية الأداء"}
@@ -405,6 +456,9 @@ def main():
     presets = {m["id"]: {"name": m["name"], "voltage": m["voltage"], "ah": m["ah"], "motor": m["motor"]} for m in MODELS}
     block = "const MODEL_PRESETS = " + json.dumps(presets, ensure_ascii=False) + ";"
     write("index.html", replace_block(read("index.html"), "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = ["))
+    variant_options = build_verified_variant_options()
+    variant_block = "const MODEL_VARIANTS = " + json.dumps(variant_options, ensure_ascii=False, separators=(",", ":")) + ";"
+    write("index.html", replace_block(read("index.html"), "/*MODEL_VARIANTS:START*/", "/*MODEL_VARIANTS:END*/", variant_block, "/*SCOOTERS:START*/"))
 
     # internal-link section at the bottom of the calculator screen (crawlable text links to every model page)
     links = "\n".join(f'      <a href="/{m["id"]}">{esc(m["name"])}</a>' for m in MODELS)

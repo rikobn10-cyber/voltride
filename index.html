@@ -441,10 +441,15 @@ header{padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 8px 28px r
 
   <div class="card">
     <h2 data-i18n="battery">🔋 البطارية والسكوتر</h2>
+    <div class="field" id="modelVariantField" hidden>
+      <label for="modelVariant" data-i18n="variantLabel">النسخة والسوق</label>
+      <select id="modelVariant"><option value="">اختر النسخة والسوق</option></select>
+      <p class="small" id="modelVariantNote" aria-live="polite"></p>
+    </div>
     <div class="grid2">
-      <div class="field"><label for="voltage" data-i18n="voltage">الفولت</label><select id="voltage"><option>24</option><option selected>36</option><option>48</option><option>52</option><option>60</option><option>72</option></select></div>
+      <div class="field"><label for="voltage" data-i18n="voltage">الفولت</label><select id="voltage"><option value="">—</option><option>24</option><option selected>36</option><option>48</option><option>52</option><option>60</option><option>72</option></select></div>
       <div class="field"><label for="capacity" data-i18n="capacity">السعة Ah</label><input id="capacity" type="number" min="1" max="100" step=".1" value="12.8"></div>
-      <div class="field"><label for="motor" data-i18n="motor">قوة المحرك</label><select id="motor"><option>250</option><option selected>300</option><option>350</option><option>500</option><option>800</option><option>1000</option><option>1500</option><option>2000</option><option>3000</option></select></div>
+      <div class="field"><label for="motor" data-i18n="motor">قوة المحرك</label><select id="motor"><option value="">—</option><option>250</option><option selected>300</option><option>350</option><option>500</option><option>800</option><option>1000</option><option>1500</option><option>2000</option><option>3000</option></select></div>
       <div class="field"><label for="charger" data-i18n="charger">الشاحن A</label><select id="charger"><option>1</option><option>1.5</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
     </div>
     <button class="primary" id="calculateBtn" data-i18n="calculate">احسب الآن ⚡</button>
@@ -684,7 +689,7 @@ const I18N = {
   ar:{
     quickSmart:"تحليل فوري",quickBattery:"طاقة وشحن",quickCost:"تكلفة واضحة",tagline:"رفيق السكوتر الذكي",heroText:"احسب مدى سكوترك، وقت الشحن وتكلفة الكهرباء خلال ثوانٍ.",smartBadge:"● تحليل ذكي",smartStatus:"حالة الرحلة",tripCost:"تكلفة الطاقة",perCharge:"/ شحنة",
     rider:"👤 الراكب والقيادة",weight:"الوزن",speed:"السرعة المتوسطة",terrain:"الطريق",flat:"مستوٍ",mixed:"مختلط",hills:"مرتفعات",mode:"نمط القيادة",eco:"اقتصادي",balanced:"متوازن",sport:"رياضي",
-    battery:"🔋 البطارية والسكوتر",voltage:"الفولت",capacity:"السعة Ah",motor:"قوة المحرك",charger:"الشاحن A",calculate:"احسب الآن ⚡",results:"📊 النتيجة",range:"المدى",energy:"طاقة البطارية",consumption:"الاستهلاك",chargeTime:"وقت الشحن (تقديري)",cost:"تكلفة الطاقة المقدّرة",reserve:"المدى العملي (هامش أمان إضافي 10%)",calculateFirst:"احسب أولاً ثم سجّل الشحنة",estimateNote:"هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.",
+    battery:"🔋 البطارية والسكوتر",voltage:"الفولت",capacity:"السعة Ah",motor:"قوة المحرك",variantLabel:"النسخة والسوق",variantPlaceholder:"اختر النسخة والسوق",variantChooseNote:"اختر نسخة موثقة وسوقها لتعبئة المواصفات تلقائياً.",variantNoData:"لا توجد نسخة موثقة عالية الثقة لهذا الموديل. أدخل المواصفات من الشركة يدوياً.",variantManual:"إدخال يدوي: أدخل الفولت والسعة وقوة المحرك من مصدر الشركة.",variantEnergyManufacturer:"طاقة البطارية منشورة من الشركة.",variantEnergyCalculated:"طاقة البطارية محسوبة من الفولت × السعة.",variantManualRequired:"أدخل الفولت والسعة وقوة المحرك أولاً.",charger:"الشاحن A",calculate:"احسب الآن ⚡",results:"📊 النتيجة",range:"المدى",energy:"طاقة البطارية",consumption:"الاستهلاك",chargeTime:"وقت الشحن (تقديري)",cost:"تكلفة الطاقة المقدّرة",reserve:"المدى العملي (هامش أمان إضافي 10%)",calculateFirst:"احسب أولاً ثم سجّل الشحنة",estimateNote:"هذه تقديرات وليست قياسات مخبرية. تتأثر النتيجة بالرياح والحرارة وضغط الإطارات والحمولة وحالة البطارية والفرامل وطبيعة الطريق.",
     catalogTitle:"🛴 كتالوج السكوترات",catalogSub:"قارن المواصفات ثم أرسلها مباشرة إلى الحاسبة.",rideMatchCta:"🧭 اختر السكوتر الأنسب لك",search:"ابحث عن سكوتر...",sortRange:"المدى",sortSpeed:"السرعة",specSpeed:"السرعة",specRange:"المدى",specRangeEst:"المدى المقدّر",specBattery:"البطارية",specMotor:"المحرك",useScooter:"استخدم",favoriteLabel:"إضافة إلى المفضلة",compareSpeed:"السرعة",compareRange:"المدى",compareMotor:"المحرك",compareBattery:"البطارية",clearCompare:"مسح المقارنة",all:"الكل",budget:"اقتصادي",commuter:"تنقل",sportCat:"رياضي",performance:"أداء",
     safetyTitle:"🛡️ مركز السلامة",safetySub:"قواعد بسيطة تقلل المخاطر وتحافظ على البطارية والسكوتر.",batteryCare:"العناية بالبطارية",safe1:"استخدم الشاحن الصحيح",safe1p:"لا تستخدم شاحناً بجهد أو موصل غير مطابق لمواصفات الشركة.",safe2:"الشحن في مكان مناسب",safe2p:"لا تشحن على سطح قابل للاشتعال أو في حرارة شديدة، وتجنب تغطية البطارية أثناء الشحن.",safe3:"توقف عند العلامات غير الطبيعية",safe3p:"إذا ظهرت انتفاخات أو دخان أو رائحة غير معتادة أو حرارة شديدة، أوقف الاستخدام والشحن واطلب فحصاً مختصاً.",tires:"الإطارات والفرامل",tireTitle:"ضغط مناسب",tireP:"اتبع ضغط الإطارات الموصى به من الشركة وافحصه دورياً.",brakeTitle:"فحص الفرامل",brakeP:"إذا كانت الفرامل ضعيفة أو تصدر صوتاً غير طبيعي أو تحتك، أوقف القيادة واطلب فحصاً مؤهلاً.",rideSafe:"قبل القيادة",helmet:"خوذة وإضاءة",helmetP:"استخدم خوذة مناسبة وإضاءة واضحة واحترم القوانين المحلية.",water:"الماء",waterP:"مقاومة الماء لا تعني أن السكوتر قابل للغمر. تجنب البرك والماء العميق.",
     errorsTitle:"🔧 تشخيص الأعطال",errorsSub:"معلومات أولية تساعدك على فهم الرسالة قبل طلب المساعدة.",errorNote:"الأكواد تختلف حسب الشركة والموديل. لا تفك البطارية أو لوحة التحكم إذا لم تكن مؤهلاً.",
@@ -712,7 +717,7 @@ const I18N = {
   fr:{
     quickSmart:"Analyse instantanée",quickBattery:"Énergie & charge",quickCost:"Coût clair",tagline:"Votre compagnon scooter",heroText:"Estimez autonomie, recharge et coût électrique en quelques secondes.",smartBadge:"● Analyse intelligente",smartStatus:"État du trajet",tripCost:"Coût énergétique",perCharge:"/ charge",
     rider:"👤 Pilote et conduite",weight:"Poids",speed:"Vitesse moyenne",terrain:"Terrain",flat:"Plat",mixed:"Mixte",hills:"Pentes",mode:"Mode",eco:"Éco",balanced:"Équilibré",sport:"Sport",
-    battery:"🔋 Batterie et scooter",voltage:"Tension",capacity:"Capacité Ah",motor:"Puissance moteur",charger:"Chargeur A",calculate:"Calculer ⚡",results:"📊 Résultat",range:"Autonomie",energy:"Énergie batterie",consumption:"Consommation",chargeTime:"Temps de charge estimé",cost:"Coût énergétique estimé",reserve:"Autonomie pratique (marge de sécurité supplémentaire de 10 %)",estimateNote:"Estimations indicatives. Le vent, la température, les pneus, la charge, la batterie, les freins et le terrain influencent le résultat.",
+    battery:"🔋 Batterie et scooter",voltage:"Tension",capacity:"Capacité Ah",motor:"Puissance moteur",variantLabel:"Version et marché",variantPlaceholder:"Choisir la version et le marché",variantChooseNote:"Choisissez une version vérifiée et son marché pour remplir les caractéristiques.",variantNoData:"Aucune version vérifiée avec confiance élevée pour ce modèle. Saisissez manuellement les données du fabricant.",variantManual:"Saisie manuelle : indiquez tension, capacité et puissance depuis la source fabricant.",variantEnergyManufacturer:"Énergie de batterie publiée par le fabricant.",variantEnergyCalculated:"Énergie calculée à partir de la tension × capacité.",variantManualRequired:"Saisissez d’abord la tension, la capacité et la puissance moteur.",charger:"Chargeur A",calculate:"Calculer ⚡",results:"📊 Résultat",range:"Autonomie",energy:"Énergie batterie",consumption:"Consommation",chargeTime:"Temps de charge estimé",cost:"Coût énergétique estimé",reserve:"Autonomie pratique (marge de sécurité supplémentaire de 10 %)",estimateNote:"Estimations indicatives. Le vent, la température, les pneus, la charge, la batterie, les freins et le terrain influencent le résultat.",
     catalogTitle:"🛴 Catalogue scooters",catalogSub:"Comparez les specs puis envoyez-les au calculateur.",rideMatchCta:"🧭 Trouvez le scooter qui vous convient",search:"Rechercher un scooter...",sortRange:"Autonomie",sortSpeed:"Vitesse",specSpeed:"Vitesse",specRange:"Autonomie",specRangeEst:"Autonomie estimée",specBattery:"Batterie",specMotor:"Moteur",useScooter:"Utiliser",favoriteLabel:"Ajouter aux favoris",compareSpeed:"Vitesse",compareRange:"Autonomie",compareMotor:"Moteur",compareBattery:"Batterie",clearCompare:"Vider la comparaison",all:"Tous",budget:"Éco",commuter:"Ville",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Sécurité",safetySub:"Des règles simples pour réduire les risques.",batteryCare:"Batterie",safe1:"Utilisez le bon chargeur",safe1p:"Utilisez uniquement un chargeur conforme aux spécifications du fabricant.",safe2:"Rechargez dans un endroit adapté",safe2p:"Évitez les surfaces inflammables et la chaleur excessive.",safe3:"Arrêtez en cas d'anomalie",safe3p:"Gonflement, fumée, odeur inhabituelle ou chaleur extrême : arrêtez et faites contrôler.",tires:"Pneus et freins",tireTitle:"Bonne pression",tireP:"Respectez la pression recommandée par le fabricant.",brakeTitle:"Freins",brakeP:"Si les freins sont faibles, bruyants ou frottent, arrêtez et faites contrôler.",rideSafe:"Avant de rouler",helmet:"Casque et éclairage",helmetP:"Portez un casque adapté, soyez visible et respectez les règles locales.",water:"Eau",waterP:"La résistance à l'eau ne signifie pas immersion. Évitez l'eau profonde.",
     errorsTitle:"🔧 Diagnostic",errorsSub:"Informations générales avant de demander de l'aide.",errorNote:"Les codes varient selon la marque et le modèle. Ne démontez pas la batterie ou le contrôleur sans qualification.",
@@ -741,7 +746,7 @@ const I18N = {
   en:{
     quickSmart:"Instant insight",quickBattery:"Energy & charge",quickCost:"Clear cost",tagline:"Your smart scooter companion",heroText:"Estimate range, charging time and electricity cost in seconds.",smartBadge:"● Smart analysis",smartStatus:"Trip status",tripCost:"Energy cost",perCharge:"/ charge",
     rider:"👤 Rider & riding",weight:"Weight",speed:"Average speed",terrain:"Terrain",flat:"Flat",mixed:"Mixed",hills:"Hills",mode:"Riding mode",eco:"Eco",balanced:"Balanced",sport:"Sport",
-    battery:"🔋 Battery & scooter",voltage:"Voltage",capacity:"Capacity Ah",motor:"Motor power",charger:"Charger A",calculate:"Calculate ⚡",results:"📊 Result",range:"Range",energy:"Battery energy",consumption:"Consumption",chargeTime:"Estimated charging time",cost:"Estimated energy cost",reserve:"Practical range (additional 10% safety margin)",estimateNote:"Estimates only. Wind, temperature, tire pressure, load, battery condition, brakes and terrain affect the result.",
+    battery:"🔋 Battery & scooter",voltage:"Voltage",capacity:"Capacity Ah",motor:"Motor power",variantLabel:"Version and market",variantPlaceholder:"Choose version and market",variantChooseNote:"Choose a verified version and market to fill the specifications.",variantNoData:"No high-confidence verified version is available for this model. Enter the manufacturer specifications manually.",variantManual:"Manual entry: enter voltage, capacity and motor power from the manufacturer source.",variantEnergyManufacturer:"Battery energy published by the manufacturer.",variantEnergyCalculated:"Battery energy calculated from voltage × capacity.",variantManualRequired:"Enter voltage, capacity and motor power before calculating.",charger:"Charger A",calculate:"Calculate ⚡",results:"📊 Result",range:"Range",energy:"Battery energy",consumption:"Consumption",chargeTime:"Estimated charging time",cost:"Estimated energy cost",reserve:"Practical range (additional 10% safety margin)",estimateNote:"Estimates only. Wind, temperature, tire pressure, load, battery condition, brakes and terrain affect the result.",
     catalogTitle:"🛴 Scooter catalog",catalogSub:"Compare specs and send them to the calculator.",rideMatchCta:"🧭 Find the right scooter for you",search:"Search scooter...",sortRange:"Range",sortSpeed:"Speed",specSpeed:"Speed",specRange:"Range",specRangeEst:"Est. range",specBattery:"Battery",specMotor:"Motor",useScooter:"Use",favoriteLabel:"Add to favorites",compareSpeed:"Speed",compareRange:"Range",compareMotor:"Motor",compareBattery:"Battery",clearCompare:"Clear comparison",all:"All",budget:"Budget",commuter:"Commuter",sportCat:"Sport",performance:"Performance",
     safetyTitle:"🛡️ Safety center",safetySub:"Simple rules to reduce risk and protect your scooter.",batteryCare:"Battery care",safe1:"Use the correct charger",safe1p:"Use only a charger that matches the manufacturer's specifications.",safe2:"Charge in a suitable place",safe2p:"Avoid flammable surfaces and excessive heat.",safe3:"Stop for abnormal signs",safe3p:"Swelling, smoke, unusual odor or extreme heat: stop and seek qualified inspection.",tires:"Tires & brakes",tireTitle:"Correct pressure",tireP:"Follow the manufacturer's recommended tire pressure.",brakeTitle:"Brakes",brakeP:"If braking is weak, noisy or rubbing, stop riding and get it inspected.",rideSafe:"Before riding",helmet:"Helmet & lights",helmetP:"Wear a suitable helmet, stay visible and follow local rules.",water:"Water",waterP:"Water resistance does not mean submersible. Avoid deep water.",
     errorsTitle:"🔧 Troubleshooting",errorsSub:"General information before seeking help.",errorNote:"Codes vary by brand and model. Do not disassemble the battery or controller unless qualified.",
@@ -772,6 +777,9 @@ const I18N = {
 /*MODELS:START*/
 const MODEL_PRESETS = {"xiaomi-pro-2": {"name": "Xiaomi Pro 2", "voltage": 36, "ah": 12.8, "motor": 300}, "xiaomi-4-pro": {"name": "Xiaomi 4 Pro", "voltage": 36, "ah": 12.4, "motor": 350}, "xiaomi-essential": {"name": "Xiaomi Essential", "voltage": 36, "ah": 5.2, "motor": 250}, "xiaomi-3-lite": {"name": "Xiaomi Scooter 3 Lite", "voltage": 36, "ah": 5.2, "motor": 300}, "segway-max-g30": {"name": "Segway Ninebot MAX G30", "voltage": 36, "ah": 15.3, "motor": 350}, "segway-max-g2": {"name": "Segway Ninebot Max G2", "voltage": 36, "ah": 15.3, "motor": 450}, "segway-e2-plus": {"name": "Segway Ninebot E2 Plus", "voltage": 21.6, "ah": 10.2, "motor": 300}, "navee-n40": {"name": "Navee N40", "voltage": 36, "ah": 10, "motor": 350}, "navee-g5": {"name": "Navee G5", "voltage": 48, "ah": 10.4, "motor": 350}, "niu-kqi3-max": {"name": "NIU KQi3 Max", "voltage": 48, "ah": 12.7, "motor": 450}, "kukirin-g2-pro": {"name": "KuKirin G2 Pro", "voltage": 48, "ah": 15, "motor": 600}, "kukirin-g2-max": {"name": "KuKirin G2 Max", "voltage": 48, "ah": 20, "motor": 1000}, "kukirin-g3-pro": {"name": "KuKirin G3 Pro", "voltage": 52, "ah": 23.2, "motor": 2400}, "kukirin-g4": {"name": "KuKirin G4", "voltage": 60, "ah": 20, "motor": 2000}, "ecoxtrem-bison-gt": {"name": "Ecoxtrem Bison GT", "voltage": 48, "ah": 13, "motor": 800}, "ecoxtrem-bison-m41": {"name": "Ecoxtrem Bison M41", "voltage": 48, "ah": 18, "motor": 1000}, "dualtron-mini": {"name": "Dualtron Mini", "voltage": 52, "ah": 17.5, "motor": 1450}, "dualtron-victor": {"name": "Dualtron Victor", "voltage": 60, "ah": 24, "motor": 4000}, "dualtron-thunder-3": {"name": "Dualtron Thunder 3", "voltage": 72, "ah": 40, "motor": 11000}, "vsett-8-plus": {"name": "Vsett 8+", "voltage": 48, "ah": 16, "motor": 1200}, "vsett-9-plus": {"name": "Vsett 9+", "voltage": 48, "ah": 21, "motor": 1300}, "vsett-10-plus": {"name": "Vsett 10+", "voltage": 60, "ah": 28, "motor": 2800}, "apollo-city-pro": {"name": "Apollo City Pro", "voltage": 52, "ah": 20, "motor": 1000}, "apollo-ghost": {"name": "Apollo Ghost", "voltage": 52, "ah": 18.2, "motor": 2000}, "kaabo-wolf-king": {"name": "Kaabo Wolf King GT", "voltage": 72, "ah": 35, "motor": 4000}, "gotrax-g4": {"name": "Gotrax G4", "voltage": 36, "ah": 10.4, "motor": 350}, "gotrax-gxl-v2": {"name": "Gotrax GXL V2", "voltage": 36, "ah": 5.2, "motor": 250}, "inokim-oxo": {"name": "Inokim OXO", "voltage": 60, "ah": 25.6, "motor": 2000}, "nami-burn-e2-max": {"name": "Nami Burn-E 2 Max", "voltage": 72, "ah": 40, "motor": 8400}, "teverun-fighter-11": {"name": "Teverun Fighter 11", "voltage": 60, "ah": 26, "motor": 5000}};
 /*MODELS:END*/
+/*MODEL_VARIANTS:START*/
+const MODEL_VARIANTS = {"apollo-city-pro":[{"key":"apollo-city-pro-2023-ca::CA","variantId":"apollo-city-pro-2023-ca","market":"CA","label":"CA","generation":null,"sku":null,"voltage":48,"ah":20,"motor":1000,"energyWh":960,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 20Ah battery assembly specification; cited manufacturer sources do not publish pack Wh.","speed":51,"rangeClaimKm":null,"sourcePublisher":"Apollo Scooters Canada","sourceUrl":"https://apolloscooters.ca/pages/tech-specs-apollo-city-2023-pro"}],"apollo-ghost":[{"key":"apollo-ghost-us-2020::US","variantId":"apollo-ghost-us-2020","market":"US","label":"US","generation":null,"sku":null,"voltage":52,"ah":18.2,"motor":1600,"energyWh":947,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Apollo publishes a 52V 18.2Ah / 947Wh battery for the Ghost.","speed":55,"rangeClaimKm":62,"sourcePublisher":"Apollo Scooters USA","sourceUrl":"https://apolloscooters.co/blogs/news/apollo-ghost-best-adult-electric-scooter"}],"gotrax-g4":[{"key":"gotrax-g4-us-original-42015315951731::US","variantId":"gotrax-g4-us-original-42015315951731","market":"US","label":"US","generation":null,"sku":null,"voltage":36,"ah":10.4,"motor":500,"energyWh":374.4,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"GOTRAX publishes 36V/10.4Ah and approximately 374.4Wh for the G4.","speed":32.2,"rangeClaimKm":40.2,"sourcePublisher":"GOTRAX","sourceUrl":"https://gotrax.com/products/g4-electric-scooter-for-adults?variant=42015315951731"}],"gotrax-gxl-v2":[{"key":"gotrax-gxl-v2-us-current::US","variantId":"gotrax-gxl-v2-us-current","market":"US","label":"US","generation":null,"sku":null,"voltage":36,"ah":5.2,"motor":250,"energyWh":187.2,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 36V nominal × 5.2Ah; GOTRAX publishes the pack voltage and capacity, not Wh, on the cited battery part page.","speed":24.9,"rangeClaimKm":20.1,"sourcePublisher":"GOTRAX","sourceUrl":"https://gotrax.com/products/gxl-commuter-scooter-hand-brake-edition"}],"inokim-oxo":[{"key":"inokim-oxo-2026-us::US","variantId":"inokim-oxo-2026-us","market":"US","label":"US","generation":null,"sku":null,"voltage":57.6,"ah":26,"motor":2000,"energyWh":1497.6,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 57.6V × 26Ah; INOKIM publishes voltage and capacity, not Wh on the 2026 page.","speed":64.9,"rangeClaimKm":109.4,"sourcePublisher":"INOKIM","sourceUrl":"https://inokim.com/products/oxo"}],"kukirin-g2-max":[{"key":"kukirin-g2-max-eu-open-current::EU-OPEN","variantId":"kukirin-g2-max-eu-open-current","market":"EU-OPEN","label":"EU-OPEN","generation":null,"sku":null,"voltage":48,"ah":20.8,"motor":1000,"energyWh":998.4,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 20.8Ah manufacturer-stated capacity; the official product page does not publish Wh.","speed":55,"rangeClaimKm":70,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g2-max-electric-scooter"}],"kukirin-g2-pro":[{"key":"kukirin-g2-pro-eu-current::EU","variantId":"kukirin-g2-pro-eu-current","market":"EU","label":"EU","generation":null,"sku":null,"voltage":48,"ah":15.6,"motor":600,"energyWh":748.8,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 15.6Ah manufacturer-stated capacity; the cited official page does not publish Wh.","speed":45,"rangeClaimKm":58,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g2-pro-electric-scooter"}],"kukirin-g3-pro":[{"key":"kukirin-g3-pro-eu-open-current::EU-OPEN","variantId":"kukirin-g3-pro-eu-open-current","market":"EU-OPEN","label":"EU-OPEN","generation":null,"sku":null,"voltage":52,"ah":23.4,"motor":2400,"energyWh":1216.8,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 52V nominal × 23.4Ah manufacturer-stated capacity; the cited official page does not publish Wh.","speed":65,"rangeClaimKm":80,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g3-pro-electric-scooter"}],"kukirin-g4":[{"key":"kukirin-g4-eu-open-current::EU-OPEN","variantId":"kukirin-g4-eu-open-current","market":"EU-OPEN","label":"EU-OPEN","generation":null,"sku":null,"voltage":60,"ah":20,"motor":2000,"energyWh":1200,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 60V nominal × 20Ah manufacturer-stated capacity; the official product page does not publish Wh.","speed":70,"rangeClaimKm":75,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g4-electric-scooter"}],"navee-n40":[{"key":"navee-n40-nkp21111-a25-global::Global","variantId":"navee-n40-nkp21111-a25-global","market":"Global","label":"Global — NKP21111-A25","generation":null,"sku":"NKP21111-A25","voltage":37,"ah":10,"motor":350,"energyWh":370,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"NAVEE's official manual publishes 37V nominal, 10Ah rated capacity and 370Wh rated energy.","speed":25,"rangeClaimKm":40,"sourcePublisher":"NAVEE","sourceUrl":"https://service.naveetech.com/wp-content/uploads/2026/03/NAVEE-Electric-Scooter-N40-User-Manual.pdf"}],"niu-kqi3-max":[{"key":"niu-kqi3-max-us::US","variantId":"niu-kqi3-max-us","market":"US","label":"US","generation":null,"sku":null,"voltage":48,"ah":13,"motor":450,"energyWh":608.4,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max.","speed":32.2,"rangeClaimKm":64.4,"sourcePublisher":"NIU","sourceUrl":"https://shop.niu.com/products/niu-kqi3-max-electric-kick-scooter-for-adults"},{"key":"niu-kqi3-max-eu::EU","variantId":"niu-kqi3-max-eu","market":"EU","label":"EU","generation":null,"sku":null,"voltage":48,"ah":13,"motor":450,"energyWh":608.4,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max.","speed":25,"rangeClaimKm":65,"sourcePublisher":"NIU","sourceUrl":"https://shopeu.niu.com/en-fr/collections/kick-scooter/products/niu-kqi3-max-electric-kick-scooter-for-adults-eu-version"}],"segway-max-g2":[{"key":"segway-max-g2-us-051501u::US","variantId":"segway-max-g2-us-051501u","market":"US","label":"US — 051501U","generation":null,"sku":"051501U","voltage":36,"ah":15.3,"motor":450,"energyWh":551,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2.","speed":35,"rangeClaimKm":70,"sourcePublisher":"Segway-Ninebot Support","sourceUrl":"https://support.segway.com/support_product.php?segcatid=80"},{"key":"segway-max-g2-e-051501e::EU","variantId":"segway-max-g2-e-051501e","market":"EU","label":"EU — 051501E","generation":null,"sku":"051501E","voltage":36,"ah":15.3,"motor":450,"energyWh":551,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2.","speed":25,"rangeClaimKm":70,"sourcePublisher":"Segway-Ninebot EU","sourceUrl":"https://eu-en.segway.com/ekickscooter/products/max-g2-e.html"}],"vsett-9-plus":[{"key":"vsett-9-plus-48v-21ah-global::Global","variantId":"vsett-9-plus-48v-21ah-global","market":"Global","label":"Global","generation":null,"sku":null,"voltage":48,"ah":21,"motor":1300,"energyWh":1008,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 21Ah; the official product page publishes voltage and Ah, not Wh.","speed":53,"rangeClaimKm":100,"sourcePublisher":"VSETT Official","sourceUrl":"https://vsettscooters.com/pages/vsett-9-plus"}],"xiaomi-3-lite":[{"key":"xiaomi-3-lite-mjddhbc03zm-uk::UK","variantId":"xiaomi-3-lite-mjddhbc03zm-uk","market":"UK","label":"UK — MJDDHBC03ZM","generation":null,"sku":"MJDDHBC03ZM","voltage":36,"ah":5.2,"motor":300,"energyWh":187,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Xiaomi publishes 36V nominal, 5.2Ah rated capacity and 187Wh rated energy.","speed":25,"rangeClaimKm":20,"sourcePublisher":"Xiaomi","sourceUrl":"https://www.mi.com/uk/product/xiaomi-electric-scooter-3-lite/specs/"}],"xiaomi-pro-2":[{"key":"xiaomi-pro-2-ddhbc11neb-hk::HK","variantId":"xiaomi-pro-2-ddhbc11neb-hk","market":"HK","label":"HK — DDHBC11NEB","generation":null,"sku":"DDHBC11NEB","voltage":37,"ah":12.8,"motor":300,"energyWh":474,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Xiaomi Hong Kong publishes 37V nominal, 12,800mAh and 474Wh.","speed":25,"rangeClaimKm":45,"sourcePublisher":"Xiaomi","sourceUrl":"https://www.mi.com/hk/mi-electric-scooter-Pro2/specs/"}],"ecoxtrem-bison-gt":[{"key":"ecoxtrem-bison-gt-ma-1000w-48v13ah::MA","variantId":"ecoxtrem-bison-gt-ma-1000w-48v13ah","market":"MA","label":"MA — Bison GT 1000W","generation":"Bison GT 1000W","sku":null,"voltage":48,"ah":13,"motor":1000,"energyWh":624,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V × 13Ah; Ecoxtrem publishes voltage and capacity but not pack Wh.","speed":50,"rangeClaimKm":40,"sourcePublisher":"Ecoxtrem Morocco","sourceUrl":"https://ecoxtrem.ma/produit/trottinette-electrique-bison-gt-1000w/"}],"ecoxtrem-bison-m41":[{"key":"ecoxtrem-m41-armored-one-ma-52v20ah::MA","variantId":"ecoxtrem-m41-armored-one-ma-52v20ah","market":"MA","label":"MA — M41 Armored One — TROTT-86","generation":"M41 Armored One","sku":"TROTT-86","voltage":52,"ah":20,"motor":1000,"energyWh":1040,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 52V × 20Ah; Ecoxtrem publishes nominal voltage and capacity but not pack Wh.","speed":70,"rangeClaimKm":65,"sourcePublisher":"Ecoxtrem France","sourceUrl":"https://ecoxtrem.fr/en/produit/trottinette-electrique-ecoxtrem-armored-one/"},{"key":"ecoxtrem-m41-armored-one-ma-52v20ah::EU","variantId":"ecoxtrem-m41-armored-one-ma-52v20ah","market":"EU","label":"EU — M41 Armored One — TROTT-86","generation":"M41 Armored One","sku":"TROTT-86","voltage":52,"ah":20,"motor":1000,"energyWh":1040,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 52V × 20Ah; Ecoxtrem publishes nominal voltage and capacity but not pack Wh.","speed":70,"rangeClaimKm":65,"sourcePublisher":"Ecoxtrem France","sourceUrl":"https://ecoxtrem.fr/en/produit/trottinette-electrique-ecoxtrem-armored-one/"}],"xiaomi-essential":[{"key":"xiaomi-essential-ddhbc05neb-es::ES","variantId":"xiaomi-essential-ddhbc05neb-es","market":"ES","label":"ES — Essential — DDHBC05NEB","generation":"Essential","sku":"DDHBC05NEB","voltage":36,"ah":5.1,"motor":250,"energyWh":183,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Xiaomi Spain publishes 36V, 5.1Ah and 183Wh.","speed":20,"rangeClaimKm":null,"sourcePublisher":"Xiaomi Spain","sourceUrl":"https://www.mi.com/es/mi-electric-scooter-essential/specs/"}],"dualtron-thunder-3":[{"key":"dualtron-thunder-3-ed2301-72v40ah-global::Global","variantId":"dualtron-thunder-3-ed2301-72v40ah-global","market":"Global","label":"Global — Thunder 3 (ED2301) — ED2301","generation":"Thunder 3 (ED2301)","sku":"ED2301","voltage":72,"ah":40,"motor":5000,"energyWh":2880,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated from manufacturer manual 72V × 40Ah; manual specifies these values but does not state Wh.","speed":100,"rangeClaimKm":125,"sourcePublisher":"Minimotors","sourceUrl":"https://minimotors.oss-eu-central-1.aliyuncs.com/upload/2023thunder3%28PRODUCT%20MANUAL_.pdf"}]};
+/*MODEL_VARIANTS:END*/
 /*SCOOTERS:START*/
 const scooters = [
   {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "price": 4200},
@@ -823,6 +831,9 @@ let mode = Store.get("voltride_mode", "eco");
 let category = "all";
 let favorites = Store.get("voltride_favorites", []);
 let compare = Store.get("voltride_compare", []);
+let currentModelId = null;
+let selectedModelVariant = null;
+let manualModelInputRequired = false;
 // ---- Currency: display currency + a separate electricity tariff per currency ----
 const RATES = {MAD:1, USD:0.10, EUR:0.093};            // approximate FIXED rates: 1 MAD = x (set Oct 2026, keep in sync with the i18n note)
 const CURRENCIES = ["MAD", "USD", "EUR"];
@@ -933,6 +944,70 @@ function setSelectValue(id, val){
 }
 
 function t(k){ return (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k; }
+
+function clearModelInputFields(){
+  document.getElementById("voltage").value = "";
+  document.getElementById("capacity").value = "";
+  document.getElementById("motor").value = "";
+}
+
+function openModelVariantPicker(id){
+  if (!Object.prototype.hasOwnProperty.call(MODEL_PRESETS, id)) return;
+  currentModelId = id;
+  selectedModelVariant = null;
+  manualModelInputRequired = true;
+  clearModelInputFields();
+  const wrap = document.getElementById("modelVariantField");
+  const select = document.getElementById("modelVariant");
+  const note = document.getElementById("modelVariantNote");
+  const variants = MODEL_VARIANTS[id] || [];
+  select.innerHTML = '<option value="">' + escapeHTML(t("variantPlaceholder")) + '</option>' +
+    variants.map(v => '<option value="' + escapeHTML(v.key) + '">' + escapeHTML(v.label) + '</option>').join("") +
+    '<option value="manual">' + escapeHTML(t("variantManual")) + '</option>';
+  select.disabled = false;
+  select.value = "";
+  wrap.hidden = false;
+  note.textContent = variants.length ? t("variantChooseNote") : t("variantNoData");
+}
+
+function handleModelVariantChange(){
+  const select = document.getElementById("modelVariant");
+  const note = document.getElementById("modelVariantNote");
+  const variants = MODEL_VARIANTS[currentModelId] || [];
+  const variant = variants.find(v => v.key === select.value);
+  if (!variant){
+    selectedModelVariant = null;
+    manualModelInputRequired = true;
+    clearModelInputFields();
+    note.textContent = select.value === "manual" ? t("variantManual") : (variants.length ? t("variantChooseNote") : t("variantNoData"));
+    return;
+  }
+  selectedModelVariant = variant;
+  manualModelInputRequired = false;
+  setSelectValue("voltage", variant.voltage);
+  setSelectValue("motor", variant.motor);
+  document.getElementById("capacity").value = variant.ah;
+  const energyNote = variant.energyWhBasis === "manufacturer_published" ? t("variantEnergyManufacturer") : t("variantEnergyCalculated");
+  note.textContent = variant.label + " · " + energyNote + (variant.sourcePublisher ? " · " + variant.sourcePublisher : "");
+  calculate();
+}
+
+function handleManualModelInput(){
+  if (selectedModelVariant){
+    selectedModelVariant = null;
+    document.getElementById("modelVariant").value = "manual";
+    document.getElementById("modelVariantNote").textContent = t("variantManual");
+  }
+  if (currentModelId){
+    const voltage = Number(document.getElementById("voltage").value);
+    const ah = Number(document.getElementById("capacity").value);
+    const motor = Number(document.getElementById("motor").value);
+    manualModelInputRequired = !(voltage > 0 && ah > 0 && motor > 0);
+    if (manualModelInputRequired) return;
+  }
+  calculate();
+}
+
 function escapeHTML(v){ return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 function toast(msg){ const el = document.getElementById("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(window.__toast); window.__toast = setTimeout(() => el.classList.remove("show"), 2000); }
 function fmtLocale(){ return lang === "ar" ? "ar-MA" : lang === "fr" ? "fr-FR" : "en-US"; }
@@ -1000,9 +1075,10 @@ function calculate(){
   const ah = Math.max(0.1, Number(document.getElementById("capacity").value) || 0.1);
   const motor = Number(document.getElementById("motor").value);
   const charger = Math.max(0.1, Number(document.getElementById("charger").value) || 0.1);
+  if (manualModelInputRequired){ toast(t("variantManualRequired")); return; }
   document.getElementById("weightVal").textContent = weight;
   document.getElementById("speedVal").textContent = speed;
-  const batteryWh = voltage * ah, usableWh = batteryWh * 0.9;
+  const batteryWh = selectedModelVariant && selectedModelVariant.energyWh > 0 ? selectedModelVariant.energyWh : voltage * ah, usableWh = batteryWh * 0.9;
   const weightFactor = 1 + ((weight - 75) * 0.0045);
   const speedFactor = 1 + (Math.max(0, speed - 20) * 0.035);
   const terrainFactor = {flat:1, mixed:1.12, hills:1.30}[terrain] || 1;
@@ -1299,15 +1375,10 @@ function openCompare(){
 }
 
 function useScooter(id){
-  const s = scooters.find(x => x.id === id);
-  if (!s) return;
-  // القوائم المنسدلة لا تحوي كل القيم (مثل 21.6V أو 4000W): نضيف الخيار الناقص قبل التعبئة
-  setSelectValue("voltage", s.voltage);
-  setSelectValue("motor", s.power);
-  document.getElementById("capacity").value = s.ah;
-  calculate();
+  if (!Object.prototype.hasOwnProperty.call(MODEL_PRESETS, id)) return;
+  openModelVariantPicker(id);
   switchScreen("calculator");
-  toast(t("specsTransferred"));
+  toast((MODEL_VARIANTS[id] || []).length ? t("variantChooseNote") : t("variantNoData"));
 }
 
 function renderErrors(){
@@ -1511,9 +1582,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("appVersion").textContent = APP_VERSION;
   document.getElementById("weight").oninput = calculate;
   document.getElementById("speed").oninput = calculate;
-  ["voltage","capacity","motor","charger"].forEach(id =>
-    document.getElementById(id).addEventListener("input", calculate)
+  ["voltage","capacity","motor"].forEach(id =>
+    document.getElementById(id).addEventListener("input", handleManualModelInput)
   );
+  document.getElementById("charger").addEventListener("input", calculate);
+  document.getElementById("modelVariant").addEventListener("change", handleModelVariantChange);
   document.getElementById("calculateBtn").onclick = () => {
     calculate();
     if (window.VoltAnalytics) window.VoltAnalytics.track("calculator_use", { method: "button" });
@@ -1617,14 +1690,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // تعبئة تلقائية من رابط صفحة موديل: index.html?model=xiaomi-pro-2
   try {
     const slug = new URLSearchParams(location.search).get("model");
-    const p = slug && Object.prototype.hasOwnProperty.call(MODEL_PRESETS, slug) ? MODEL_PRESETS[slug] : null;
-    if (p) {
-      setSelectValue("voltage", p.voltage);
-      setSelectValue("motor", p.motor);
-      document.getElementById("capacity").value = p.ah;
+    if (slug && Object.prototype.hasOwnProperty.call(MODEL_PRESETS, slug)) {
+      openModelVariantPicker(slug);
       switchScreen("calculator");
-      calculate();
-      toast("✅ " + p.name);
+      toast("✅ " + MODEL_PRESETS[slug].name);
     }
   } catch (e) {}
 
