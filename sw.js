@@ -44,49 +44,7 @@ self.addEventListener("message", (e) => {
   if (e.data && e.data.type === "GET_VERSION" && e.ports && e.ports[0]) {
     e.ports[0].postMessage({ version: VERSION });
   }
-  if (e.data && e.data.type === "DEBUG_CACHE" && e.ports && e.ports[0]) {
-    e.waitUntil((async () => {
-      const cache = await caches.open(VERSION);
-      const request = new Request(e.data.url);
-      const page = await matchPage(cache, request);
-      const offlineUrl = new URL("offline.html", self.registration.scope).href;
-      const fallback = await cache.match(offlineUrl);
-      const keys = (await cache.keys()).map(item => new URL(item.url).pathname);
-      e.ports[0].postMessage({
-        version: VERSION,
-        online: self.navigator ? self.navigator.onLine : null,
-        pageStatus: page ? page.status : null,
-        fallbackStatus: fallback ? fallback.status : null,
-        keys
-      });
-    })());
-  }
-  if (e.data && e.data.type === "TEST_NAVIGATE" && e.ports && e.ports[0]) {
-    e.waitUntil((async () => {
-      try {
-        const response = await navigate(new Request(e.data.url));
-        const location = response.headers.get("Location");
-        let finalResponse = response;
-        if (response.status >= 300 && response.status < 400 && location) {
-          const cache = await caches.open(VERSION);
-          finalResponse = await cache.match(location) || response;
-        }
-        const body = await finalResponse.clone().text();
-        const networkReachable = await networkIsReachable();
-        e.ports[0].postMessage({
-          status: response.status,
-          finalStatus: finalResponse.status,
-          location,
-          type: response.type,
-          offlineText: body.includes("لا يوجد اتصال بالإنترنت"),
-          workerOnline: self.navigator ? self.navigator.onLine : null,
-          networkReachable
-        });
-      } catch (error) {
-        e.ports[0].postMessage({ error: String(error) });
-      }
-    })());
-  }
+
 });
 
 function fetchWithTimeout(req, ms) {
