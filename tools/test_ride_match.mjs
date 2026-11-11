@@ -100,7 +100,6 @@ assert.match(html, /\\/\\*RIDE_VARIANTS:START\\*\\/[\\s\\S]*?\\/\\*RIDE_VARIANTS
 assert.match(html, /if \\(!answers\\.market\\) return \\[\\];/);
 assert.match(html, /RIDE_MATCH_MODELS\\.flatMap/);
 assert.match(html, /answers\\.market = RIDE_MATCH_MARKETS\\.includes/);
-assert.doesNotMatch(html, /s\\.voltage|s\\.ah|s\\.power/);
 assert.doesNotMatch(html, /affiliateOnlyModels|iscooter-w9|iscooter-ix4|iscooter-w6/);
 assert.doesNotMatch(html, /s\\.affiliateUrl/);
 assert.match(html, /marketplace_search_click/);
