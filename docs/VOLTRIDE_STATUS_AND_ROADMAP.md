@@ -157,7 +157,7 @@ The default display currency is now selected from the browser's regional locale,
 
 ## 2026-11-11 — canonical V2 identity audit update
 
-- The staged `model_data_v2.json` now represents all 30 identities in the legacy `models.json` catalog, with 36 market/generation-specific variant records.
+- The staged `model_data_v2.json` now represents all 30 identities in the legacy `models.json` catalog, with 37 market/generation-specific variant records.
 - Current staged status: 22 high-confidence `verified_variant` records and 15 unresolved/non-projectable records. Twenty model identities have at least one high-confidence verified variant; ten do not yet have one.
 - Models without a high-confidence verified variant: `kaabo-wolf-king`, `navee-g5`, `segway-max-g30`, `teverun-fighter-11`, `vsett-10-plus`, `vsett-8-plus`, `xiaomi-4-pro`, `dualtron-mini`, `dualtron-victor`, `nami-burn-e2-max`.
 - The audit matrix now records primary-source findings and explicit evidence limits for every legacy model identity. A variant is not projectable merely because a source record exists; the adapter still requires exact model ID, variant ID, market, complete battery fields, and rated motor power.
