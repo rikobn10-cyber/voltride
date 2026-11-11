@@ -1,9 +1,9 @@
 # VoltRide canonical model data schema v2 — migration plan
 
-**Status:** design proposal only  
-**Date:** 2026-11-10  
+**Status:** staged migration in progress — 9 verified variants and 4 unresolved evidence variants; legacy production consumers remain on `models.json`  
+**Updated:** 2026-11-11  
 **Scope:** canonical scooter records, generator, calculator presets, catalog and Ride Match compatibility  
-**Non-goal:** this document does not change any model specifications, recommendations, prices, affiliate links or generated pages.
+**Production boundary:** no production model specifications or recommendations are switched to V2 in this phase. This PR separately hardens Ride Match purchase-link fallback and adds Ride Match to the PWA offline cache.
 
 ## 1. Why a schema migration is required
 
@@ -166,3 +166,41 @@ These are work queues, not permission to overwrite current production values wit
 - Treating affiliate links as proof of a model SKU or manufacturer specification.
 - Treating manufacturer range claims as measured range.
 - Applying Morocco-specific legal assumptions to the global model dataset.
+
+
+## 9. Staged migration checkpoint — 2026-11-11
+
+- `model_data_v2.json` now contains 11 model identities and 13 variants (9 verified, 4 intentionally unresolved): Verified: Xiaomi Scooter 3 Lite (UK), Xiaomi Pro 2 (HK), NIU KQi3 Max (US/EU), KuKirin G2 Pro (EU), KuKirin G3 Pro (EU-OPEN), Apollo City Pro 2023 (CA), GOTRAX GXL V2 (US), and VSETT 9+ 48V/21Ah (Global). Unresolved: Xiaomi 4 Pro (voltage absent), NAVEE G5 (Ah absent in US/EU listings), and Segway MAX G30 family (G30/G30P suffix and Ah unresolved).
+- The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
+- All 13 variant records pass the schema-v2 validator; the adapter projects the 9 verified variants and rejects the 4 unresolved variants. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
+- The remaining 19 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
+- The explicit-variant adapter is implemented and covered by 16 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
+
+
+### Compatibility adapter implementation
+
+A pure-Python staged adapter now requires an explicit model ID, variant ID and market. It rejects anything other than a high-confidence `verified_variant`, rejects incomplete battery or rated-power data, refuses to substitute peak power for rated power, and returns both legacy-compatible specification fields and their source provenance. Regression tests cover exact selection and NIU US/EU market separation. The adapter is not yet wired into production generation.
+
+
+The adapter projection now carries manufacturer-published `energyWh` and its basis separately from voltage × Ah, and includes peak motor power as a distinct field when published. This is necessary because manufacturer-published Wh can differ from nominal voltage × rated Ah; the future calculator integration must consume the explicit Wh value rather than silently recomputing it. Tests also cover per-motor-to-combined aggregation only when the motor count and basis are explicit.
+
+
+KuKirin G2 Pro and G3 Pro were added as exact official EU-open variants on 2026-11-11. Their Wh values are explicitly marked as calculated from published nominal voltage and Ah; motor power is represented with count and per-motor/combined semantics. G3 Pro is explicitly tagged EU-OPEN to avoid conflating it with ABE/VMP speed-limited variants.
+
+
+Apollo City Pro 2023 is now included as a CA-market dual-motor variant. Its 500W rated and 1000W peak values remain per-motor; the adapter projects 1000W rated / 2000W peak combined only because the motor count is explicitly two. Battery Wh is explicitly calculated from 48V × 20Ah, and range remains null rather than borrowed from a related City model.
+
+
+GOTRAX GXL V2 (US) was added using the official product page plus the official replacement-battery compatibility listing. Original mph/mile figures are retained in conditions next to metric conversions; calculated Wh is labelled explicitly and peak power remains unresolved.
+
+
+Xiaomi Electric Scooter 4 Pro original generation (DDHBC20NEB) has been added as an unresolved evidence record: Xiaomi publishes 12.4Ah/446Wh, 350W rated/700W max, 25km/h and 55km after firmware update, but the cited page omits nominal voltage. The record keeps voltage null and is rejected by the compatibility adapter. This demonstrates that partial evidence is retained without promoting inferred measurements to verified status.
+
+
+NAVEE G5 US/EU records were added as unresolved evidence variants: official source provides regional speeds and 36V/275.4Wh, but not Ah. The two regional records stay ineligible for projection until capacity is confirmed.
+
+
+Segway MAX G30 family is represented as an unresolved record because the official page distinguishes G30 (25km/h) from G30P (30km/h) while the legacy catalog does not retain the suffix, and the page omits Ah. Its speed and capacity stay null; the adapter rejects it.
+
+
+VSETT 9+ 48V/21Ah has been added as a verified global listing variant. The adapter aggregates two explicit 650W rated motors to 1300W combined; peak power remains null because the official page does not publish it.

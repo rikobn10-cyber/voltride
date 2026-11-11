@@ -35,6 +35,7 @@ for (const model of modelCatalog) {
 }
 
 for (const model of rideMatchData.affiliateOnlyModels) {
+  assert.equal(model.affiliateDestinationVerified, false, model.id + ": unresolved affiliate destination must remain disabled");
   const rideModel = rideModels.find(item => item.id === model.id);
   assert.ok(rideModel, model.id + ": affiliate-only model must appear in Ride Match");
   for (const [field, value] of Object.entries(model)) {
@@ -70,6 +71,8 @@ for (const id of ["ecoxtrem-bison-gt", "ecoxtrem-bison-m41"]) {
   assert.equal(evaluate('getRecommendations().some(r => r.s.id === "' + id + '")'), false, id + ": unresolved regional/model variant must be excluded from recommendations");
 }
 assert.match(html, /data-action="buy"/);
+assert.match(html, /r\.s\.affiliateDestinationVerified === true/, "unresolved affiliate links must not be sent to users");
+assert.match(html, /marketplace_search_click/, "unverified affiliate destinations must fall back to a marketplace search");
 assert.doesNotMatch(html, /indexOf\('اشترِ الآن'\)/);
 
 for (const preference of ["speed", "range", "commuter", "performance"]) {

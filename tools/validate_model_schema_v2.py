@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Validate VoltRide's staged canonical model-data v2 dataset.
 
-Uses only the Python standard library. The v2 dataset is intentionally empty
-until exact model variants have adequate source evidence; legacy production
-consumers continue to read models.json during this foundation phase.
+Uses only the Python standard library. The v2 dataset is a staged subset of exact variants
+with adequate source evidence; legacy production consumers continue to read models.json
+until the explicit-variant compatibility adapter and consumer tests are complete.
 """
 import json
 import math

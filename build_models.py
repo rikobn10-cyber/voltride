@@ -32,7 +32,7 @@ BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu
 GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
 # (path, priority, lastmod)
 SPRINT = "2026-10-26"
-SW_VERSION = "voltride-v18"
+SW_VERSION = "voltride-v19"
 IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "fr/article-9.html": "electric-scooter-winter-range-voltride.jpg", "en/article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
 # (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
 TODAY = "2026-10-27"
@@ -442,7 +442,10 @@ def main():
         if m["id"] in RIDE_MATCH_EXCLUDED_IDS:
             item["eligible"] = False
         ride_scooters.append(item)
-    ride_scooters.extend(RIDE_MATCH_AFFILIATE_ONLY)
+    for affiliate_model in RIDE_MATCH_AFFILIATE_ONLY:
+        item = dict(affiliate_model)
+        item["affiliateDestinationVerified"] = item.get("affiliateDestinationVerified") is True
+        ride_scooters.append(item)
     ride_arr = "const scooters = [\n  " + ",\n  ".join(json.dumps(s, ensure_ascii=False) for s in ride_scooters) + "\n];"
     ride_path = "ride-match.html"
     ride_html = read(ride_path)
@@ -454,13 +457,40 @@ def main():
                                    ride_html, count=1, flags=re.S)
         if count != 1:
             raise ValueError("Could not locate Ride Match scooters array for generation")
+    # Keep the generated page aligned with the verified-destination safety gate.
+    old_cta = '''    const isAffiliate = Boolean(r.s.affiliateUrl);
+    const buyUrl = isAffiliate ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    const buyRel = isAffiliate ? "noopener sponsored nofollow" : "noopener nofollow";'''
+    new_cta = '''    // Only use a commission-bearing destination after the final listing, SKU and market are verified.
+    const isVerifiedAffiliate = Boolean(r.s.affiliateUrl && r.s.affiliateDestinationVerified === true);
+    const buyUrl = isVerifiedAffiliate ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    const buyRel = isVerifiedAffiliate ? "noopener sponsored nofollow" : "noopener nofollow";'''
+    old_analytics = '''    const eventName = product && product.affiliateUrl ? "affiliate_click" : "marketplace_search_click";
+    window.VoltAnalytics.track(eventName, {
+      item_id: product ? product.id : undefined,
+      link_type: product && product.affiliateUrl ? "affiliate" : "marketplace_search"
+    });'''
+    new_analytics = '''    const isAffiliateClick = (link.getAttribute("rel") || "").split(/\\s+/).includes("sponsored");
+    const eventName = isAffiliateClick ? "affiliate_click" : "marketplace_search_click";
+    window.VoltAnalytics.track(eventName, {
+      item_id: product ? product.id : undefined,
+      link_type: isAffiliateClick ? "affiliate" : "marketplace_search"
+    });'''
+    if old_cta in ride_html:
+        ride_html = ride_html.replace(old_cta, new_cta, 1)
+    elif new_cta not in ride_html:
+        raise ValueError("Ride Match purchase CTA template was not found")
+    if old_analytics in ride_html:
+        ride_html = ride_html.replace(old_analytics, new_analytics, 1)
+    elif new_analytics not in ride_html:
+        raise ValueError("Ride Match analytics template was not found")
     write(ride_path, ride_html)
     print("Ride Match scooters:", len(ride_scooters))
 
     # service worker precache + automatic cache version
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
                   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
-                  "blog.html", "about.html", "privacy.html", "contact.html", "accessories.html", "en/accessories.html", "fr/accessories.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + sorted(set(IMAGES.values()))
+                  "blog.html", "about.html", "privacy.html", "contact.html", "accessories.html", "en/accessories.html", "fr/accessories.html", "ride-match.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + sorted(set(IMAGES.values()))
     files = base_files + [f"{m['id']}.html" for m in MODELS]
     sw = read("sw.js")
     lst = "const PRECACHE = [\n  " + ",\n  ".join(", ".join(f'"{f}"' for f in files[i:i + 4]) for i in range(0, len(files), 4)) + "\n];"

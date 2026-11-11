@@ -1,5 +1,5 @@
 {
-  "_notes": "Ride Match-only data kept outside the canonical catalog. Core scooter specifications must come from models.json via build_models.py. Affiliate-only entries are separate because they are not part of the 30-model canonical SEO catalog. Affiliate short links have not been resolved to final destinations or matched to exact regional SKUs; do not treat link presence as source verification.",
+  "_notes": "Ride Match-only data kept outside the canonical catalog. Core scooter specifications must come from models.json via build_models.py. Affiliate-only entries are separate because they are not part of the 30-model canonical SEO catalog. Affiliate short links have not been resolved to final destinations or matched to exact regional SKUs; do not treat link presence as source verification. Affiliate destination links are deliberately disabled in the purchase CTA until each final listing, SKU and market is verified.",
   "excludedModelIds": [
     "ecoxtrem-bison-gt",
     "ecoxtrem-bison-m41"
@@ -13,7 +13,8 @@
       "power": 1000,
       "voltage": 48,
       "ah": 14,
-      "affiliateUrl": "https://s.click.aliexpress.com/e/_EGAUMFs"
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EGAUMFs",
+      "affiliateDestinationVerified": false
     },
     {
       "id": "iscooter-ix4",
@@ -23,7 +24,8 @@
       "power": 800,
       "voltage": 48,
       "ah": 15,
-      "affiliateUrl": "https://s.click.aliexpress.com/e/_EvIBV8A"
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EvIBV8A",
+      "affiliateDestinationVerified": false
     },
     {
       "id": "iscooter-w9air",
@@ -33,7 +35,8 @@
       "power": 800,
       "voltage": 48,
       "ah": 10,
-      "affiliateUrl": "https://s.click.aliexpress.com/e/_EwpL2l8"
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EwpL2l8",
+      "affiliateDestinationVerified": false
     },
     {
       "id": "iscooter-w6",
@@ -44,7 +47,8 @@
       "voltage": 42,
       "ah": 10.5,
       "eligible": false,
-      "affiliateUrl": "https://s.click.aliexpress.com/e/_EIqcG58"
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EIqcG58",
+      "affiliateDestinationVerified": false
     },
     {
       "id": "iscooter-ix5s",
@@ -54,7 +58,8 @@
       "power": 1000,
       "voltage": 48,
       "ah": 15,
-      "affiliateUrl": "https://s.click.aliexpress.com/e/_EIosseQ"
+      "affiliateUrl": "https://s.click.aliexpress.com/e/_EIosseQ",
+      "affiliateDestinationVerified": false
     }
   ]
 }

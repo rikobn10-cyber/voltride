@@ -1,4 +1,815 @@
 {
   "schemaVersion": 2,
-  "models": []
+  "models": [
+    {
+      "id": "apollo-city-pro",
+      "name": "Apollo City Pro",
+      "manufacturer": "Apollo",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "apollo-city-pro-2023-ca",
+          "market": [
+            "CA"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 20,
+            "energyWh": 960,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 20Ah battery assembly specification; cited manufacturer sources do not publish pack Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 500,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "per_motor"
+          },
+          "speed": {
+            "maxKmh": 51,
+            "conditions": "Apollo City 2023 Pro technical specification; Sport mode maximum."
+          },
+          "rangeClaim": {
+            "maxKm": null,
+            "basis": "manufacturer_claim",
+            "conditions": "A City Pro-specific range claim was not present in the cited technical specification; no value inferred."
+          },
+          "sources": [
+            {
+              "url": "https://apolloscooters.ca/pages/tech-specs-apollo-city-2023-pro",
+              "publisher": "Apollo Scooters Canada",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "motors",
+                "speed"
+              ],
+              "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://apolloscooters.co/products/apollo-city-city-pro-2023-battery-assembly",
+              "publisher": "Apollo Scooters",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "The technical specification page identifies Apollo City 2023 Pro as a dual-motor model with 500W nominal and 1000W peak per motor, up to 51km/h.",
+              "Apollo's official battery assembly page confirms a 48V 20Ah pack and lists compatibility with Apollo City Pro 2023-24.",
+              "Wh is calculated from nominal voltage × Ah; no City Pro range figure was inferred."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "gotrax-gxl-v2",
+      "name": "GOTRAX GXL V2",
+      "manufacturer": "GOTRAX",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "gotrax-gxl-v2-us-current",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 5.2,
+            "energyWh": 187.2,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 36V nominal × 5.2Ah; GOTRAX publishes the pack voltage and capacity, not Wh, on the cited battery part page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 250,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 24.9,
+            "conditions": "15.5mph manufacturer US-market maximum, converted to 24.9km/h."
+          },
+          "rangeClaim": {
+            "maxKm": 20.1,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 12.5 miles manufacturer range claim, converted to 20.1km; product page does not state full test conditions."
+          },
+          "sources": [
+            {
+              "url": "https://gotrax.com/products/gxl-commuter-scooter-hand-brake-edition",
+              "publisher": "GOTRAX",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://gotrax.com/products/36v-5-4ah-escooter-battery",
+              "publisher": "GOTRAX",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "GOTRAX's official product page identifies the GXL V2, 250W average motor, 15.5mph top speed and up to 12.5-mile range.",
+              "GOTRAX's official replacement battery page explicitly lists GXL V2 compatibility and 36V 5.2Ah capacity.",
+              "Speed and range are converted from the original US units; the original units remain documented in conditions.",
+              "Battery energy is calculated as 36V × 5.2Ah and is labelled as calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "kukirin-g2-pro",
+      "name": "KuKirin G2 Pro",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g2-pro-eu-current",
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 15.6,
+            "energyWh": 748.8,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 15.6Ah manufacturer-stated capacity; the cited official page does not publish Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 600,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 45,
+            "conditions": "EU official product listing; maximum of the listed 20/40/45km/h modes."
+          },
+          "rangeClaim": {
+            "maxKm": 58,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 58km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g2-pro-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact G2 Pro listing identifies 48V 15.6Ah, 600W rated rear motor, up to 1000W peak, 45km/h and 58km range.",
+              "Energy Wh is calculated from manufacturer-published nominal voltage and Ah; it is explicitly marked as calculated, not manufacturer-published."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "kukirin-g3-pro",
+      "name": "KuKirin G3 Pro",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g3-pro-eu-open-current",
+          "market": [
+            "EU-OPEN"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 23.4,
+            "energyWh": 1216.8,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 52V nominal × 23.4Ah manufacturer-stated capacity; the cited official page does not publish Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 1200,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 65,
+            "conditions": "Manufacturer dual-motor mode; page distinguishes this open version from Germany ABE and Spain VMP variants."
+          },
+          "rangeClaim": {
+            "maxKm": 80,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 80km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g3-pro-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact product page identifies two 1200W rated motors, 52V 23.4Ah pack, 65km/h dual-motor maximum and 80km manufacturer range claim.",
+              "Market is recorded as EU-OPEN; the page explicitly excludes German ABE and Spain VMP configurations.",
+              "Energy Wh is calculated from manufacturer-published nominal voltage and Ah and is labelled as calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "navee-g5",
+      "name": "NAVEE G5",
+      "manufacturer": "NAVEE",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "navee-g5-us-current",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": null,
+            "energyWh": 275.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NAVEE publishes 36V and 275.4Wh; Ah is not stated on the cited official page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 400,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 800,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 32,
+            "conditions": "NAVEE US market specification; maximum speed for the regional configuration."
+          },
+          "rangeClaim": {
+            "maxKm": 45,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 45km manufacturer claim at 15km/h."
+          },
+          "sources": [
+            {
+              "url": "https://www.naveetech.com/navee-g5/",
+              "publisher": "NAVEE",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official page identifies the G5 and market-specific maximum speed, 36V/275.4Wh battery, 400W rated and 800W peak motor power, and 45km range claim.",
+              "The page does not publish battery Ah; capacityAh remains null and the compatibility adapter must reject this record until the battery capacity is established.",
+              "US and EU speed specifications are represented as separate variants; no global speed is inferred."
+            ]
+          }
+        },
+        {
+          "variantId": "navee-g5-eu-current",
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": null,
+            "energyWh": 275.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NAVEE publishes 36V and 275.4Wh; Ah is not stated on the cited official page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 400,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 800,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "NAVEE EU market specification; maximum speed for the regional configuration."
+          },
+          "rangeClaim": {
+            "maxKm": 45,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 45km manufacturer claim at 15km/h."
+          },
+          "sources": [
+            {
+              "url": "https://www.naveetech.com/navee-g5/",
+              "publisher": "NAVEE",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official page identifies the G5 and market-specific maximum speed, 36V/275.4Wh battery, 400W rated and 800W peak motor power, and 45km range claim.",
+              "The page does not publish battery Ah; capacityAh remains null and the compatibility adapter must reject this record until the battery capacity is established.",
+              "US and EU speed specifications are represented as separate variants; no global speed is inferred."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "niu-kqi3-max",
+      "name": "NIU KQi3 Max",
+      "manufacturer": "NIU",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "niu-kqi3-max-us",
+          "sku": null,
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 13,
+            "energyWh": 608.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 900,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 32.2,
+            "conditions": "20mph manufacturer US-market maximum, converted to 32.2km/h."
+          },
+          "rangeClaim": {
+            "maxKm": 64.4,
+            "basis": "manufacturer_claim",
+            "conditions": "40 miles manufacturer range claim, converted to 64.4km."
+          },
+          "sources": [
+            {
+              "url": "https://shop.niu.com/products/niu-kqi3-max-electric-kick-scooter-for-adults",
+              "publisher": "NIU",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact KQi3 Max model identity and market-specific speed are documented on NIU's official product page.",
+              "Battery energy is stored as the manufacturer-published Wh value; it is not recalculated from nominal voltage and Ah."
+            ]
+          }
+        },
+        {
+          "variantId": "niu-kqi3-max-eu",
+          "sku": null,
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 13,
+            "energyWh": 608.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 900,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "25km/h manufacturer EU-market maximum."
+          },
+          "rangeClaim": {
+            "maxKm": 65,
+            "basis": "manufacturer_claim",
+            "conditions": "65km manufacturer range claim."
+          },
+          "sources": [
+            {
+              "url": "https://shopeu.niu.com/en-fr/collections/kick-scooter/products/niu-kqi3-max-electric-kick-scooter-for-adults-eu-version",
+              "publisher": "NIU",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact KQi3 Max model identity and market-specific speed are documented on NIU's official product page.",
+              "Battery energy is stored as the manufacturer-published Wh value; it is not recalculated from nominal voltage and Ah."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "segway-max-g30",
+      "name": "Segway Ninebot MAX G30 family",
+      "manufacturer": "Segway-Ninebot",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "segway-max-g30-family-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": null,
+            "energyWh": 551,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 36V nominal and 551Wh; Ah is not stated on the cited official page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 350,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": null,
+            "conditions": "Official page lists G30 at 25km/h and G30P at 30km/h; exact suffix/market for this catalog identity is not resolved."
+          },
+          "rangeClaim": {
+            "maxKm": 65,
+            "basis": "manufacturer_claim",
+            "conditions": "Approx. 65km typical range under Segway's stated 75kg, 25°C, flat pavement and 60% max-speed test conditions."
+          },
+          "sources": [
+            {
+              "url": "https://arab.segway.com/product-info/kickscooter-max.html",
+              "publisher": "Segway-Ninebot ME",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official page distinguishes G30 (25km/h) and G30P (30km/h); the current catalog identity does not preserve the suffix needed to choose one.",
+              "Official page publishes 36V and 551Wh but not Ah; capacityAh remains null.",
+              "Do not use the current catalog's 30km/h value as a universal G30 specification."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "vsett-9-plus",
+      "name": "VSETT 9+",
+      "manufacturer": "VSETT",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "vsett-9-plus-48v-21ah-global",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 21,
+            "energyWh": 1008,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 21Ah; the official product page publishes voltage and Ah, not Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 650,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 53,
+            "conditions": "VSETT official product page maximum speed for the 9+ configuration."
+          },
+          "rangeClaim": {
+            "maxKm": 100,
+            "basis": "manufacturer_claim",
+            "conditions": "Official page lists up to 100km dual-motor mileage for the 48V 21Ah battery variant."
+          },
+          "sources": [
+            {
+              "url": "https://vsettscooters.com/pages/vsett-9-plus",
+              "publisher": "VSETT Official",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official VSETT page lists the 48V 21.0Ah battery option, two 650W brushless motors, 53km/h maximum speed, and up to 100km dual-motor mileage for the 21Ah configuration.",
+              "Wh is calculated from published nominal voltage × Ah; no manufacturer Wh figure is claimed.",
+              "Peak motor power is not stated on the cited official page and remains null."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "xiaomi-3-lite",
+      "name": "Xiaomi Scooter 3 Lite",
+      "manufacturer": "Xiaomi",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "xiaomi-3-lite-mjddhbc03zm-uk",
+          "sku": "MJDDHBC03ZM",
+          "market": [
+            "UK"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 5.2,
+            "energyWh": 187,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Xiaomi publishes 36V nominal, 5.2Ah rated capacity and 187Wh rated energy."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 300,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Manufacturer maximum speed; mode-specific maximum."
+          },
+          "rangeClaim": {
+            "maxKm": 20,
+            "basis": "manufacturer_claim",
+            "conditions": "Xiaomi maximum range claim; test conditions are not fully specified on the cited specifications page."
+          },
+          "sources": [
+            {
+              "url": "https://www.mi.com/uk/product/xiaomi-electric-scooter-3-lite/specs/",
+              "publisher": "Xiaomi",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact manufacturer model code MJDDHBC03ZM is identified on Xiaomi UK's official specifications page.",
+              "Rated motor power is 300W; peak power is not published on the cited page and remains null.",
+              "Manufacturer-published battery energy is retained as 187Wh; it is not recomputed from rounded nominal values."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "xiaomi-4-pro",
+      "name": "Xiaomi Electric Scooter 4 Pro",
+      "manufacturer": "Xiaomi",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "xiaomi-4-pro-ddhbc20neb-global",
+          "sku": "DDHBC20NEB",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": null,
+            "capacityAh": 12.4,
+            "energyWh": 446,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Xiaomi publishes 12.4Ah/446Wh but the cited specifications page does not state nominal voltage."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 350,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 700,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Manufacturer maximum speed; mode-specific maximum."
+          },
+          "rangeClaim": {
+            "maxKm": 55,
+            "basis": "manufacturer_claim",
+            "conditions": "Xiaomi maximum range claim after the specified firmware update; real-world range varies."
+          },
+          "sources": [
+            {
+              "url": "https://www.mi.com/global/product/xiaomi-electric-scooter-4-pro/specs/",
+              "publisher": "Xiaomi",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact product code DDHBC20NEB is identified on Xiaomi's official global specifications page.",
+              "The page publishes 12.4Ah/446Wh but does not publish nominal voltage; do not infer voltage from the Wh/Ah ratio.",
+              "Rated 350W and maximum 700W are kept separate. The original 4 Pro generation must not be conflated with 2nd Gen."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "xiaomi-pro-2",
+      "name": "Xiaomi Pro 2",
+      "manufacturer": "Xiaomi",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "xiaomi-pro-2-ddhbc11neb-hk",
+          "sku": "DDHBC11NEB",
+          "market": [
+            "HK"
+          ],
+          "battery": {
+            "nominalVoltageV": 37,
+            "capacityAh": 12.8,
+            "energyWh": 474,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Xiaomi Hong Kong publishes 37V nominal, 12,800mAh and 474Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 300,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 600,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Manufacturer maximum speed; Spain-market specification."
+          },
+          "rangeClaim": {
+            "maxKm": 45,
+            "basis": "manufacturer_claim",
+            "conditions": "Xiaomi stated maximum range; test conditions should not be interpreted as real-world guarantee."
+          },
+          "sources": [
+            {
+              "url": "https://www.mi.com/hk/mi-electric-scooter-Pro2/specs/",
+              "publisher": "Xiaomi",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact product code DDHBC11NEB is identified on Xiaomi's official Hong Kong specifications page.",
+              "Manufacturer-published 37V, 12.8Ah and 474Wh are retained; the legacy 36V nominal figure is not reused.",
+              "Rated 300W and peak 600W remain separate fields."
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }
