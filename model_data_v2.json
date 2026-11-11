@@ -72,6 +72,78 @@
       ]
     },
     {
+      "id": "gotrax-gxl-v2",
+      "name": "GOTRAX GXL V2",
+      "manufacturer": "GOTRAX",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "gotrax-gxl-v2-us-current",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 5.2,
+            "energyWh": 187.2,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 36V nominal × 5.2Ah; GOTRAX publishes the pack voltage and capacity, not Wh, on the cited battery part page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 250,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 24.9,
+            "conditions": "15.5mph manufacturer US-market maximum, converted to 24.9km/h."
+          },
+          "rangeClaim": {
+            "maxKm": 20.1,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 12.5 miles manufacturer range claim, converted to 20.1km; product page does not state full test conditions."
+          },
+          "sources": [
+            {
+              "url": "https://gotrax.com/products/gxl-commuter-scooter-hand-brake-edition",
+              "publisher": "GOTRAX",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://gotrax.com/products/36v-5-4ah-escooter-battery",
+              "publisher": "GOTRAX",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "GOTRAX's official product page identifies the GXL V2, 250W average motor, 15.5mph top speed and up to 12.5-mile range.",
+              "GOTRAX's official replacement battery page explicitly lists GXL V2 compatibility and 36V 5.2Ah capacity.",
+              "Speed and range are converted from the original US units; the original units remain documented in conditions.",
+              "Battery energy is calculated as 36V × 5.2Ah and is labelled as calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "kukirin-g2-pro",
       "name": "KuKirin G2 Pro",
       "manufacturer": "KuKirin",
