@@ -117,3 +117,11 @@ Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. Thi
 - `niu-kqi3-max-eu`: NIU's official EU listing identifies the same pack and motor values, but 25km/h top speed and 65km range. This is a separate variant; no global speed is inferred.
 
 The staged V2 dataset now contains 3 model identities and 4 verified variants. The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
+
+
+### KuKirin G-series exact variant evidence — 2026-11-11
+
+- `kukirin-g2-pro-eu-current`: the KuKirin EU official listing identifies 48V/15.6Ah, 600W rated rear motor, up to 1000W peak, 45km/h and up to 58km range. The legacy catalog's 15Ah is not carried forward. V2 calculates 748.8Wh from the published nominal V × Ah and labels the value as calculated.
+- `kukirin-g3-pro-eu-open-current`: the official listing identifies 52V/23.4Ah, two 1200W rated motors, up to 65km/h in dual-motor mode and up to 80km range. The page explicitly distinguishes this open configuration from German ABE and Spain VMP versions. V2 uses market code `EU-OPEN` and calculates 1216.8Wh from the published nominal V × Ah.
+
+The staged V2 dataset now contains 5 model identities and 6 verified variants. The two KuKirin records do not alter legacy production data until consumer migration is completed.
