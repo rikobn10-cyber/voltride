@@ -50,6 +50,15 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(eu["legacy_fields"]["energyWh"], 608.4)
         self.assertEqual(us["legacy_fields"]["peakMotorPowerW"], 900)
 
+    def test_apollo_dual_motor_projection_keeps_rated_and_peak_separate(self):
+        result = project_verified_variant(
+            DATA, "apollo-city-pro", "apollo-city-pro-2023-ca", "CA"
+        )
+        self.assertEqual(result["legacy_fields"]["motor"], 1000)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 2000)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 960)
+        self.assertEqual(result["range_claim"]["max_km"], None)
+
     def test_rejects_niu_market_variant_mismatch(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-eu", "US")
