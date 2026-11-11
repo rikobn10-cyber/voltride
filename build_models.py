@@ -454,6 +454,33 @@ def main():
                                    ride_html, count=1, flags=re.S)
         if count != 1:
             raise ValueError("Could not locate Ride Match scooters array for generation")
+    # Keep the generated page aligned with the verified-destination safety gate.
+    old_cta = '''    const isAffiliate = Boolean(r.s.affiliateUrl);
+    const buyUrl = isAffiliate ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    const buyRel = isAffiliate ? "noopener sponsored nofollow" : "noopener nofollow";'''
+    new_cta = '''    // Only use a commission-bearing destination after the final listing, SKU and market are verified.
+    const isVerifiedAffiliate = Boolean(r.s.affiliateUrl && r.s.affiliateDestinationVerified === true);
+    const buyUrl = isVerifiedAffiliate ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    const buyRel = isVerifiedAffiliate ? "noopener sponsored nofollow" : "noopener nofollow";'''
+    old_analytics = '''    const eventName = product && product.affiliateUrl ? "affiliate_click" : "marketplace_search_click";
+    window.VoltAnalytics.track(eventName, {
+      item_id: product ? product.id : undefined,
+      link_type: product && product.affiliateUrl ? "affiliate" : "marketplace_search"
+    });'''
+    new_analytics = '''    const isAffiliateClick = (link.getAttribute("rel") || "").split(/\\s+/).includes("sponsored");
+    const eventName = isAffiliateClick ? "affiliate_click" : "marketplace_search_click";
+    window.VoltAnalytics.track(eventName, {
+      item_id: product ? product.id : undefined,
+      link_type: isAffiliateClick ? "affiliate" : "marketplace_search"
+    });'''
+    if old_cta in ride_html:
+        ride_html = ride_html.replace(old_cta, new_cta, 1)
+    elif new_cta not in ride_html:
+        raise ValueError("Ride Match purchase CTA template was not found")
+    if old_analytics in ride_html:
+        ride_html = ride_html.replace(old_analytics, new_analytics, 1)
+    elif new_analytics not in ride_html:
+        raise ValueError("Ride Match analytics template was not found")
     write(ride_path, ride_html)
     print("Ride Match scooters:", len(ride_scooters))
 
