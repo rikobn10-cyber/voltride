@@ -442,7 +442,10 @@ def main():
         if m["id"] in RIDE_MATCH_EXCLUDED_IDS:
             item["eligible"] = False
         ride_scooters.append(item)
-    ride_scooters.extend(RIDE_MATCH_AFFILIATE_ONLY)
+    for affiliate_model in RIDE_MATCH_AFFILIATE_ONLY:
+        item = dict(affiliate_model)
+        item["affiliateDestinationVerified"] = item.get("affiliateDestinationVerified") is True
+        ride_scooters.append(item)
     ride_arr = "const scooters = [\n  " + ",\n  ".join(json.dumps(s, ensure_ascii=False) for s in ride_scooters) + "\n];"
     ride_path = "ride-match.html"
     ride_html = read(ride_path)
