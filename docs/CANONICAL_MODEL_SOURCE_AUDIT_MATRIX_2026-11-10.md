@@ -95,8 +95,8 @@ The following first-party pages were rechecked on 2026-11-11. Findings are recor
 
 | Catalog ID | First-party evidence rechecked | Decision |
 |---|---|---|
-| `xiaomi-3-lite` | Xiaomi global specs identify SKU MJDDHBC03ZM, 36V nominal, 5.2Ah, 187Wh, 300W rated, 25km/h, and up to 20km range. | **Migrated as one verified V2 variant** (`xiaomi-3-lite-mjddhbc03zm-global`). Peak motor power remains null/unresolved because the cited page does not publish it. |
-| `xiaomi-pro-2` | Xiaomi Spain identifies DDHBC11NEB, 37V nominal, 12.4Ah/446Wh, 300W rated/600W max, 25km/h. | Legacy 36V/12.8Ah is materially inconsistent. Hold for exact model-code confirmation and V2 battery correction. |
+| `xiaomi-3-lite` | Xiaomi UK specs identify SKU MJDDHBC03ZM, 36V nominal, 5.2Ah, 187Wh, 300W rated, 25km/h, and up to 20km range. | **Migrated as one verified V2 variant** (`xiaomi-3-lite-mjddhbc03zm-global`). Peak motor power remains null/unresolved because the cited page does not publish it. |
+| `xiaomi-pro-2` | Xiaomi Hong Kong identifies DDHBC11NEB, 37V nominal, 12.8Ah/474Wh, 300W rated/600W max, 25km/h. | Legacy 36V nominal is materially inconsistent. V2 uses the exact 37V/12.8Ah/474Wh manufacturer values. |
 | `xiaomi-essential` | Xiaomi Spain identifies DDHBC05NEB, 36V, 5.1Ah/183Wh, 250W rated/500W max, 20km/h. | Legacy 5.2Ah mismatch. Hold until regional model code is confirmed. |
 | `segway-e2-plus` | Segway France E2 Plus E II page lists 21.6V, 220Wh, 300W rated/500W max, 25km/h, up to 25km at 15km/h. | Exact E II generation is identifiable; Ah is not stated on this page. Keep V2 battery capacity null rather than deriving it. Eligible for a future variant record once SKU identity is attached. |
 | `navee-g5` | NAVEE official page lists 36V/275.4Wh, 400W rated/800W max, US 32km/h and EU 25km/h, up to 45km at 15km/h. | Legacy 48V/10.4Ah/350W is materially inconsistent. Keep US/EU speed as separate market variants. |
@@ -112,7 +112,7 @@ Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. Thi
 
 ### Additional exact variants migrated on 2026-11-11
 
-- `xiaomi-pro-2-ddhbc11neb-es`: Xiaomi Spain identifies product code DDHBC11NEB, 37V, 12.4Ah/446Wh, 300W rated/600W peak, 25km/h and 45km manufacturer range claim. The staged V2 record uses the manufacturer-published Wh value and keeps the legacy 36V/12.8Ah discrepancy visible rather than carrying it forward.
+- `xiaomi-pro-2-ddhbc11neb-es`: Xiaomi Spain identifies product code DDHBC11NEB, 37V, 12.8Ah/474Wh, 300W rated/600W peak, 25km/h and 45km manufacturer range claim. The staged V2 record uses the manufacturer-published Wh value and keeps the legacy 36V/12.8Ah discrepancy visible rather than carrying it forward.
 - `niu-kqi3-max-us`: NIU's official US listing identifies 48V, 13Ah/608.4Wh, 450W rated/900W max, 20mph top speed and 40-mile range. The dataset stores the metric conversions (32.2km/h and 64.4km) and records the original imperial units in conditions.
 - `niu-kqi3-max-eu`: NIU's official EU listing identifies the same pack and motor values, but 25km/h top speed and 65km range. This is a separate variant; no global speed is inferred.
 
