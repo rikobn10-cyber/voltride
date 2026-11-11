@@ -198,3 +198,6 @@ Xiaomi Electric Scooter 4 Pro original generation (DDHBC20NEB) has been added as
 
 
 NAVEE G5 US/EU records were added as unresolved evidence variants: official source provides regional speeds and 36V/275.4Wh, but not Ah. The two regional records stay ineligible for projection until capacity is confirmed.
+
+
+Segway MAX G30 family is represented as an unresolved record because the official page distinguishes G30 (25km/h) from G30P (30km/h) while the legacy catalog does not retain the suffix, and the page omits Ah. Its speed and capacity stay null; the adapter rejects it.
