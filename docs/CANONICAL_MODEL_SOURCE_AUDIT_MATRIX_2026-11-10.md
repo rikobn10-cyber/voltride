@@ -141,3 +141,8 @@ The staged V2 dataset now contains 8 model identities and 9 variants (8 verified
 ### Xiaomi Electric Scooter 4 Pro original-generation record — 2026-11-11
 
 - `xiaomi-4-pro-ddhbc20neb-global`: Xiaomi's official global page identifies model code DDHBC20NEB, 12.4Ah/446Wh, 350W rated/700W max, 25km/h and up to 55km after the specified firmware update. The page does **not** state nominal battery voltage. The V2 record is therefore intentionally `variant_unresolved` (medium confidence), with voltage null; no 36V value is inferred from Wh/Ah. Do not conflate this original model code with 4 Pro 2nd Gen.
+
+
+### NAVEE G5 regional evidence records — 2026-11-11
+
+- `navee-g5-us-current` and `navee-g5-eu-current`: NAVEE's official G5 page publishes 36V/275.4Wh, 400W rated/800W peak, up to 45km range at 15km/h, and separate US (32km/h) and EU (25km/h) maximum speeds. It does not publish battery Ah. Both records are therefore `variant_unresolved` (medium confidence), with `capacityAh: null`; the adapter must reject them until Ah is established. This keeps regional speeds separate without inferring battery capacity from Wh/V.
