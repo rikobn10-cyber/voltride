@@ -85,7 +85,7 @@ try {
   assert.ok(await page.locator("h1").count(), "offline model page must retain its main heading");
 
   // An uncached route should return the designed offline fallback, not a browser network error.
-  const fallback = await page.goto(base + "/en/article-1", {
+  const fallback = await page.goto(base + "/fr/article-11?pwa_offline_probe=1", {
     waitUntil: "domcontentloaded",
     timeout: 15000
   });
