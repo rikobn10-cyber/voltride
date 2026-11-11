@@ -757,13 +757,13 @@
             }
           ],
           "verification": {
-            "status": "verified_variant",
-            "confidence": "high",
+            "status": "variant_unresolved",
+            "confidence": "medium",
             "checkedAt": "2026-11-11",
             "notes": [
-              "NAVEE France identifies the certified model as G5 EU and publishes 36V, 275.4Wh and 7.65Ah cell capacity, closing the previously missing battery-capacity field.",
-              "The same regional page lists 400W rated / 800W maximum power, EU factory speed settings up to 25km/h, and range figures of 37km at 20km/h and 29km at 25km/h; the 45km claim is the stated maximum at 15km/h.",
-              "This evidence applies only to the EU-certified G5 variant. The US variant remains separate and unresolved until its regional battery-capacity evidence is matched."
+              "NAVEE France's official regional page identifies the certified model as G5 EU and publishes 36V, 275.4Wh, 10s3p and 7.65Ah cell capacity; the EU battery-capacity evidence is now recorded.",
+              "The regional page lists 400W rated / 800W maximum power and EU factory speed settings up to 25km/h. It reports 37km at 20km/h and 29km at 25km/h, with a separate 45km maximum claim at 15km/h.",
+              "Keep this EU record unresolved pending confirmation of the exact retail SKU and final reconciliation of the regional range claims with the exact market configuration. The US variant remains separate and unresolved; no cross-market inference is made."
             ]
           }
         }
