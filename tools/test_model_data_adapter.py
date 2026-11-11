@@ -58,6 +58,22 @@ class ModelDataAdapterTests(unittest.TestCase):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "xiaomi-3-lite", "not-a-real-variant", "Global")
 
+    def test_aggregates_explicit_per_motor_rated_and_peak_power(self):
+        fixture = json.loads(json.dumps(DATA))
+        variant = next(m for m in fixture["models"] if m["id"] == "xiaomi-3-lite")["variants"][0]
+        variant["motors"] = {
+            "count": 2,
+            "ratedPowerW": 300,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": 500,
+            "peakPowerBasis": "per_motor",
+        }
+        result = project_verified_variant(
+            fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "Global"
+        )
+        self.assertEqual(result["legacy_fields"]["motor"], 600)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
+
     def test_rejects_non_verified_variant(self):
         fixture = json.loads(json.dumps(DATA))
         next(m for m in fixture["models"] if m["id"] == "xiaomi-3-lite")["variants"][0]["verification"]["status"] = "provisional"
