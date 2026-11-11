@@ -118,6 +118,13 @@ try {
   console.log("PWA direct offline navigation probe", JSON.stringify(navigationProbe));
   assert.equal(navigationProbe.status, 200, "service worker navigation fallback must return HTTP 200");
   assert.equal(navigationProbe.offlineText, true, "service worker navigation fallback must return offline page content");
+  await page.evaluate(() => {
+    navigator.serviceWorker.addEventListener("message", event => {
+      if (event.data && event.data.type === "VOLT_SW_DIAG") {
+        console.log("VOLT_SW_DIAG", JSON.stringify(event.data));
+      }
+    });
+  });
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 15000 });
   assert.ok(ride?.ok(), "cached Ride Match clean URL must load offline");
   await page.locator("#rideMarket").waitFor({ state: "visible", timeout: 5000 });
