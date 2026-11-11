@@ -68,7 +68,14 @@ try {
   }
 
   // Confirm the installed application can load precached clean URLs without network access.
-  const cacheProbe = await page.evaluate(async () => {\n    const registration = await navigator.serviceWorker.ready;\n    const cache = await caches.open("voltride-v20");\n    const offlineUrl = new URL("offline.html", registration.scope).href;\n    return { offlineUrl, hasOfflineFallback: Boolean(await cache.match(offlineUrl)), controlled: Boolean(navigator.serviceWorker.controller), online: navigator.onLine, scope: registration.scope };\n  });\n  console.log("PWA cache probe", JSON.stringify(cacheProbe));\n  await context.setOffline(true);
+  const cacheProbe = await page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.ready;
+    const cache = await caches.open("voltride-v20");
+    const offlineUrl = new URL("offline.html", registration.scope).href;
+    return { offlineUrl, hasOfflineFallback: Boolean(await cache.match(offlineUrl)), controlled: Boolean(navigator.serviceWorker.controller), online: navigator.onLine, scope: registration.scope };
+  });
+  console.log("PWA cache probe", JSON.stringify(cacheProbe));
+  await context.setOffline(true);
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 15000 });
   assert.ok(ride?.ok(), "cached Ride Match clean URL must load offline");
   await page.locator("#rideMarket").waitFor({ state: "visible", timeout: 5000 });
@@ -82,7 +89,9 @@ try {
     waitUntil: "domcontentloaded",
     timeout: 15000
   });
-  const fallbackDiagnostic = await page.evaluate(() => ({ url: location.href, title: document.title, online: navigator.onLine, controlled: Boolean(navigator.serviceWorker.controller), body: document.body.innerText.slice(0, 300) })).catch(error => ({ error: error.message }));\n  console.log("PWA fallback diagnostic", JSON.stringify({ status: fallback?.status(), diagnostic: fallbackDiagnostic }));\n  await page.getByText("لا يوجد اتصال بالإنترنت").waitFor({ state: "visible", timeout: 5000 });
+  const fallbackDiagnostic = await page.evaluate(() => ({ url: location.href, title: document.title, online: navigator.onLine, controlled: Boolean(navigator.serviceWorker.controller), body: document.body.innerText.slice(0, 300) })).catch(error => ({ error: error.message }));
+  console.log("PWA fallback diagnostic", JSON.stringify({ status: fallback?.status(), diagnostic: fallbackDiagnostic }));
+  await page.getByText("لا يوجد اتصال بالإنترنت").waitFor({ state: "visible", timeout: 5000 });
   assert.ok(fallback, "offline fallback navigation must produce a document response");
   assert.deepEqual(errors, [], "PWA routes must not throw uncaught browser errors");
 
