@@ -170,7 +170,7 @@ These are work queues, not permission to overwrite current production values wit
 
 ## 9. Staged migration checkpoint — 2026-11-11
 
-- `model_data_v2.json` now contains 3 model identities and 4 high-confidence market/SKU variants: Xiaomi Scooter 3 Lite (MJDDHBC03ZM, Global), Xiaomi Pro 2 (DDHBC11NEB, Spain), and NIU KQi3 Max (US and EU).
+- `model_data_v2.json` now contains 5 model identities and 6 high-confidence market/SKU variants: Xiaomi Scooter 3 Lite (MJDDHBC03ZM, Global), Xiaomi Pro 2 (DDHBC11NEB, Spain), and NIU KQi3 Max (US and EU).
 - The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
 - All four variants pass the existing schema-v2 validator and the explicit-variant adapter tests. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
 - No other model is added until its exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
@@ -183,3 +183,6 @@ A pure-Python staged adapter now requires an explicit model ID, variant ID and m
 
 
 The adapter projection now carries manufacturer-published `energyWh` and its basis separately from voltage × Ah, and includes peak motor power as a distinct field when published. This is necessary because manufacturer-published Wh can differ from nominal voltage × rated Ah; the future calculator integration must consume the explicit Wh value rather than silently recomputing it. Tests also cover per-motor-to-combined aggregation only when the motor count and basis are explicit.
+
+
+KuKirin G2 Pro and G3 Pro were added as exact official EU-open variants on 2026-11-11. Their Wh values are explicitly marked as calculated from published nominal voltage and Ah; motor power is represented with count and per-motor/combined semantics. G3 Pro is explicitly tagged EU-OPEN to avoid conflating it with ABE/VMP speed-limited variants.
