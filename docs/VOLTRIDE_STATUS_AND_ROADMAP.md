@@ -153,3 +153,17 @@ The default display currency is now selected from the browser's regional locale,
 4. Re-submit priority URLs in Search Console and track index status/canonical consistency after Google recrawls.
 5. Review heading hierarchy and thin content page-by-page; improve content only where it helps users and search intent.
 6. Re-baseline GA4 after enough post-host-gating production data accumulates; do not use old preview-host traffic as current production performance.
+
+
+## 2026-11-11 — canonical V2 identity audit update
+
+- The staged `model_data_v2.json` now represents all 30 identities in the legacy `models.json` catalog, with 36 market/generation-specific variant records.
+- Current staged status: 21 high-confidence `verified_variant` records and 15 unresolved/non-projectable records. Nineteen model identities have at least one high-confidence verified variant; eleven do not yet have one.
+- Models without a high-confidence verified variant: `kaabo-wolf-king`, `navee-g5`, `segway-max-g30`, `teverun-fighter-11`, `vsett-10-plus`, `vsett-8-plus`, `xiaomi-4-pro`, `segway-e2-plus`, `dualtron-mini`, `dualtron-victor`, `nami-burn-e2-max`.
+- The audit matrix now records primary-source findings and explicit evidence limits for every legacy model identity. A variant is not projectable merely because a source record exists; the adapter still requires exact model ID, variant ID, market, complete battery fields, and rated motor power.
+- PR #61 (Ecoxtrem Bison GT and M41 exact variants) was merged to main as `edc720f55159fd1ee3342c7713c35067c4c39c95`. Main-branch Site checks and Live site check both passed after deployment.
+- PR #62 stages the full 30-identity V2 inventory, adds Xiaomi Essential and Segway E2 Plus evidence, records the remaining Dualtron/NAMI findings, and adds adapter regression tests. No production consumer or legacy catalog change is included. Full CI is required before merge.
+
+### Migration gate — unchanged
+
+Production consumers (`build_models.py`, static model pages, homepage catalog and Ride Match) still use legacy `models.json`. Do not switch them wholesale to V2. Next, implement an explicit market/variant selection contract and a compatibility projection for high-confidence records, retain a safe and clearly marked fallback for unresolved legacy entries only where product behavior requires it, and test each consumer independently. Review generated output before any generator run; `build_models.py` rewrites model pages, homepage catalog sections and service-worker precache data. Keep all consumer migration in separate PRs with CI and preview verification.
