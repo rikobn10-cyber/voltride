@@ -1003,6 +1003,7 @@ function handleManualModelInput(){
     const ah = Number(document.getElementById("capacity").value);
     const motor = Number(document.getElementById("motor").value);
     manualModelInputRequired = !(voltage > 0 && ah > 0 && motor > 0);
+    if (manualModelInputRequired) return;
   }
   calculate();
 }
@@ -1377,7 +1378,7 @@ function useScooter(id){
   if (!Object.prototype.hasOwnProperty.call(MODEL_PRESETS, id)) return;
   openModelVariantPicker(id);
   switchScreen("calculator");
-  toast(t("specsTransferred"));
+  toast(t("variantChooseNote"));
 }
 
 function renderErrors(){
