@@ -1726,8 +1726,8 @@
           },
           "rangeClaim": {
             "maxKm": null,
-            "basis": "unresolved",
-            "conditions": "No range figure carried into this record from the cited specification page."
+            "basis": "manufacturer_claim",
+            "conditions": "No maximum-range figure is published on the cited Xiaomi Spain specification page; maxKm remains null."
           },
           "sources": [
             {
