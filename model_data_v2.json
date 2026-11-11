@@ -1439,6 +1439,135 @@
           }
         }
       ]
+    },
+    {
+      "id": "ecoxtrem-bison-gt",
+      "name": "Ecoxtrem Bison GT",
+      "manufacturer": "Ecoxtrem",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "ecoxtrem-bison-gt-ma-1000w-48v13ah",
+          "generation": "Bison GT 1000W",
+          "sku": null,
+          "market": [
+            "MA"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 13,
+            "energyWh": 624,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V × 13Ah; Ecoxtrem publishes voltage and capacity but not pack Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 1000,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 50,
+            "conditions": "Ecoxtrem product page lists 20km/h and 25km/h restricted modes; up to 50km/h when derestricted. The 50km/h figure is not a public-road legal speed claim."
+          },
+          "rangeClaim": {
+            "maxKm": 40,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 40km as stated by Ecoxtrem; actual range depends on rider weight, route and load."
+          },
+          "sources": [
+            {
+              "url": "https://ecoxtrem.ma/produit/trottinette-electrique-bison-gt-1000w/",
+              "publisher": "Ecoxtrem Morocco",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Ecoxtrem's own product page identifies Bison GT 1000W, single motor, 48V/13Ah and up to 40km claimed range.",
+              "The page distinguishes 20/25km/h restricted modes from up to 50km/h derestricted operation; retain this condition and do not present 50km/h as road-legal.",
+              "Peak power is not published and remains null."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "ecoxtrem-bison-m41",
+      "name": "Ecoxtrem M41 Armored One",
+      "manufacturer": "Ecoxtrem",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "ecoxtrem-m41-armored-one-ma-52v20ah",
+          "generation": "M41 Armored One",
+          "sku": "TROTT-86",
+          "market": [
+            "MA",
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 20,
+            "energyWh": 1040,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 52V × 20Ah; Ecoxtrem publishes nominal voltage and capacity but not pack Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 1000,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 1200,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 70,
+            "conditions": "Ecoxtrem lists 25km/h for public-road use and up to 70km/h on private roads; the latter must not be presented as a public-road legal speed."
+          },
+          "rangeClaim": {
+            "maxKm": 65,
+            "basis": "manufacturer_claim",
+            "conditions": "Ecoxtrem's published maximum range claim; real-world range depends on conditions."
+          },
+          "sources": [
+            {
+              "url": "https://ecoxtrem.fr/en/produit/trottinette-electrique-ecoxtrem-armored-one/",
+              "publisher": "Ecoxtrem France",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Ecoxtrem's product page identifies the M41 Armored One, SKU TROTT-86, with 52V/20Ah, single 1000W motor and 1200W peak power.",
+              "The page explicitly separates the 25km/h public-road setting from the 70km/h private-road maximum.",
+              "The manufacturer claim is up to 65km; it is not an independently tested range."
+            ]
+          }
+        }
+      ]
     }
   ]
 }
