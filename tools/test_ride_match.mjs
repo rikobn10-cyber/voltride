@@ -111,7 +111,7 @@ assert.ok(moroccoRendered.includes("20km/h and 25km/h restricted modes"));
 assert.ok(moroccoRendered.includes("50km/h figure is not a public-road legal speed claim"));
 assert.ok(moroccoRendered.includes("25km/h for public-road use"));
 assert.ok(moroccoRendered.includes("70km/h on private roads"));
-assert.ok(moroccoRendered.includes("Manufacturer speed conditions"));
+assert.ok(moroccoRendered.includes("Conditions de vitesse du fabricant"));
 assert.ok(!html.includes("بعض روابط الشراء روابط إحالة"));
 
 
