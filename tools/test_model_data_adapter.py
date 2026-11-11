@@ -13,7 +13,7 @@ DATA = json.loads((ROOT / "model_data_v2.json").read_text(encoding="utf-8"))
 class ModelDataAdapterTests(unittest.TestCase):
     def test_projects_only_explicit_verified_xiaomi_variant(self):
         result = project_verified_variant(
-            DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "Global"
+            DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "UK"
         )
         self.assertEqual(result["legacy_fields"], {
             "id": "xiaomi-3-lite",
