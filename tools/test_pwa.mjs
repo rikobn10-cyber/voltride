@@ -12,4 +12,6 @@ assert.match(sw, /const VERSION = "voltride-v21";/, "cache version must change w
 assert.match(sw, /if \(req\.mode === "navigate"\)/, "navigation requests must use the offline-aware strategy");
 assert.match(sw, /new URL\("offline\.html", self\.registration\.scope\)/, "offline fallback must use an absolute scope URL");
 assert.match(sw, /self\.navigator\.onLine === false/, "resolved offline error responses must use the offline fallback");
+assert.match(sw, /async function networkIsReachable\(\)/, "offline navigation must verify connectivity with a live resource probe");
+assert.match(sw, /await networkIsReachable\(\)/, "HTTP error navigations must distinguish offline failures from real 404 responses");
 console.log("PWA tests passed: Ride Match precache, offline fallback, unique entries and cache version.");
