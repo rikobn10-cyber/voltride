@@ -71,18 +71,6 @@ try {
   assert.equal(workerInfo.activeState, "activated", "service worker must be activated");
   assert.equal(workerInfo.servedVersion, "voltride-v21", "the deployed service worker script must be v21");
   assert.equal(workerInfo.activeVersion, "voltride-v21", "the active service worker must be v21");
-  const cacheDiagnostics = await page.evaluate(async () => {
-    const registration = await navigator.serviceWorker.ready;
-    return await new Promise((resolve, reject) => {
-      const channel = new MessageChannel();
-      const timer = setTimeout(() => reject(new Error("service worker cache diagnostic timed out")), 5000);
-      channel.port1.onmessage = event => { clearTimeout(timer); resolve(event.data); };
-      registration.active.postMessage({ type: "DEBUG_CACHE", url: new URL("/ride-match", registration.scope).href }, [channel.port2]);
-    });
-  });
-  console.log("PWA service worker cache diagnostics", JSON.stringify(cacheDiagnostics));
-  assert.equal(cacheDiagnostics.pageStatus, 200, "active worker must find the cached Ride Match clean URL");
-  assert.equal(cacheDiagnostics.fallbackStatus, 200, "active worker must find the cached offline fallback");
   assert.ok(workerInfo.scope.startsWith(base + "/"), "service worker scope must match production origin");
   for (const path of ["/offline.html", "/ride-match.html", "/navee-g5.html"]) {
     assert.ok(workerInfo.urls.some(url => url.endsWith(path)), "precache must include " + path);
@@ -102,20 +90,6 @@ try {
   console.log("PWA cache probe", JSON.stringify(cacheProbe));
   assert.equal(cacheProbe.hasOfflineFallback, true, "offline fallback must exist in the active service worker cache");
   await context.setOffline(true);
-  const navigationProbe = await page.evaluate(async (url) => {
-    const registration = await navigator.serviceWorker.ready;
-    return await new Promise((resolve, reject) => {
-      const channel = new MessageChannel();
-      const timer = setTimeout(() => reject(new Error("offline navigation probe timed out")), 8000);
-      channel.port1.onmessage = event => { clearTimeout(timer); resolve(event.data); };
-      registration.active.postMessage({ type: "TEST_NAVIGATE", url }, [channel.port2]);
-    });
-  }, base + "/__voltride_offline_probe_20261111__/pwa-offline-test?probe=1");
-  console.log("PWA direct offline navigation probe", JSON.stringify(navigationProbe));
-  assert.equal(navigationProbe.status, 302, "uncached offline navigation must redirect to the cached fallback");
-  assert.ok(navigationProbe.location?.endsWith("/offline.html"), "uncached offline navigation must target offline.html");
-  assert.equal(navigationProbe.finalStatus, 200, "redirect target must be available from cache");
-  assert.equal(navigationProbe.offlineText, true, "service worker navigation fallback must return offline page content");
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 15000 });
   assert.ok(ride?.ok(), "cached Ride Match clean URL must load offline");
   await page.locator("#rideMarket").waitFor({ state: "visible", timeout: 5000 });
@@ -125,20 +99,12 @@ try {
   assert.ok(await page.locator("h1").count(), "offline model page must retain its main heading");
 
   // An uncached route should return the designed offline fallback, not a browser network error.
-  let fallback = null;
-  let fallbackNavigationError = null;
-  try {
-    fallback = await page.goto(base + "/__voltride_offline_probe_20261111__/pwa-offline-test?probe=1", {
-      waitUntil: "domcontentloaded",
-      timeout: 15000
-    });
-  } catch (error) {
-    fallbackNavigationError = error.message;
-  }
-  const fallbackDiagnostic = await page.evaluate(() => ({ url: location.href, title: document.title, online: navigator.onLine, controlled: Boolean(navigator.serviceWorker.controller), body: document.body.innerText.slice(0, 300) })).catch(error => ({ error: error.message }));
-  console.log("PWA fallback diagnostic", JSON.stringify({ status: fallback?.status(), navigationError: fallbackNavigationError, diagnostic: fallbackDiagnostic }));
+  const fallback = await page.goto(base + "/__voltride_offline_probe_20261111__/pwa-offline-test?probe=1", {
+    waitUntil: "domcontentloaded",
+    timeout: 15000
+  });
+  assert.ok(fallback?.ok(), "uncached route must redirect to the cached offline page");
   await page.getByText("لا يوجد اتصال بالإنترنت").waitFor({ state: "visible", timeout: 5000 });
-  assert.ok(fallback || fallbackNavigationError, "offline fallback navigation must be attempted");
   assert.deepEqual(errors, [], "PWA routes must not throw uncaught browser errors");
 
   console.log(JSON.stringify({
