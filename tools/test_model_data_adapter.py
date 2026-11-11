@@ -1,4 +1,5 @@
 import json
+import re
 import unittest
 import sys
 from pathlib import Path
@@ -55,6 +56,19 @@ class ModelDataAdapterTests(unittest.TestCase):
                 if variant.get("verification", {}).get("status") != "verified_variant":
                     self.assertFalse(any(item["variantId"] == variant["variantId"]
                                          for item in options.get(model["id"], [])))
+
+    def test_generated_index_variant_options_match_adapter_projection(self):
+        from build_models import build_verified_variant_options
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        match = re.search(r"const MODEL_VARIANTS = (\\{.*\\});", html)
+        self.assertIsNotNone(match, "index.html must contain generated V2 variant options")
+        self.assertEqual(json.loads(match.group(1)), build_verified_variant_options())
+
+    def test_model_deep_links_no_longer_autofill_legacy_specs(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn("openModelVariantPicker(slug)", html)
+        self.assertIn("function handleModelVariantChange()", html)
+        self.assertNotIn("const p = slug && Object.prototype.hasOwnProperty.call(MODEL_PRESETS, slug)", html)
 
     def test_requires_explicit_market(self):
         with self.assertRaises(VariantProjectionError):
