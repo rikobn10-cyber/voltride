@@ -44,6 +44,23 @@ self.addEventListener("message", (e) => {
   if (e.data && e.data.type === "GET_VERSION" && e.ports && e.ports[0]) {
     e.ports[0].postMessage({ version: VERSION });
   }
+  if (e.data && e.data.type === "DEBUG_CACHE" && e.ports && e.ports[0]) {
+    e.waitUntil((async () => {
+      const cache = await caches.open(VERSION);
+      const request = new Request(e.data.url);
+      const page = await matchPage(cache, request);
+      const offlineUrl = new URL("offline.html", self.registration.scope).href;
+      const fallback = await cache.match(offlineUrl);
+      const keys = (await cache.keys()).map(item => new URL(item.url).pathname);
+      e.ports[0].postMessage({
+        version: VERSION,
+        online: self.navigator ? self.navigator.onLine : null,
+        pageStatus: page ? page.status : null,
+        fallbackStatus: fallback ? fallback.status : null,
+        keys
+      });
+    })());
+  }
 });
 
 function fetchWithTimeout(req, ms) {
@@ -81,11 +98,6 @@ async function offlineNavigationFallback(cache, req) {
 
 async function navigate(req) {
   const cache = await caches.open(VERSION);
-  // Avoid a doomed network request when the browser already reports offline.
-  if (self.navigator && self.navigator.onLine === false) {
-    console.log("[VoltRide SW] browser reports offline; using cache fallback", req.url);
-    return offlineNavigationFallback(cache, req);
-  }
   try {
     const res = await fetchWithTimeout(req, NAV_TIMEOUT_MS);
     if (res && res.ok) {
