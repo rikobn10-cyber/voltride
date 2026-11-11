@@ -144,6 +144,68 @@
       ]
     },
     {
+      "id": "kukirin-g2-max",
+      "name": "KuKirin G2 Max",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g2-max-eu-open-current",
+          "market": [
+            "EU-OPEN"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 20.8,
+            "energyWh": 998.4,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 20.8Ah manufacturer-stated capacity; the official product page does not publish Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 1000,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 1200,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 55,
+            "conditions": "KuKirin G2 Max EU-OPEN version; not the German ABE or Spain VMP speed-limited version."
+          },
+          "rangeClaim": {
+            "maxKm": 70,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 70km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g2-max-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official product page identifies the current G2 Max EU-OPEN listing: 48V/20.8Ah, 1000W rated rear motor, up to 1200W peak, 55km/h and up to 70km range.",
+              "Page explicitly states this is not the German ABE or Spain VMP version; the variant is tagged EU-OPEN.",
+              "Wh is calculated from published nominal voltage × Ah and is labelled calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "kukirin-g2-pro",
       "name": "KuKirin G2 Pro",
       "manufacturer": "KuKirin",
@@ -267,6 +329,69 @@
       ]
     },
     {
+      "id": "kukirin-g4",
+      "name": "KuKirin G4",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g4-eu-open-current",
+          "market": [
+            "EU-OPEN"
+          ],
+          "battery": {
+            "nominalVoltageV": 60,
+            "capacityAh": 20,
+            "energyWh": 1200,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 60V nominal × 20Ah manufacturer-stated capacity; the official product page does not publish Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 2000,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 70,
+            "conditions": "KuKirin G4 EU-OPEN listing; official page distinguishes it from German ABE and Spain VMP versions."
+          },
+          "rangeClaim": {
+            "maxKm": 75,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 75km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g4-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official G4 product page identifies 60V/20Ah, 2000W rated rear motor, up to 70km/h and up to 75km range.",
+              "The page also mentions peak output of at least 2400W, not an exact peak rating; peakPowerW is therefore left null rather than asserting 2400W as exact.",
+              "Page distinguishes this open configuration from German ABE and Spain VMP versions; tagged EU-OPEN.",
+              "Wh is calculated from published nominal voltage × Ah and labelled calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "navee-g5",
       "name": "NAVEE G5",
       "manufacturer": "NAVEE",
@@ -377,6 +502,69 @@
               "Official page identifies the G5 and market-specific maximum speed, 36V/275.4Wh battery, 400W rated and 800W peak motor power, and 45km range claim.",
               "The page does not publish battery Ah; capacityAh remains null and the compatibility adapter must reject this record until the battery capacity is established.",
               "US and EU speed specifications are represented as separate variants; no global speed is inferred."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "navee-n40",
+      "name": "NAVEE N40",
+      "manufacturer": "NAVEE",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "navee-n40-nkp21111-a25-global",
+          "sku": "NKP21111-A25",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 37,
+            "capacityAh": 10,
+            "energyWh": 370,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NAVEE's official manual publishes 37V nominal, 10Ah rated capacity and 370Wh rated energy."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 350,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "NAVEE N40 official manual maximum speed."
+          },
+          "rangeClaim": {
+            "maxKm": 40,
+            "basis": "manufacturer_claim",
+            "conditions": "Approx. 40km general range; manual test conditions are no wind, 25°C, 75kg load and constant 15km/h on a flat surface."
+          },
+          "sources": [
+            {
+              "url": "https://service.naveetech.com/wp-content/uploads/2026/03/NAVEE-Electric-Scooter-N40-User-Manual.pdf",
+              "publisher": "NAVEE",
+              "sourceType": "official_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official NAVEE manual identifies model NKP21111-A25 and battery pack FS005-01.",
+              "Manual publishes 37V, 10Ah/370Wh, 350W rated motor, 25km/h max speed and approx. 40km general range.",
+              "Peak motor power is not stated and remains null."
             ]
           }
         }
