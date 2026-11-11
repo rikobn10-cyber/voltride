@@ -40,7 +40,7 @@ jobs:
       - name: Install Playwright
         run: |
           npm install --no-save --no-package-lock playwright@1.56.0
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: Exercise live calculator and Ride Match
         run: node tools/live-smoke.mjs "$LIVE"
       - name: Resolve Cloudflare Pages preview URL
