@@ -112,7 +112,9 @@ try {
     });
   }, base + "/__voltride_offline_probe_20261111__/pwa-offline-test?probe=1");
   console.log("PWA direct offline navigation probe", JSON.stringify(navigationProbe));
-  assert.equal(navigationProbe.status, 200, "service worker navigation fallback must return HTTP 200");
+  assert.equal(navigationProbe.status, 302, "uncached offline navigation must redirect to the cached fallback");
+  assert.ok(navigationProbe.location?.endsWith("/offline.html"), "uncached offline navigation must target offline.html");
+  assert.equal(navigationProbe.finalStatus, 200, "redirect target must be available from cache");
   assert.equal(navigationProbe.offlineText, true, "service worker navigation fallback must return offline page content");
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 15000 });
   assert.ok(ride?.ok(), "cached Ride Match clean URL must load offline");
