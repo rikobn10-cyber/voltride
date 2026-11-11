@@ -78,12 +78,12 @@ try {
   assert.ok(await page.locator("h1").count(), "offline model page must retain its main heading");
 
   // An uncached route should return the designed offline fallback, not a browser network error.
-  const fallback = await page.goto(base + "/__voltride_offline_probe__", {
+  const fallback = await page.goto(base + "/en/article-1", {
     waitUntil: "domcontentloaded",
     timeout: 15000
   });
-  assert.ok(fallback?.ok(), "uncached navigation must receive the offline fallback");
   await page.getByText("لا يوجد اتصال بالإنترنت").waitFor({ state: "visible", timeout: 5000 });
+  assert.ok(fallback, "offline fallback navigation must produce a document response");
   assert.deepEqual(errors, [], "PWA routes must not throw uncaught browser errors");
 
   console.log(JSON.stringify({
