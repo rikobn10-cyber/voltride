@@ -175,3 +175,8 @@ These are work queues, not permission to overwrite current production values wit
 - The record passes the existing schema-v2 validator. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
 - No other model is added until its exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
 - Next gate: implement and unit-test an explicit-variant adapter. It must reject unresolved variants, require a selected market/variant, and expose source provenance. Only after this adapter is validated should a consumer be migrated.
+
+
+### Compatibility adapter implementation
+
+A pure-Python staged adapter now requires an explicit model ID, variant ID and market. It rejects anything other than a high-confidence `verified_variant`, rejects incomplete battery or rated-power data, refuses to substitute peak power for rated power, and returns both legacy-compatible specification fields and their source provenance. The adapter is not yet wired into production generation; its regression tests run independently in CI.
