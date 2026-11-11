@@ -107,3 +107,12 @@ The following primary-source checks were completed as a first sample. This is **
 ### Safe next implementation
 
 Do not patch `models.json` alone. A canonical data correction must be planned as a separate change that traces `build_models.py` output effects, updates the source and all required generated representations consistently, reviews every generated diff, and passes the generated-files, model, SEO, link, accessibility and live-deployment checks. Until then, the flagged records must not be represented as fully manufacturer-verified.
+
+
+## Addendum — Segway E2 Plus US model 051402U (2026-11-11)
+
+Segway's official US support page and American product manual identify **Ninebot KickScooter E2 Plus, model 051402U**. The manual specifies 21.6V nominal, 10.2Ah, 220Wh, 300W nominal motor power, 500W maximum motor power, 25km/h maximum speed, 25km theoretical range and approximately 20km at maximum speed. Theoretical-range test conditions are 75kg rider, 25°C, 70% of maximum speed on pavement; the maximum-speed range test uses the same load and temperature at maximum speed.
+
+- Support page: https://support.segway.com/support_product.php?segcatid=87
+- Official manual: https://support.segway.com/product_files/20240227082859_Ninebot%20Kickscooter%20E2%20Plus%20Product%20Manual.pdf
+- **Canonical treatment:** added `segway-e2-plus-us-051402u` as a high-confidence US variant. The existing `E2 Plus E II` FR record remains unresolved: its cited French regional product page identifies 21.6V and 220Wh but does not publish Ah. Do not transfer the US model's 10.2Ah value to the FR generation.
