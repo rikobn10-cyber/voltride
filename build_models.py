@@ -177,7 +177,11 @@ def verified_variant_page_sections(variants):
         pending = ('<div class="note"><h3>لم يتم التحقق من نسخة هذا الموديل بعد</h3>'
                    '<p>لا نعرض هنا مواصفات أو تقديرات مأخوذة من سجل قديم غير محسوم. '
                    'سنضيف بيانات هذا الموديل عندما تتوفر نسخة محددة وسوق ومصادر موثوقة من الشركة.</p></div>')
-        return pending, pending
+        range_pending = pending.replace(
+            "</div>",
+            '<p>عند توفر نسخة موثقة، سيُحسب المدى بسرعة مرجعية لا تتجاوز 25 كم/س؛ هذا مرجع حسابي للمقارنة وليس حداً قانونياً.</p></div>'
+        )
+        return pending, range_pending
 
     spec_sections = []
     range_sections = []
