@@ -110,12 +110,10 @@ async function matchPage(cache, req) {
 async function offlineNavigationFallback(cache, req) {
   const page = await matchPage(cache, req);
   if (page) {
-    console.log("[VoltRide SW] offline navigation matched cached page", req.url);
     return page;
   }
   const offlineUrl = new URL("offline.html", self.registration.scope).href;
   const fallback = await cache.match(offlineUrl);
-  console.log("[VoltRide SW] offline fallback lookup", JSON.stringify({ request: req.url, offlineUrl, found: Boolean(fallback) }));
   return fallback || Response.error();
 }
 
@@ -176,11 +174,14 @@ self.addEventListener("fetch", (event) => {
 
   if (req.mode === "navigate") {
     event.respondWith((async () => {
-      const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-      for (const client of clients) client.postMessage({ type: "VOLT_SW_DIAG", stage: "navigation-intercepted", url: req.url, mode: req.mode });
-      const response = await navigate(req);
-      for (const client of clients) client.postMessage({ type: "VOLT_SW_DIAG", stage: "navigation-response", url: req.url, status: response.status, type: response.type });
-      return response;
+      const cache = await caches.open(VERSION);
+      try {
+        const response = await navigate(req);
+        if (response && response.type !== "error") return response;
+      } catch (_) {
+        // Fall through to the cached navigation fallback.
+      }
+      return offlineNavigationFallback(cache, req);
     })());
     return;
   }
