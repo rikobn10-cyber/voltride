@@ -1,0 +1,35 @@
+name: Live functional smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "tools/live-smoke.mjs"
+      - "index.html"
+      - "ride-match.html"
+      - "site.js"
+      - "model_data_v2.json"
+      - ".github/workflows/live-functional-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Calculator and Ride Match browser flows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      LIVE: https://voltride-4qj.pages.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: Exercise live calculator and Ride Match
+        run: node tools/live-smoke.mjs "$LIVE"
