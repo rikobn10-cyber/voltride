@@ -184,3 +184,9 @@ The current legacy segway-max-g2 row matches the US maximum only when higher spe
 
 - gotrax-g4-us-original-42015315951731: GOTRAX's official product page identifies the exact G4 Original variant, 36V/10.4Ah/approximately 374.4Wh, 500W average motor, 20mph top speed and up to 25 miles in Gear 1. It separately lists up to 15 miles in Gear 2 at 20mph. The record does not conflate G4 Original with G4 Pro's suspension/tire differences.
 - vsett-10-plus-60v28ah-global-unresolved: VSETT's official page lists 60V 20.8/25.6/28Ah options, dual 1400W motors and a 70–80km/h range. It does not specify rated-vs-peak basis or exact speed for the 28Ah option, and the 65/80/90km range values are not explicitly paired to battery variants. The V2 record keeps speed, power and range null and remains ineligible for projection.
+
+
+### INOKIM OXO 2026 and VSETT 8+ evidence — 2026-11-11
+
+- inokim-oxo-2026-us: INOKIM's official 2026 OXO page lists 57.6V/26Ah, 2×1000W rated / 2×1300W peak motors, 40.3mph top speed and 68-mile top range. V2 keeps this 2026 configuration separate from older 60V OXO variants; Wh and metric units are explicitly converted.
+- vsett-8-plus-global-unresolved: VSETT's official page lists 48V 16A (LG), dual 600W motors, 40–45km/h and 90km single / 50km dual range. The capacity unit is ambiguous ('16A' rather than Ah) and the motor power basis is not explicit; capacity/Wh and motor power remain null, so the adapter rejects this record.
