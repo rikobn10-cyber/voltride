@@ -128,6 +128,22 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertIsNone(g4["legacy_fields"]["peakMotorPowerW"])
         self.assertEqual(g4["legacy_fields"]["energyWh"], 1200)
 
+    def test_gotrax_g4_original_projects_exact_us_variant_and_gear_range(self):
+        result = project_verified_variant(
+            DATA, "gotrax-g4", "gotrax-g4-us-original-42015315951731", "US"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 36)
+        self.assertEqual(result["legacy_fields"]["ah"], 10.4)
+        self.assertEqual(result["legacy_fields"]["motor"], 500)
+        self.assertEqual(result["legacy_fields"]["speed"], 32.2)
+        self.assertEqual(result["range_claim"]["max_km"], 40.2)
+
+    def test_rejects_vsett_10_plus_until_power_speed_and_range_variant_are_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "vsett-10-plus", "vsett-10-plus-60v28ah-global-unresolved", "Global"
+            )
+
     def test_apollo_ghost_keeps_per_motor_rated_and_peak_values_separate(self):
         result = project_verified_variant(
             DATA, "apollo-ghost", "apollo-ghost-us-2020", "US"
