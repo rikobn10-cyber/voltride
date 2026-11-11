@@ -1,0 +1,36 @@
+name: Live PWA offline smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "tools/live-pwa-smoke.mjs"
+      - "sw.js"
+      - "manifest.json"
+      - "offline.html"
+      - "site.js"
+      - "index.html"
+      - ".github/workflows/live-pwa-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pwa:
+    name: Production install metadata and offline navigation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      LIVE: https://voltride-4qj.pages.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: Verify production PWA and offline behavior
+        run: node tools/live-pwa-smoke.mjs "$LIVE"
