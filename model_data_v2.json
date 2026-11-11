@@ -446,6 +446,69 @@
       ]
     },
     {
+      "id": "xiaomi-4-pro",
+      "name": "Xiaomi Electric Scooter 4 Pro",
+      "manufacturer": "Xiaomi",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "xiaomi-4-pro-ddhbc20neb-global",
+          "sku": "DDHBC20NEB",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": null,
+            "capacityAh": 12.4,
+            "energyWh": 446,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Xiaomi publishes 12.4Ah/446Wh but the cited specifications page does not state nominal voltage."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 350,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 700,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Manufacturer maximum speed; mode-specific maximum."
+          },
+          "rangeClaim": {
+            "maxKm": 55,
+            "basis": "manufacturer_claim",
+            "conditions": "Xiaomi maximum range claim after the specified firmware update; real-world range varies."
+          },
+          "sources": [
+            {
+              "url": "https://www.mi.com/global/product/xiaomi-electric-scooter-4-pro/specs/",
+              "publisher": "Xiaomi",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact product code DDHBC20NEB is identified on Xiaomi's official global specifications page.",
+              "The page publishes 12.4Ah/446Wh but does not publish nominal voltage; do not infer voltage from the Wh/Ah ratio.",
+              "Rated 350W and maximum 700W are kept separate. The original 4 Pro generation must not be conflated with 2nd Gen."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "xiaomi-pro-2",
       "name": "Xiaomi Pro 2",
       "manufacturer": "Xiaomi",
