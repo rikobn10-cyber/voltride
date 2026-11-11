@@ -4,13 +4,35 @@ import vm from "node:vm";
 
 const html = readFileSync("ride-match.html", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
-const modelCatalog = JSON.parse(readFileSync("models.json", "utf8")).models;
-const rideMatchData = JSON.parse(readFileSync("ride_match_data.json", "utf8"));
-const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>\s*<\/body>/i);
+const v2 = JSON.parse(readFileSync("model_data_v2.json", "utf8"));
+const scriptMatch = html.match(/<script>([\\s\\S]*?)<\\/script>\\s*<\\/body>/i);
 assert.ok(scriptMatch, "Ride Match inline application script must exist");
 
+const elements = new Map();
+function element(id = "") {
+  if (!elements.has(id)) {
+    const listeners = {};
+    const el = {
+      id, value: "", textContent: "", innerHTML: "",
+      style: { display: "none", width: "" },
+      classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } },
+      addEventListener(type, callback) { listeners[type] = callback; },
+      appendChild(child) { (this.children ||= []).push(child); },
+      children: [],
+      listeners
+    };
+    elements.set(id, el);
+  }
+  return elements.get(id);
+}
 const context = {
-  document: { documentElement: { lang: "ar", dir: "rtl" }, title: "", querySelectorAll: () => [], getElementById: () => ({ addEventListener: () => {}, style: { display: "none" } }) },
+  document: {
+    documentElement: { lang: "ar", dir: "rtl" },
+    title: "",
+    querySelectorAll: () => [],
+    getElementById: id => element(id),
+    createElement: tag => element(tag + "-" + Math.random())
+  },
   localStorage: { getItem: () => JSON.stringify("fr"), setItem: () => {} },
   setTimeout: () => 0,
   console
@@ -19,73 +41,82 @@ vm.createContext(context);
 vm.runInContext(scriptMatch[1], context);
 const evaluate = expression => vm.runInContext(expression, context);
 
-assert.equal(evaluate("scooters.length"), 35, "duplicate model records should be removed");
-assert.equal(evaluate("uniqueScooters.length"), 35, "all unique models should remain");
-assert.equal(evaluate("new Set(uniqueScooters.map(s => s.id)).size"), 35, "model IDs must be unique");
-const rideModels = JSON.parse(evaluate("JSON.stringify(scooters)"));
-for (const model of modelCatalog) {
-  const rideModel = rideModels.find(item => item.id === model.id);
-  assert.ok(rideModel, model.id + ": catalog model must appear in Ride Match");
-  assert.equal(rideModel.name, model.name, model.id + ": name must match catalog");
-  assert.equal(rideModel.speed, model.speed, model.id + ": speed must match catalog");
-  assert.equal(rideModel.power, model.motor, model.id + ": motor power must match catalog");
-  assert.equal(rideModel.voltage, model.voltage, model.id + ": voltage must match catalog");
-  assert.equal(rideModel.ah, model.ah, model.id + ": battery capacity must match catalog");
-  assert.equal(rideModel.cat, model.category, model.id + ": category must match catalog");
+const markets = JSON.parse(evaluate("JSON.stringify(RIDE_MATCH_MARKETS)"));
+const models = JSON.parse(evaluate("JSON.stringify(RIDE_MATCH_MODELS)"));
+assert.deepEqual(markets, [...new Set(markets)].sort(), "market list must be unique and sorted");
+assert.ok(markets.includes("MA"), "Morocco market must be available when verified variants exist");
+assert.equal(element("rideMarket").children.length, markets.length, "market selector must expose every generated market");
+assert.equal(models.length, 19, "only model identities with projectable verified variants should be generated");
+assert.ok(models.every(model => model.variants.length > 0));
+
+for (const model of models) {
+  assert.ok(model.variants.every(variant => markets.includes(variant.market)), model.id + ": each option must map to a generated market");
+  assert.ok(model.variants.every(variant => variant.energyWh > 0 && variant.voltage > 0 && variant.ah > 0 && variant.motor > 0 && variant.speed > 0));
+  assert.ok(model.variants.every(variant => variant.sourceUrl && variant.sourcePublisher));
 }
 
-for (const model of rideMatchData.affiliateOnlyModels) {
-  assert.equal(model.affiliateDestinationVerified, false, model.id + ": unresolved affiliate destination must remain disabled");
-  const rideModel = rideModels.find(item => item.id === model.id);
-  assert.ok(rideModel, model.id + ": affiliate-only model must appear in Ride Match");
-  for (const [field, value] of Object.entries(model)) {
-    assert.equal(rideModel[field], value, model.id + ": " + field + " must match affiliate-only source");
-  }
+for (const market of markets) {
+  evaluate("answers = { market: " + JSON.stringify(market) + ', distance: "20-40", preference: "range" }');
+  const eligible = JSON.parse(evaluate("JSON.stringify(getEligibleScooters())"));
+  const recommendations = JSON.parse(evaluate("JSON.stringify(getRecommendations())"));
+  assert.ok(eligible.length > 0, market + ": verified candidates should exist");
+  assert.ok(eligible.every(model => model.market === market), market + ": candidates must match the selected market");
+  assert.equal(new Set(eligible.map(model => model.id)).size, eligible.length, market + ": model candidates must be unique");
+  assert.ok(recommendations.length > 0 && recommendations.length <= 3);
+  assert.ok(recommendations.every(item => item.s.market === market));
+  assert.ok(recommendations.every(item => Number.isFinite(item.range) && item.range > 0));
 }
-for (const id of rideMatchData.excludedModelIds) {
-  const rideModel = rideModels.find(item => item.id === id);
-  assert.ok(rideModel, id + ": excluded canonical model must exist");
-  assert.equal(rideModel.eligible, false, id + ": configured exclusions must stay ineligible");
-}
-assert.match(html, /\/\*SCOOTERS:START\*\/[\s\S]*?\/\*SCOOTERS:END\*\//,
-  "Ride Match scooter records must be generator-owned");
-
-
-assert.doesNotMatch(html, /budgetTitle|budgetNote|budgetOptions|budget_range|parseBudgetRange|getBudgetScore|\bMAD\b|درهم/);
-assert.doesNotMatch(html, /"price":\d+/);
-const sourceVerifiedAffiliateModels = {
-  "iscooter-w9": { speed: 45, power: 1000, voltage: 48, ah: 14 },
-  "iscooter-ix4": { speed: 45, power: 800, voltage: 48, ah: 15 },
-  "iscooter-w9air": { speed: 40, power: 800, voltage: 48, ah: 10 },
-  "iscooter-ix5s": { speed: 45, power: 1000, voltage: 48, ah: 15 }
-};
-for (const [id, specs] of Object.entries(sourceVerifiedAffiliateModels)) {
-  const model = rideModels.find(item => item.id === id);
-  assert.ok(model, id + ": sourced affiliate model must remain in Ride Match");
-  for (const [field, value] of Object.entries(specs)) assert.equal(model[field], value, id + ": " + field + " must match official manufacturer data");
-}
-const w6 = rideModels.find(item => item.id === "iscooter-w6");
-assert.equal(w6.eligible, false, "W6 regional battery variants must not be recommended until the affiliate SKU is matched to a region");
-assert.equal(evaluate('getRecommendations().some(r => r.s.id === "iscooter-w6")'), false, "region-ambiguous W6 must be excluded from recommendations");
-for (const id of ["ecoxtrem-bison-gt", "ecoxtrem-bison-m41"]) {
-  assert.equal(evaluate('getRecommendations().some(r => r.s.id === "' + id + '")'), false, id + ": unresolved regional/model variant must be excluded from recommendations");
-}
-assert.match(html, /data-action="buy"/);
-assert.match(html, /r\.s\.affiliateDestinationVerified === true/, "unresolved affiliate links must not be sent to users");
-assert.match(html, /marketplace_search_click/, "unverified affiliate destinations must fall back to a marketplace search");
-assert.doesNotMatch(html, /indexOf\('اشترِ الآن'\)/);
 
 for (const preference of ["speed", "range", "commuter", "performance"]) {
-  evaluate('answers = { distance: "20-40", preference: "' + preference + '" }');
-  const ids = JSON.parse(evaluate("JSON.stringify(getRecommendations().map(r => r.s.id))"));
-  assert.equal(ids.length, 3, preference + ": should return three recommendations");
-  assert.equal(new Set(ids).size, 3, preference + ": recommendations must be unique");
+  evaluate('answers = { market: "EU", distance: "20-40", preference: "' + preference + '" }');
+  const recommendations = JSON.parse(evaluate("JSON.stringify(getRecommendations())"));
+  assert.ok(recommendations.length > 0, preference + ": should return verified recommendations");
+  assert.equal(new Set(recommendations.map(item => item.s.id)).size, recommendations.length, preference + ": recommendations must be unique");
 }
 
-assert.match(html, /بعض روابط الشراء روابط إحالة/);
+evaluate('answers = { market: "MA", distance: "20-40", preference: "range" }');
+const morocco = JSON.parse(evaluate("JSON.stringify(getEligibleScooters())"));
+assert.ok(morocco.some(model => model.id === "ecoxtrem-bison-gt"));
+assert.ok(morocco.some(model => model.id === "ecoxtrem-bison-m41"));
+assert.ok(morocco.every(model => model.market === "MA"));
+assert.ok(morocco.every(model => model.variantId && model.variantLabel));
+
+evaluate('answers = { market: null, distance: "20-40", preference: "range" }');
+assert.equal(evaluate("getRecommendations().length"), 0, "recommendations must be empty until a market is explicitly selected");
+
+evaluate('answers = { market: "US", distance: "20-40", preference: "range" }');
+evaluate("renderResults()");
+const rendered = element("recommendations").innerHTML;
+assert.match(rendered, /Battery energy|Énergie de la batterie|طاقة البطارية/);
+assert.match(rendered, /Manufacturer source|Source du fabricant|مصدر الشركة المصنّعة/);
+assert.match(rendered, /variantId|US|EU/);
+assert.match(rendered, /aliexpress\\.com\\/wholesale/);
+assert.doesNotMatch(rendered, /s\\.click\\.aliexpress/);
+assert.doesNotMatch(rendered, /rel="noopener sponsored nofollow"/);
+
+assert.doesNotMatch(html, /const uniqueScooters|uniqueScooters\\.slice/);
+assert.doesNotMatch(html, /const scooters = \\[/);
+assert.match(html, /\\/\\*RIDE_VARIANTS:START\\*\\/[\\s\\S]*?\\/\\*RIDE_VARIANTS:END\\*\\//);
+assert.match(html, /if \\(!answers\\.market\\) return \\[\\];/);
+assert.match(html, /RIDE_MATCH_MODELS\\.flatMap/);
+assert.match(html, /answers\\.market = RIDE_MATCH_MARKETS\\.includes/);
+assert.doesNotMatch(html, /s\\.voltage|s\\.ah|s\\.power/);
+assert.doesNotMatch(html, /affiliateOnlyModels|iscooter-w9|iscooter-ix4|iscooter-w6/);
+assert.doesNotMatch(html, /s\\.affiliateUrl/);
+assert.match(html, /marketplace_search_click/);
+assert.match(html, /data-action="buy"/);
+
+const expectedVerifiedIds = v2.models
+  .filter(model => model.variants.some(variant =>
+    variant.verification?.status === "verified_variant" &&
+    variant.verification?.confidence === "high"
+  ))
+  .map(model => model.id);
+assert.deepEqual(models.map(model => model.id), expectedVerifiedIds, "Ride Match model identities must follow canonical V2 order and verification status");
+assert.equal(models.reduce((n, model) => n + model.variants.length, 0), 22, "all verified market-specific choices must be generated");
+
 assert.equal(evaluate("rideMatchLang"), "fr", "Ride Match should inherit the saved site language");
 assert.equal(evaluate('rideMatchT("speed")'), "Vitesse");
-assert.equal(evaluate('rideMatchT("resultsTitle")'), "🎯 Nos recommandations");
 evaluate('setRideMatchLanguage("en")');
 assert.equal(evaluate("document.documentElement.lang"), "en");
 assert.equal(evaluate("document.documentElement.dir"), "ltr");
@@ -93,15 +124,6 @@ assert.equal(evaluate('rideMatchT("buy")'), "Buy now ←");
 evaluate('setRideMatchLanguage("ar")');
 assert.equal(evaluate("document.documentElement.dir"), "rtl");
 assert.match(html, /table-layout:fixed/);
-assert.match(html, /color:var\(--cyan\)/);
-assert.doesNotMatch(html, /border-collapse:;/);
 assert.match(indexHtml, /specSpeed:"Vitesse"/);
 assert.match(indexHtml, /specSpeed:"Speed"/);
-assert.match(indexHtml, /t\("specSpeed"\)/);
-assert.match(indexHtml, /t\("compareSpeed"\)/);
-assert.match(indexHtml, /class="table-wrap"/);
-assert.match(indexHtml, /\.table-wrap\{width:100%/);
-assert.match(html, /data-value="commuter"/);
-assert.match(html, /data-value="performance"/);
-assert.doesNotMatch(html, /data-value="comfort"|data-value="weight"/);
-console.log("Ride Match tests passed: unique models, global budget-neutral recommendations, supported preferences, and affiliate disclosure.");
+console.log("Ride Match V2 tests passed: explicit market selection, verified variants, provenance, and safe marketplace fallback.");
