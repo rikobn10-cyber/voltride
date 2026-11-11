@@ -125,6 +125,6 @@ jobs:
             const marker = '<!-- a11y-report -->';
             const { data: comments } = await github.rest.issues.listComments({ ...context.repo, issue_number: context.issue.number });
             const old = comments.find(c => c.body && c.body.includes(marker));
-            const payload = { ...context.repo, body: marker + '\\n' + body };
+            const payload = { ...context.repo, body: marker + '\n' + body };
             if (old) await github.rest.issues.updateComment({ ...payload, comment_id: old.id });
             else await github.rest.issues.createComment({ ...payload, issue_number: context.issue.number });
