@@ -357,9 +357,9 @@ def page(m, variant_options):
     energy = wh(m)
     mid = rows[1][2][0]
     url = f"{BASE}/{slug}"            # clean URL: Cloudflare Pages redirects *.html to the extensionless URL
-    title = f"كم مدى {m['name']} الواقعي؟ تقدير VoltRide"
+    title = f"مواصفات {m['name']} حسب السوق"
     if len(title + " | VoltRide") > 60:
-        title = f"كم مدى {m['name']} الواقعي؟"
+        title = f"{m['name']} — النسخ الموثقة"
     desc = f"مواصفات النسخ الموثقة من {m['name']} حسب السوق، مع مصادر الشركة وتقديرات مدى نظرية توضح طريقة الحساب."
     fq = faqs(m, rows)
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
