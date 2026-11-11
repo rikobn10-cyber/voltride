@@ -1,10 +1,10 @@
-# Canonical 30-model source audit matrix — 2026-11-10
+# Canonical 30-model source audit matrix — started 2026-11-10; updated 2026-11-11
 
 ## Purpose and decision rule
 
 This document tracks manufacturer-source verification for the 30 records in `models.json`. It is an audit record, not a declaration that every row is verified. A model is only safe to normalize when the exact generation, battery pack, motor configuration, and destination-market variant are identified. Rated motor power, peak power, battery nominal voltage, cell/pack capacity, and regional speed limits must remain distinct fields where the manufacturer distinguishes them.
 
-**No product data or generated pages were changed in this audit pass.** The findings below identify where the current catalog is supported, variant-dependent, or materially inconsistent. Manufacturer-claimed range and speed are not independent real-world test results.
+**No legacy production `models.json` values or generated model pages were changed.** Evidence-backed records were added to the staged V2 dataset; the generated Ride Match data and service-worker precache were updated only for affiliate-link and PWA safety. The findings below identify where the current catalog is supported, variant-dependent, or materially inconsistent. Manufacturer-claimed range and speed are not independent real-world test results.
 
 ## Newly rechecked records
 
@@ -13,7 +13,7 @@ This document tracks manufacturer-source verification for the 30 records in `mod
 | `xiaomi-pro-2` | 36 / 12.8 / 300 / 25 | Xiaomi Hong Kong lists model DDHBC11NEB, 37V nominal, 12.8Ah / 474Wh, 300W rated / 600W max, 25 km/h. | **Flag battery semantics/capacity.** Legacy 36V nominal conflicts with the manufacturer-published 37V nominal. Retain rated motor as 300W; do not conflate with 600W peak. |
 | `xiaomi-essential` | 36 / 5.2 / 250 / 20 | Xiaomi Spain lists DDHBC05NEB, 36V, 5.1Ah / 183Wh, 250W rated / 500W max, 20 km/h. | **Minor capacity mismatch.** Confirm whether catalog 5.2Ah is a rounded or alternate pack; official published capacity is 5.1Ah. |
 | `segway-e2-plus` | 21.6 / 10.2 / 300 / 25 | Segway E2 Plus E II regional product/manual data lists 21.6V, 220Wh / 10.2Ah, 300W rated / 500W max, 25 km/h. | **Core values align for E2 Plus E II.** Add explicit generation/market identity; do not assume all E2 Plus generations share this exact pack. |
-| `apollo-city-pro` | 52 / 20 / 1000 / 51 | Apollo's City Pro 2023 specification page identifies dual motors at 500W nominal each / 1000W peak each, 51 km/h. Apollo's battery replacement listing identifies 48V 20Ah for City/City Pro 2023–24. | **Material variant/semantics issue.** Catalog's 52V conflicts with the documented 48V pack. Motor field 1000W may be total nominal (2 × 500W), not peak; exact field meaning must be resolved before correction. |
+| `apollo-city-pro` | 52 / 20 / 1000 / 51 | Apollo's City Pro 2023 specification page identifies dual motors at 500W nominal each / 1000W peak each, 51 km/h. Apollo's battery replacement listing identifies 48V 20Ah for City/City Pro 2023–24. | **Legacy catalog mismatch.** The 2023 Pro V2 record uses the documented 48V/20Ah pack and two 500W rated / 1000W peak motors; 960Wh is explicitly calculated. No range claim is inferred. |
 | `gotrax-g4` | 36 / 10.4 / 350 / 32 | GOTRAX official G4 listing specifies 36V 10.4Ah, 500W motor, 20mph / 32km/h. | **Material motor mismatch.** Catalog's 350W is not supported by the current official G4 listing; update only after confirming exact G4/G4 Pro generation. |
 | `inokim-oxo` | 60 / 25.6 / 2000 / 65 | INOKIM's current global page lists OXO at 60V 26Ah, 2600W peak and 65km/h. An older OXO manual lists 60V 25.6Ah and dual 800W motors (1300W peak each). | **Generation/configuration-dependent.** Current and older manufacturer/distributor materials differ. Do not replace 25.6Ah or 2000W until the catalog's OXO generation and whether motor power is nominal or peak are identified. |
 | `teverun-fighter-11` | 60 / 26 / 5000 / 85 | Teverun Europe lists Fighter Eleven (60V 26Ah, dual 1600W motors, 5000W peak, up to 80km/h); Teverun's global Fighter 11/11+ page lists 4900W peak and 85km/h, with 60V 26Ah for 11 and 35Ah for 11+. | **Variant/source discrepancy.** The catalog's 26Ah matches Eleven, while 85km/h matches another official regional/product page. Confirm exact SKU/market before normalizing speed. |
@@ -52,7 +52,7 @@ The following records have not yet been matched to a sufficiently specific prima
 - `kaabo-wolf-king` — the official Kaabo USA result found is for King GT Pro, not sufficient proof for the catalog's Wolf King GT row; do not substitute one model's figures for the other.
 - `nami-burn-e2-max` — exact primary manufacturer evidence for the catalog's specific Burn-E 2 Max configuration remains outstanding.
 
-The Apollo City Pro, INOKIM OXO, Teverun Fighter 11, and the variant-sensitive models above also need SKU-level resolution despite having useful manufacturer evidence.
+INOKIM OXO, Teverun Fighter 11, and the remaining variant-sensitive models still need SKU-level resolution. Apollo City Pro 2023 now has a dedicated CA-market V2 variant record.
 
 ## Primary source links
 
