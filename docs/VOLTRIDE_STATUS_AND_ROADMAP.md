@@ -270,7 +270,7 @@ This section supersedes earlier roadmap statements above that said the calculato
 - PR #71 is test/documentation-only. It does not change production application behavior, model specifications, affiliate destinations, analytics configuration or advertising.
 
 ### Remaining release checks
-- Main post-merge Site checks and Live site check must be re-read after PR #71 merge.
+- PR #71 merged to `main` as `17985e82756567400eef700e247e2913dc0a171f`. Main Site checks (run `43019541897`) and Live site check (run `43019541987`) both completed successfully. All nine Site jobs passed; the live check confirmed key routes and every sitemap URL returned HTTP 200, and axe-core checked 81 live pages with zero blocking violations and zero warnings.
 - GA4 event receipt still requires a separate production measurement verification after an actual explicit consent flow; CI consent tests do not prove GA4 event ingestion.
 - Search Console index/canonical status still requires a fresh property-level review; sitemap and canonical CI checks are not a substitute for Google recrawl status.
 - Five AliExpress short-link destinations remain unresolved and disabled; do not enable until final product URL, SKU and market are verified.
