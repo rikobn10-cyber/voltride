@@ -48,11 +48,11 @@ GOTRAX's official GXL V2 product page and battery parts listing support 36V, 5.2
 
 The following records have not yet been matched to a sufficiently specific primary manufacturer source and exact generation/SKU in this pass. Their current values must remain **provisional**, not “manufacturer verified”:
 
-- `apollo-ghost` — Apollo's legacy article confirms a 52V 18.2Ah battery, but the full motor rating and exact model revision still need a primary spec sheet.
+- `kaabo-wolf-king` — Kaabo's official global overview identifies the Wolf King GT family, but rated-vs-peak motor basis and exact speed ceiling remain unresolved; its V2 record keeps those fields null.
 - `kaabo-wolf-king` — the official Kaabo USA result found is for King GT Pro, not sufficient proof for the catalog's Wolf King GT row; do not substitute one model's figures for the other.
 - `nami-burn-e2-max` — exact primary manufacturer evidence for the catalog's specific Burn-E 2 Max configuration remains outstanding.
 
-INOKIM OXO, Teverun Fighter 11, and the remaining variant-sensitive models still need SKU-level resolution. Apollo City Pro 2023 now has a dedicated CA-market V2 variant record.
+INOKIM OXO and the remaining variant-sensitive models still need SKU-level resolution. Apollo City Pro 2023 and Apollo Ghost now have dedicated market-specific V2 records; Teverun Fighter 11 has an unresolved V2 evidence record pending rated-power basis.
 
 ## Primary source links
 
