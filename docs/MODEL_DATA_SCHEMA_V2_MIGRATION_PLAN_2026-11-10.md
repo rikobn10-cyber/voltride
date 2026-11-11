@@ -1,7 +1,7 @@
 # VoltRide canonical model data schema v2 — migration plan
 
-**Status:** design proposal only  
-**Date:** 2026-11-10  
+**Status:** staged migration in progress — one exact manufacturer variant migrated; legacy production consumers remain on `models.json`  
+**Updated:** 2026-11-11  
 **Scope:** canonical scooter records, generator, calculator presets, catalog and Ride Match compatibility  
 **Non-goal:** this document does not change any model specifications, recommendations, prices, affiliate links or generated pages.
 
@@ -166,3 +166,12 @@ These are work queues, not permission to overwrite current production values wit
 - Treating affiliate links as proof of a model SKU or manufacturer specification.
 - Treating manufacturer range claims as measured range.
 - Applying Morocco-specific legal assumptions to the global model dataset.
+
+
+## 9. Staged migration checkpoint — 2026-11-11
+
+- `model_data_v2.json` now contains one high-confidence, exact-SKU variant: Xiaomi Scooter 3 Lite, manufacturer code `MJDDHBC03ZM`, Global source page.
+- The record retains the manufacturer-published 36V, 5.2Ah and 187Wh values, 300W rated motor power, 25km/h maximum speed and 20km manufacturer range claim. Peak motor power remains unknown and is not inferred.
+- The record passes the existing schema-v2 validator. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
+- No other model is added until its exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
+- Next gate: implement and unit-test an explicit-variant adapter. It must reject unresolved variants, require a selected market/variant, and expose source provenance. Only after this adapter is validated should a consumer be migrated.
