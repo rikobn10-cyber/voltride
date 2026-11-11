@@ -1,5 +1,5 @@
 name: Live functional smoke
-# Includes production PWA offline navigation, manifest, and cache-fallback verification with an never-cached route.
+# Includes production PWA offline navigation, manifest, and cache-fallback verification with an never-cached route and offline HTTP error handling.
 
 on:
   pull_request:
