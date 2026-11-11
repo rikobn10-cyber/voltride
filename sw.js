@@ -41,6 +41,9 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("message", (e) => {
   if (e.data === "SKIP_WAITING") self.skipWaiting();
+  if (e.data && e.data.type === "GET_VERSION" && e.ports && e.ports[0]) {
+    e.ports[0].postMessage({ version: VERSION });
+  }
 });
 
 function fetchWithTimeout(req, ms) {
@@ -78,6 +81,11 @@ async function offlineNavigationFallback(cache, req) {
 
 async function navigate(req) {
   const cache = await caches.open(VERSION);
+  // Avoid a doomed network request when the browser already reports offline.
+  if (self.navigator && self.navigator.onLine === false) {
+    console.log("[VoltRide SW] browser reports offline; using cache fallback", req.url);
+    return offlineNavigationFallback(cache, req);
+  }
   try {
     const res = await fetchWithTimeout(req, NAV_TIMEOUT_MS);
     if (res && res.ok) {
