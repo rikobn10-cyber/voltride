@@ -49,6 +49,23 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 300)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 600)
 
+    def test_xiaomi_essential_uses_exact_spain_sku_and_published_battery(self):
+        result = project_verified_variant(
+            DATA, "xiaomi-essential", "xiaomi-essential-ddhbc05neb-es", "ES"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 36)
+        self.assertEqual(result["legacy_fields"]["ah"], 5.1)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 183)
+        self.assertEqual(result["legacy_fields"]["motor"], 250)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 500)
+        self.assertEqual(result["legacy_fields"]["speed"], 20)
+
+    def test_rejects_segway_e2_plus_until_battery_capacity_is_confirmed(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "segway-e2-plus", "segway-e2-plus-e-ii-fr", "FR"
+            )
+
     def test_selects_market_specific_niu_speed(self):
         us = project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-us", "US")
         eu = project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-eu", "EU")

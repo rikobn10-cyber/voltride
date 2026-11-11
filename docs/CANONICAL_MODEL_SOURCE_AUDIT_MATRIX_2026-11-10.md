@@ -190,3 +190,21 @@ The current legacy segway-max-g2 row matches the US maximum only when higher spe
 
 - inokim-oxo-2026-us: INOKIM's official 2026 OXO page lists 57.6V/26Ah, 2×1000W rated / 2×1300W peak motors, 40.3mph top speed and 68-mile top range. V2 keeps this 2026 configuration separate from older 60V OXO variants; Wh and metric units are explicitly converted.
 - vsett-8-plus-global-unresolved: VSETT's official page lists 48V 16A (LG), dual 600W motors, 40–45km/h and 90km single / 50km dual range. The capacity unit is ambiguous ('16A' rather than Ah) and the motor power basis is not explicit; capacity/Wh and motor power remain null, so the adapter rejects this record.
+
+
+### Xiaomi Essential and Segway E2 Plus E II — 2026-11-11
+
+- `xiaomi-essential-ddhbc05neb-es`: Xiaomi Spain identifies model code DDHBC05NEB, 36V, 5.1Ah/183Wh, 250W rated / 500W maximum power and 20km/h. V2 retains the manufacturer-published battery values and does not reuse the legacy 5.2Ah figure. No range claim is asserted from the cited page.
+- `segway-e2-plus-e-ii-fr`: Segway France identifies the E2 Plus E II with 21.6V/220Wh, 300W rated / 500W maximum motor power, 25km/h and up to 25km at 15km/h. The cited page does not publish Ah; capacity remains null and status remains `variant_unresolved`. The adapter must reject this record until capacity and exact SKU are resolved.
+
+The V2 dataset now contains 26 model identities and 29 variants. These are staged source records only; production consumers remain on the legacy catalog.
+
+
+### Dualtron Mini, Victor, Thunder 3 and NAMI Burn-E 2 Max — 2026-11-11
+
+- `dualtron-mini`: Minimotors' official product detail lists four 52V battery options (13Ah, 17.5Ah, 19.2Ah, 21Ah), 1450W maximum motor output, 25km/h and corresponding manufacturer range claims of approximately 40/50/55/60km. V2 records the four battery options separately; rated motor power and exact legacy generation/SKU remain unresolved, so none is adapter-eligible.
+- `dualtron-victor`: Minimotors' official product detail lists 60V/24Ah and 60V/30Ah options, MAX 4000W dual-hub motor, 80km/h and 85/100km claimed range respectively. V2 records the 24Ah option only; rated power is not published and remains null, so the adapter rejects it.
+- `dualtron-thunder-3`: Minimotors official manual identifies Thunder 3 (ED2301), 72V/40Ah, 2 × 2500W nominal motors, 2 × 5400W maximum motors, 100km/h and around 125km range. The legacy 11000W value is not reused; the manual supports 10800W combined maximum. Wh is calculated (72V × 40Ah), not manufacturer-published.
+- `nami-burn-e2-max`: NAMI's official manual describes a BURN-E MAX generation with 72V/40Ah/2.88kWh and 2 × 1.5kW motors. It does not establish equivalence to the legacy catalog's exact Burn-E 2 Max generation; speed and range remain null and the record is explicitly unresolved.
+
+The staged V2 dataset now includes all 30 legacy catalog identities. It contains 30 model identities and 36 variant records. This does not mean all 30 are fully verified or eligible for projection; unresolved records remain blocked by the adapter.
