@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - "tools/live-smoke.mjs"
+      - "tools/live-pwa-smoke.mjs"
+      - "sw.js"
+      - "manifest.json"
+      - "offline.html"
       - "index.html"
       - "ride-match.html"
       - "site.js"
@@ -33,3 +37,5 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Exercise live calculator and Ride Match
         run: node tools/live-smoke.mjs "$LIVE"
+      - name: Verify production PWA and offline behavior
+        run: node tools/live-pwa-smoke.mjs "$LIVE"
