@@ -23,6 +23,42 @@ try {
   assert.ok(range > 0, "calculator must return a positive range estimate");
   assert.ok(energy > 0, "calculator must return positive battery energy");
 
+  // App settings: verify the primary app language selector updates document language and direction.
+  await page.locator("#settingsBtn").click();
+  await page.locator("#settings").waitFor({ state: "visible", timeout: 5000 });
+  await page.locator("#languageSelect").selectOption("en");
+  await page.waitForFunction(() => document.documentElement.lang === "en" && document.documentElement.dir === "ltr", { timeout: 5000 });
+
+  // Catalog and comparison: select a verified market variant and compare its documented fields.
+  await page.locator('button[data-screen="catalog"]').click();
+  await page.locator("#catalog").waitFor({ state: "visible", timeout: 5000 });
+  await page.locator("#catalogGrid article.scooter").first().waitFor({ state: "visible", timeout: 10000 });
+  const variantSelectId = await page.locator('#catalogGrid select[data-catalog-variant]').evaluateAll(nodes => {
+    const select = nodes.find(node => node.options.length > 1);
+    return select ? select.id : null;
+  });
+  assert.ok(variantSelectId, "catalog must expose at least one documented market variant");
+  const variantSelect = page.locator("#" + variantSelectId);
+  const selectedVariantValue = await variantSelect.locator("option").nth(1).getAttribute("value");
+  assert.ok(selectedVariantValue, "catalog variant option must have a stable value");
+  await variantSelect.selectOption(selectedVariantValue);
+  const scooterCard = variantSelect.locator("xpath=ancestor::article");
+  const comparedModel = await scooterCard.locator(".scooter-name").innerText();
+  await scooterCard.locator("[data-compare]").click();
+  await page.locator("#compareFloatBtn").click();
+  await page.locator("#compareModal.show").waitFor({ state: "visible", timeout: 5000 });
+  const comparison = await page.locator("#compareBody").innerText();
+  assert.ok(comparison.includes(comparedModel), "comparison must include the selected catalog model");
+  assert.ok(comparison.includes("Wh"), "comparison must show the selected variant's battery energy");
+  await page.locator("#closeCompare").click();
+
+  // Generated model page: verify a representative V2-backed detail page and canonical URL.
+  const modelPage = await page.goto(base + "/xiaomi-3-lite", { waitUntil: "domcontentloaded", timeout: 30000 });
+  assert.ok(modelPage && modelPage.ok(), "generated model detail page must load successfully");
+  assert.ok(await page.locator("h1").count() >= 1, "generated model page must expose a primary heading");
+  const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+  assert.ok(canonical && canonical.includes("/xiaomi-3-lite"), "generated model page must declare its own canonical URL");
+
   // Ride Match: require an explicit market, complete both quiz steps and inspect recommendations.
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 30000 });
   assert.ok(ride && ride.ok(), "Ride Match must load successfully");
@@ -55,7 +91,7 @@ try {
   assert.ok(await cards.count() >= 1, "language switching must preserve rendered recommendations");
 
   assert.deepEqual(pageErrors, [], "live pages must not throw uncaught browser errors");
-  console.log(JSON.stringify({ status: "passed", calculator: { range, energy }, rideMatch: { market: "EU", recommendations: cardCount, languageSwitch: "en" }, pageErrors }));
+  console.log(JSON.stringify({ status: "passed", calculator: { range, energy }, catalog: { comparedModel, selectedVariantValue }, generatedModelPage: { canonical }, rideMatch: { market: "EU", recommendations: cardCount, languageSwitch: "en" }, pageErrors }));
 } finally {
   await context.close();
   await browser.close();
