@@ -64,6 +64,19 @@ def project_verified_variant(dataset: dict, model_id: str, variant_id: str, mark
     else:
         raise VariantProjectionError("Rated motor power basis must be explicit")
 
+    peak = motors.get("peakPowerW")
+    peak_basis = motors.get("peakPowerBasis")
+    if peak is None or peak_basis == "unresolved":
+        combined_peak = None
+    elif not isinstance(peak, (int, float)) or peak <= 0:
+        raise VariantProjectionError("Peak motor power, when supplied, must be positive")
+    elif peak_basis == "combined":
+        combined_peak = peak
+    elif peak_basis == "per_motor":
+        combined_peak = peak * count
+    else:
+        raise VariantProjectionError("Peak motor power basis must be explicit")
+
     max_speed = speed.get("maxKmh")
     if not isinstance(max_speed, (int, float)) or max_speed <= 0:
         raise VariantProjectionError("A market-specific maximum speed is required")
@@ -76,6 +89,9 @@ def project_verified_variant(dataset: dict, model_id: str, variant_id: str, mark
             "voltage": voltage,
             "ah": capacity,
             "motor": combined_rated,
+            "peakMotorPowerW": combined_peak,
+            "energyWh": energy,
+            "energyWhBasis": battery.get("energyWhBasis"),
             "speed": max_speed,
         },
         "range_claim": {
