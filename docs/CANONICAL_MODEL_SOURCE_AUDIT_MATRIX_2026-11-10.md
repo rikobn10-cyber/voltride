@@ -178,3 +178,9 @@ The current legacy segway-max-g2 row matches the US maximum only when higher spe
 - apollo-ghost-us-2020: Apollo's official article identifies dual 800W rated motors with 1000W peak per motor, 52V/18.2Ah/947Wh, 55km/h, and up to 62km in the lowest speed setting. The V2 record separates rated and peak power; range conditions explicitly distinguish the 62km low-speed claim from the 40km average and max-speed range.
 - kaabo-wolf-king-gt-global-unresolved: Kaabo's official global site lists 72V/35Ah, dual 2000W motors, up to 180km range and 100+km/h. It does not specify rated-vs-peak motor basis or an exact speed ceiling; both remain null and the record is unresolved. Do not substitute the separate King GT Pro values.
 - teverun-fighter-11-60v26ah-global-unresolved: Teverun's official page distinguishes Fighter 11 (60V/26Ah, 85km/h, 80km) from Fighter 11+ (60V/35Ah, 85km/h, 120km). The 4900W figure is labelled peak but its motor basis is unclear and rated power is absent; power remains unresolved. The factory road-use speed limit of 25km/h is documented separately from the unrestricted 85km/h specification.
+
+
+### GOTRAX G4 Original and VSETT 10+ evidence — 2026-11-11
+
+- gotrax-g4-us-original-42015315951731: GOTRAX's official product page identifies the exact G4 Original variant, 36V/10.4Ah/approximately 374.4Wh, 500W average motor, 20mph top speed and up to 25 miles in Gear 1. It separately lists up to 15 miles in Gear 2 at 20mph. The record does not conflate G4 Original with G4 Pro's suspension/tire differences.
+- vsett-10-plus-60v28ah-global-unresolved: VSETT's official page lists 60V 20.8/25.6/28Ah options, dual 1400W motors and a 70–80km/h range. It does not specify rated-vs-peak basis or exact speed for the 28Ah option, and the 65/80/90km range values are not explicitly paired to battery variants. The V2 record keeps speed, power and range null and remains ineligible for projection.
