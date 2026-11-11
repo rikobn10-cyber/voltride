@@ -269,6 +269,68 @@
       ]
     },
     {
+      "id": "inokim-oxo",
+      "name": "INOKIM OXO",
+      "manufacturer": "INOKIM",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "inokim-oxo-2026-us",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 57.6,
+            "capacityAh": 26,
+            "energyWh": 1497.6,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 57.6V × 26Ah; INOKIM publishes voltage and capacity, not Wh on the 2026 page."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 1000,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": 1300,
+            "peakPowerBasis": "per_motor"
+          },
+          "speed": {
+            "maxKmh": 64.9,
+            "conditions": "40.3mph manufacturer maximum speed, converted to 64.9km/h."
+          },
+          "rangeClaim": {
+            "maxKm": 109.4,
+            "basis": "manufacturer_claim",
+            "conditions": "68 miles manufacturer range claim, converted to 109.4km; INOKIM's page labels this as top range/Eco mode."
+          },
+          "sources": [
+            {
+              "url": "https://inokim.com/products/oxo",
+              "publisher": "INOKIM",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "INOKIM's current official OXO 2026 page publishes 57.6V/26Ah, 2×1000W rated motors, 2×1300W peak motors, 40.3mph top speed and 68-mile top range.",
+              "The 2026 configuration is recorded as a distinct variant; it must not be conflated with older OXO 60V specifications.",
+              "Wh and metric speed/range are calculated conversions; original units are retained in the conditions."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "kaabo-wolf-king",
       "name": "Kaabo Wolf King GT",
       "manufacturer": "Kaabo",
@@ -1184,6 +1246,68 @@
               "VSETT's official page lists 60V 20.8Ah / 25.6Ah / 28Ah battery options and dual 1400W motors.",
               "The page does not identify whether 1400W is rated or peak and gives a 70–80km/h speed range across configurations; rated power and exact speed remain null.",
               "The 65/80/90km ranges are listed alongside battery options but the page does not explicitly map each range to each capacity; rangeClaim remains null pending exact pairing."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "vsett-8-plus",
+      "name": "VSETT 8+",
+      "manufacturer": "VSETT",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "vsett-8-plus-global-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": null,
+            "energyWh": null,
+            "energyWhBasis": "unresolved",
+            "energyWhSourceNote": "The official page lists '48V 16A (LG)' under battery capacity but does not clearly state Ah; no capacity or Wh is inferred."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 45,
+            "conditions": "Official VSETT 8+ page lists approx. 40–45km/h maximum speed."
+          },
+          "rangeClaim": {
+            "maxKm": 90,
+            "basis": "manufacturer_claim",
+            "conditions": "Official page lists up to 90km in single-motor mode and 50km in dual-motor mode; test conditions are not specified."
+          },
+          "sources": [
+            {
+              "url": "https://vsettscooters.com/pages/vsett-8-plus-electric-scooter",
+              "publisher": "VSETT Official",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official page identifies VSETT 8+ and lists 48V 16A (LG), dual 600W motors, approx. 40–45km/h and 90km single / 50km dual range.",
+              "The battery capacity unit is printed as '16A' rather than Ah, and the motor power basis is not explicitly labelled rated or peak; capacity, Wh and motor power remain unresolved.",
+              "Do not infer a 16Ah pack or convert 600W×2 into a rated combined value without a clearer official specification."
             ]
           }
         }
