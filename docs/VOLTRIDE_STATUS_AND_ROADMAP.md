@@ -234,7 +234,7 @@ This section supersedes earlier roadmap statements above that said the calculato
 ### Post-merge checks
 - PR #69 pre-merge Site checks: all nine jobs passed; axe-core checked 81 pages with zero blocking violations and zero warnings.
 - PR #69 pre-merge Live functional smoke: passed.
-- Main post-merge Site checks and Live site check for commit `5375b8967d7cc82a2a9c37789f0ceb00523077bf` were started. Their final conclusions must be read from GitHub Actions before this release checkpoint is marked fully verified.
+- Main post-merge Site checks (run `43017674045`) and Live site check (run `43017673696`) for commit `5375b8967d7cc82a2a9c37789f0ceb00523077bf` both completed successfully. All nine Site checks passed; the live check confirmed key routes and every sitemap URL returned HTTP 200, and axe-core checked 81 live pages with zero blocking violations and zero warnings.
 
 ### Remaining audit boundaries
 - Manufacturer-source findings for unresolved variants remain documented in `CANONICAL_MODEL_SOURCE_AUDIT_MATRIX_2026-11-10.md`. No uncertain specification was promoted during this pass.
@@ -246,7 +246,7 @@ This section supersedes earlier roadmap statements above that said the calculato
 - Five AliExpress short-link destinations remain unverified and continue to fall back to ordinary marketplace search.
 
 ### Next work
-1. Wait for and verify the main post-merge Site checks and Live site check on commit `5375b896`.
+1. Continue exact-SKU source verification for the unresolved variants; the main post-merge CI and live-site checks are now complete and passed.
 2. Continue exact-SKU source verification for the 10 identities and 15 unresolved variant records; only change canonical values where primary evidence resolves generation, market and power basis.
 3. Perform a separate production measurement check for GA4 custom event receipt after explicit consent, and a fresh Search Console indexing/canonical review. Existing CI proves consent code behavior, not receipt of live GA4 events.
 4. Complete the remaining live-path review for catalog, compare, generated model pages, locale changes, PWA install/update/offline, internal/external links and mobile layout.
