@@ -48,11 +48,11 @@ GOTRAX's official GXL V2 product page and battery parts listing support 36V, 5.2
 
 The following records have not yet been matched to a sufficiently specific primary manufacturer source and exact generation/SKU in this pass. Their current values must remain **provisional**, not “manufacturer verified”:
 
-- `apollo-ghost` — Apollo's legacy article confirms a 52V 18.2Ah battery, but the full motor rating and exact model revision still need a primary spec sheet.
+- `kaabo-wolf-king` — Kaabo's official global overview identifies the Wolf King GT family, but rated-vs-peak motor basis and exact speed ceiling remain unresolved; its V2 record keeps those fields null.
 - `kaabo-wolf-king` — the official Kaabo USA result found is for King GT Pro, not sufficient proof for the catalog's Wolf King GT row; do not substitute one model's figures for the other.
 - `nami-burn-e2-max` — exact primary manufacturer evidence for the catalog's specific Burn-E 2 Max configuration remains outstanding.
 
-INOKIM OXO, Teverun Fighter 11, and the remaining variant-sensitive models still need SKU-level resolution. Apollo City Pro 2023 now has a dedicated CA-market V2 variant record.
+INOKIM OXO and the remaining variant-sensitive models still need SKU-level resolution. Apollo City Pro 2023 and Apollo Ghost now have dedicated market-specific V2 records; Teverun Fighter 11 has an unresolved V2 evidence record pending rated-power basis.
 
 ## Primary source links
 
@@ -107,7 +107,7 @@ The following first-party pages were rechecked on 2026-11-11. Findings are recor
 
 ### Migration boundary
 
-Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 19 model identities stay out of V2 until their own variant evidence is complete.
+Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 10 model identities stay out of V2 until their own variant evidence is complete.
 
 
 ### Additional exact variants migrated on 2026-11-11
@@ -116,7 +116,7 @@ Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. Thi
 - `niu-kqi3-max-us`: NIU's official US listing identifies 48V, 13Ah/608.4Wh, 450W rated/900W max, 20mph top speed and 40-mile range. The dataset stores the metric conversions (32.2km/h and 64.4km) and records the original imperial units in conditions.
 - `niu-kqi3-max-eu`: NIU's official EU listing identifies the same pack and motor values, but 25km/h top speed and 65km range. This is a separate variant; no global speed is inferred.
 
-The staged V2 dataset now contains 11 model identities and 13 variants (9 verified, 4 unresolved). The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
+The staged V2 dataset now contains 20 model identities and 23 variants (16 verified, 7 unresolved). The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
 
 
 ### KuKirin G-series exact variant evidence — 2026-11-11
@@ -124,7 +124,7 @@ The staged V2 dataset now contains 11 model identities and 13 variants (9 verifi
 - `kukirin-g2-pro-eu-current`: the KuKirin EU official listing identifies 48V/15.6Ah, 600W rated rear motor, up to 1000W peak, 45km/h and up to 58km range. The legacy catalog's 15Ah is not carried forward. V2 calculates 748.8Wh from the published nominal V × Ah and labels the value as calculated.
 - `kukirin-g3-pro-eu-open-current`: the official listing identifies 52V/23.4Ah, two 1200W rated motors, up to 65km/h in dual-motor mode and up to 80km range. The page explicitly distinguishes this open configuration from German ABE and Spain VMP versions. V2 uses market code `EU-OPEN` and calculates 1216.8Wh from the published nominal V × Ah.
 
-The staged V2 dataset now contains 11 model identities and 13 variants (9 verified, 4 unresolved). The two KuKirin records do not alter legacy production data until consumer migration is completed.
+The staged V2 dataset now contains 20 model identities and 23 variants (16 verified, 7 unresolved). The two KuKirin records do not alter legacy production data until consumer migration is completed.
 
 
 ### Apollo City Pro 2023 variant evidence — 2026-11-11
@@ -156,3 +156,31 @@ The staged V2 dataset now contains 11 model identities and 13 variants (9 verifi
 ### VSETT 9+ 48V/21Ah variant evidence — 2026-11-11
 
 - `vsett-9-plus-48v-21ah-global`: VSETT's official product page lists the 48V/21Ah battery option, dual 650W brushless motors, 53km/h maximum speed and up to 100km dual-motor mileage for that battery variant. The V2 record calculates 1008Wh from 48V × 21Ah and labels it calculated; peak power is left null because the cited page does not publish it.
+
+
+### Segway MAX G2 US/EU variants — 2026-11-11
+
+- segway-max-g2-us-051501u: Segway's official support page identifies US model 051501U, 36V/15.3Ah/551Wh, 450W nominal/1000W max, 32km/h factory default and up to 35km/h after app enablement. The V2 maximum speed is 35km/h, with the default and enablement condition explicitly stated; 70km is the theoretical range at the manufacturer's stated test speed.
+- segway-max-g2-e-051501e: Segway's official EU product page and manual identify EU model 051501E, 36V/15.3Ah/551Wh, 450W nominal/900W max, 25km/h and up to 70km theoretical range. The 900W EU maximum is not conflated with the 1000W US maximum.
+
+The current legacy segway-max-g2 row matches the US maximum only when higher speed is enabled; V2 preserves both US and EU variants separately.
+
+
+### Additional official variants — 2026-11-11
+
+- navee-n40-nkp21111-a25-global: NAVEE's official N40 manual identifies model NKP21111-A25, 37V/10Ah/370Wh, 350W rated motor, 25km/h maximum speed and approx. 40km range under its stated 75kg/25°C/15km/h test. Peak power is not published.
+- kukirin-g2-max-eu-open-current: KuKirin's official G2 Max page identifies 48V/20.8Ah, 1000W rated/1200W peak, 55km/h and up to 70km. It explicitly excludes German ABE and Spain VMP variants; Wh is calculated from nominal V × Ah.
+- kukirin-g4-eu-open-current: KuKirin's official G4 page identifies 60V/20Ah, 2000W rated rear motor, up to 70km/h and up to 75km. It says peak output is at least 2400W, not an exact figure, so peak power remains null; Wh is calculated from nominal V × Ah. Both KuKirin records are tagged EU-OPEN, not treated as universal legal configurations.
+
+
+### Apollo Ghost, Kaabo Wolf King GT and Teverun Fighter 11 evidence — 2026-11-11
+
+- apollo-ghost-us-2020: Apollo's official article identifies dual 800W rated motors with 1000W peak per motor, 52V/18.2Ah/947Wh, 55km/h, and up to 62km in the lowest speed setting. The V2 record separates rated and peak power; range conditions explicitly distinguish the 62km low-speed claim from the 40km average and max-speed range.
+- kaabo-wolf-king-gt-global-unresolved: Kaabo's official global site lists 72V/35Ah, dual 2000W motors, up to 180km range and 100+km/h. It does not specify rated-vs-peak motor basis or an exact speed ceiling; both remain null and the record is unresolved. Do not substitute the separate King GT Pro values.
+- teverun-fighter-11-60v26ah-global-unresolved: Teverun's official page distinguishes Fighter 11 (60V/26Ah, 85km/h, 80km) from Fighter 11+ (60V/35Ah, 85km/h, 120km). The 4900W figure is labelled peak but its motor basis is unclear and rated power is absent; power remains unresolved. The factory road-use speed limit of 25km/h is documented separately from the unrestricted 85km/h specification.
+
+
+### GOTRAX G4 Original and VSETT 10+ evidence — 2026-11-11
+
+- gotrax-g4-us-original-42015315951731: GOTRAX's official product page identifies the exact G4 Original variant, 36V/10.4Ah/approximately 374.4Wh, 500W average motor, 20mph top speed and up to 25 miles in Gear 1. It separately lists up to 15 miles in Gear 2 at 20mph. The record does not conflate G4 Original with G4 Pro's suspension/tire differences.
+- vsett-10-plus-60v28ah-global-unresolved: VSETT's official page lists 60V 20.8/25.6/28Ah options, dual 1400W motors and a 70–80km/h range. It does not specify rated-vs-peak basis or exact speed for the 28Ah option, and the 65/80/90km range values are not explicitly paired to battery variants. The V2 record keeps speed, power and range null and remains ineligible for projection.

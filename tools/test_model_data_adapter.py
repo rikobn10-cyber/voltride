@@ -103,6 +103,83 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
 
+    def test_navee_n40_projects_official_manual_values(self):
+        result = project_verified_variant(
+            DATA, "navee-n40", "navee-n40-nkp21111-a25-global", "Global"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 37)
+        self.assertEqual(result["legacy_fields"]["ah"], 10)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 370)
+        self.assertEqual(result["legacy_fields"]["motor"], 350)
+        self.assertEqual(result["legacy_fields"]["speed"], 25)
+        self.assertEqual(result["range_claim"]["max_km"], 40)
+
+    def test_kukirin_g2_max_and_g4_keep_eu_open_variants_explicit(self):
+        g2 = project_verified_variant(
+            DATA, "kukirin-g2-max", "kukirin-g2-max-eu-open-current", "EU-OPEN"
+        )
+        g4 = project_verified_variant(
+            DATA, "kukirin-g4", "kukirin-g4-eu-open-current", "EU-OPEN"
+        )
+        self.assertEqual(g2["legacy_fields"]["ah"], 20.8)
+        self.assertEqual(g2["legacy_fields"]["peakMotorPowerW"], 1200)
+        self.assertEqual(g4["legacy_fields"]["speed"], 70)
+        self.assertEqual(g4["legacy_fields"]["motor"], 2000)
+        self.assertIsNone(g4["legacy_fields"]["peakMotorPowerW"])
+        self.assertEqual(g4["legacy_fields"]["energyWh"], 1200)
+
+    def test_gotrax_g4_original_projects_exact_us_variant_and_gear_range(self):
+        result = project_verified_variant(
+            DATA, "gotrax-g4", "gotrax-g4-us-original-42015315951731", "US"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 36)
+        self.assertEqual(result["legacy_fields"]["ah"], 10.4)
+        self.assertEqual(result["legacy_fields"]["motor"], 500)
+        self.assertEqual(result["legacy_fields"]["speed"], 32.2)
+        self.assertEqual(result["range_claim"]["max_km"], 40.2)
+
+    def test_rejects_vsett_10_plus_until_power_speed_and_range_variant_are_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "vsett-10-plus", "vsett-10-plus-60v28ah-global-unresolved", "Global"
+            )
+
+    def test_apollo_ghost_keeps_per_motor_rated_and_peak_values_separate(self):
+        result = project_verified_variant(
+            DATA, "apollo-ghost", "apollo-ghost-us-2020", "US"
+        )
+        self.assertEqual(result["legacy_fields"]["motor"], 1600)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 2000)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 947)
+        self.assertEqual(result["legacy_fields"]["speed"], 55)
+        self.assertEqual(result["range_claim"]["max_km"], 62)
+
+    def test_rejects_kaabo_wolf_king_gt_until_power_and_speed_are_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "kaabo-wolf-king", "kaabo-wolf-king-gt-global-unresolved", "Global"
+            )
+
+    def test_rejects_teverun_fighter_11_until_rated_power_basis_is_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "teverun-fighter-11", "teverun-fighter-11-60v26ah-global-unresolved", "Global"
+            )
+
+    def test_segway_max_g2_preserves_us_eu_speed_and_peak_power(self):
+        us = project_verified_variant(
+            DATA, "segway-max-g2", "segway-max-g2-us-051501u", "US"
+        )
+        eu = project_verified_variant(
+            DATA, "segway-max-g2", "segway-max-g2-e-051501e", "EU"
+        )
+        self.assertEqual(us["legacy_fields"]["speed"], 35)
+        self.assertEqual(us["legacy_fields"]["peakMotorPowerW"], 1000)
+        self.assertEqual(eu["legacy_fields"]["speed"], 25)
+        self.assertEqual(eu["legacy_fields"]["peakMotorPowerW"], 900)
+        self.assertEqual(us["legacy_fields"]["energyWh"], 551)
+        self.assertEqual(eu["legacy_fields"]["energyWh"], 551)
+
     def test_vsett_9_plus_aggregates_two_rated_motors_without_guessing_peak(self):
         result = project_verified_variant(
             DATA, "vsett-9-plus", "vsett-9-plus-48v-21ah-global", "Global"

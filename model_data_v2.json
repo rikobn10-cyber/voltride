@@ -72,6 +72,131 @@
       ]
     },
     {
+      "id": "apollo-ghost",
+      "name": "Apollo Ghost",
+      "manufacturer": "Apollo",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "apollo-ghost-us-2020",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 18.2,
+            "energyWh": 947,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Apollo publishes a 52V 18.2Ah / 947Wh battery for the Ghost."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 800,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "per_motor"
+          },
+          "speed": {
+            "maxKmh": 55,
+            "conditions": "Apollo Ghost official article states up to 55km/h (34mph)."
+          },
+          "rangeClaim": {
+            "maxKm": 62,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 62km in lowest speed settings; Apollo also reports approx. 40km average and about 22.5km at max-speed/full-power settings. Original article test used an 80kg rider."
+          },
+          "sources": [
+            {
+              "url": "https://apolloscooters.co/blogs/news/apollo-ghost-best-adult-electric-scooter",
+              "publisher": "Apollo Scooters USA",
+              "sourceType": "other",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Apollo's official brand article identifies the Ghost, dual 800W rated motors, 1000W peak per motor, 55km/h maximum, and 52V/18.2Ah/947Wh battery.",
+              "The 62km range is the manufacturer's lowest-speed claim; the same article reports about 40km average and much less at maximum speed, so the test conditions are preserved.",
+              "Motor values remain per motor; the adapter combines to 1600W rated and 2000W peak."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "gotrax-g4",
+      "name": "GOTRAX G4",
+      "manufacturer": "GOTRAX",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "gotrax-g4-us-original-42015315951731",
+          "sku": null,
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 10.4,
+            "energyWh": 374.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "GOTRAX publishes 36V/10.4Ah and approximately 374.4Wh for the G4."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 500,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 32.2,
+            "conditions": "G4 Original US variant; 20mph (32.2km/h) in Gear 2; Gear 1 is 15.5mph (25km/h)."
+          },
+          "rangeClaim": {
+            "maxKm": 40.2,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 25 miles (40.2km) in Gear 1 at 15.5mph; GOTRAX lists up to 15 miles (24.1km) in Gear 2 at 20mph."
+          },
+          "sources": [
+            {
+              "url": "https://gotrax.com/products/g4-electric-scooter-for-adults?variant=42015315951731",
+              "publisher": "GOTRAX",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact Shopify variant 42015315951731 is the G4 Original, distinct from G4 Pro's front suspension and pneumatic front tire.",
+              "GOTRAX publishes 36V/10.4Ah/approx.374.4Wh, 500W average motor, 20mph top speed and up to 25mi range.",
+              "Gear-specific range is retained: up to 25mi at 15.5mph (Gear 1), up to 15mi at 20mph (Gear 2). Peak motor power is not published."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "gotrax-gxl-v2",
       "name": "GOTRAX GXL V2",
       "manufacturer": "GOTRAX",
@@ -138,6 +263,130 @@
               "GOTRAX's official replacement battery page explicitly lists GXL V2 compatibility and 36V 5.2Ah capacity.",
               "Speed and range are converted from the original US units; the original units remain documented in conditions.",
               "Battery energy is calculated as 36V × 5.2Ah and is labelled as calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "kaabo-wolf-king",
+      "name": "Kaabo Wolf King GT",
+      "manufacturer": "Kaabo",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "kaabo-wolf-king-gt-global-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 72,
+            "capacityAh": 35,
+            "energyWh": 2520,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 72V nominal × 35Ah; Kaabo's official page publishes voltage and Ah, not Wh for this listing."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": null,
+            "conditions": "Kaabo's official global page states 100+km/h; it does not publish an exact maximum speed for this Wolf King GT listing."
+          },
+          "rangeClaim": {
+            "maxKm": 180,
+            "basis": "manufacturer_claim",
+            "conditions": "Kaabo official global page lists up to 180km; full test conditions are not specified in the overview."
+          },
+          "sources": [
+            {
+              "url": "https://www.kaabo.com/",
+              "publisher": "Kaabo",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Kaabo's official global site lists Wolf King GT with 72V/35Ah, dual 2000W motors, 180km maximum range and 100+km/h maximum-speed wording.",
+              "The overview does not state whether 2000W x2 is rated or peak power and does not give an exact top-speed ceiling; motor ratings and speed remain null.",
+              "Do not conflate Wolf King GT with the separate King GT Pro listing."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "kukirin-g2-max",
+      "name": "KuKirin G2 Max",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g2-max-eu-open-current",
+          "market": [
+            "EU-OPEN"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 20.8,
+            "energyWh": 998.4,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 20.8Ah manufacturer-stated capacity; the official product page does not publish Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 1000,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 1200,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 55,
+            "conditions": "KuKirin G2 Max EU-OPEN version; not the German ABE or Spain VMP speed-limited version."
+          },
+          "rangeClaim": {
+            "maxKm": 70,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 70km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g2-max-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official product page identifies the current G2 Max EU-OPEN listing: 48V/20.8Ah, 1000W rated rear motor, up to 1200W peak, 55km/h and up to 70km range.",
+              "Page explicitly states this is not the German ABE or Spain VMP version; the variant is tagged EU-OPEN.",
+              "Wh is calculated from published nominal voltage × Ah and is labelled calculated."
             ]
           }
         }
@@ -267,6 +516,69 @@
       ]
     },
     {
+      "id": "kukirin-g4",
+      "name": "KuKirin G4",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g4-eu-open-current",
+          "market": [
+            "EU-OPEN"
+          ],
+          "battery": {
+            "nominalVoltageV": 60,
+            "capacityAh": 20,
+            "energyWh": 1200,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 60V nominal × 20Ah manufacturer-stated capacity; the official product page does not publish Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 2000,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 70,
+            "conditions": "KuKirin G4 EU-OPEN listing; official page distinguishes it from German ABE and Spain VMP versions."
+          },
+          "rangeClaim": {
+            "maxKm": 75,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 75km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g4-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official G4 product page identifies 60V/20Ah, 2000W rated rear motor, up to 70km/h and up to 75km range.",
+              "The page also mentions peak output of at least 2400W, not an exact peak rating; peakPowerW is therefore left null rather than asserting 2400W as exact.",
+              "Page distinguishes this open configuration from German ABE and Spain VMP versions; tagged EU-OPEN.",
+              "Wh is calculated from published nominal voltage × Ah and labelled calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "navee-g5",
       "name": "NAVEE G5",
       "manufacturer": "NAVEE",
@@ -377,6 +689,69 @@
               "Official page identifies the G5 and market-specific maximum speed, 36V/275.4Wh battery, 400W rated and 800W peak motor power, and 45km range claim.",
               "The page does not publish battery Ah; capacityAh remains null and the compatibility adapter must reject this record until the battery capacity is established.",
               "US and EU speed specifications are represented as separate variants; no global speed is inferred."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "navee-n40",
+      "name": "NAVEE N40",
+      "manufacturer": "NAVEE",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "navee-n40-nkp21111-a25-global",
+          "sku": "NKP21111-A25",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 37,
+            "capacityAh": 10,
+            "energyWh": 370,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NAVEE's official manual publishes 37V nominal, 10Ah rated capacity and 370Wh rated energy."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 350,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "NAVEE N40 official manual maximum speed."
+          },
+          "rangeClaim": {
+            "maxKm": 40,
+            "basis": "manufacturer_claim",
+            "conditions": "Approx. 40km general range; manual test conditions are no wind, 25°C, 75kg load and constant 15km/h on a flat surface."
+          },
+          "sources": [
+            {
+              "url": "https://service.naveetech.com/wp-content/uploads/2026/03/NAVEE-Electric-Scooter-N40-User-Manual.pdf",
+              "publisher": "NAVEE",
+              "sourceType": "official_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official NAVEE manual identifies model NKP21111-A25 and battery pack FS005-01.",
+              "Manual publishes 37V, 10Ah/370Wh, 350W rated motor, 25km/h max speed and approx. 40km general range.",
+              "Peak motor power is not stated and remains null."
             ]
           }
         }
@@ -499,6 +874,136 @@
       ]
     },
     {
+      "id": "segway-max-g2",
+      "name": "Segway Ninebot MAX G2",
+      "manufacturer": "Segway-Ninebot",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "segway-max-g2-us-051501u",
+          "sku": "051501U",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 15.3,
+            "energyWh": 551,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 35,
+            "conditions": "US model 051501U: factory default approx. 32km/h; up to 35km/h after enabling higher speed in the Segway-Ninebot app."
+          },
+          "rangeClaim": {
+            "maxKm": 70,
+            "basis": "manufacturer_claim",
+            "conditions": "Theoretical range at approx. 16km/h with 75kg rider and 25°C; at max speed, approx. 40km at 35km/h or 45km at 32km/h."
+          },
+          "sources": [
+            {
+              "url": "https://support.segway.com/support_product.php?segcatid=80",
+              "publisher": "Segway-Ninebot Support",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact US model code 051501U is identified on Segway's official support page.",
+              "Segway publishes 36V, 15.3Ah/551Wh, 450W nominal/1000W max, 32km/h factory default and up to 35km/h after app enablement.",
+              "The maximum speed field records the enabled maximum; default speed and activation condition are explicit in conditions."
+            ]
+          }
+        },
+        {
+          "variantId": "segway-max-g2-e-051501e",
+          "sku": "051501E",
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 15.3,
+            "energyWh": 551,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 450,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 900,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "EU MAX G2 E model 051501E; factory maximum speed."
+          },
+          "rangeClaim": {
+            "maxKm": 70,
+            "basis": "manufacturer_claim",
+            "conditions": "Theoretical range at approx. 16km/h with 75kg rider and 25°C; typical range varies with speed and conditions."
+          },
+          "sources": [
+            {
+              "url": "https://eu-en.segway.com/ekickscooter/products/max-g2-e.html",
+              "publisher": "Segway-Ninebot EU",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://assets.segway-cdn.com/User-Manuals/Multi-Language-UM/UM_Ninebot-KickScooter-MAX-G2_EN-FR-DE-IT-SP-POL-NL-PT.pdf",
+              "publisher": "Segway-Ninebot",
+              "sourceType": "official_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact EU model code 051501E is identified in Segway's official multilingual manual.",
+              "The EU product page lists 36V/551Wh, 450W nominal/900W max, 25km/h and 70km theoretical range; the manual supplies 15.3Ah and model-code detail.",
+              "EU speed and peak power are kept separate from the US 051501U configuration."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "segway-max-g30",
       "name": "Segway Ninebot MAX G30 family",
       "manufacturer": "Segway-Ninebot",
@@ -555,6 +1060,130 @@
               "Official page distinguishes G30 (25km/h) and G30P (30km/h); the current catalog identity does not preserve the suffix needed to choose one.",
               "Official page publishes 36V and 551Wh but not Ah; capacityAh remains null.",
               "Do not use the current catalog's 30km/h value as a universal G30 specification."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "teverun-fighter-11",
+      "name": "Teverun Fighter 11",
+      "manufacturer": "Teverun",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "teverun-fighter-11-60v26ah-global-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 60,
+            "capacityAh": 26,
+            "energyWh": 1560,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 60V nominal × 26Ah; official product page does not publish Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 85,
+            "conditions": "Teverun official Fighter 11 specification table; unrestricted maximum, distinct from factory road-use speed limit."
+          },
+          "rangeClaim": {
+            "maxKm": 80,
+            "basis": "manufacturer_claim",
+            "conditions": "Official Fighter 11 (not 11+) range claim; page distinguishes the 26Ah base model from the 35Ah 11+."
+          },
+          "sources": [
+            {
+              "url": "https://teverun.com/product/fighter-eleven-plus/",
+              "publisher": "Teverun",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official table distinguishes Fighter 11 (60V/26Ah, 85km/h, 80km) from Fighter 11+ (60V/35Ah, 85km/h, 120km).",
+              "The table lists 4900W peak power but does not establish rated power or whether the figure is per-motor or combined; power fields remain unresolved rather than using the legacy 5000W as rated.",
+              "Teverun's after-sale guide states factory speed is limited to 25km/h; 85km/h is the unrestricted specification and must not be presented as road-use default."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "vsett-10-plus",
+      "name": "VSETT 10+",
+      "manufacturer": "VSETT",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "vsett-10-plus-60v28ah-global-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 60,
+            "capacityAh": 28,
+            "energyWh": 1680,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 60V nominal × 28Ah; VSETT publishes the battery voltage and Ah options, not Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": null,
+            "conditions": "Official page gives a 70–80km/h range across configurations; exact speed for the 28Ah option is not pinned."
+          },
+          "rangeClaim": {
+            "maxKm": null,
+            "basis": "manufacturer_claim",
+            "conditions": "Official page lists 65/80/90km across 20.8/25.6/28Ah variants in turbo dual-motor mode, and up to 160km in Eco; exact battery-to-range pairing is not explicitly tabulated."
+          },
+          "sources": [
+            {
+              "url": "https://vsettscooters.com/pages/vsett-10-plus",
+              "publisher": "VSETT Official",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "VSETT's official page lists 60V 20.8Ah / 25.6Ah / 28Ah battery options and dual 1400W motors.",
+              "The page does not identify whether 1400W is rated or peak and gives a 70–80km/h speed range across configurations; rated power and exact speed remain null.",
+              "The 65/80/90km ranges are listed alongside battery options but the page does not explicitly map each range to each capacity; rangeClaim remains null pending exact pairing."
             ]
           }
         }
