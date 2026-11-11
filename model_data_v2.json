@@ -2,6 +2,76 @@
   "schemaVersion": 2,
   "models": [
     {
+      "id": "apollo-city-pro",
+      "name": "Apollo City Pro",
+      "manufacturer": "Apollo",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "apollo-city-pro-2023-ca",
+          "market": [
+            "CA"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 20,
+            "energyWh": 960,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 20Ah battery assembly specification; cited manufacturer sources do not publish pack Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 500,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "per_motor"
+          },
+          "speed": {
+            "maxKmh": 51,
+            "conditions": "Apollo City 2023 Pro technical specification; Sport mode maximum."
+          },
+          "rangeClaim": {
+            "maxKm": null,
+            "basis": "manufacturer_claim",
+            "conditions": "A City Pro-specific range claim was not present in the cited technical specification; no value inferred."
+          },
+          "sources": [
+            {
+              "url": "https://apolloscooters.ca/pages/tech-specs-apollo-city-2023-pro",
+              "publisher": "Apollo Scooters Canada",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "motors",
+                "speed"
+              ],
+              "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://apolloscooters.co/products/apollo-city-city-pro-2023-battery-assembly",
+              "publisher": "Apollo Scooters",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "The technical specification page identifies Apollo City 2023 Pro as a dual-motor model with 500W nominal and 1000W peak per motor, up to 51km/h.",
+              "Apollo's official battery assembly page confirms a 48V 20Ah pack and lists compatibility with Apollo City Pro 2023-24.",
+              "Wh is calculated from nominal voltage × Ah; no City Pro range figure was inferred."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "kukirin-g2-pro",
       "name": "KuKirin G2 Pro",
       "manufacturer": "KuKirin",
