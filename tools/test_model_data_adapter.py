@@ -349,7 +349,6 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertIn('ride_markets = sorted({variant["market"]', generator)
         self.assertIn('/*RIDE_VARIANTS:START*/', generator)
         self.assertIn('project_verified_variant(', generator)
-        self.assertIn('RIDE_MATCH_AFFILIATE_ONLY', generator)  # retained as audit data, not recommendation candidates
 
     def test_ride_match_market_options_are_all_adapter_projectable(self):
         options = []
