@@ -92,7 +92,9 @@ function fetchWithTimeout(req, ms) {
 async function matchPage(cache, req) {
   const url = new URL(req.url);
   const path = url.pathname;
-  const tries = [req, new URL(path, self.registration.scope).href];
+  // Match absolute URL strings rather than the original navigation Request.
+  // Some browsers reject Cache.match() when passed a mode="navigate" Request.
+  const tries = [new URL(path, self.registration.scope).href];
   if (path === "/" || path.endsWith("/")) {
     tries.push(new URL("index.html", new URL(path, self.registration.scope)).href);
   } else if (!/\.[a-z0-9]+$/i.test(path)) {
