@@ -102,6 +102,18 @@ try {
   console.log("PWA cache probe", JSON.stringify(cacheProbe));
   assert.equal(cacheProbe.hasOfflineFallback, true, "offline fallback must exist in the active service worker cache");
   await context.setOffline(true);
+  const navigationProbe = await page.evaluate(async (url) => {
+    const registration = await navigator.serviceWorker.ready;
+    return await new Promise((resolve, reject) => {
+      const channel = new MessageChannel();
+      const timer = setTimeout(() => reject(new Error("offline navigation probe timed out")), 8000);
+      channel.port1.onmessage = event => { clearTimeout(timer); resolve(event.data); };
+      registration.active.postMessage({ type: "TEST_NAVIGATE", url }, [channel.port2]);
+    });
+  }, base + "/__voltride_offline_probe_20261111__/pwa-offline-test?probe=1");
+  console.log("PWA direct offline navigation probe", JSON.stringify(navigationProbe));
+  assert.equal(navigationProbe.status, 200, "service worker navigation fallback must return HTTP 200");
+  assert.equal(navigationProbe.offlineText, true, "service worker navigation fallback must return offline page content");
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 15000 });
   assert.ok(ride?.ok(), "cached Ride Match clean URL must load offline");
   await page.locator("#rideMarket").waitFor({ state: "visible", timeout: 5000 });
