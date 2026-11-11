@@ -267,6 +267,122 @@
       ]
     },
     {
+      "id": "navee-g5",
+      "name": "NAVEE G5",
+      "manufacturer": "NAVEE",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "navee-g5-us-current",
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": null,
+            "energyWh": 275.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NAVEE publishes 36V and 275.4Wh; Ah is not stated on the cited official page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 400,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 800,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 32,
+            "conditions": "NAVEE US market specification; maximum speed for the regional configuration."
+          },
+          "rangeClaim": {
+            "maxKm": 45,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 45km manufacturer claim at 15km/h."
+          },
+          "sources": [
+            {
+              "url": "https://www.naveetech.com/navee-g5/",
+              "publisher": "NAVEE",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official page identifies the G5 and market-specific maximum speed, 36V/275.4Wh battery, 400W rated and 800W peak motor power, and 45km range claim.",
+              "The page does not publish battery Ah; capacityAh remains null and the compatibility adapter must reject this record until the battery capacity is established.",
+              "US and EU speed specifications are represented as separate variants; no global speed is inferred."
+            ]
+          }
+        },
+        {
+          "variantId": "navee-g5-eu-current",
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": null,
+            "energyWh": 275.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "NAVEE publishes 36V and 275.4Wh; Ah is not stated on the cited official page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 400,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 800,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "NAVEE EU market specification; maximum speed for the regional configuration."
+          },
+          "rangeClaim": {
+            "maxKm": 45,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 45km manufacturer claim at 15km/h."
+          },
+          "sources": [
+            {
+              "url": "https://www.naveetech.com/navee-g5/",
+              "publisher": "NAVEE",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official page identifies the G5 and market-specific maximum speed, 36V/275.4Wh battery, 400W rated and 800W peak motor power, and 45km range claim.",
+              "The page does not publish battery Ah; capacityAh remains null and the compatibility adapter must reject this record until the battery capacity is established.",
+              "US and EU speed specifications are represented as separate variants; no global speed is inferred."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "niu-kqi3-max",
       "name": "NIU KQi3 Max",
       "manufacturer": "NIU",
