@@ -1,4 +1,68 @@
 {
   "schemaVersion": 2,
-  "models": []
+  "models": [
+    {
+      "id": "xiaomi-3-lite",
+      "name": "Xiaomi Scooter 3 Lite",
+      "manufacturer": "Xiaomi",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "xiaomi-3-lite-mjddhbc03zm-global",
+          "sku": "MJDDHBC03ZM",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 5.2,
+            "energyWh": 187,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Xiaomi publishes 36V nominal, 5.2Ah rated capacity and 187Wh rated energy."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 300,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 25,
+            "conditions": "Manufacturer maximum speed; mode-specific maximum."
+          },
+          "rangeClaim": {
+            "maxKm": 20,
+            "basis": "manufacturer_claim",
+            "conditions": "Xiaomi maximum range claim; test conditions are not fully specified on the cited specifications page."
+          },
+          "sources": [
+            {
+              "url": "https://www.mi.com/global/product/xiaomi-electric-scooter-3-lite/specs/",
+              "publisher": "Xiaomi",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact manufacturer model code MJDDHBC03ZM is identified.",
+              "Rated motor power is 300W; peak power is not published on the cited page and remains null.",
+              "Manufacturer-published battery energy is retained as 187Wh; it is not recomputed from rounded nominal values."
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }
