@@ -48,7 +48,7 @@ const models = JSON.parse(evaluate("JSON.stringify(RIDE_MATCH_MODELS)"));
 assert.deepEqual(markets, [...new Set(markets)].sort(), "market list must be unique and sorted");
 assert.ok(markets.includes("MA"), "Morocco market must be available when verified variants exist");
 assert.equal(element("rideMarket").children.length, markets.length, "market selector must expose every generated market");
-assert.equal(models.length, 19, "only model identities with projectable verified variants should be generated");
+assert.equal(models.length, 20, "only model identities with projectable verified variants should be generated");
 assert.ok(models.every(model => model.variants.length > 0));
 
 for (const model of models) {
@@ -114,7 +114,7 @@ const expectedVerifiedIds = v2.models
   ))
   .map(model => model.id);
 assert.deepEqual(models.map(model => model.id), expectedVerifiedIds, "Ride Match model identities must follow canonical V2 order and verification status");
-assert.equal(models.reduce((n, model) => n + model.variants.length, 0), 22, "all verified market-specific choices must be generated");
+assert.equal(models.reduce((n, model) => n + model.variants.length, 0), 23, "all verified market-specific choices must be generated");
 
 assert.equal(evaluate("rideMatchLang"), "fr", "Ride Match should inherit the saved site language");
 assert.equal(evaluate('rideMatchT("speed")'), "Vitesse");
