@@ -177,3 +177,35 @@ Production consumers (`build_models.py`, static model pages, homepage catalog an
 - When a variant is selected, the calculator uses its combined rated motor power and preserves manufacturer-published Wh versus calculated Wh basis. Manual edits clear the selected-variant provenance and recalculate energy from the entered voltage and Ah.
 - Unresolved V2 records are excluded from the selector. The catalog card display, comparison table, generated model-page specifications and Ride Match still require their own staged migration; they are not switched by this calculator-only phase.
 - No production merge or deployment has been made for this phase; CI and preview review are required.
+
+## 2026-11-11 — post-merge update: staged V2 rollout and Segway US variant
+
+This section supersedes earlier roadmap statements above that said the calculator, catalog, comparison, Ride Match and generated model pages had not yet migrated to V2. Those statements describe the pre-PR #63–#66 state and are retained only as historical context.
+
+### Merged implementation
+- PR #63: calculator uses explicit market/variant selection from projectable V2 records.
+- PR #64: catalog and comparison consume documented V2 specifications.
+- PR #65: Ride Match uses documented market variants.
+- PR #66: generated model pages consume V2 variant data.
+- PR #67: added the separately verified US Segway Ninebot E2 Plus model 051402U. The French E2 Plus E II remains unresolved; US battery capacity is not copied to the French variant.
+- PR #67 merged to `main` as `3ca4030e02aba34598e57546ff5c3d9ca1897eb2`. Its pre-merge CI passed all nine checks, including generated-file reproducibility and axe-core accessibility (81 pages, zero blocking violations and zero warnings). Cloudflare preview deployment succeeded.
+
+### Current V2 inventory on main
+- 30 model identities, 37 market/generation-specific variant records.
+- 22 `verified_variant` records across 20 model identities.
+- 15 `variant_unresolved` records remain non-projectable.
+- 10 model identities still have no high-confidence verified variant. This includes the unresolved French E2 Plus E II; the new US 051402U variant is verified.
+- The calculator exposes 23 market choices across 20 identities; the Ecoxtrem M41 verified variant is offered in both MA and EU markets.
+- The V2 migration is staged, not a claim that every legacy catalog specification is manufacturer-verified. Keep unresolved variants excluded from trusted recommendation/scoring paths. `models.json` remains part of the legacy identity/catalog compatibility layer; do not delete it or assume every legacy value is verified.
+
+### Post-merge verification status
+- The PR #67 branch passed all required checks and Cloudflare preview deployment.
+- Main-branch post-merge Site checks and the post-deploy live-site workflow were still running at the time of this update. Do not call the production release fully verified until both workflows finish successfully.
+- Production URL remains https://voltride-4qj.pages.dev/.
+
+### Next work
+1. Finish main-branch post-merge CI, Cloudflare deployment and live-site verification for commit `3ca4030`.
+2. Continue source audit for the 10 identities without a high-confidence verified variant and the 15 unresolved variant records; correct only against exact manufacturer generation/SKU/market evidence.
+3. Verify the five AliExpress short-link destinations and exact regional SKUs before enabling any affiliate destination; keep unverified destinations out of direct purchase flows.
+4. Run live functional smoke tests for calculator variant selection, catalog, comparison, Ride Match, model pages, language switching, consent/analytics and PWA update/offline behavior.
+5. Verify GA4 custom event receipt on production after explicit consent and review Search Console indexing/canonical status. Historical preview-host analytics must remain untouched.
