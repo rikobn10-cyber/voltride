@@ -157,9 +157,9 @@ The default display currency is now selected from the browser's regional locale,
 
 ## 2026-11-11 — canonical V2 identity audit update
 
-- The staged `model_data_v2.json` now represents all 30 identities in the legacy `models.json` catalog, with 36 market/generation-specific variant records.
-- Current staged status: 21 high-confidence `verified_variant` records and 15 unresolved/non-projectable records. Nineteen model identities have at least one high-confidence verified variant; eleven do not yet have one.
-- Models without a high-confidence verified variant: `kaabo-wolf-king`, `navee-g5`, `segway-max-g30`, `teverun-fighter-11`, `vsett-10-plus`, `vsett-8-plus`, `xiaomi-4-pro`, `segway-e2-plus`, `dualtron-mini`, `dualtron-victor`, `nami-burn-e2-max`.
+- The staged `model_data_v2.json` now represents all 30 identities in the legacy `models.json` catalog, with 37 market/generation-specific variant records.
+- Current staged status: 22 high-confidence `verified_variant` records and 15 unresolved/non-projectable records. Twenty model identities have at least one high-confidence verified variant; ten do not yet have one.
+- Models without a high-confidence verified variant: `kaabo-wolf-king`, `navee-g5`, `segway-max-g30`, `teverun-fighter-11`, `vsett-10-plus`, `vsett-8-plus`, `xiaomi-4-pro`, `dualtron-mini`, `dualtron-victor`, `nami-burn-e2-max`.
 - The audit matrix now records primary-source findings and explicit evidence limits for every legacy model identity. A variant is not projectable merely because a source record exists; the adapter still requires exact model ID, variant ID, market, complete battery fields, and rated motor power.
 - PR #61 (Ecoxtrem Bison GT and M41 exact variants) was merged to main as `edc720f55159fd1ee3342c7713c35067c4c39c95`. Main-branch Site checks and Live site check both passed after deployment.
 - PR #62 stages the full 30-identity V2 inventory, adds Xiaomi Essential and Segway E2 Plus evidence, records the remaining Dualtron/NAMI findings, and adds adapter regression tests. No production consumer or legacy catalog change is included. Full CI is required before merge.
@@ -189,6 +189,7 @@ This section supersedes earlier roadmap statements above that said the calculato
 - PR #66: generated model pages consume V2 variant data.
 - PR #67: added the separately verified US Segway Ninebot E2 Plus model 051402U. The French E2 Plus E II remains unresolved; US battery capacity is not copied to the French variant.
 - PR #67 merged to `main` as `3ca4030e02aba34598e57546ff5c3d9ca1897eb2`. Its pre-merge CI passed all nine checks, including generated-file reproducibility and axe-core accessibility (81 pages, zero blocking violations and zero warnings). Cloudflare preview deployment succeeded.
+- PR #69 added a Playwright live-browser smoke workflow for the calculator and Ride Match. It passed against `https://voltride-4qj.pages.dev` before merge and was squash-merged as `5375b8967d7cc82a2a9c37789f0ceb00523077bf`.
 
 ### Current V2 inventory on main
 - 30 model identities, 37 market/generation-specific variant records.
@@ -209,3 +210,44 @@ This section supersedes earlier roadmap statements above that said the calculato
 3. Verify the five AliExpress short-link destinations and exact regional SKUs before enabling any affiliate destination; keep unverified destinations out of direct purchase flows.
 4. Run live functional smoke tests for calculator variant selection, catalog, comparison, Ride Match, model pages, language switching, consent/analytics and PWA update/offline behavior.
 5. Verify GA4 custom event receipt on production after explicit consent and review Search Console indexing/canonical status. Historical preview-host analytics must remain untouched.
+
+
+## 2026-11-11 — live browser smoke coverage and post-merge verification
+
+### PR #69 merged
+- Added `tools/live-smoke.mjs` and `.github/workflows/live-functional-smoke.yml`.
+- The Playwright test ran against the production Pages URL before merge and passed:
+  - Calculator returned a positive range estimate (32.1 km) and battery energy (461 Wh) for the default test state.
+  - Ride Match completed an EU-market flow and rendered three recommendations.
+  - Language switch to English preserved the recommendation results and document direction.
+  - Recommendation links used ordinary AliExpress marketplace search URLs; no unverified `s.click.aliexpress.com` URL was emitted.
+  - No uncaught browser page errors were observed.
+- PR #69 was merged to `main` as `5375b8967d7cc82a2a9c37789f0ceb00523077bf`. It adds tests/workflow only; no production application specifications, affiliate destinations, analytics settings or ad code were changed.
+
+### Current canonical V2 inventory (recounted from main)
+- 30 model identities; 37 variant records.
+- 22 high-confidence `verified_variant` records across 20 identities.
+- 15 unresolved/non-projectable variant records.
+- 10 identities still have no high-confidence verified variant: `kaabo-wolf-king`, `navee-g5`, `segway-max-g30`, `teverun-fighter-11`, `vsett-10-plus`, `vsett-8-plus`, `xiaomi-4-pro`, `dualtron-mini`, `dualtron-victor`, `nami-burn-e2-max`.
+- The French E2 Plus E II remains unresolved, but the separate US E2 Plus SKU `051402U` is verified; therefore the E2 Plus identity is no longer in the list of identities without a verified variant.
+
+### Post-merge checks
+- PR #69 pre-merge Site checks: all nine jobs passed; axe-core checked 81 pages with zero blocking violations and zero warnings.
+- PR #69 pre-merge Live functional smoke: passed.
+- Main post-merge Site checks (run `43017674045`) and Live site check (run `43017673696`) for commit `5375b8967d7cc82a2a9c37789f0ceb00523077bf` both completed successfully. All nine Site checks passed; the live check confirmed key routes and every sitemap URL returned HTTP 200, and axe-core checked 81 live pages with zero blocking violations and zero warnings.
+
+### Remaining audit boundaries
+- Manufacturer-source findings for unresolved variants remain documented in `CANONICAL_MODEL_SOURCE_AUDIT_MATRIX_2026-11-10.md`. No uncertain specification was promoted during this pass.
+- NAVEE G5's official page confirms 36V/275.4Wh, 400W rated/800W peak, 32km/h US and 25km/h EU, and a 45km claim at 15km/h; it does not publish Ah, so the two regional V2 records remain non-projectable.
+- Segway's official MAX page distinguishes G30 (25km/h) from G30P (30km/h), with 36V/551Wh and 350W nominal motor; the family catalog identity still lacks the suffix and battery Ah, so it remains unresolved.
+- Teverun's official Fighter 11 page distinguishes the 60V/26Ah Fighter 11 from the 60V/35Ah 11+, with 85km/h unrestricted specification, 80km/120km range claims and a 25km/h factory road-use limit. Rated motor power and the exact interpretation of the 4900W peak figure remain unresolved.
+- VSETT 10+ still has multiple battery options and a 70–80km/h speed range; VSETT 8+ lists "48V 16A" rather than unambiguous Ah and does not clarify rated-vs-peak motor basis. Both remain non-projectable.
+- Dualtron Mini and Victor source pages identify battery options and maximum motor output, but do not publish rated motor power; the records remain blocked from projection.
+- Five AliExpress short-link destinations remain unverified and continue to fall back to ordinary marketplace search.
+
+### Next work
+1. Continue exact-SKU source verification for the unresolved variants; the main post-merge CI and live-site checks are now complete and passed.
+2. Continue exact-SKU source verification for the 10 identities and 15 unresolved variant records; only change canonical values where primary evidence resolves generation, market and power basis.
+3. Perform a separate production measurement check for GA4 custom event receipt after explicit consent, and a fresh Search Console indexing/canonical review. Existing CI proves consent code behavior, not receipt of live GA4 events.
+4. Complete the remaining live-path review for catalog, compare, generated model pages, locale changes, PWA install/update/offline, internal/external links and mobile layout.
+5. Produce the final readiness report before any advertising strategy or implementation is discussed.
