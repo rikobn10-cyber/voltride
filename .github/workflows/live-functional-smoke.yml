@@ -28,6 +28,7 @@ jobs:
     timeout-minutes: 15
     env:
       LIVE: https://voltride-4qj.pages.dev
+      PREVIEW: https://audit-live-pwa-production-sm.voltride-4qj.pages.dev
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -40,4 +41,4 @@ jobs:
       - name: Exercise live calculator and Ride Match
         run: node tools/live-smoke.mjs "$LIVE"
       - name: Verify production PWA and offline behavior
-        run: node tools/live-pwa-smoke.mjs "$LIVE"
+        run: node tools/live-pwa-smoke.mjs "$PREVIEW"
