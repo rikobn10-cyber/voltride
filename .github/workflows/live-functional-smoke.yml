@@ -51,5 +51,20 @@ jobs:
           else
             echo "PREVIEW=$LIVE" >> "$GITHUB_ENV"
           fi
+      - name: Wait for Cloudflare to deploy this exact service worker
+        run: |
+          expected="$(sha256sum sw.js | awk '{print $1}')"
+          echo "Expected service worker SHA-256: $expected"
+          for i in $(seq 1 30); do
+            actual="$(curl -fsS "$PREVIEW/sw.js?cb=$RANDOM" | sha256sum | awk '{print $1}' || true)"
+            echo "Preview attempt $i SHA-256: $actual"
+            if [ -n "$actual" ] && [ "$actual" = "$expected" ]; then
+              echo "Cloudflare preview matches the checked-out service worker."
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "::error::Cloudflare preview did not publish the checked-out sw.js within 10 minutes"
+          exit 1
       - name: Verify production PWA and offline behavior
         run: node tools/live-pwa-smoke.mjs "$PREVIEW"
