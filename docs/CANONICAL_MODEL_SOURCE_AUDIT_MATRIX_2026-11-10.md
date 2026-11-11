@@ -108,3 +108,12 @@ The following first-party pages were rechecked on 2026-11-11. Findings are recor
 ### Migration boundary
 
 Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 29 records stay out of V2 until their own variant evidence is complete.
+
+
+### Additional exact variants migrated on 2026-11-11
+
+- `xiaomi-pro-2-ddhbc11neb-es`: Xiaomi Spain identifies product code DDHBC11NEB, 37V, 12.4Ah/446Wh, 300W rated/600W peak, 25km/h and 45km manufacturer range claim. The staged V2 record uses the manufacturer-published Wh value and keeps the legacy 36V/12.8Ah discrepancy visible rather than carrying it forward.
+- `niu-kqi3-max-us`: NIU's official US listing identifies 48V, 13Ah/608.4Wh, 450W rated/900W max, 20mph top speed and 40-mile range. The dataset stores the metric conversions (32.2km/h and 64.4km) and records the original imperial units in conditions.
+- `niu-kqi3-max-eu`: NIU's official EU listing identifies the same pack and motor values, but 25km/h top speed and 65km range. This is a separate variant; no global speed is inferred.
+
+The staged V2 dataset now contains 3 model identities and 4 verified variants. The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
