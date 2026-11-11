@@ -10,5 +10,5 @@ assert.ok(precache.includes("offline.html"), "offline fallback must be precached
 assert.equal(new Set(precache).size, precache.length, "precache entries must be unique");
 assert.match(sw, /const VERSION = "voltride-v20";/, "cache version must change when the precache changes");
 assert.match(sw, /if \(req\.mode === "navigate"\)/, "navigation requests must use the offline-aware strategy");
-assert.match(sw, /new URL\("offline\\.html", self\\.registration\\.scope\)/, "offline fallback must use an absolute scope URL");
+assert.match(sw, /new URL\("offline\.html", self\.registration\.scope\)/, "offline fallback must use an absolute scope URL");
 console.log("PWA tests passed: Ride Match precache, offline fallback, unique entries and cache version.");
