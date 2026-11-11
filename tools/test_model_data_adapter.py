@@ -327,5 +327,45 @@ class ModelDataAdapterTests(unittest.TestCase):
             project_verified_variant(fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "UK")
 
 
+    def test_ride_match_requires_an_explicit_market_before_recommendations(self):
+        html = (ROOT / "ride-match.html").read_text(encoding="utf-8")
+        self.assertIn('id="rideMarket"', html)
+        self.assertIn('answers.market = RIDE_MATCH_MARKETS.includes(event.target.value)', html)
+        self.assertIn('if (!answers.market) return [];', html)
+        self.assertIn('function getEligibleScooters()', html)
+
+    def test_ride_match_uses_only_verified_v2_variants(self):
+        html = (ROOT / "ride-match.html").read_text(encoding="utf-8")
+        self.assertIn("RIDE_MATCH_MODELS.flatMap", html)
+        self.assertIn("variant.energyWh", html)
+        self.assertIn("variant.sourceUrl", html)
+        self.assertNotIn("const uniqueScooters", html)
+        self.assertNotIn("uniqueScooters.slice", html)
+        self.assertNotIn("const eligibleScooters = uniqueScooters", html)
+
+    def test_ride_match_generator_projects_only_verified_market_variants(self):
+        generator = (ROOT / "build_models.py").read_text(encoding="utf-8")
+        self.assertIn('variants = variant_options.get(model["id"], [])', generator)
+        self.assertIn('ride_markets = sorted({variant["market"]', generator)
+        self.assertIn('/*RIDE_VARIANTS:START*/', generator)
+        self.assertIn('project_verified_variant(', generator)
+
+    def test_ride_match_market_options_are_all_adapter_projectable(self):
+        options = []
+        for model in DATA["models"]:
+            for variant in model.get("variants", []):
+                if variant.get("verification", {}).get("status") != "verified_variant":
+                    continue
+                if variant.get("verification", {}).get("confidence") != "high":
+                    continue
+                for market in variant.get("market", []):
+                    projected = project_verified_variant(DATA, model["id"], variant["variantId"], market)
+                    fields = projected["legacy_fields"]
+                    options.append((model["id"], variant["variantId"], market, fields["energyWh"]))
+        self.assertGreater(len(options), 0)
+        self.assertTrue(all(row[3] > 0 for row in options))
+        self.assertEqual(len(options), len(set((row[0], row[1], row[2]) for row in options)))
+
+
 if __name__ == "__main__":
     unittest.main()
