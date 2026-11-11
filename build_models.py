@@ -525,7 +525,7 @@ def main():
     elif new_analytics not in ride_html:
         raise ValueError("Ride Match analytics template was not found")
     write(ride_path, ride_html)
-    print("Ride Match scooters:", len(ride_scooters))
+    print("Ride Match verified models:", len(ride_models))
 
     # service worker precache + automatic cache version
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
