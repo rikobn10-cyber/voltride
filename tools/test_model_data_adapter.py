@@ -103,6 +103,12 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
 
+    def test_rejects_navee_g5_until_battery_capacity_is_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "navee-g5", "navee-g5-us-current", "US"
+            )
+
     def test_rejects_xiaomi_4_pro_until_nominal_voltage_is_resolved(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(
