@@ -10,7 +10,7 @@ This document tracks manufacturer-source verification for the 30 records in `mod
 
 | Catalog ID | Current catalog values (V / Ah / motor W / km/h) | Manufacturer evidence found | Audit disposition |
 |---|---|---|---|
-| `xiaomi-pro-2` | 36 / 12.8 / 300 / 25 | Xiaomi Spain lists model DDHBC11NEB, 37V nominal, 12.4Ah / 446Wh, 300W rated / 600W max, 25 km/h. | **Flag battery semantics/capacity.** Current 36V × 12.8Ah is not the manufacturer-published nominal pack figure. Retain rated motor as 300W; do not conflate with 600W peak. |
+| `xiaomi-pro-2` | 36 / 12.8 / 300 / 25 | Xiaomi Hong Kong lists model DDHBC11NEB, 37V nominal, 12.8Ah / 474Wh, 300W rated / 600W max, 25 km/h. | **Flag battery semantics/capacity.** Legacy 36V nominal conflicts with the manufacturer-published 37V nominal. Retain rated motor as 300W; do not conflate with 600W peak. |
 | `xiaomi-essential` | 36 / 5.2 / 250 / 20 | Xiaomi Spain lists DDHBC05NEB, 36V, 5.1Ah / 183Wh, 250W rated / 500W max, 20 km/h. | **Minor capacity mismatch.** Confirm whether catalog 5.2Ah is a rounded or alternate pack; official published capacity is 5.1Ah. |
 | `segway-e2-plus` | 21.6 / 10.2 / 300 / 25 | Segway E2 Plus E II regional product/manual data lists 21.6V, 220Wh / 10.2Ah, 300W rated / 500W max, 25 km/h. | **Core values align for E2 Plus E II.** Add explicit generation/market identity; do not assume all E2 Plus generations share this exact pack. |
 | `apollo-city-pro` | 52 / 20 / 1000 / 51 | Apollo's City Pro 2023 specification page identifies dual motors at 500W nominal each / 1000W peak each, 51 km/h. Apollo's battery replacement listing identifies 48V 20Ah for City/City Pro 2023–24. | **Material variant/semantics issue.** Catalog's 52V conflicts with the documented 48V pack. Motor field 1000W may be total nominal (2 × 500W), not peak; exact field meaning must be resolved before correction. |
@@ -107,16 +107,16 @@ The following first-party pages were rechecked on 2026-11-11. Findings are recor
 
 ### Migration boundary
 
-Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 29 records stay out of V2 until their own variant evidence is complete.
+Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 23 model identities stay out of V2 until their own variant evidence is complete.
 
 
 ### Additional exact variants migrated on 2026-11-11
 
-- `xiaomi-pro-2-ddhbc11neb-es`: Xiaomi Spain identifies product code DDHBC11NEB, 37V, 12.8Ah/474Wh, 300W rated/600W peak, 25km/h and 45km manufacturer range claim. The staged V2 record uses the manufacturer-published Wh value and keeps the legacy 36V/12.8Ah discrepancy visible rather than carrying it forward.
+- `xiaomi-pro-2-ddhbc11neb-hk`: Xiaomi Hong Kong identifies product code DDHBC11NEB, 37V, 12.8Ah/474Wh, 300W rated/600W peak, 25km/h and 45km manufacturer range claim. The staged V2 record uses the manufacturer-published Wh value and keeps the legacy 36V/12.8Ah discrepancy visible rather than carrying it forward.
 - `niu-kqi3-max-us`: NIU's official US listing identifies 48V, 13Ah/608.4Wh, 450W rated/900W max, 20mph top speed and 40-mile range. The dataset stores the metric conversions (32.2km/h and 64.4km) and records the original imperial units in conditions.
 - `niu-kqi3-max-eu`: NIU's official EU listing identifies the same pack and motor values, but 25km/h top speed and 65km range. This is a separate variant; no global speed is inferred.
 
-The staged V2 dataset now contains 3 model identities and 4 verified variants. The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
+The staged V2 dataset now contains 7 model identities and 8 verified variants. The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
 
 
 ### KuKirin G-series exact variant evidence — 2026-11-11
@@ -124,7 +124,7 @@ The staged V2 dataset now contains 3 model identities and 4 verified variants. T
 - `kukirin-g2-pro-eu-current`: the KuKirin EU official listing identifies 48V/15.6Ah, 600W rated rear motor, up to 1000W peak, 45km/h and up to 58km range. The legacy catalog's 15Ah is not carried forward. V2 calculates 748.8Wh from the published nominal V × Ah and labels the value as calculated.
 - `kukirin-g3-pro-eu-open-current`: the official listing identifies 52V/23.4Ah, two 1200W rated motors, up to 65km/h in dual-motor mode and up to 80km range. The page explicitly distinguishes this open configuration from German ABE and Spain VMP versions. V2 uses market code `EU-OPEN` and calculates 1216.8Wh from the published nominal V × Ah.
 
-The staged V2 dataset now contains 5 model identities and 6 verified variants. The two KuKirin records do not alter legacy production data until consumer migration is completed.
+The staged V2 dataset now contains 7 model identities and 8 verified variants. The two KuKirin records do not alter legacy production data until consumer migration is completed.
 
 
 ### Apollo City Pro 2023 variant evidence — 2026-11-11
