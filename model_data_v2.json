@@ -707,10 +707,10 @@
           ],
           "battery": {
             "nominalVoltageV": 36,
-            "capacityAh": null,
+            "capacityAh": 7.65,
             "energyWh": 275.4,
             "energyWhBasis": "manufacturer_published",
-            "energyWhSourceNote": "NAVEE publishes 36V and 275.4Wh; Ah is not stated on the cited official page."
+            "energyWhSourceNote": "NAVEE France publishes a 36V 275.4Wh pack and 7.65Ah cell capacity for certified model G5 EU."
           },
           "motors": {
             "count": 1,
@@ -741,6 +741,19 @@
                 "rangeClaim"
               ],
               "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://naveetech.fr/en/products/navee-g5",
+              "publisher": "NAVEE France",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
             }
           ],
           "verification": {
@@ -748,9 +761,9 @@
             "confidence": "medium",
             "checkedAt": "2026-11-11",
             "notes": [
-              "Official page identifies the G5 and market-specific maximum speed, 36V/275.4Wh battery, 400W rated and 800W peak motor power, and 45km range claim.",
-              "The page does not publish battery Ah; capacityAh remains null and the compatibility adapter must reject this record until the battery capacity is established.",
-              "US and EU speed specifications are represented as separate variants; no global speed is inferred."
+              "NAVEE France's official regional page identifies the certified model as G5 EU and publishes 36V, 275.4Wh, 10s3p and 7.65Ah cell capacity; the EU battery-capacity evidence is now recorded.",
+              "The regional page lists 400W rated / 800W maximum power and EU factory speed settings up to 25km/h. It reports 37km at 20km/h and 29km at 25km/h, with a separate 45km maximum claim at 15km/h.",
+              "Keep this EU record unresolved pending confirmation of the exact retail SKU and final reconciliation of the regional range claims with the exact market configuration. The US variant remains separate and unresolved; no cross-market inference is made."
             ]
           }
         }
