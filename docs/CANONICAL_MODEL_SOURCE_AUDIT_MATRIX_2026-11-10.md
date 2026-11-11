@@ -107,7 +107,7 @@ The following first-party pages were rechecked on 2026-11-11. Findings are recor
 
 ### Migration boundary
 
-Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 10 model identities stay out of V2 until their own variant evidence is complete.
+Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 8 model identities stay out of V2 until their own variant evidence is complete.
 
 
 ### Additional exact variants migrated on 2026-11-11
@@ -116,7 +116,7 @@ Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. Thi
 - `niu-kqi3-max-us`: NIU's official US listing identifies 48V, 13Ah/608.4Wh, 450W rated/900W max, 20mph top speed and 40-mile range. The dataset stores the metric conversions (32.2km/h and 64.4km) and records the original imperial units in conditions.
 - `niu-kqi3-max-eu`: NIU's official EU listing identifies the same pack and motor values, but 25km/h top speed and 65km range. This is a separate variant; no global speed is inferred.
 
-The staged V2 dataset now contains 20 model identities and 23 variants (16 verified, 7 unresolved). The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
+The staged V2 dataset now contains 22 model identities and 25 variants (17 verified, 8 unresolved). The adapter still requires an explicit variant ID and market; none of these records has been switched into production consumers.
 
 
 ### KuKirin G-series exact variant evidence — 2026-11-11
@@ -124,7 +124,7 @@ The staged V2 dataset now contains 20 model identities and 23 variants (16 verif
 - `kukirin-g2-pro-eu-current`: the KuKirin EU official listing identifies 48V/15.6Ah, 600W rated rear motor, up to 1000W peak, 45km/h and up to 58km range. The legacy catalog's 15Ah is not carried forward. V2 calculates 748.8Wh from the published nominal V × Ah and labels the value as calculated.
 - `kukirin-g3-pro-eu-open-current`: the official listing identifies 52V/23.4Ah, two 1200W rated motors, up to 65km/h in dual-motor mode and up to 80km range. The page explicitly distinguishes this open configuration from German ABE and Spain VMP versions. V2 uses market code `EU-OPEN` and calculates 1216.8Wh from the published nominal V × Ah.
 
-The staged V2 dataset now contains 20 model identities and 23 variants (16 verified, 7 unresolved). The two KuKirin records do not alter legacy production data until consumer migration is completed.
+The staged V2 dataset now contains 22 model identities and 25 variants (17 verified, 8 unresolved). The two KuKirin records do not alter legacy production data until consumer migration is completed.
 
 
 ### Apollo City Pro 2023 variant evidence — 2026-11-11
@@ -184,3 +184,9 @@ The current legacy segway-max-g2 row matches the US maximum only when higher spe
 
 - gotrax-g4-us-original-42015315951731: GOTRAX's official product page identifies the exact G4 Original variant, 36V/10.4Ah/approximately 374.4Wh, 500W average motor, 20mph top speed and up to 25 miles in Gear 1. It separately lists up to 15 miles in Gear 2 at 20mph. The record does not conflate G4 Original with G4 Pro's suspension/tire differences.
 - vsett-10-plus-60v28ah-global-unresolved: VSETT's official page lists 60V 20.8/25.6/28Ah options, dual 1400W motors and a 70–80km/h range. It does not specify rated-vs-peak basis or exact speed for the 28Ah option, and the 65/80/90km range values are not explicitly paired to battery variants. The V2 record keeps speed, power and range null and remains ineligible for projection.
+
+
+### INOKIM OXO 2026 and VSETT 8+ evidence — 2026-11-11
+
+- inokim-oxo-2026-us: INOKIM's official 2026 OXO page lists 57.6V/26Ah, 2×1000W rated / 2×1300W peak motors, 40.3mph top speed and 68-mile top range. V2 keeps this 2026 configuration separate from older 60V OXO variants; Wh and metric units are explicitly converted.
+- vsett-8-plus-global-unresolved: VSETT's official page lists 48V 16A (LG), dual 600W motors, 40–45km/h and 90km single / 50km dual range. The capacity unit is ambiguous ('16A' rather than Ah) and the motor power basis is not explicit; capacity/Wh and motor power remain null, so the adapter rejects this record.
