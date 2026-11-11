@@ -544,7 +544,13 @@ def main():
     # remove stale model pages that are no longer in models.json
     ids = {m["id"] for m in MODELS}
     for m in MODELS:
-        write("{}.html".format(m["id"]), page(m, variant_options))
+        generated_page = page(m, variant_options)
+        if m["id"] == MODELS[0]["id"]:
+            old_page = read("{}.html".format(m["id"]))
+            if old_page != generated_page:
+                diff_at = next((i for i, (a, b) in enumerate(zip(old_page, generated_page)) if a != b), min(len(old_page), len(generated_page)))
+                print("MODEL_PAGE_DIFF_DEBUG", m["id"], "old_len", len(old_page), "new_len", len(generated_page), "at", diff_at, "old", repr(old_page[max(0, diff_at-160):diff_at+240]), "new", repr(generated_page[max(0, diff_at-160):diff_at+240]))
+        write("{}.html".format(m["id"]), generated_page)
 
     print("pages written:", len(MODELS))
 
