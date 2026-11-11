@@ -1867,7 +1867,7 @@
             {
               "url": "https://support.segway.com/product_files/20240227082859_Ninebot%20Kickscooter%20E2%20Plus%20Product%20Manual.pdf",
               "publisher": "Segway",
-              "sourceType": "official_product_manual",
+              "sourceType": "official_manual",
               "supports": [
                 "identity",
                 "battery",
