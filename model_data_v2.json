@@ -2,6 +2,129 @@
   "schemaVersion": 2,
   "models": [
     {
+      "id": "kukirin-g2-pro",
+      "name": "KuKirin G2 Pro",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g2-pro-eu-current",
+          "market": [
+            "EU"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 15.6,
+            "energyWh": 748.8,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 15.6Ah manufacturer-stated capacity; the cited official page does not publish Wh."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 600,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": 1000,
+            "peakPowerBasis": "combined"
+          },
+          "speed": {
+            "maxKmh": 45,
+            "conditions": "EU official product listing; maximum of the listed 20/40/45km/h modes."
+          },
+          "rangeClaim": {
+            "maxKm": 58,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 58km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g2-pro-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact G2 Pro listing identifies 48V 15.6Ah, 600W rated rear motor, up to 1000W peak, 45km/h and 58km range.",
+              "Energy Wh is calculated from manufacturer-published nominal voltage and Ah; it is explicitly marked as calculated, not manufacturer-published."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "kukirin-g3-pro",
+      "name": "KuKirin G3 Pro",
+      "manufacturer": "KuKirin",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "kukirin-g3-pro-eu-open-current",
+          "market": [
+            "EU-OPEN"
+          ],
+          "battery": {
+            "nominalVoltageV": 52,
+            "capacityAh": 23.4,
+            "energyWh": 1216.8,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 52V nominal × 23.4Ah manufacturer-stated capacity; the cited official page does not publish Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 1200,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 65,
+            "conditions": "Manufacturer dual-motor mode; page distinguishes this open version from Germany ABE and Spain VMP variants."
+          },
+          "rangeClaim": {
+            "maxKm": 80,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 80km at medium speed with an approx. 75kg rider load."
+          },
+          "sources": [
+            {
+              "url": "https://kukirinmobility.com/products/kukirin-g3-pro-electric-scooter",
+              "publisher": "KuKirin EU Official Store",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact product page identifies two 1200W rated motors, 52V 23.4Ah pack, 65km/h dual-motor maximum and 80km manufacturer range claim.",
+              "Market is recorded as EU-OPEN; the page explicitly excludes German ABE and Spain VMP configurations.",
+              "Energy Wh is calculated from manufacturer-published nominal voltage and Ah and is labelled as calculated."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "niu-kqi3-max",
       "name": "NIU KQi3 Max",
       "manufacturer": "NIU",
