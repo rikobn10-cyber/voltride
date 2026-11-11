@@ -131,3 +131,8 @@ The staged V2 dataset now contains 5 model identities and 6 verified variants. T
 
 - `apollo-city-pro-2023-ca`: Apollo's 2023 Pro technical page identifies the dual-motor configuration, 500W nominal and 1000W peak per motor, and 51km/h top speed. Apollo's official battery assembly page identifies a 48V/20Ah pack and confirms compatibility with City Pro 2023-24. The V2 record keeps rated and peak power per motor separate, records 960Wh as calculated (not manufacturer-published), and leaves range claim null because the cited City Pro spec page did not establish a specific range figure.
 
+
+
+### GOTRAX GXL V2 US variant evidence — 2026-11-11
+
+- `gotrax-gxl-v2-us-current`: GOTRAX's official GXL V2 product page identifies 250W average motor power, 15.5mph maximum speed and up to 12.5 miles range. Its official replacement battery page explicitly lists GXL V2 compatibility and 36V/5.2Ah. V2 stores 24.9km/h and 20.1km as conversions from the original US units, and 187.2Wh as a calculated value (36V × 5.2Ah), not a manufacturer-published Wh figure. Peak motor power remains unresolved.
