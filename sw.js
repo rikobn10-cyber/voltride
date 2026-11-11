@@ -66,7 +66,14 @@ self.addEventListener("message", (e) => {
       try {
         const response = await navigate(new Request(e.data.url));
         const body = await response.clone().text();
-        e.ports[0].postMessage({ status: response.status, type: response.type, offlineText: body.includes("لا يوجد اتصال بالإنترنت") });
+        const networkReachable = await networkIsReachable();
+        e.ports[0].postMessage({
+          status: response.status,
+          type: response.type,
+          offlineText: body.includes("لا يوجد اتصال بالإنترنت"),
+          workerOnline: self.navigator ? self.navigator.onLine : null,
+          networkReachable
+        });
       } catch (error) {
         e.ports[0].postMessage({ error: String(error) });
       }
