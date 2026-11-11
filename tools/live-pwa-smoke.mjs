@@ -58,6 +58,7 @@ try {
     };
   });
   assert.equal(workerInfo.activeState, "activated", "service worker must be activated");
+  assert.equal(workerInfo.version, "voltride-v21", "the new service worker version must be active");
   assert.ok(workerInfo.scope.startsWith(base + "/"), "service worker scope must match production origin");
   for (const path of ["/offline.html", "/ride-match.html", "/navee-g5.html"]) {
     assert.ok(workerInfo.urls.some(url => url.endsWith(path)), "precache must include " + path);
@@ -70,11 +71,12 @@ try {
   // Confirm the installed application can load precached clean URLs without network access.
   const cacheProbe = await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.ready;
-    const cache = await caches.open("voltride-v20");
+    const cache = await caches.open("voltride-v21");
     const offlineUrl = new URL("offline.html", registration.scope).href;
     return { offlineUrl, hasOfflineFallback: Boolean(await cache.match(offlineUrl)), controlled: Boolean(navigator.serviceWorker.controller), online: navigator.onLine, scope: registration.scope };
   });
   console.log("PWA cache probe", JSON.stringify(cacheProbe));
+  assert.equal(cacheProbe.hasOfflineFallback, true, "offline fallback must exist in the active service worker cache");
   await context.setOffline(true);
   const ride = await page.goto(base + "/ride-match", { waitUntil: "domcontentloaded", timeout: 15000 });
   assert.ok(ride?.ok(), "cached Ride Match clean URL must load offline");
