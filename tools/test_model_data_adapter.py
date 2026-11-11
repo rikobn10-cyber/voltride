@@ -60,7 +60,7 @@ class ModelDataAdapterTests(unittest.TestCase):
     def test_generated_index_variant_options_match_adapter_projection(self):
         from build_models import build_verified_variant_options
         html = (ROOT / "index.html").read_text(encoding="utf-8")
-        match = re.search(r"const MODEL_VARIANTS = (\\{.*\\});", html)
+        match = re.search(r"const MODEL_VARIANTS = (.*);", html)
         self.assertIsNotNone(match, "index.html must contain generated V2 variant options")
         self.assertEqual(json.loads(match.group(1)), build_verified_variant_options())
 
