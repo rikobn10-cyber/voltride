@@ -110,6 +110,17 @@ async function offlineNavigationFallback(cache, req) {
   return fallback || Response.error();
 }
 
+async function networkIsReachable() {
+  if (self.navigator && self.navigator.onLine === false) return false;
+  try {
+    const probeUrl = new URL("manifest.json", self.registration.scope).href;
+    const response = await fetch(new Request(probeUrl, { cache: "no-store" }));
+    return Boolean(response && response.ok);
+  } catch (_) {
+    return false;
+  }
+}
+
 async function navigate(req) {
   const cache = await caches.open(VERSION);
   try {
@@ -118,14 +129,13 @@ async function navigate(req) {
       cache.put(req, res.clone());
       return res;
     }
-    // Some browsers resolve an offline navigation to a cached HTTP 404
-    // instead of rejecting fetch(). Use the offline page in that case.
-    if (self.navigator && self.navigator.onLine === false) {
+    // Offline browsers may resolve navigation fetches to HTTP errors rather than reject.
+    // Probe a known same-origin resource to distinguish an offline error from a real 404.
+    if (!(await networkIsReachable())) {
       return offlineNavigationFallback(cache, req);
     }
     return res;
-  } catch (error) {
-    console.log("[VoltRide SW] navigation fetch rejected", req.url, String(error));
+  } catch (_) {
     return offlineNavigationFallback(cache, req);
   }
 }
