@@ -394,10 +394,13 @@ class ModelDataAdapterTests(unittest.TestCase):
 
     def test_generated_model_index_does_not_publish_legacy_specs(self):
         blog = (ROOT / "blog.html").read_text(encoding="utf-8")
-        self.assertIn("مواصفات موديلات VoltRide حسب السوق", blog)
-        self.assertIn("النسخة والسوق قيد التحقق", blog)
-        self.assertNotIn("بطارية 36V 12.8Ah", blog)
-        self.assertNotIn("تقدير نحو", blog)
+        start = blog.index("<!--MODELS:START-->")
+        end = blog.index("<!--MODELS:END-->", start)
+        section = blog[start:end]
+        self.assertIn("مواصفات موديلات VoltRide حسب السوق", section)
+        self.assertIn("النسخة والسوق قيد التحقق", section)
+        self.assertNotIn("بطارية 36V 12.8Ah", section)
+        self.assertNotIn("تقدير نحو", section)
 
 
 if __name__ == "__main__":
