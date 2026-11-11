@@ -55,11 +55,21 @@
 <h1 data-i18n="pageTitle">🧭 Ride Match: اختيار السكوتر المناسب لك</h1>
 <p class="meta" data-i18n="pageIntro">خطوتان بسيطتان لاختيار سكوتر يناسب استخدامك</p>
 
+<section id="marketPicker" class="recommendation" aria-labelledby="marketTitle">
+  <h2 id="marketTitle" data-i18n="marketTitle">اختر سوق النسخة</h2>
+  <p class="meta" data-i18n="marketNote">اختر السوق الذي ستستخدم فيه السكوتر. ستظهر فقط النسخ الموثقة لذلك السوق.</p>
+  <label for="rideMarket" data-i18n="marketTitle">السوق</label>
+  <select id="rideMarket" required>
+    <option value="" data-i18n="marketPlaceholder">اختر السوق أولاً</option>
+  </select>
+  <p id="marketStatus" class="meta" role="status" aria-live="polite"></p>
+</section>
+
 <div class="progress-bar">
   <div class="progress-fill" id="progressFill"></div>
 </div>
 
-<div id="step1" class="step active">
+<div id="step1" class="step" style="display:none">
   <h2 data-i18n="distanceTitle">1. ما هي مسافتك اليومية المتوسطة؟</h2>
   <p class="meta" data-i18n="distanceNote">كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.</p>
   <div class="options" id="distanceOptions">
@@ -103,10 +113,15 @@
 <script>
 "use strict";
 
+/*RIDE_VARIANTS:START*/
+const RIDE_MATCH_MODELS = [{"id":"apollo-city-pro","name":"Apollo City Pro","cat":"sport","variants":[{"key":"apollo-city-pro-2023-ca::CA","variantId":"apollo-city-pro-2023-ca","market":"CA","label":"CA","generation":null,"sku":null,"voltage":48,"ah":20,"motor":1000,"energyWh":960,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 20Ah battery assembly specification; cited manufacturer sources do not publish pack Wh.","speed":51,"rangeClaimKm":null,"sourcePublisher":"Apollo Scooters Canada","sourceUrl":"https://apolloscooters.ca/pages/tech-specs-apollo-city-2023-pro"}]},{"id":"apollo-ghost","name":"Apollo Ghost","cat":"performance","variants":[{"key":"apollo-ghost-us-2020::US","variantId":"apollo-ghost-us-2020","market":"US","label":"US","generation":null,"sku":null,"voltage":52,"ah":18.2,"motor":1600,"energyWh":947,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Apollo publishes a 52V 18.2Ah / 947Wh battery for the Ghost.","speed":55,"rangeClaimKm":62,"sourcePublisher":"Apollo Scooters USA","sourceUrl":"https://apolloscooters.co/blogs/news/apollo-ghost-best-adult-electric-scooter"}]},{"id":"gotrax-g4","name":"GOTRAX G4","cat":"budget","variants":[{"key":"gotrax-g4-us-original-42015315951731::US","variantId":"gotrax-g4-us-original-42015315951731","market":"US","label":"US","generation":null,"sku":null,"voltage":36,"ah":10.4,"motor":500,"energyWh":374.4,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"GOTRAX publishes 36V/10.4Ah and approximately 374.4Wh for the G4.","speed":32.2,"rangeClaimKm":40.2,"sourcePublisher":"GOTRAX","sourceUrl":"https://gotrax.com/products/g4-electric-scooter-for-adults?variant=42015315951731"}]},{"id":"gotrax-gxl-v2","name":"GOTRAX GXL V2","cat":"budget","variants":[{"key":"gotrax-gxl-v2-us-current::US","variantId":"gotrax-gxl-v2-us-current","market":"US","label":"US","generation":null,"sku":null,"voltage":36,"ah":5.2,"motor":250,"energyWh":187.2,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 36V nominal × 5.2Ah; GOTRAX publishes the pack voltage and capacity, not Wh, on the cited battery part page.","speed":24.9,"rangeClaimKm":20.1,"sourcePublisher":"GOTRAX","sourceUrl":"https://gotrax.com/products/gxl-commuter-scooter-hand-brake-edition"}]},{"id":"inokim-oxo","name":"INOKIM OXO","cat":"performance","variants":[{"key":"inokim-oxo-2026-us::US","variantId":"inokim-oxo-2026-us","market":"US","label":"US","generation":null,"sku":null,"voltage":57.6,"ah":26,"motor":2000,"energyWh":1497.6,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 57.6V × 26Ah; INOKIM publishes voltage and capacity, not Wh on the 2026 page.","speed":64.9,"rangeClaimKm":109.4,"sourcePublisher":"INOKIM","sourceUrl":"https://inokim.com/products/oxo"}]},{"id":"kukirin-g2-max","name":"KuKirin G2 Max","cat":"sport","variants":[{"key":"kukirin-g2-max-eu-open-current::EU-OPEN","variantId":"kukirin-g2-max-eu-open-current","market":"EU-OPEN","label":"EU-OPEN","generation":null,"sku":null,"voltage":48,"ah":20.8,"motor":1000,"energyWh":998.4,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 20.8Ah manufacturer-stated capacity; the official product page does not publish Wh.","speed":55,"rangeClaimKm":70,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g2-max-electric-scooter"}]},{"id":"kukirin-g2-pro","name":"KuKirin G2 Pro","cat":"sport","variants":[{"key":"kukirin-g2-pro-eu-current::EU","variantId":"kukirin-g2-pro-eu-current","market":"EU","label":"EU","generation":null,"sku":null,"voltage":48,"ah":15.6,"motor":600,"energyWh":748.8,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 15.6Ah manufacturer-stated capacity; the cited official page does not publish Wh.","speed":45,"rangeClaimKm":58,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g2-pro-electric-scooter"}]},{"id":"kukirin-g3-pro","name":"KuKirin G3 Pro","cat":"sport","variants":[{"key":"kukirin-g3-pro-eu-open-current::EU-OPEN","variantId":"kukirin-g3-pro-eu-open-current","market":"EU-OPEN","label":"EU-OPEN","generation":null,"sku":null,"voltage":52,"ah":23.4,"motor":2400,"energyWh":1216.8,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 52V nominal × 23.4Ah manufacturer-stated capacity; the cited official page does not publish Wh.","speed":65,"rangeClaimKm":80,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g3-pro-electric-scooter"}]},{"id":"kukirin-g4","name":"KuKirin G4","cat":"sport","variants":[{"key":"kukirin-g4-eu-open-current::EU-OPEN","variantId":"kukirin-g4-eu-open-current","market":"EU-OPEN","label":"EU-OPEN","generation":null,"sku":null,"voltage":60,"ah":20,"motor":2000,"energyWh":1200,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 60V nominal × 20Ah manufacturer-stated capacity; the official product page does not publish Wh.","speed":70,"rangeClaimKm":75,"sourcePublisher":"KuKirin EU Official Store","sourceUrl":"https://kukirinmobility.com/products/kukirin-g4-electric-scooter"}]},{"id":"navee-n40","name":"NAVEE N40","cat":"budget","variants":[{"key":"navee-n40-nkp21111-a25-global::Global","variantId":"navee-n40-nkp21111-a25-global","market":"Global","label":"Global — NKP21111-A25","generation":null,"sku":"NKP21111-A25","voltage":37,"ah":10,"motor":350,"energyWh":370,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"NAVEE's official manual publishes 37V nominal, 10Ah rated capacity and 370Wh rated energy.","speed":25,"rangeClaimKm":40,"sourcePublisher":"NAVEE","sourceUrl":"https://service.naveetech.com/wp-content/uploads/2026/03/NAVEE-Electric-Scooter-N40-User-Manual.pdf"}]},{"id":"niu-kqi3-max","name":"NIU KQi3 Max","cat":"commuter","variants":[{"key":"niu-kqi3-max-us::US","variantId":"niu-kqi3-max-us","market":"US","label":"US","generation":null,"sku":null,"voltage":48,"ah":13,"motor":450,"energyWh":608.4,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max.","speed":32.2,"rangeClaimKm":64.4,"sourcePublisher":"NIU","sourceUrl":"https://shop.niu.com/products/niu-kqi3-max-electric-kick-scooter-for-adults"},{"key":"niu-kqi3-max-eu::EU","variantId":"niu-kqi3-max-eu","market":"EU","label":"EU","generation":null,"sku":null,"voltage":48,"ah":13,"motor":450,"energyWh":608.4,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"NIU publishes 48V, 13Ah and 608.4Wh for KQi3 Max.","speed":25,"rangeClaimKm":65,"sourcePublisher":"NIU","sourceUrl":"https://shopeu.niu.com/en-fr/collections/kick-scooter/products/niu-kqi3-max-electric-kick-scooter-for-adults-eu-version"}]},{"id":"segway-max-g2","name":"Segway Ninebot MAX G2","cat":"commuter","variants":[{"key":"segway-max-g2-us-051501u::US","variantId":"segway-max-g2-us-051501u","market":"US","label":"US — 051501U","generation":null,"sku":"051501U","voltage":36,"ah":15.3,"motor":450,"energyWh":551,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2.","speed":35,"rangeClaimKm":70,"sourcePublisher":"Segway-Ninebot Support","sourceUrl":"https://support.segway.com/support_product.php?segcatid=80"},{"key":"segway-max-g2-e-051501e::EU","variantId":"segway-max-g2-e-051501e","market":"EU","label":"EU — 051501E","generation":null,"sku":"051501E","voltage":36,"ah":15.3,"motor":450,"energyWh":551,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Segway publishes 36V nominal, 15.3Ah and 551Wh for MAX G2.","speed":25,"rangeClaimKm":70,"sourcePublisher":"Segway-Ninebot EU","sourceUrl":"https://eu-en.segway.com/ekickscooter/products/max-g2-e.html"}]},{"id":"vsett-9-plus","name":"VSETT 9+","cat":"sport","variants":[{"key":"vsett-9-plus-48v-21ah-global::Global","variantId":"vsett-9-plus-48v-21ah-global","market":"Global","label":"Global","generation":null,"sku":null,"voltage":48,"ah":21,"motor":1300,"energyWh":1008,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V nominal × 21Ah; the official product page publishes voltage and Ah, not Wh.","speed":53,"rangeClaimKm":100,"sourcePublisher":"VSETT Official","sourceUrl":"https://vsettscooters.com/pages/vsett-9-plus"}]},{"id":"xiaomi-3-lite","name":"Xiaomi Scooter 3 Lite","cat":"budget","variants":[{"key":"xiaomi-3-lite-mjddhbc03zm-uk::UK","variantId":"xiaomi-3-lite-mjddhbc03zm-uk","market":"UK","label":"UK — MJDDHBC03ZM","generation":null,"sku":"MJDDHBC03ZM","voltage":36,"ah":5.2,"motor":300,"energyWh":187,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Xiaomi publishes 36V nominal, 5.2Ah rated capacity and 187Wh rated energy.","speed":25,"rangeClaimKm":20,"sourcePublisher":"Xiaomi","sourceUrl":"https://www.mi.com/uk/product/xiaomi-electric-scooter-3-lite/specs/"}]},{"id":"xiaomi-pro-2","name":"Xiaomi Pro 2","cat":"commuter","variants":[{"key":"xiaomi-pro-2-ddhbc11neb-hk::HK","variantId":"xiaomi-pro-2-ddhbc11neb-hk","market":"HK","label":"HK — DDHBC11NEB","generation":null,"sku":"DDHBC11NEB","voltage":37,"ah":12.8,"motor":300,"energyWh":474,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Xiaomi Hong Kong publishes 37V nominal, 12,800mAh and 474Wh.","speed":25,"rangeClaimKm":45,"sourcePublisher":"Xiaomi","sourceUrl":"https://www.mi.com/hk/mi-electric-scooter-Pro2/specs/"}]},{"id":"ecoxtrem-bison-gt","name":"Ecoxtrem Bison GT","cat":"sport","variants":[{"key":"ecoxtrem-bison-gt-ma-1000w-48v13ah::MA","variantId":"ecoxtrem-bison-gt-ma-1000w-48v13ah","market":"MA","label":"MA — Bison GT 1000W","generation":"Bison GT 1000W","sku":null,"voltage":48,"ah":13,"motor":1000,"energyWh":624,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 48V × 13Ah; Ecoxtrem publishes voltage and capacity but not pack Wh.","speed":50,"rangeClaimKm":40,"sourcePublisher":"Ecoxtrem Morocco","sourceUrl":"https://ecoxtrem.ma/produit/trottinette-electrique-bison-gt-1000w/"}]},{"id":"ecoxtrem-bison-m41","name":"Ecoxtrem M41 Armored One","cat":"sport","variants":[{"key":"ecoxtrem-m41-armored-one-ma-52v20ah::MA","variantId":"ecoxtrem-m41-armored-one-ma-52v20ah","market":"MA","label":"MA — M41 Armored One — TROTT-86","generation":"M41 Armored One","sku":"TROTT-86","voltage":52,"ah":20,"motor":1000,"energyWh":1040,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 52V × 20Ah; Ecoxtrem publishes nominal voltage and capacity but not pack Wh.","speed":70,"rangeClaimKm":65,"sourcePublisher":"Ecoxtrem France","sourceUrl":"https://ecoxtrem.fr/en/produit/trottinette-electrique-ecoxtrem-armored-one/"},{"key":"ecoxtrem-m41-armored-one-ma-52v20ah::EU","variantId":"ecoxtrem-m41-armored-one-ma-52v20ah","market":"EU","label":"EU — M41 Armored One — TROTT-86","generation":"M41 Armored One","sku":"TROTT-86","voltage":52,"ah":20,"motor":1000,"energyWh":1040,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated as 52V × 20Ah; Ecoxtrem publishes nominal voltage and capacity but not pack Wh.","speed":70,"rangeClaimKm":65,"sourcePublisher":"Ecoxtrem France","sourceUrl":"https://ecoxtrem.fr/en/produit/trottinette-electrique-ecoxtrem-armored-one/"}]},{"id":"xiaomi-essential","name":"Xiaomi Electric Scooter Essential","cat":"budget","variants":[{"key":"xiaomi-essential-ddhbc05neb-es::ES","variantId":"xiaomi-essential-ddhbc05neb-es","market":"ES","label":"ES — Essential — DDHBC05NEB","generation":"Essential","sku":"DDHBC05NEB","voltage":36,"ah":5.1,"motor":250,"energyWh":183,"energyWhBasis":"manufacturer_published","energyWhSourceNote":"Xiaomi Spain publishes 36V, 5.1Ah and 183Wh.","speed":20,"rangeClaimKm":null,"sourcePublisher":"Xiaomi Spain","sourceUrl":"https://www.mi.com/es/mi-electric-scooter-essential/specs/"}]},{"id":"dualtron-thunder-3","name":"Dualtron Thunder 3","cat":"performance","variants":[{"key":"dualtron-thunder-3-ed2301-72v40ah-global::Global","variantId":"dualtron-thunder-3-ed2301-72v40ah-global","market":"Global","label":"Global — Thunder 3 (ED2301) — ED2301","generation":"Thunder 3 (ED2301)","sku":"ED2301","voltage":72,"ah":40,"motor":5000,"energyWh":2880,"energyWhBasis":"calculated_from_nominal_values","energyWhSourceNote":"Calculated from manufacturer manual 72V × 40Ah; manual specifies these values but does not state Wh.","speed":100,"rangeClaimKm":125,"sourcePublisher":"Minimotors","sourceUrl":"https://minimotors.oss-eu-central-1.aliyuncs.com/upload/2023thunder3%28PRODUCT%20MANUAL_.pdf"}]}];
+const RIDE_MATCH_MARKETS = ["CA", "ES", "EU", "EU-OPEN", "Global", "HK", "MA", "UK", "US"];
+/*RIDE_VARIANTS:END*/
+
 const RIDE_MATCH_I18N = {
- ar:{navApp:"التطبيق",navRideMatch:"اختيار السكوتر",navBlog:"المدونة",navAccessories:"الإكسسوارات",navAbout:"حول",languageLabel:"اللغة",pageTitle:"🧭 Ride Match: اختيار السكوتر المناسب لك",pageIntro:"خطوتان بسيطتان لاختيار سكوتر يناسب استخدامك",distanceTitle:"1. ما هي مسافتك اليومية المتوسطة؟",distanceNote:"كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.",distance0:"0–10 كم (مدى قصير)",distance1:"10–20 كم (مدى متوسط)",distance2:"20–40 كم (مدى طويل)",distance3:"أكثر من 40 كم (رحلات طويلة جداً)",preferenceTitle:"2. ما أولويتك؟",preferenceNote:"اختر أولوية تدعمها المواصفات المتاحة للموديلات.",prefSpeed:"سرعة أعلى",prefRange:"مدى أطول",prefCommuter:"التنقل اليومي",prefPerformance:"أداء قوي",resultsTitle:"🎯 توصياتنا لك",resultsNote:"تعتمد التوصيات على المدى التقديري وتفضيلك، باستخدام المواصفات المتاحة للموديلات. بعض روابط الشراء إحالة؛ وقد تحصل VoltRide على عمولة دون تكلفة إضافية عليك.",loadingTitle:"جاري اختيار الموديلات…",loadingText:"يرجى الانتظار…",calculatorCta:"🔧 افتح الحاسبة الكاملة ←",footerHome:"الرئيسية",speed:"السرعة",range:"المدى التقديري",battery:"البطارية",power:"القدرة",category:"الفئة",buy:"اشترِ الآن ←",useCalculator:"افتح الحاسبة ←",catBudget:"اقتصادية",catCommuter:"تنقل يومي",catSport:"رياضية",catPerformance:"أداء",errorTitle:"عذراً",errorText:"تعذّر العثور على موديلات. حاول مرة أخرى."},
- fr:{navApp:"Application",navRideMatch:"Choisir un scooter",navBlog:"Blog",navAccessories:"Accessoires",navAbout:"À propos",languageLabel:"Langue",pageTitle:"🧭 Ride Match : trouvez le scooter adapté",pageIntro:"Deux étapes simples pour trouver un scooter adapté à votre usage",distanceTitle:"1. Quelle distance parcourez-vous par jour ?",distanceNote:"Une distance plus longue nécessite généralement une batterie ou une autonomie supérieure.",distance0:"0–10 km (courte)",distance1:"10–20 km (moyenne)",distance2:"20–40 km (longue)",distance3:"Plus de 40 km (très longue)",preferenceTitle:"2. Quelle est votre priorité ?",preferenceNote:"Choisissez une priorité correspondant aux caractéristiques disponibles.",prefSpeed:"Vitesse élevée",prefRange:"Grande autonomie",prefCommuter:"Déplacements quotidiens",prefPerformance:"Performances élevées",resultsTitle:"🎯 Nos recommandations",resultsNote:"Les recommandations reposent sur l’autonomie estimée et votre priorité, à partir des caractéristiques disponibles. Certains liens d’achat sont affiliés ; VoltRide peut recevoir une commission sans frais supplémentaires.",loadingTitle:"Sélection des modèles…",loadingText:"Veuillez patienter…",calculatorCta:"🔧 Ouvrir le calculateur complet ←",footerHome:"Accueil",speed:"Vitesse",range:"Autonomie estimée",battery:"Batterie",power:"Puissance",category:"Catégorie",buy:"Acheter maintenant ←",useCalculator:"Ouvrir le calculateur ←",catBudget:"Économique",catCommuter:"Urbain",catSport:"Sport",catPerformance:"Performance",errorTitle:"Désolé",errorText:"Impossible de trouver des modèles. Veuillez réessayer."},
- en:{navApp:"App",navRideMatch:"Find a scooter",navBlog:"Blog",navAccessories:"Accessories",navAbout:"About",languageLabel:"Language",pageTitle:"🧭 Ride Match: find the right scooter",pageIntro:"Two quick steps to find a scooter that fits your riding needs",distanceTitle:"1. How far do you travel each day?",distanceNote:"Longer trips generally require a larger battery or greater range.",distance0:"0–10 km (short)",distance1:"10–20 km (medium)",distance2:"20–40 km (long)",distance3:"Over 40 km (very long)",preferenceTitle:"2. What is your priority?",preferenceNote:"Choose a priority supported by the available model specifications.",prefSpeed:"Higher speed",prefRange:"Longer range",prefCommuter:"Daily commuting",prefPerformance:"High performance",resultsTitle:"🎯 Our recommendations",resultsNote:"Recommendations use estimated range and your priority, based on available model specifications. Some purchase links are affiliate links; VoltRide may earn a commission at no extra cost.",loadingTitle:"Selecting models…",loadingText:"Please wait…",calculatorCta:"🔧 Open the full calculator ←",footerHome:"Home",speed:"Speed",range:"Estimated range",battery:"Battery",power:"Power",category:"Category",buy:"Buy now ←",useCalculator:"Open calculator ←",catBudget:"Budget",catCommuter:"Commuter",catSport:"Sport",catPerformance:"Performance",errorTitle:"Sorry",errorText:"No models could be found. Please try again."}
+ ar:{navApp:"التطبيق",navRideMatch:"اختيار السكوتر",navBlog:"المدونة",navAccessories:"الإكسسوارات",navAbout:"حول",languageLabel:"اللغة",pageTitle:"🧭 Ride Match: اختيار السكوتر المناسب لك",pageIntro:"اختر السوق أولاً، ثم أجب عن سؤالين لاختيار نسخة موثقة تناسب استخدامك.",marketTitle:"اختر سوق النسخة",marketNote:"اختر السوق الذي ستستخدم فيه السكوتر. ستظهر فقط النسخ الموثقة لذلك السوق.",marketPlaceholder:"اختر السوق أولاً",marketRequired:"اختر السوق قبل متابعة التوصيات.",variantLabel:"النسخة والسوق",batteryEnergy:"طاقة البطارية",energyBasis:"أساس الطاقة",manufacturerSource:"مصدر الشركة المصنّعة",estimatedRangeNote:"المدى تقديري من سعة الطاقة، وليس وعداً بمدى القيادة الفعلي.",noModelsMarket:"لا توجد حالياً نسخ موثقة لهذا السوق.",distanceTitle:"1. ما هي مسافتك اليومية المتوسطة؟",distanceNote:"كلما زادت المسافة، زادت الحاجة إلى بطارية أكبر أو مدى أطول.",distance0:"0–10 كم (مدى قصير)",distance1:"10–20 كم (مدى متوسط)",distance2:"20–40 كم (مدى طويل)",distance3:"أكثر من 40 كم (رحلات طويلة جداً)",preferenceTitle:"2. ما أولويتك؟",preferenceNote:"اختر أولوية تدعمها المواصفات المتاحة للموديلات.",prefSpeed:"سرعة أعلى",prefRange:"مدى أطول",prefCommuter:"التنقل اليومي",prefPerformance:"أداء قوي",resultsTitle:"🎯 توصياتنا لك",resultsNote:"تعتمد النتائج على نسخ موثقة حسب السوق. المدى تقديري وليس ضماناً، وروابط الشراء تفتح نتائج بحث؛ تحقق من النسخة والبائع قبل الشراء.",energyNote:"ملاحظة مصدر الطاقة",loadingTitle:"جاري اختيار الموديلات…",loadingText:"يرجى الانتظار…",calculatorCta:"🔧 افتح الحاسبة الكاملة ←",footerHome:"الرئيسية",speed:"السرعة",range:"المدى التقديري",battery:"البطارية",power:"القدرة",category:"الفئة",buy:"اشترِ الآن ←",useCalculator:"افتح الحاسبة ←",catBudget:"اقتصادية",catCommuter:"تنقل يومي",catSport:"رياضية",catPerformance:"أداء",errorTitle:"عذراً",errorText:"تعذّر العثور على موديلات. حاول مرة أخرى."},
+ fr:{navApp:"Application",navRideMatch:"Choisir un scooter",navBlog:"Blog",navAccessories:"Accessoires",navAbout:"À propos",languageLabel:"Langue",pageTitle:"🧭 Ride Match : trouvez le scooter adapté",pageIntro:"Choisissez d’abord le marché, puis répondez à deux questions pour trouver une version vérifiée.",marketTitle:"Choisir le marché",marketNote:"Choisissez le marché d’utilisation. Seules les versions vérifiées pour ce marché seront proposées.",marketPlaceholder:"Choisir un marché",marketRequired:"Choisissez un marché avant de continuer.",variantLabel:"Version et marché",batteryEnergy:"Énergie de la batterie",energyBasis:"Base énergétique",manufacturerSource:"Source du fabricant",estimatedRangeNote:"L’autonomie est une estimation basée sur l’énergie, pas une garantie réelle.",noModelsMarket:"Aucune version vérifiée n’est actuellement disponible pour ce marché.",distanceTitle:"1. Quelle distance parcourez-vous par jour ?",distanceNote:"Une distance plus longue nécessite généralement une batterie ou une autonomie supérieure.",distance0:"0–10 km (courte)",distance1:"10–20 km (moyenne)",distance2:"20–40 km (longue)",distance3:"Plus de 40 km (très longue)",preferenceTitle:"2. Quelle est votre priorité ?",preferenceNote:"Choisissez une priorité correspondant aux caractéristiques disponibles.",prefSpeed:"Vitesse élevée",prefRange:"Grande autonomie",prefCommuter:"Déplacements quotidiens",prefPerformance:"Performances élevées",resultsTitle:"🎯 Nos recommandations",resultsNote:"Les résultats utilisent des versions vérifiées selon le marché. L’autonomie est estimée, non garantie ; les liens ouvrent une recherche. Vérifiez la version et le vendeur avant achat.",energyNote:"Note sur la source de l’énergie",loadingTitle:"Sélection des modèles…",loadingText:"Veuillez patienter…",calculatorCta:"🔧 Ouvrir le calculateur complet ←",footerHome:"Accueil",speed:"Vitesse",range:"Autonomie estimée",battery:"Batterie",power:"Puissance",category:"Catégorie",buy:"Acheter maintenant ←",useCalculator:"Ouvrir le calculateur ←",catBudget:"Économique",catCommuter:"Urbain",catSport:"Sport",catPerformance:"Performance",errorTitle:"Désolé",errorText:"Impossible de trouver des modèles. Veuillez réessayer."},
+ en:{navApp:"App",navRideMatch:"Find a scooter",navBlog:"Blog",navAccessories:"Accessories",navAbout:"About",languageLabel:"Language",pageTitle:"🧭 Ride Match: find the right scooter",pageIntro:"Choose your market first, then answer two questions to find a verified version for your needs.",marketTitle:"Choose your market",marketNote:"Select the market where you will use the scooter. Only verified versions for that market will be recommended.",marketPlaceholder:"Choose a market first",marketRequired:"Choose a market before continuing.",variantLabel:"Version and market",batteryEnergy:"Battery energy",energyBasis:"Energy basis",manufacturerSource:"Manufacturer source",estimatedRangeNote:"Range is an estimate based on battery energy, not a real-world riding guarantee.",noModelsMarket:"No verified versions are currently available for this market.",distanceTitle:"1. How far do you travel each day?",distanceNote:"Longer trips generally require a larger battery or greater range.",distance0:"0–10 km (short)",distance1:"10–20 km (medium)",distance2:"20–40 km (long)",distance3:"Over 40 km (very long)",preferenceTitle:"2. What is your priority?",preferenceNote:"Choose a priority supported by the available model specifications.",prefSpeed:"Higher speed",prefRange:"Longer range",prefCommuter:"Daily commuting",prefPerformance:"High performance",resultsTitle:"🎯 Our recommendations",resultsNote:"Results use market-specific verified versions. Range is an estimate, not a guarantee; purchase links open search results. Verify the exact version and seller before buying.",energyNote:"Energy source note",loadingTitle:"Selecting models…",loadingText:"Please wait…",calculatorCta:"🔧 Open the full calculator ←",footerHome:"Home",speed:"Speed",range:"Estimated range",battery:"Battery",power:"Power",category:"Category",buy:"Buy now ←",useCalculator:"Open calculator ←",catBudget:"Budget",catCommuter:"Commuter",catSport:"Sport",catPerformance:"Performance",errorTitle:"Sorry",errorText:"No models could be found. Please try again."}
 };
 function readRideMatchLanguage(){try{const saved=localStorage.getItem("voltride_language");const value=saved?JSON.parse(saved):null;return Object.prototype.hasOwnProperty.call(RIDE_MATCH_I18N,value)?value:"ar";}catch(_){return "ar";}}
 let rideMatchLang=readRideMatchLanguage();
@@ -124,69 +139,37 @@ function setRideMatchLanguage(next){
 
 /* ==== Ride Match logic ==== */
 
-// Catalog models plus separate affiliate-only entries; keep their sources and verification status distinct.
-/*SCOOTERS:START*/
-const scooters = [
-  {"id": "xiaomi-pro-2", "name": "Xiaomi Pro 2", "cat": "commuter", "speed": 25, "power": 300, "voltage": 36, "ah": 12.8, "affiliateUrl": null},
-  {"id": "xiaomi-4-pro", "name": "Xiaomi 4 Pro", "cat": "commuter", "speed": 25, "power": 350, "voltage": 36, "ah": 12.4, "affiliateUrl": null},
-  {"id": "xiaomi-essential", "name": "Xiaomi Essential", "cat": "budget", "speed": 20, "power": 250, "voltage": 36, "ah": 5.2, "affiliateUrl": null},
-  {"id": "xiaomi-3-lite", "name": "Xiaomi Scooter 3 Lite", "cat": "budget", "speed": 25, "power": 300, "voltage": 36, "ah": 5.2, "affiliateUrl": null},
-  {"id": "segway-max-g30", "name": "Segway Ninebot MAX G30", "cat": "commuter", "speed": 30, "power": 350, "voltage": 36, "ah": 15.3, "affiliateUrl": null},
-  {"id": "segway-max-g2", "name": "Segway Ninebot Max G2", "cat": "commuter", "speed": 35, "power": 450, "voltage": 36, "ah": 15.3, "affiliateUrl": null},
-  {"id": "segway-e2-plus", "name": "Segway Ninebot E2 Plus", "cat": "budget", "speed": 25, "power": 300, "voltage": 21.6, "ah": 10.2, "affiliateUrl": null},
-  {"id": "navee-n40", "name": "Navee N40", "cat": "budget", "speed": 25, "power": 350, "voltage": 36, "ah": 10, "affiliateUrl": null},
-  {"id": "navee-g5", "name": "Navee G5", "cat": "commuter", "speed": 32, "power": 350, "voltage": 48, "ah": 10.4, "affiliateUrl": null},
-  {"id": "niu-kqi3-max", "name": "NIU KQi3 Max", "cat": "commuter", "speed": 38, "power": 450, "voltage": 48, "ah": 12.7, "affiliateUrl": null},
-  {"id": "kukirin-g2-pro", "name": "KuKirin G2 Pro", "cat": "sport", "speed": 45, "power": 600, "voltage": 48, "ah": 15, "affiliateUrl": null},
-  {"id": "kukirin-g2-max", "name": "KuKirin G2 Max", "cat": "sport", "speed": 55, "power": 1000, "voltage": 48, "ah": 20, "affiliateUrl": null},
-  {"id": "kukirin-g3-pro", "name": "KuKirin G3 Pro", "cat": "sport", "speed": 65, "power": 2400, "voltage": 52, "ah": 23.2, "affiliateUrl": null},
-  {"id": "kukirin-g4", "name": "KuKirin G4", "cat": "performance", "speed": 75, "power": 2000, "voltage": 60, "ah": 20, "affiliateUrl": null},
-  {"id": "ecoxtrem-bison-gt", "name": "Ecoxtrem Bison GT", "cat": "sport", "speed": 45, "power": 800, "voltage": 48, "ah": 13, "affiliateUrl": null, "eligible": false},
-  {"id": "ecoxtrem-bison-m41", "name": "Ecoxtrem Bison M41", "cat": "sport", "speed": 50, "power": 1000, "voltage": 48, "ah": 18, "affiliateUrl": null, "eligible": false},
-  {"id": "dualtron-mini", "name": "Dualtron Mini", "cat": "sport", "speed": 45, "power": 1450, "voltage": 52, "ah": 17.5, "affiliateUrl": null},
-  {"id": "dualtron-victor", "name": "Dualtron Victor", "cat": "performance", "speed": 80, "power": 4000, "voltage": 60, "ah": 24, "affiliateUrl": null},
-  {"id": "dualtron-thunder-3", "name": "Dualtron Thunder 3", "cat": "performance", "speed": 100, "power": 11000, "voltage": 72, "ah": 40, "affiliateUrl": null},
-  {"id": "vsett-8-plus", "name": "Vsett 8+", "cat": "sport", "speed": 45, "power": 1200, "voltage": 48, "ah": 16, "affiliateUrl": null},
-  {"id": "vsett-9-plus", "name": "Vsett 9+", "cat": "sport", "speed": 53, "power": 1300, "voltage": 48, "ah": 21, "affiliateUrl": null},
-  {"id": "vsett-10-plus", "name": "Vsett 10+", "cat": "performance", "speed": 75, "power": 2800, "voltage": 60, "ah": 28, "affiliateUrl": null},
-  {"id": "apollo-city-pro", "name": "Apollo City Pro", "cat": "sport", "speed": 51, "power": 1000, "voltage": 52, "ah": 20, "affiliateUrl": null},
-  {"id": "apollo-ghost", "name": "Apollo Ghost", "cat": "performance", "speed": 55, "power": 2000, "voltage": 52, "ah": 18.2, "affiliateUrl": null},
-  {"id": "kaabo-wolf-king", "name": "Kaabo Wolf King GT", "cat": "performance", "speed": 100, "power": 4000, "voltage": 72, "ah": 35, "affiliateUrl": null},
-  {"id": "gotrax-g4", "name": "Gotrax G4", "cat": "commuter", "speed": 32, "power": 350, "voltage": 36, "ah": 10.4, "affiliateUrl": null},
-  {"id": "gotrax-gxl-v2", "name": "Gotrax GXL V2", "cat": "budget", "speed": 25, "power": 250, "voltage": 36, "ah": 5.2, "affiliateUrl": null},
-  {"id": "inokim-oxo", "name": "Inokim OXO", "cat": "performance", "speed": 65, "power": 2000, "voltage": 60, "ah": 25.6, "affiliateUrl": null},
-  {"id": "nami-burn-e2-max", "name": "Nami Burn-E 2 Max", "cat": "performance", "speed": 98, "power": 8400, "voltage": 72, "ah": 40, "affiliateUrl": null},
-  {"id": "teverun-fighter-11", "name": "Teverun Fighter 11", "cat": "performance", "speed": 85, "power": 5000, "voltage": 60, "ah": 26, "affiliateUrl": null},
-  {"id": "iscooter-w9", "name": "iScooter W9", "cat": "sport", "speed": 45, "power": 1000, "voltage": 48, "ah": 14, "affiliateUrl": "https://s.click.aliexpress.com/e/_EGAUMFs", "affiliateDestinationVerified": false},
-  {"id": "iscooter-ix4", "name": "iScooter iX4", "cat": "commuter", "speed": 45, "power": 800, "voltage": 48, "ah": 15, "affiliateUrl": "https://s.click.aliexpress.com/e/_EvIBV8A", "affiliateDestinationVerified": false},
-  {"id": "iscooter-w9air", "name": "iScooter W9Air", "cat": "sport", "speed": 40, "power": 800, "voltage": 48, "ah": 10, "affiliateUrl": "https://s.click.aliexpress.com/e/_EwpL2l8", "affiliateDestinationVerified": false},
-  {"id": "iscooter-w6", "name": "iScooter W6", "cat": "budget", "speed": 35, "power": 500, "voltage": 42, "ah": 10.5, "eligible": false, "affiliateUrl": "https://s.click.aliexpress.com/e/_EIqcG58", "affiliateDestinationVerified": false},
-  {"id": "iscooter-ix5s", "name": "iScooter iX5S", "cat": "sport", "speed": 45, "power": 1000, "voltage": 48, "ah": 15, "affiliateUrl": "https://s.click.aliexpress.com/e/_EIosseQ", "affiliateDestinationVerified": false}
-];
-/*SCOOTERS:END*/
-
-const uniqueScooters = (() => {
-  const seenIds = new Set();
-  return scooters.filter(s => {
-    if (!s.id || seenIds.has(s.id)) return false;
-    seenIds.add(s.id);
-    return true;
-  });
-})();
-
 // Estimated range (same formula as index.html: 75kg, mixed terrain, balanced mode, speed capped at 25)
-function estimateRange(s){
-  const v = Number(s.voltage), ah = Number(s.ah), motor = Number(s.power) || 0;
-  if (!(v > 0 && ah > 0)) return 0;
-  const speed = Math.min(25, Number(s.speed) || 25);
-  const wf = 1, sf = 1 + (Math.max(0, speed - 20) * 0.035);
-  const tf = 1.12, mf = 1, mof = motor >= 1500 ? 1.10 : motor >= 800 ? 1.05 : 1;
-  const cap = motor >= 1500 ? 90 : motor >= 800 ? 60 : 45;
-  const cons = Math.min(cap, Math.max(7, 12.5 * wf * sf * tf * mf * mof));
-  return (v * ah * 0.9) / cons;
+function getEligibleScooters(){
+  if (!answers.market) return [];
+  return RIDE_MATCH_MODELS.flatMap(model => {
+    const variant = model.variants.find(v => v.market === answers.market);
+    if (!variant) return [];
+    return [{
+      id: model.id, name: model.name, cat: model.cat,
+      market: variant.market, variantId: variant.variantId,
+      variantLabel: variant.label, generation: variant.generation, sku: variant.sku,
+      speed: variant.speed, power: variant.motor, voltage: variant.voltage, ah: variant.ah,
+      energyWh: variant.energyWh, energyWhBasis: variant.energyWhBasis,
+      sourcePublisher: variant.sourcePublisher, sourceUrl: variant.sourceUrl
+    }];
+  });
 }
 
-let answers = {distance: null, preference: null};
+// Estimated range uses V2 battery energy and rated motor power only.
+// It is a comparison estimate, not a manufacturer range claim.
+function estimateRange(s){
+  const energy = Number(s.energyWh), motor = Number(s.power) || 0;
+  if (!(energy > 0)) return 0;
+  const speed = Math.min(25, Number(s.speed) || 25);
+  const sf = 1 + (Math.max(0, speed - 20) * 0.035);
+  const mof = motor >= 1500 ? 1.10 : motor >= 800 ? 1.05 : 1;
+  const cap = motor >= 1500 ? 90 : motor >= 800 ? 60 : 45;
+  const consumption = Math.min(cap, Math.max(7, 12.5 * sf * 1.12 * mof));
+  return (energy * 0.9) / consumption;
+}
+
+let answers = {market: null, distance: null, preference: null};
 let rideMatchCompletionTracked = false;
 
 document.getElementById("rideMatchLanguage").addEventListener("change",e=>setRideMatchLanguage(e.target.value));
@@ -194,11 +177,15 @@ setRideMatchLanguage(rideMatchLang);
 
 function updateProgress(){
   const fill = document.getElementById('progressFill');
-  const done = (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0);
-  fill.style.width = (done * 50) + '%';
+  const done = (answers.market ? 1 : 0) + (answers.distance ? 1 : 0) + (answers.preference ? 1 : 0);
+  fill.style.width = (done / 3 * 100) + '%';
 }
 
 function showStep(step){
+  if (!answers.market) {
+    document.getElementById("marketStatus").textContent = rideMatchT("marketRequired");
+    return;
+  }
   document.querySelectorAll('.step').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
   const el = document.getElementById('step' + step);
   if (el) { el.style.display = 'block'; el.classList.add('active'); }
@@ -229,7 +216,8 @@ function selectOption(step, value, btn){
         rideMatchCompletionTracked = true;
         if (window.VoltAnalytics) window.VoltAnalytics.track("ride_match_complete", {
           distance_range: answers.distance,
-          preference: answers.preference
+          preference: answers.preference,
+          market: answers.market
         });
       }
     }, 250);
@@ -246,36 +234,23 @@ function getPreferenceScore(s, pref, range){
 }
 
 function getRecommendations(){
+  if (!answers.market) return [];
   const distanceMatch = answers.distance;
   const pref = answers.preference || "commuter";
-
-  // Parse distance (needed km)
   let needKm = 10;
   if (distanceMatch) {
     const parts = distanceMatch.split('-');
     if (distanceMatch.endsWith('+')) needKm = Number(parts[0]) || 40;
     else needKm = Number(parts[1]) || 20;
   }
-
-  const eligibleScooters = uniqueScooters.filter(s => s.eligible !== false);
+  const eligibleScooters = getEligibleScooters();
   const scored = eligibleScooters.map(s => {
     const range = estimateRange(s);
-    let score = 0;
-    let matchCount = 0;
-
-    // Distance score (max 30)
-    if (range >= needKm) {
-      score += 30; matchCount++;
-    } else {
-      score += Math.max(0, 30 * (range / needKm));
-    }
-
-    // Preference score uses only attributes present in the model data.
+    let score = range >= needKm ? 30 : Math.max(0, 30 * (range / needKm));
+    const matchCount = range >= needKm ? 1 : 0;
     score += getPreferenceScore(s, pref, range);
-
     return {s, score, matchCount, range};
   });
-
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, 3);
 }
@@ -288,31 +263,34 @@ function renderResults(){
   try {
     recommendations = getRecommendations();
   } catch (err) {
-    // Error boundary fallback
-    recommendations = uniqueScooters.slice(0, 3).map(s => ({s, score: 0, matchCount: 0, range: estimateRange(s)}));
+    console.error("Ride Match V2 recommendation error", err);
+    recommendations = [];
   }
 
   if (!recommendations || recommendations.length === 0) {
-    container.innerHTML = '<div class="recommendation"><h3>' + rideMatchT("errorTitle") + '</h3><p>' + rideMatchT("errorText") + '</p></div>';
+    container.innerHTML = '<div class="recommendation"><h3>' + rideMatchT("errorTitle") + '</h3><p>' + rideMatchT("noModelsMarket") + '</p></div>';
     return;
   }
 
   const catLabel = c => c === "budget" ? rideMatchT("catBudget") : c === "commuter" ? rideMatchT("catCommuter") : c === "sport" ? rideMatchT("catSport") : rideMatchT("catPerformance");
 
   container.innerHTML = recommendations.map(r => {
-    // Only use a commission-bearing destination after the final listing, SKU and market are verified.
-    const isVerifiedAffiliate = Boolean(r.s.affiliateUrl && r.s.affiliateDestinationVerified === true);
-    const buyUrl = isVerifiedAffiliate ? r.s.affiliateUrl : `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
-    const buyRel = isVerifiedAffiliate ? "noopener sponsored nofollow" : "noopener nofollow";
+    const buyUrl = `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(r.s.name)}`;
+    const buyRel = "noopener nofollow";
     return `
     <div class="recommendation">
       <h3>🏆 ${r.s.name}</h3>
       <table class="compare-table">
+        <tr><th>${rideMatchT("variantLabel")}</th><td>${r.s.variantLabel}</td></tr>
         <tr><th>${rideMatchT("speed")}</th><td>${r.s.speed} km/h</td></tr>
         <tr><th>${rideMatchT("range")}</th><td>≈ ${Math.round(r.range)} km</td></tr>
         <tr><th>${rideMatchT("battery")}</th><td>${r.s.voltage}V • ${r.s.ah}Ah</td></tr>
+        <tr><th>${rideMatchT("batteryEnergy")}</th><td>${r.s.energyWh} Wh</td></tr>
+        <tr><th>${rideMatchT("energyBasis")}</th><td>${rideMatchT(r.s.energyWhBasis === "manufacturer_published" ? "manufacturerSource" : "energyBasis")}</td></tr>
+        <tr><th>${rideMatchT("energyNote")}</th><td>${r.s.energyWhSourceNote || "—"}</td></tr>
         <tr><th>${rideMatchT("power")}</th><td>${r.s.power} W</td></tr>
         <tr><th>${rideMatchT("category")}</th><td>${catLabel(r.s.cat)}</td></tr>
+        <tr><th>${rideMatchT("manufacturerSource")}</th><td>${r.s.sourceUrl ? '<a href="' + r.s.sourceUrl + '" target="_blank" rel="noopener noreferrer">' + (r.s.sourcePublisher || rideMatchT("manufacturerSource")) + '</a>' : '—'}</td></tr>
       </table>
       <a data-action="buy" href="${buyUrl}" target="_blank" rel="${buyRel}" class="cta" style="margin-top:10px;display:inline-block">${rideMatchT("buy")}</a>
       <a href="/" class="cta" style="margin-top:10px;display:inline-block">${rideMatchT("useCalculator")}</a>
@@ -337,15 +315,33 @@ if (recommendationsEl) recommendationsEl.addEventListener('click', function(even
   const card = link.closest('.recommendation');
   const title = card && card.querySelector('h3');
   const productName = title ? title.textContent.replace(/^🏆\s*/, '').trim() : '';
-  const product = uniqueScooters.find(s => s.name === productName);
+  const product = getEligibleScooters().find(s => s.name === productName);
   if (window.VoltAnalytics) {
-    const isAffiliateClick = (link.getAttribute("rel") || "").split(/\s+/).includes("sponsored");
-    const eventName = isAffiliateClick ? "affiliate_click" : "marketplace_search_click";
-    window.VoltAnalytics.track(eventName, {
+    window.VoltAnalytics.track("marketplace_search_click", {
       item_id: product ? product.id : undefined,
-      link_type: isAffiliateClick ? "affiliate" : "marketplace_search"
+      link_type: "marketplace_search"
     });
   }
+});
+
+const rideMarketSelect = document.getElementById("rideMarket");
+RIDE_MATCH_MARKETS.forEach(market => {
+  const option = document.createElement("option");
+  option.value = market;
+  option.textContent = market;
+  rideMarketSelect.appendChild(option);
+});
+rideMarketSelect.addEventListener("change", event => {
+  answers.market = RIDE_MATCH_MARKETS.includes(event.target.value) ? event.target.value : null;
+  answers.distance = null;
+  answers.preference = null;
+  document.querySelectorAll(".option-btn").forEach(btn => btn.classList.remove("active"));
+  document.getElementById("marketStatus").textContent = answers.market ? "" : rideMatchT("marketRequired");
+  document.getElementById("step1").style.display = answers.market ? "block" : "none";
+  document.getElementById("step1").classList.toggle("active", Boolean(answers.market));
+  document.getElementById("step2").style.display = "none";
+  document.getElementById("results").style.display = "none";
+  updateProgress();
 });
 
 document.querySelectorAll('.step').forEach(stepEl => {
