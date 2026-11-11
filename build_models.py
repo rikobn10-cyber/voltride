@@ -543,7 +543,13 @@ def main():
     # remove stale model pages that are no longer in models.json
     ids = {m["id"] for m in MODELS}
     for m in MODELS:
-        write(f"{m['id']}.html", page(m, variant_options))
+        generated_page = page(m, variant_options)
+        if m["id"] == MODELS[0]["id"]:
+            old_page = read(f"{m['id']}.html")
+            if old_page != generated_page:
+                diff_at = next((i for i, (a, b) in enumerate(zip(old_page, generated_page)) if a != b), min(len(old_page), len(generated_page)))
+                print("MODEL_PAGE_DIFF_DEBUG", m["id"], "old_len", len(old_page), "new_len", len(generated_page), "at", diff_at, "old", repr(old_page[max(0, diff_at-100):diff_at+180]), "new", repr(generated_page[max(0, diff_at-100):diff_at+180]))
+        write(f"{m['id']}.html", generated_page)
     print("pages written:", len(MODELS))
 
     # sitemap.xml is maintained separately; never overwrite its curated multilingual URLs.
