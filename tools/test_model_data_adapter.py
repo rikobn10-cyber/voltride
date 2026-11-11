@@ -13,7 +13,7 @@ DATA = json.loads((ROOT / "model_data_v2.json").read_text(encoding="utf-8"))
 class ModelDataAdapterTests(unittest.TestCase):
     def test_projects_only_explicit_verified_xiaomi_variant(self):
         result = project_verified_variant(
-            DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "Global"
+            DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "Global"
         )
         self.assertEqual(result["legacy_fields"], {
             "id": "xiaomi-3-lite",
@@ -29,15 +29,25 @@ class ModelDataAdapterTests(unittest.TestCase):
         })
         self.assertEqual(result["range_claim"]["max_km"], 20)
         self.assertEqual(result["provenance"]["battery_energy_wh"], 187)
-        self.assertEqual(result["provenance"]["variant_id"], "xiaomi-3-lite-mjddhbc03zm-global")
+        self.assertEqual(result["provenance"]["variant_id"], "xiaomi-3-lite-mjddhbc03zm-uk")
 
     def test_requires_explicit_market(self):
         with self.assertRaises(VariantProjectionError):
-            project_verified_variant(DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "")
+            project_verified_variant(DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "")
 
     def test_rejects_wrong_market(self):
         with self.assertRaises(VariantProjectionError):
-            project_verified_variant(DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "US")
+            project_verified_variant(DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "US")
+
+    def test_xiaomi_pro_2_uses_official_hk_battery_values(self):
+        result = project_verified_variant(
+            DATA, "xiaomi-pro-2", "xiaomi-pro-2-ddhbc11neb-hk", "HK"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 37)
+        self.assertEqual(result["legacy_fields"]["ah"], 12.8)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 474)
+        self.assertEqual(result["legacy_fields"]["motor"], 300)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 600)
 
     def test_selects_market_specific_niu_speed(self):
         us = project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-us", "US")
@@ -75,7 +85,7 @@ class ModelDataAdapterTests(unittest.TestCase):
 
     def test_rejects_unknown_variant(self):
         with self.assertRaises(VariantProjectionError):
-            project_verified_variant(DATA, "xiaomi-3-lite", "not-a-real-variant", "Global")
+            project_verified_variant(DATA, "xiaomi-3-lite", "not-a-real-variant", "UK")
 
     def test_aggregates_explicit_per_motor_rated_and_peak_power(self):
         fixture = json.loads(json.dumps(DATA))
@@ -88,7 +98,7 @@ class ModelDataAdapterTests(unittest.TestCase):
             "peakPowerBasis": "per_motor",
         }
         result = project_verified_variant(
-            fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "Global"
+            fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "Global"
         )
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
@@ -97,7 +107,7 @@ class ModelDataAdapterTests(unittest.TestCase):
         fixture = json.loads(json.dumps(DATA))
         next(m for m in fixture["models"] if m["id"] == "xiaomi-3-lite")["variants"][0]["verification"]["status"] = "provisional"
         with self.assertRaises(VariantProjectionError):
-            project_verified_variant(fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "Global")
+            project_verified_variant(fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "UK")
 
     def test_never_substitutes_peak_power_for_missing_rated_power(self):
         fixture = json.loads(json.dumps(DATA))
@@ -107,7 +117,7 @@ class ModelDataAdapterTests(unittest.TestCase):
         motors["peakPowerW"] = 600
         motors["peakPowerBasis"] = "combined"
         with self.assertRaises(VariantProjectionError):
-            project_verified_variant(fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "Global")
+            project_verified_variant(fixture, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-uk", "UK")
 
 
 if __name__ == "__main__":
