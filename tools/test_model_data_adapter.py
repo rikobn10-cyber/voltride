@@ -103,6 +103,16 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
 
+    def test_vsett_9_plus_aggregates_two_rated_motors_without_guessing_peak(self):
+        result = project_verified_variant(
+            DATA, "vsett-9-plus", "vsett-9-plus-48v-21ah-global", "Global"
+        )
+        self.assertEqual(result["legacy_fields"]["motor"], 1300)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], None)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 1008)
+        self.assertEqual(result["legacy_fields"]["speed"], 53)
+        self.assertEqual(result["range_claim"]["max_km"], 100)
+
     def test_rejects_segway_g30_family_until_suffix_and_capacity_are_resolved(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(
