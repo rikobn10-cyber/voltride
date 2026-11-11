@@ -103,6 +103,12 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
 
+    def test_rejects_segway_g30_family_until_suffix_and_capacity_are_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "segway-max-g30", "segway-max-g30-family-unresolved", "Global"
+            )
+
     def test_rejects_navee_g5_until_battery_capacity_is_resolved(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(
