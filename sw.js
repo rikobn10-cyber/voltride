@@ -64,17 +64,29 @@ async function matchPage(cache, req) {
   return null;
 }
 
+async function offlineNavigationFallback(cache, req) {
+  const page = await matchPage(cache, req);
+  if (page) return page;
+  const offlineUrl = new URL("offline.html", self.registration.scope).href;
+  return (await cache.match(offlineUrl)) || Response.error();
+}
+
 async function navigate(req) {
   const cache = await caches.open(VERSION);
   try {
     const res = await fetchWithTimeout(req, NAV_TIMEOUT_MS);
-    if (res && res.ok) cache.put(req, res.clone());
+    if (res && res.ok) {
+      cache.put(req, res.clone());
+      return res;
+    }
+    // Some browsers resolve an offline navigation to a cached HTTP 404
+    // instead of rejecting fetch(). Use the offline page in that case.
+    if (self.navigator && self.navigator.onLine === false) {
+      return offlineNavigationFallback(cache, req);
+    }
     return res;
   } catch (_) {
-    const page = await matchPage(cache, req);
-    if (page) return page;
-    const offlineUrl = new URL("offline.html", self.registration.scope).href;
-    return (await cache.match(offlineUrl)) || Response.error();
+    return offlineNavigationFallback(cache, req);
   }
 }
 
