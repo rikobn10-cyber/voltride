@@ -170,13 +170,13 @@ These are work queues, not permission to overwrite current production values wit
 
 ## 9. Staged migration checkpoint — 2026-11-11
 
-- `model_data_v2.json` now contains one high-confidence, exact-SKU variant: Xiaomi Scooter 3 Lite, manufacturer code `MJDDHBC03ZM`, Global source page.
-- The record retains the manufacturer-published 36V, 5.2Ah and 187Wh values, 300W rated motor power, 25km/h maximum speed and 20km manufacturer range claim. Peak motor power remains unknown and is not inferred.
-- The record passes the existing schema-v2 validator. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
+- `model_data_v2.json` now contains 3 model identities and 4 high-confidence market/SKU variants: Xiaomi Scooter 3 Lite (MJDDHBC03ZM, Global), Xiaomi Pro 2 (DDHBC11NEB, Spain), and NIU KQi3 Max (US and EU).
+- The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
+- All four variants pass the existing schema-v2 validator and the explicit-variant adapter tests. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
 - No other model is added until its exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
 - Next gate: implement and unit-test an explicit-variant adapter. It must reject unresolved variants, require a selected market/variant, and expose source provenance. Only after this adapter is validated should a consumer be migrated.
 
 
 ### Compatibility adapter implementation
 
-A pure-Python staged adapter now requires an explicit model ID, variant ID and market. It rejects anything other than a high-confidence `verified_variant`, rejects incomplete battery or rated-power data, refuses to substitute peak power for rated power, and returns both legacy-compatible specification fields and their source provenance. The adapter is not yet wired into production generation; its regression tests run independently in CI.
+A pure-Python staged adapter now requires an explicit model ID, variant ID and market. It rejects anything other than a high-confidence `verified_variant`, rejects incomplete battery or rated-power data, refuses to substitute peak power for rated power, and returns both legacy-compatible specification fields and their source provenance. Regression tests cover exact selection and NIU US/EU market separation. The adapter is not yet wired into production generation.
