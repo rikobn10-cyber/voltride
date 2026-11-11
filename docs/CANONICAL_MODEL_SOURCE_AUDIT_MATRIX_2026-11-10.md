@@ -136,3 +136,8 @@ The staged V2 dataset now contains 7 model identities and 8 verified variants. T
 ### GOTRAX GXL V2 US variant evidence — 2026-11-11
 
 - `gotrax-gxl-v2-us-current`: GOTRAX's official GXL V2 product page identifies 250W average motor power, 15.5mph maximum speed and up to 12.5 miles range. Its official replacement battery page explicitly lists GXL V2 compatibility and 36V/5.2Ah. V2 stores 24.9km/h and 20.1km as conversions from the original US units, and 187.2Wh as a calculated value (36V × 5.2Ah), not a manufacturer-published Wh figure. Peak motor power remains unresolved.
+
+
+### Xiaomi Electric Scooter 4 Pro original-generation record — 2026-11-11
+
+- `xiaomi-4-pro-ddhbc20neb-global`: Xiaomi's official global page identifies model code DDHBC20NEB, 12.4Ah/446Wh, 350W rated/700W max, 25km/h and up to 55km after the specified firmware update. The page does **not** state nominal battery voltage. The V2 record is therefore intentionally `variant_unresolved` (medium confidence), with voltage null; no 36V value is inferred from Wh/Ah. Do not conflate this original model code with 4 Pro 2nd Gen.
