@@ -156,3 +156,11 @@ The staged V2 dataset now contains 11 model identities and 13 variants (9 verifi
 ### VSETT 9+ 48V/21Ah variant evidence — 2026-11-11
 
 - `vsett-9-plus-48v-21ah-global`: VSETT's official product page lists the 48V/21Ah battery option, dual 650W brushless motors, 53km/h maximum speed and up to 100km dual-motor mileage for that battery variant. The V2 record calculates 1008Wh from 48V × 21Ah and labels it calculated; peak power is left null because the cited page does not publish it.
+
+
+### Segway MAX G2 US/EU variants — 2026-11-11
+
+- segway-max-g2-us-051501u: Segway's official support page identifies US model 051501U, 36V/15.3Ah/551Wh, 450W nominal/1000W max, 32km/h factory default and up to 35km/h after app enablement. The V2 maximum speed is 35km/h, with the default and enablement condition explicitly stated; 70km is the theoretical range at the manufacturer's stated test speed.
+- segway-max-g2-e-051501e: Segway's official EU product page and manual identify EU model 051501E, 36V/15.3Ah/551Wh, 450W nominal/900W max, 25km/h and up to 70km theoretical range. The 900W EU maximum is not conflated with the 1000W US maximum.
+
+The current legacy segway-max-g2 row matches the US maximum only when higher speed is enabled; V2 preserves both US and EU variants separately.
