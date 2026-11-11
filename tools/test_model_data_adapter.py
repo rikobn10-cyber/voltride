@@ -50,6 +50,16 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(eu["legacy_fields"]["energyWh"], 608.4)
         self.assertEqual(us["legacy_fields"]["peakMotorPowerW"], 900)
 
+    def test_gotrax_projection_preserves_calculated_energy_and_unknown_peak(self):
+        result = project_verified_variant(
+            DATA, "gotrax-gxl-v2", "gotrax-gxl-v2-us-current", "US"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 36)
+        self.assertEqual(result["legacy_fields"]["ah"], 5.2)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 187.2)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], None)
+        self.assertEqual(result["legacy_fields"]["speed"], 24.9)
+
     def test_apollo_dual_motor_projection_keeps_rated_and_peak_separate(self):
         result = project_verified_variant(
             DATA, "apollo-city-pro", "apollo-city-pro-2023-ca", "CA"
