@@ -131,6 +131,10 @@ async function networkIsReachable() {
 
 async function navigate(req) {
   const cache = await caches.open(VERSION);
+  // If the worker already knows the browser is offline, skip a network request.
+  if (self.navigator && self.navigator.onLine === false) {
+    return offlineNavigationFallback(cache, req);
+  }
   try {
     const res = await fetchWithTimeout(req, NAV_TIMEOUT_MS);
     if (res && res.ok) {
