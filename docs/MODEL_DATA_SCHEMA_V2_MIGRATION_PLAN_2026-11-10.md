@@ -170,7 +170,7 @@ These are work queues, not permission to overwrite current production values wit
 
 ## 9. Staged migration checkpoint — 2026-11-11
 
-- `model_data_v2.json` now contains 7 model identities and 8 high-confidence market/SKU variants: Xiaomi Scooter 3 Lite (MJDDHBC03ZM, UK), Xiaomi Pro 2 (DDHBC11NEB, HK), and NIU KQi3 Max (US and EU).
+- `model_data_v2.json` now contains 8 model identities and 9 variants (8 verified, 1 intentionally unresolved): Xiaomi Scooter 3 Lite (MJDDHBC03ZM, UK), Xiaomi Pro 2 (DDHBC11NEB, HK), and NIU KQi3 Max (US and EU).
 - The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
 - All eight variants pass the existing schema-v2 validator and the explicit-variant adapter tests. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
 - No other model is added until its exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
@@ -192,3 +192,6 @@ Apollo City Pro 2023 is now included as a CA-market dual-motor variant. Its 500W
 
 
 GOTRAX GXL V2 (US) was added using the official product page plus the official replacement-battery compatibility listing. Original mph/mile figures are retained in conditions next to metric conversions; calculated Wh is labelled explicitly and peak power remains unresolved.
+
+
+Xiaomi Electric Scooter 4 Pro original generation (DDHBC20NEB) has been added as an unresolved evidence record: Xiaomi publishes 12.4Ah/446Wh, 350W rated/700W max, 25km/h and 55km after firmware update, but the cited page omits nominal voltage. The record keeps voltage null and is rejected by the compatibility adapter. This demonstrates that partial evidence is retained without promoting inferred measurements to verified status.
