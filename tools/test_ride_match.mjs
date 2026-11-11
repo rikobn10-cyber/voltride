@@ -82,6 +82,13 @@ assert.ok(morocco.some(model => model.id === "ecoxtrem-bison-gt"));
 assert.ok(morocco.some(model => model.id === "ecoxtrem-bison-m41"));
 assert.ok(morocco.every(model => model.market === "MA"));
 assert.ok(morocco.every(model => model.variantId && model.variantLabel));
+const bisonGt = morocco.find(model => model.id === "ecoxtrem-bison-gt");
+const m41 = morocco.find(model => model.id === "ecoxtrem-bison-m41");
+assert.ok(bisonGt.speedConditions.includes("20km/h and 25km/h restricted modes"));
+assert.ok(bisonGt.speedConditions.includes("not a public-road legal speed claim"));
+assert.ok(m41.speedConditions.includes("25km/h for public-road use"));
+assert.ok(m41.speedConditions.includes("private roads"));
+
 
 evaluate('answers = { market: null, distance: "20-40", preference: "range" }');
 assert.equal(evaluate("getRecommendations().length"), 0, "recommendations must be empty until a market is explicitly selected");
@@ -95,6 +102,18 @@ assert.ok(rendered.includes("US") || rendered.includes("EU"));
 assert.ok(rendered.includes("aliexpress.com/wholesale"));
 assert.ok(!rendered.includes("s.click.aliexpress"));
 assert.ok(!rendered.includes('rel="noopener sponsored nofollow"'));
+
+evaluate('answers = { market: "MA", distance: "20-40", preference: "range" }');
+evaluate('getRecommendations = () => { const candidates = getEligibleScooters(); return ["ecoxtrem-bison-gt", "ecoxtrem-bison-m41"].map(id => ({ s: candidates.find(model => model.id === id), range: 30 })); }');
+evaluate("renderResults()");
+const moroccoRendered = element("recommendations").innerHTML;
+assert.ok(moroccoRendered.includes("20km/h and 25km/h restricted modes"));
+assert.ok(moroccoRendered.includes("50km/h figure is not a public-road legal speed claim"));
+assert.ok(moroccoRendered.includes("25km/h for public-road use"));
+assert.ok(moroccoRendered.includes("70km/h on private roads"));
+assert.ok(moroccoRendered.includes("Conditions de vitesse du fabricant"));
+assert.ok(!html.includes("بعض روابط الشراء روابط إحالة"));
+
 
 assert.ok(!html.includes("const uniqueScooters") && !html.includes("uniqueScooters.slice"));
 assert.ok(!html.includes("const scooters = ["));

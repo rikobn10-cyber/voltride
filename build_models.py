@@ -64,6 +64,7 @@ def build_verified_variant_options():
                     "energyWhBasis": fields["energyWhBasis"],
                     "energyWhSourceNote": battery.get("energyWhSourceNote"),
                     "speed": fields["speed"],
+                    "speedConditions": variant.get("speed", {}).get("conditions"),
                     "rangeClaimKm": projection["range_claim"].get("max_km"),
                     "sourcePublisher": source.get("publisher"),
                     "sourceUrl": source.get("url"),
