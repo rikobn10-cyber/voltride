@@ -1,4 +1,5 @@
 name: Live functional smoke
+# Includes production PWA offline navigation and install metadata checks.
 
 on:
   pull_request:
