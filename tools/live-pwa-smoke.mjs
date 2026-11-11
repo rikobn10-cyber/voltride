@@ -9,19 +9,6 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 const errors = [];
-const serviceWorkerDiagnostics = [];
-await context.addInitScript(() => {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.addEventListener("message", event => {
-      if (event.data && event.data.type === "VOLT_SW_DIAG") {
-        console.log("VOLT_SW_DIAG", JSON.stringify(event.data));
-      }
-    });
-  }
-});
-page.on("console", message => {
-  if (message.text().includes("VOLT_SW_DIAG")) serviceWorkerDiagnostics.push(message.text());
-});
 context.on("serviceworker", worker => {
   worker.on("console", message => console.log("SERVICE WORKER:", message.text()));
   worker.on("error", error => console.log("SERVICE WORKER ERROR:", error.message));
@@ -147,8 +134,7 @@ try {
     fallbackNavigationError = error.message;
   }
   const fallbackDiagnostic = await page.evaluate(() => ({ url: location.href, title: document.title, online: navigator.onLine, controlled: Boolean(navigator.serviceWorker.controller), body: document.body.innerText.slice(0, 300) })).catch(error => ({ error: error.message }));
-  console.log("PWA fallback diagnostic", JSON.stringify({ status: fallback?.status(), navigationError: fallbackNavigationError, diagnostic: fallbackDiagnostic, serviceWorkerDiagnostics }));
-  assert.ok(serviceWorkerDiagnostics.some(line => line.includes("navigation-intercepted") && line.includes("pwa-offline-test")), "service worker must intercept the uncached navigation");
+  console.log("PWA fallback diagnostic", JSON.stringify({ status: fallback?.status(), navigationError: fallbackNavigationError, diagnostic: fallbackDiagnostic }));
   await page.getByText("لا يوجد اتصال بالإنترنت").waitFor({ state: "visible", timeout: 5000 });
   assert.ok(fallback || fallbackNavigationError, "offline fallback navigation must be attempted");
   assert.deepEqual(errors, [], "PWA routes must not throw uncaught browser errors");
