@@ -73,7 +73,7 @@ class ModelDataAdapterTests(unittest.TestCase):
     def test_catalog_hides_legacy_specs_until_a_verified_v2_variant_is_selected(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
         start = html.index("function renderCatalog(){")
-        end = html.index("\\nfunction toggleFavorite", start)
+        end = html.index("\nfunction toggleFavorite", start)
         catalog = html[start:end]
         self.assertIn("getCatalogVariantOptions(s.id)", catalog)
         self.assertIn("getSelectedCatalogVariant(s.id)", catalog)
@@ -87,7 +87,7 @@ class ModelDataAdapterTests(unittest.TestCase):
     def test_compare_uses_explicitly_selected_v2_variant_for_every_spec_row(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
         start = html.index("function openCompare(){")
-        end = html.index("\\nfunction useScooter", start)
+        end = html.index("\nfunction useScooter", start)
         compare = html[start:end]
         self.assertIn("getSelectedCatalogVariant(s.id)", compare)
         self.assertIn("data-compare-variant", compare)
