@@ -66,9 +66,14 @@ async function matchPage(cache, req) {
 
 async function offlineNavigationFallback(cache, req) {
   const page = await matchPage(cache, req);
-  if (page) return page;
+  if (page) {
+    console.log("[VoltRide SW] offline navigation matched cached page", req.url);
+    return page;
+  }
   const offlineUrl = new URL("offline.html", self.registration.scope).href;
-  return (await cache.match(offlineUrl)) || Response.error();
+  const fallback = await cache.match(offlineUrl);
+  console.log("[VoltRide SW] offline fallback lookup", JSON.stringify({ request: req.url, offlineUrl, found: Boolean(fallback) }));
+  return fallback || Response.error();
 }
 
 async function navigate(req) {
@@ -85,7 +90,8 @@ async function navigate(req) {
       return offlineNavigationFallback(cache, req);
     }
     return res;
-  } catch (_) {
+  } catch (error) {
+    console.log("[VoltRide SW] navigation fetch rejected", req.url, String(error));
     return offlineNavigationFallback(cache, req);
   }
 }
