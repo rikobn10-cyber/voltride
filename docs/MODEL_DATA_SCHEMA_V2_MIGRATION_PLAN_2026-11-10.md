@@ -180,3 +180,6 @@ These are work queues, not permission to overwrite current production values wit
 ### Compatibility adapter implementation
 
 A pure-Python staged adapter now requires an explicit model ID, variant ID and market. It rejects anything other than a high-confidence `verified_variant`, rejects incomplete battery or rated-power data, refuses to substitute peak power for rated power, and returns both legacy-compatible specification fields and their source provenance. Regression tests cover exact selection and NIU US/EU market separation. The adapter is not yet wired into production generation.
+
+
+The adapter projection now carries manufacturer-published `energyWh` and its basis separately from voltage × Ah, and includes peak motor power as a distinct field when published. This is necessary because manufacturer-published Wh can differ from nominal voltage × rated Ah; the future calculator integration must consume the explicit Wh value rather than silently recomputing it. Tests also cover per-motor-to-combined aggregation only when the motor count and basis are explicit.
