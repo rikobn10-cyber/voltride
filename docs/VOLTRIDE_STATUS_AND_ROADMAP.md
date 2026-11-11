@@ -172,7 +172,7 @@ Production consumers (`build_models.py`, static model pages, homepage catalog an
 ## 2026-11-11 — calculator V2 selector implementation (review branch)
 
 - Branch `feat/calculator-v2-market-variant-selector` adds a market/variant picker to the calculator using only high-confidence `verified_variant` records that pass `project_verified_variant`.
-- The generated selector exposes 22 market choices across 19 model identities (21 verified variant records; the M41 variant is selectable for both MA and EU).
+- The generated selector exposes 23 market choices across 20 model identities (22 verified variant records; the M41 variant is selectable for both MA and EU).
 - Model deep links and the catalog “Use” action no longer auto-fill the legacy catalog specifications. They open the explicit variant selector; models without a projectable V2 variant require manual entry instead of silently falling back to legacy values.
 - When a variant is selected, the calculator uses its combined rated motor power and preserves manufacturer-published Wh versus calculated Wh basis. Manual edits clear the selected-variant provenance and recalculate energy from the entered voltage and Ah.
 - Unresolved V2 records are excluded from the selector. The catalog card display, comparison table, generated model-page specifications and Ride Match still require their own staged migration; they are not switched by this calculator-only phase.
