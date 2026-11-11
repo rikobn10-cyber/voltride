@@ -490,7 +490,7 @@ def main():
             "variants": variants,
         })
     ride_markets = sorted({variant["market"] for model in ride_models for variant in model["variants"]})
-    ride_block = "const RIDE_MATCH_MODELS = " + json.dumps(ride_models, ensure_ascii=False, separators=(",", ":")) + ";\\n"
+    ride_block = "const RIDE_MATCH_MODELS = " + json.dumps(ride_models, ensure_ascii=False, separators=(",", ":")) + ";\n"
     ride_block += "const RIDE_MATCH_MARKETS = " + json.dumps(ride_markets, ensure_ascii=False) + ";"
     ride_path = "ride-match.html"
     ride_html = read(ride_path)
