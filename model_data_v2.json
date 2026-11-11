@@ -499,6 +499,68 @@
       ]
     },
     {
+      "id": "segway-max-g30",
+      "name": "Segway Ninebot MAX G30 family",
+      "manufacturer": "Segway-Ninebot",
+      "category": "commuter",
+      "variants": [
+        {
+          "variantId": "segway-max-g30-family-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": null,
+            "energyWh": 551,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 36V nominal and 551Wh; Ah is not stated on the cited official page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 350,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": null,
+            "conditions": "Official page lists G30 at 25km/h and G30P at 30km/h; exact suffix/market for this catalog identity is not resolved."
+          },
+          "rangeClaim": {
+            "maxKm": 65,
+            "basis": "manufacturer_claim",
+            "conditions": "Approx. 65km typical range under Segway's stated 75kg, 25°C, flat pavement and 60% max-speed test conditions."
+          },
+          "sources": [
+            {
+              "url": "https://arab.segway.com/product-info/kickscooter-max.html",
+              "publisher": "Segway-Ninebot ME",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official page distinguishes G30 (25km/h) and G30P (30km/h); the current catalog identity does not preserve the suffix needed to choose one.",
+              "Official page publishes 36V and 551Wh but not Ah; capacityAh remains null.",
+              "Do not use the current catalog's 30km/h value as a universal G30 specification."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "xiaomi-3-lite",
       "name": "Xiaomi Scooter 3 Lite",
       "manufacturer": "Xiaomi",
