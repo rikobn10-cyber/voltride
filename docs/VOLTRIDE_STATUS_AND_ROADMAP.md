@@ -249,5 +249,28 @@ This section supersedes earlier roadmap statements above that said the calculato
 1. Continue exact-SKU source verification for the unresolved variants; the main post-merge CI and live-site checks are now complete and passed.
 2. Continue exact-SKU source verification for the 10 identities and 15 unresolved variant records; only change canonical values where primary evidence resolves generation, market and power basis.
 3. Perform a separate production measurement check for GA4 custom event receipt after explicit consent, and a fresh Search Console indexing/canonical review. Existing CI proves consent code behavior, not receipt of live GA4 events.
-4. Complete the remaining live-path review for catalog, compare, generated model pages, locale changes, PWA install/update/offline, internal/external links and mobile layout.
+4. Complete live PWA install/update/offline verification and a broader mobile/responsive navigation review. The browser smoke now covers calculator, catalog, comparison, app language selection, a generated model page and Ride Match.
 5. Produce the final readiness report before any advertising strategy or implementation is discussed.
+
+
+## 2026-11-11 — expanded production browser smoke (PR #71)
+
+- Extended `tools/live-smoke.mjs` to exercise the main app's Settings language selector, catalog variant picker, comparison modal and a generated Xiaomi 3 Lite detail page in addition to the calculator and Ride Match.
+- The test explicitly declines the analytics-consent banner in its isolated browser context. This avoids granting consent on behalf of a real visitor and avoids sending synthetic CI traffic to GA4.
+- Production smoke result on `https://voltride-4qj.pages.dev`:
+  - Calculator: 32.1 km estimated range and 461 Wh energy for the default test state.
+  - Catalog: selected the documented Global variant `dualtron-thunder-3-ed2301-72v40ah-global` for Dualtron Thunder 3.
+  - Comparison modal rendered the selected model and battery energy.
+  - Settings language changed the app document to English/LTR.
+  - Generated `/xiaomi-3-lite` detail page returned successfully and declared its own canonical URL.
+  - Ride Match selected EU, rendered three recommendations, and retained results after language switching.
+  - No uncaught browser page errors.
+- The first expanded run exposed a test-harness issue: the consent dialog correctly intercepted the comparison button. The test was corrected to explicitly decline consent; the next production run passed. No application code change was required.
+- PR #71 Site checks passed all nine jobs; axe-core checked 81 pages with zero blocking violations and zero warnings. The live functional smoke also passed.
+- PR #71 is test/documentation-only. It does not change production application behavior, model specifications, affiliate destinations, analytics configuration or advertising.
+
+### Remaining release checks
+- Main post-merge Site checks and Live site check must be re-read after PR #71 merge.
+- GA4 event receipt still requires a separate production measurement verification after an actual explicit consent flow; CI consent tests do not prove GA4 event ingestion.
+- Search Console index/canonical status still requires a fresh property-level review; sitemap and canonical CI checks are not a substitute for Google recrawl status.
+- Five AliExpress short-link destinations remain unresolved and disabled; do not enable until final product URL, SKU and market are verified.
