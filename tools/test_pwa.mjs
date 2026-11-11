@@ -14,4 +14,8 @@ assert.match(sw, /new URL\("offline\.html", self\.registration\.scope\)/, "offli
 assert.match(sw, /self\.navigator\.onLine === false/, "resolved offline error responses must use the offline fallback");
 assert.match(sw, /async function networkIsReachable\(\)/, "offline navigation must verify connectivity with a live resource probe");
 assert.match(sw, /await networkIsReachable\(\)/, "HTTP error navigations must distinguish offline failures from real 404 responses");
+assert.match(sw, /Response\.redirect\(page\.url, 302\)/, "cached clean URLs must redirect to their exact cached document URL");
+assert.match(sw, /Response\.redirect\(offlineUrl, 302\)/, "uncached offline navigations must redirect to the cached offline page");
+assert.match(sw, /new URL\(path, self\.registration\.scope\)/, "cache matching must resolve URLs against the service worker scope");
+assert.doesNotMatch(sw, /DEBUG_CACHE|TEST_NAVIGATE/, "temporary PWA diagnostics must not ship in the service worker");
 console.log("PWA tests passed: Ride Match precache, offline fallback, unique entries and cache version.");
