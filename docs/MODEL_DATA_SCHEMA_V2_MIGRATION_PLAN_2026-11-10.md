@@ -195,3 +195,6 @@ GOTRAX GXL V2 (US) was added using the official product page plus the official r
 
 
 Xiaomi Electric Scooter 4 Pro original generation (DDHBC20NEB) has been added as an unresolved evidence record: Xiaomi publishes 12.4Ah/446Wh, 350W rated/700W max, 25km/h and 55km after firmware update, but the cited page omits nominal voltage. The record keeps voltage null and is rejected by the compatibility adapter. This demonstrates that partial evidence is retained without promoting inferred measurements to verified status.
+
+
+NAVEE G5 US/EU records were added as unresolved evidence variants: official source provides regional speeds and 36V/275.4Wh, but not Ah. The two regional records stay ineligible for projection until capacity is confirmed.
