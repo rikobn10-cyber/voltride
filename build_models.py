@@ -2,9 +2,8 @@
 """VoltRide programmatic SEO generator (v3: 30 models).
 Run inside the site folder:   python3 build_models.py
 
-Reads  models.json (list of models) and model_texts.json (optional hand-written text by id).
-Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), preserves the hand-maintained sitemap.xml, refreshes the models section of blog.html,
-the MODEL_PRESETS block of index.html and the PRECACHE list of sw.js.
+Reads models.json for legacy model pages/catalogs and model_texts.json for optional editorial text. Reads model_data_v2.json for high-confidence, market-specific calculator options through the compatibility adapter.
+Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), preserves the hand-maintained sitemap.xml, refreshes blog.html, MODEL_PRESETS and MODEL_VARIANTS in index.html, and the PRECACHE list of sw.js.
 """
 import hashlib, html, json, math, os, re
 from model_data_adapter import VariantProjectionError, project_verified_variant
