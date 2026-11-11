@@ -134,6 +134,69 @@
       ]
     },
     {
+      "id": "gotrax-g4",
+      "name": "GOTRAX G4",
+      "manufacturer": "GOTRAX",
+      "category": "budget",
+      "variants": [
+        {
+          "variantId": "gotrax-g4-us-original-42015315951731",
+          "sku": null,
+          "market": [
+            "US"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": 10.4,
+            "energyWh": 374.4,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "GOTRAX publishes 36V/10.4Ah and approximately 374.4Wh for the G4."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 500,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 32.2,
+            "conditions": "G4 Original US variant; 20mph (32.2km/h) in Gear 2; Gear 1 is 15.5mph (25km/h)."
+          },
+          "rangeClaim": {
+            "maxKm": 40.2,
+            "basis": "manufacturer_claim",
+            "conditions": "Up to 25 miles (40.2km) in Gear 1 at 15.5mph; GOTRAX lists up to 15 miles (24.1km) in Gear 2 at 20mph."
+          },
+          "sources": [
+            {
+              "url": "https://gotrax.com/products/g4-electric-scooter-for-adults?variant=42015315951731",
+              "publisher": "GOTRAX",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Exact Shopify variant 42015315951731 is the G4 Original, distinct from G4 Pro's front suspension and pneumatic front tire.",
+              "GOTRAX publishes 36V/10.4Ah/approx.374.4Wh, 500W average motor, 20mph top speed and up to 25mi range.",
+              "Gear-specific range is retained: up to 25mi at 15.5mph (Gear 1), up to 15mi at 20mph (Gear 2). Peak motor power is not published."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "gotrax-gxl-v2",
       "name": "GOTRAX GXL V2",
       "manufacturer": "GOTRAX",
@@ -1059,6 +1122,68 @@
               "Official table distinguishes Fighter 11 (60V/26Ah, 85km/h, 80km) from Fighter 11+ (60V/35Ah, 85km/h, 120km).",
               "The table lists 4900W peak power but does not establish rated power or whether the figure is per-motor or combined; power fields remain unresolved rather than using the legacy 5000W as rated.",
               "Teverun's after-sale guide states factory speed is limited to 25km/h; 85km/h is the unrestricted specification and must not be presented as road-use default."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "vsett-10-plus",
+      "name": "VSETT 10+",
+      "manufacturer": "VSETT",
+      "category": "performance",
+      "variants": [
+        {
+          "variantId": "vsett-10-plus-60v28ah-global-unresolved",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 60,
+            "capacityAh": 28,
+            "energyWh": 1680,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 60V nominal × 28Ah; VSETT publishes the battery voltage and Ah options, not Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": null,
+            "ratedPowerBasis": "unresolved",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": null,
+            "conditions": "Official page gives a 70–80km/h range across configurations; exact speed for the 28Ah option is not pinned."
+          },
+          "rangeClaim": {
+            "maxKm": null,
+            "basis": "manufacturer_claim",
+            "conditions": "Official page lists 65/80/90km across 20.8/25.6/28Ah variants in turbo dual-motor mode, and up to 160km in Eco; exact battery-to-range pairing is not explicitly tabulated."
+          },
+          "sources": [
+            {
+              "url": "https://vsettscooters.com/pages/vsett-10-plus",
+              "publisher": "VSETT Official",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "VSETT's official page lists 60V 20.8Ah / 25.6Ah / 28Ah battery options and dual 1400W motors.",
+              "The page does not identify whether 1400W is rated or peak and gives a 70–80km/h speed range across configurations; rated power and exact speed remain null.",
+              "The 65/80/90km ranges are listed alongside battery options but the page does not explicitly map each range to each capacity; rangeClaim remains null pending exact pairing."
             ]
           }
         }
