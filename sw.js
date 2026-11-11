@@ -65,10 +65,18 @@ self.addEventListener("message", (e) => {
     e.waitUntil((async () => {
       try {
         const response = await navigate(new Request(e.data.url));
-        const body = await response.clone().text();
+        const location = response.headers.get("Location");
+        let finalResponse = response;
+        if (response.status >= 300 && response.status < 400 && location) {
+          const cache = await caches.open(VERSION);
+          finalResponse = await cache.match(location) || response;
+        }
+        const body = await finalResponse.clone().text();
         const networkReachable = await networkIsReachable();
         e.ports[0].postMessage({
           status: response.status,
+          finalStatus: finalResponse.status,
+          location,
           type: response.type,
           offlineText: body.includes("لا يوجد اتصال بالإنترنت"),
           workerOnline: self.navigator ? self.navigator.onLine : null,
