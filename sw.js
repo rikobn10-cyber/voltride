@@ -1,5 +1,5 @@
 /* VoltRide Service Worker v3.1.0 */
-const VERSION = "voltride-v19";
+const VERSION = "voltride-v20";
 const PRECACHE = [
   "./", "index.html", "offline.html", "manifest.json",
   "site.css", "site.js", "icon-192.png", "icon-512.png",
@@ -71,7 +71,7 @@ async function navigate(req) {
     if (res && res.ok) cache.put(req, res.clone());
     return res;
   } catch (_) {
-    return (await matchPage(cache, req)) || (await cache.match("offline.html")) || Response.error();
+    const page = await matchPage(cache, req);\n    if (page) return page;\n    const offlineUrl = new URL("offline.html", self.registration.scope).href;\n    return (await cache.match(offlineUrl)) || Response.error();
   }
 }
 
