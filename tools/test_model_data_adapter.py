@@ -1,10 +1,12 @@
 import json
 import unittest
+import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 from model_data_adapter import VariantProjectionError, project_verified_variant
 
-ROOT = Path(__file__).resolve().parent.parent
 DATA = json.loads((ROOT / "model_data_v2.json").read_text(encoding="utf-8"))
 
 
