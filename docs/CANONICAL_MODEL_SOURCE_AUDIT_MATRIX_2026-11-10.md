@@ -171,3 +171,10 @@ The current legacy segway-max-g2 row matches the US maximum only when higher spe
 - navee-n40-nkp21111-a25-global: NAVEE's official N40 manual identifies model NKP21111-A25, 37V/10Ah/370Wh, 350W rated motor, 25km/h maximum speed and approx. 40km range under its stated 75kg/25°C/15km/h test. Peak power is not published.
 - kukirin-g2-max-eu-open-current: KuKirin's official G2 Max page identifies 48V/20.8Ah, 1000W rated/1200W peak, 55km/h and up to 70km. It explicitly excludes German ABE and Spain VMP variants; Wh is calculated from nominal V × Ah.
 - kukirin-g4-eu-open-current: KuKirin's official G4 page identifies 60V/20Ah, 2000W rated rear motor, up to 70km/h and up to 75km. It says peak output is at least 2400W, not an exact figure, so peak power remains null; Wh is calculated from nominal V × Ah. Both KuKirin records are tagged EU-OPEN, not treated as universal legal configurations.
+
+
+### Apollo Ghost, Kaabo Wolf King GT and Teverun Fighter 11 evidence — 2026-11-11
+
+- apollo-ghost-us-2020: Apollo's official article identifies dual 800W rated motors with 1000W peak per motor, 52V/18.2Ah/947Wh, 55km/h, and up to 62km in the lowest speed setting. The V2 record separates rated and peak power; range conditions explicitly distinguish the 62km low-speed claim from the 40km average and max-speed range.
+- kaabo-wolf-king-gt-global-unresolved: Kaabo's official global site lists 72V/35Ah, dual 2000W motors, up to 180km range and 100+km/h. It does not specify rated-vs-peak motor basis or an exact speed ceiling; both remain null and the record is unresolved. Do not substitute the separate King GT Pro values.
+- teverun-fighter-11-60v26ah-global-unresolved: Teverun's official page distinguishes Fighter 11 (60V/26Ah, 85km/h, 80km) from Fighter 11+ (60V/35Ah, 85km/h, 120km). The 4900W figure is labelled peak but its motor basis is unclear and rated power is absent; power remains unresolved. The factory road-use speed limit of 25km/h is documented separately from the unrestricted 85km/h specification.
