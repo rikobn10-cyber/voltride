@@ -174,7 +174,7 @@ These are work queues, not permission to overwrite current production values wit
 - The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
 - All 18 variant records pass the schema-v2 validator; the adapter projects the 14 verified variants and rejects the 4 unresolved variants. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
 - The remaining 15 model identities have no V2 record yet; they will be added only when exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
-- The explicit-variant adapter is implemented and covered by 20 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
+- The explicit-variant adapter is implemented and covered by 19 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
 
 
 ### Compatibility adapter implementation
