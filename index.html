@@ -1378,7 +1378,7 @@ function useScooter(id){
   if (!Object.prototype.hasOwnProperty.call(MODEL_PRESETS, id)) return;
   openModelVariantPicker(id);
   switchScreen("calculator");
-  toast(t("variantChooseNote"));
+  toast((MODEL_VARIANTS[id] || []).length ? t("variantChooseNote") : t("variantNoData"));
 }
 
 function renderErrors(){
