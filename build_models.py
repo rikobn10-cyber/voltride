@@ -157,6 +157,104 @@ def similar(m, n=4):
     return others[:n]
 
 
+
+def estimate_variant(v, weight, terrain, mode):
+    usable = v["energyWh"] * 0.9
+    wf = 1 + (weight - 75) * 0.0045
+    speed = min(REFERENCE_SPEED, v["speed"])
+    sf = 1 + max(0, speed - 20) * 0.035
+    tf = {"flat": 1, "mixed": 1.12, "hills": 1.30}[terrain]
+    mf = {"eco": 0.88, "balanced": 1, "sport": 1.14}[mode]
+    motor = v["motor"]
+    mof = 1.10 if motor >= 1500 else 1.05 if motor >= 800 else 1
+    cap = 90 if motor >= 1500 else 60 if motor >= 800 else 45
+    consumption = min(cap, max(7, 12.5 * wf * sf * tf * mf * mof))
+    return usable / consumption, consumption
+
+
+def verified_variant_page_sections(variants):
+    if not variants:
+        pending = ('<div class="note"><h3>لم يتم التحقق من نسخة هذا الموديل بعد</h3>'
+                   '<p>لا نعرض هنا مواصفات أو تقديرات مأخوذة من سجل قديم غير محسوم. '
+                   'سنضيف بيانات هذا الموديل عندما تتوفر نسخة محددة وسوق ومصادر موثوقة من الشركة.</p></div>')
+        return pending, pending
+
+    spec_sections = []
+    range_sections = []
+    for v in variants:
+        basis = ("منشورة من الشركة المصنّعة" if v["energyWhBasis"] == "manufacturer_published"
+                 else "محسوبة من الجهد الاسمي × السعة")
+        source = (f'<a href="{esc(v["sourceUrl"])}" target="_blank" rel="noopener noreferrer">'
+                  f'{esc(v["sourcePublisher"] or "مصدر الشركة")}</a>') if v.get("sourceUrl") else "—"
+        sku = f' • SKU: {esc(v["sku"])}' if v.get("sku") else ""
+        generation = f' • الجيل: {esc(v["generation"])}' if v.get("generation") else ""
+        claim = (f'<p class="updated">المدى المعلن من الشركة لهذه النسخة: {num(v["rangeClaimKm"])} كم. '
+                 'هذا ادعاء الشركة وليس تقديراً ميدانياً.</p>') if v.get("rangeClaimKm") else (
+                 '<p class="updated">لا تتوفر قيمة مدى منشورة ومتحقق منها لهذه النسخة.</p>')
+        spec_sections.append(
+            f'<section class="table-wrap"><h3>{esc(v["label"])}{generation}{sku}</h3>'
+            '<table><tr><th>السوق</th><th>الفولت الاسمي</th><th>السعة</th><th>الطاقة</th><th>قوة المحرك الاسمية</th><th>السرعة القصوى</th></tr>'
+            f'<tr><td>{esc(v["market"])}</td><td>{num(v["voltage"])} V</td><td>{num(v["ah"])} Ah</td>'
+            f'<td>{num(v["energyWh"])} Wh</td><td>{num(v["motor"])} W</td><td>{num(v["speed"])} كم/س</td></tr></table>'
+            f'<p class="updated">أساس الطاقة: {basis}. {esc(v.get("energyWhSourceNote") or "")}<br>المصدر: {source}</p>{claim}</section>'
+        )
+        scenarios = [
+            ("خفيف ومريح", "راكب 60 كغ، طريق مستوٍ، نمط اقتصادي", estimate_variant(v, 60, "flat", "eco")[0]),
+            ("استعمال عادي", "راكب 75 كغ، طريق مختلط، نمط متوازن", estimate_variant(v, 75, "mixed", "balanced")[0]),
+            ("ظروف صعبة", "راكب 90 كغ، مرتفعات، نمط متوازن", estimate_variant(v, 90, "hills", "balanced")[0]),
+        ]
+        rows = "\n".join(
+            f'<tr><td><strong>{name}</strong><br><small>{description}</small></td><td class="winner">≈ {range_km:.0f} كم</td></tr>'
+            for name, description, range_km in scenarios
+        )
+        range_sections.append(
+            f'<section class="table-wrap"><h3>{esc(v["label"])} — تقدير المدى</h3>'
+            '<table><tr><th>السيناريو</th><th>المدى المقدّر</th></tr>'
+            f'{rows}</table>'
+            f'<p class="updated">التقدير مبني على {num(v["energyWh"])} Wh، مع استخدام 90% من الطاقة القابلة للاستعمال وسرعة مرجعية لا تتجاوز {REFERENCE_SPEED} كم/س (أو سرعة النسخة إذا كانت أقل). '
+            'ليس اختباراً ميدانياً ولا ضماناً للمدى الفعلي.</p></section>'
+        )
+    return "\n".join(spec_sections), "\n".join(range_sections)
+
+
+def migrate_model_page(page_html, model, variants):
+    spec_html, range_html = verified_variant_page_sections(variants)
+    intro = (f'<p>تختلف مواصفات {esc(model["name"])} باختلاف الجيل والسوق ورقم النسخة. '
+             'نعرض أدناه فقط النسخ التي أمكن ربطها بمصادر موثوقة من الشركة المصنّعة. '
+             'اختر السوق ورقم النسخة المطابقين للملصق الموجود على سكوترك قبل الاعتماد على أي رقم.</p>')
+    page_html, n = re.subn(r'<p>الرقم المكتوب على علبة أي سكوتر.*?</p>', intro, page_html, count=1, flags=re.S)
+    if n != 1:
+        raise ValueError(f"Could not replace legacy model intro for {model['id']}")
+    page_html, n = re.subn(
+        r'<h2>📋 المواصفات المرجعية</h2>.*?(?=<h2>📏 ثلاثة سيناريوهات للمدى \(تقدير VoltRide\)</h2>)',
+        '<h2>📋 مواصفات النسخ الموثقة حسب السوق</h2>\n' + spec_html + '\n',
+        page_html, count=1, flags=re.S
+    )
+    if n != 1:
+        raise ValueError(f"Could not replace legacy specification table for {model['id']}")
+    range_block = (
+        '<h2>📏 تقدير المدى حسب النسخة (منهجية VoltRide)</h2>\n' + range_html +
+        '<div class="warning"><h3>تنبيه حول السرعة والقانون</h3>'
+        '<p>لا تثبت السرعة المعلنة وحدها قانونية استخدام المركبة على الطرق العامة. '
+        'تختلف حدود السرعة والتصنيف والترخيص والتأمين ومتطلبات الحماية حسب البلد والمدينة. '
+        'تحقّق من الجهة المختصة في منطقتك قبل الاستخدام.</p></div>'
+        '<p class="updated">إذا كنت تقود في المغرب، راجع <a href="/article-7">الدليل القانوني الخاص بالمغرب</a>؛ فهو لا ينطبق خارج المغرب.</p>\n'
+    )
+    page_html, n = re.subn(
+        r'<h2>📏 ثلاثة سيناريوهات للمدى \(تقدير VoltRide\)</h2>.*?(?=<h2>🏞️ ملاءمة الطرق الوعرة</h2>)',
+        range_block, page_html, count=1, flags=re.S
+    )
+    if n != 1:
+        raise ValueError(f"Could not replace legacy range estimates for {model['id']}")
+    page_html = page_html.replace("موديلات قريبة في طاقة البطارية:", "موديلات أخرى من الفئة نفسها:")
+    page_html = page_html.replace(
+        f'سنعبّئ الحاسبة بمواصفات {esc(model["name"])} لتعدّل وزنك وطريقك وترى النتيجة فوراً، ثم صحّحها برحلاتك الفعلية.',
+        'افتح الحاسبة واختر السوق والنسخة الموثقة المطابقة لسكوترك قبل حساب المدى.'
+    )
+    page_html = page_html.replace(f'<a href="/?model={model["id"]}">احسب الآن ←</a>', '<a href="/">افتح الحاسبة ←</a>')
+    return page_html
+
+
 def gen_text(m):
     """Fallback text for models without hand-written text: built from category + numbers."""
     cat, w, mo = m["category"], wh(m), m["motor"]
