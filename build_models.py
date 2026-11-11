@@ -32,7 +32,7 @@ BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu
 GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
 # (path, priority, lastmod)
 SPRINT = "2026-10-26"
-SW_VERSION = "voltride-v18"
+SW_VERSION = "voltride-v19"
 IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "fr/article-9.html": "electric-scooter-winter-range-voltride.jpg", "en/article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
 # (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
 TODAY = "2026-10-27"
@@ -490,7 +490,7 @@ def main():
     # service worker precache + automatic cache version
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
                   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
-                  "blog.html", "about.html", "privacy.html", "contact.html", "accessories.html", "en/accessories.html", "fr/accessories.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + sorted(set(IMAGES.values()))
+                  "blog.html", "about.html", "privacy.html", "contact.html", "accessories.html", "en/accessories.html", "fr/accessories.html", "ride-match.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + sorted(set(IMAGES.values()))
     files = base_files + [f"{m['id']}.html" for m in MODELS]
     sw = read("sw.js")
     lst = "const PRECACHE = [\n  " + ",\n  ".join(", ".join(f'"{f}"' for f in files[i:i + 4]) for i in range(0, len(files), 4)) + "\n];"
