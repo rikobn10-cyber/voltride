@@ -367,5 +367,38 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(len(options), len(set((row[0], row[1], row[2]) for row in options)))
 
 
+    def test_generated_model_pages_show_only_verified_market_variants(self):
+        for model in DATA["models"]:
+            path = ROOT / (model["id"] + ".html")
+            self.assertTrue(path.exists(), model["id"] + ": generated model page must exist")
+            page = path.read_text(encoding="utf-8")
+            verified = [
+                variant for variant in model.get("variants", [])
+                if variant.get("verification", {}).get("status") == "verified_variant"
+                and variant.get("verification", {}).get("confidence") == "high"
+            ]
+            self.assertNotIn("مواصفات مرجعية لم نتحقق منها بعد", page, model["id"])
+            self.assertNotIn('href="/?model=', page, model["id"])
+            self.assertIn("مواصفات النسخ الموثقة حسب السوق", page, model["id"])
+            if not verified:
+                self.assertIn("لم يتم التحقق من نسخة هذا الموديل بعد", page, model["id"])
+                self.assertNotIn("ثلاثة سيناريوهات للمدى (تقدير VoltRide)", page, model["id"])
+                continue
+            self.assertNotIn("لم يتم التحقق من نسخة هذا الموديل بعد", page, model["id"])
+            for variant in verified:
+                market = variant.get("market", [])
+                self.assertTrue(any(m in page for m in market), model["id"] + ": market must be visible")
+                sources = variant.get("sources", [])
+                self.assertTrue(sources, model["id"] + ": verified variant must retain source evidence")
+                self.assertIn(sources[0]["url"], page, model["id"] + ": manufacturer source must be linked")
+
+    def test_generated_model_index_does_not_publish_legacy_specs(self):
+        blog = (ROOT / "blog.html").read_text(encoding="utf-8")
+        self.assertIn("مواصفات موديلات VoltRide حسب السوق", blog)
+        self.assertIn("النسخة والسوق قيد التحقق", blog)
+        self.assertNotIn("بطارية 36V 12.8Ah", blog)
+        self.assertNotIn("تقدير نحو", blog)
+
+
 if __name__ == "__main__":
     unittest.main()
