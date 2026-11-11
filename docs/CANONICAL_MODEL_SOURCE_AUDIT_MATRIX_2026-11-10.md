@@ -87,3 +87,24 @@ Before changing `models.json`, the data schema and generator must be reviewed to
 4. manufacturer source URL, exact variant/SKU, market, verification date, and confidence/status.
 
 Only after exact variants are resolved should the canonical records be changed and the full generated diff reviewed. Any change must regenerate model pages and dependent model presets, then pass model scoring, generated-file, SEO, internal-link, accessibility, and live-site checks. Until then, flagged and unresolved records should not be presented as fully verified.
+
+
+## 2026-11-11 source recheck and first V2 migration batch
+
+The following first-party pages were rechecked on 2026-11-11. Findings are recorded here; legacy `models.json` values remain unchanged until the compatibility adapter and consumer migration are complete.
+
+| Catalog ID | First-party evidence rechecked | Decision |
+|---|---|---|
+| `xiaomi-3-lite` | Xiaomi global specs identify SKU MJDDHBC03ZM, 36V nominal, 5.2Ah, 187Wh, 300W rated, 25km/h, and up to 20km range. | **Migrated as one verified V2 variant** (`xiaomi-3-lite-mjddhbc03zm-global`). Peak motor power remains null/unresolved because the cited page does not publish it. |
+| `xiaomi-pro-2` | Xiaomi Spain identifies DDHBC11NEB, 37V nominal, 12.4Ah/446Wh, 300W rated/600W max, 25km/h. | Legacy 36V/12.8Ah is materially inconsistent. Hold for exact model-code confirmation and V2 battery correction. |
+| `xiaomi-essential` | Xiaomi Spain identifies DDHBC05NEB, 36V, 5.1Ah/183Wh, 250W rated/500W max, 20km/h. | Legacy 5.2Ah mismatch. Hold until regional model code is confirmed. |
+| `segway-e2-plus` | Segway France E2 Plus E II page lists 21.6V, 220Wh, 300W rated/500W max, 25km/h, up to 25km at 15km/h. | Exact E II generation is identifiable; Ah is not stated on this page. Keep V2 battery capacity null rather than deriving it. Eligible for a future variant record once SKU identity is attached. |
+| `navee-g5` | NAVEE official page lists 36V/275.4Wh, 400W rated/800W max, US 32km/h and EU 25km/h, up to 45km at 15km/h. | Legacy 48V/10.4Ah/350W is materially inconsistent. Keep US/EU speed as separate market variants. |
+| `niu-kqi3-max` | NIU US and EU official listings both list 48V, 13Ah/608.4Wh and 450W rated/900W max; US 32km/h, EU 25km/h. | Legacy 12.7Ah/38km/h is not supported. Create separate US and EU variants; do not select a global speed. |
+| `gotrax-g4` | GOTRAX official G4 page lists 36V/10.4Ah and 500W, with 20mph/32km/h top speed; page includes G4 Original and G4 Pro selections. | Legacy 350W is not supported by this page. Keep G4/G4 Pro SKU distinction unresolved until the selected variant is identified. |
+| `segway-max-g30` | Segway official regional MAX page distinguishes G30 at 25km/h from G30P at 30km/h; 36V, 551Wh and 350W nominal. | Catalog name G30 with 30km/h is an identity/market conflation. Hold until the intended model is selected. |
+| `kukirin-g2-max` | KuKirin official page lists 48V/20.8Ah, 1000W rated/1200W peak and up to 55km/h. | Legacy 20Ah needs correction only after generation/market SKU is pinned. |
+
+### Migration boundary
+
+Only the exact Xiaomi 3 Lite SKU above is currently in `model_data_v2.json`. This is a staged evidence-backed record, not a switch of production authority: `build_models.py` and all current UI consumers still read the legacy catalog. No legacy values, model pages, or recommendations were changed by this V2 record. The remaining 29 records stay out of V2 until their own variant evidence is complete.
