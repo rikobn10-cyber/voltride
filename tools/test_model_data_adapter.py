@@ -36,6 +36,18 @@ class ModelDataAdapterTests(unittest.TestCase):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "xiaomi-3-lite", "xiaomi-3-lite-mjddhbc03zm-global", "US")
 
+    def test_selects_market_specific_niu_speed(self):
+        us = project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-us", "US")
+        eu = project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-eu", "EU")
+        self.assertEqual(us["legacy_fields"]["speed"], 32.2)
+        self.assertEqual(eu["legacy_fields"]["speed"], 25)
+        self.assertEqual(us["legacy_fields"]["motor"], 450)
+        self.assertEqual(eu["legacy_fields"]["motor"], 450)
+
+    def test_rejects_niu_market_variant_mismatch(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-eu", "US")
+
     def test_rejects_unknown_variant(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "xiaomi-3-lite", "not-a-real-variant", "Global")
