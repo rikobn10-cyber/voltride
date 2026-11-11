@@ -193,7 +193,6 @@ def verified_variant_page_sections(variants):
                   f'{esc(v["sourcePublisher"] or "مصدر الشركة")}</a>') if v.get("sourceUrl") else "—"
         sku = f' • SKU: {esc(v["sku"])}' if v.get("sku") else ""
         generation = f' • الجيل: {esc(v["generation"])}' if v.get("generation") else ""
-        speed_conditions = (f'<p class="updated">شروط السرعة حسب الشركة: {esc(v["speedConditions"])}</p>') if v.get("speedConditions") else ""
         claim = (f'<p class="updated">المدى المعلن من الشركة لهذه النسخة: {num(v["rangeClaimKm"])} كم. '
                  'هذا ادعاء الشركة وليس تقديراً ميدانياً.</p>') if v.get("rangeClaimKm") else (
                  '<p class="updated">لا تتوفر قيمة مدى منشورة ومتحقق منها لهذه النسخة.</p>')
@@ -201,7 +200,7 @@ def verified_variant_page_sections(variants):
             f'<section class="table-wrap"><h3>{esc(v["label"])}{generation}{sku}</h3>'
             '<table><tr><th>السوق</th><th>الفولت الاسمي</th><th>السعة</th><th>الطاقة</th><th>قوة المحرك الاسمية</th><th>السرعة القصوى</th></tr>'
             f'<tr><td>{esc(v["market"])}</td><td>{num(v["voltage"])} V</td><td>{num(v["ah"])} Ah</td>'
-            f'<td>{num(v["energyWh"])} Wh</td><td>{num(v["motor"])} W</td><td>{num(v["speed"])} كم/س</td></tr></table>{speed_conditions}'
+            f'<td>{num(v["energyWh"])} Wh</td><td>{num(v["motor"])} W</td><td>{num(v["speed"])} كم/س</td></tr></table>'
             f'<p class="updated">أساس الطاقة: {basis}. {esc(v.get("energyWhSourceNote") or "")}<br>المصدر: {source}</p>{claim}</section>'
         )
         scenarios = [
