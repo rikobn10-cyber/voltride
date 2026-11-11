@@ -172,9 +172,9 @@ These are work queues, not permission to overwrite current production values wit
 
 - `model_data_v2.json` now contains 7 model identities and 8 high-confidence market/SKU variants: Xiaomi Scooter 3 Lite (MJDDHBC03ZM, UK), Xiaomi Pro 2 (DDHBC11NEB, HK), and NIU KQi3 Max (US and EU).
 - The records retain manufacturer-published battery energy and capacity, rated/peak power separately, and market-specific speed. The Xiaomi 3 Lite peak power remains unknown; the NIU US speed/range retain their original 20mph/40-mile source units in the conditions alongside metric conversions.
-- All four variants pass the existing schema-v2 validator and the explicit-variant adapter tests. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
+- All eight variants pass the existing schema-v2 validator and the explicit-variant adapter tests. It is not yet consumed by `build_models.py`; `models.json` remains the production source of truth.
 - No other model is added until its exact generation/SKU and market are supported by adequate primary evidence. In particular, conflicting legacy values remain unchanged in production and are not projected into v2 as verified.
-- Next gate: implement and unit-test an explicit-variant adapter. It must reject unresolved variants, require a selected market/variant, and expose source provenance. Only after this adapter is validated should a consumer be migrated.
+- The explicit-variant adapter is implemented and covered by 13 CI tests. Next gate: add market/variant selection to the consumer UI, then integrate V2-backed presets and calculator calculations without silently falling back to unresolved legacy variants.
 
 
 ### Compatibility adapter implementation
