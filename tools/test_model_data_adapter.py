@@ -22,6 +22,9 @@ class ModelDataAdapterTests(unittest.TestCase):
             "voltage": 36,
             "ah": 5.2,
             "motor": 300,
+            "peakMotorPowerW": None,
+            "energyWh": 187,
+            "energyWhBasis": "manufacturer_published",
             "speed": 25,
         })
         self.assertEqual(result["range_claim"]["max_km"], 20)
@@ -43,6 +46,9 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(eu["legacy_fields"]["speed"], 25)
         self.assertEqual(us["legacy_fields"]["motor"], 450)
         self.assertEqual(eu["legacy_fields"]["motor"], 450)
+        self.assertEqual(us["legacy_fields"]["energyWh"], 608.4)
+        self.assertEqual(eu["legacy_fields"]["energyWh"], 608.4)
+        self.assertEqual(us["legacy_fields"]["peakMotorPowerW"], 900)
 
     def test_rejects_niu_market_variant_mismatch(self):
         with self.assertRaises(VariantProjectionError):
