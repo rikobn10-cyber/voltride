@@ -103,6 +103,12 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["motor"], 600)
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 1000)
 
+    def test_rejects_xiaomi_4_pro_until_nominal_voltage_is_resolved(self):
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(
+                DATA, "xiaomi-4-pro", "xiaomi-4-pro-ddhbc20neb-global", "Global"
+            )
+
     def test_rejects_non_verified_variant(self):
         fixture = json.loads(json.dumps(DATA))
         next(m for m in fixture["models"] if m["id"] == "xiaomi-3-lite")["variants"][0]["verification"]["status"] = "provisional"
