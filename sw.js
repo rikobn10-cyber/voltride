@@ -1,5 +1,5 @@
 /* VoltRide Service Worker v3.1.0 */
-const VERSION = "voltride-v19";
+const VERSION = "voltride-v21";
 const PRECACHE = [
   "./", "index.html", "offline.html", "manifest.json",
   "site.css", "site.js", "icon-192.png", "icon-512.png",
@@ -41,6 +41,10 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("message", (e) => {
   if (e.data === "SKIP_WAITING") self.skipWaiting();
+  if (e.data && e.data.type === "GET_VERSION" && e.ports && e.ports[0]) {
+    e.ports[0].postMessage({ version: VERSION });
+  }
+
 });
 
 function fetchWithTimeout(req, ms) {
@@ -54,9 +58,14 @@ function fetchWithTimeout(req, ms) {
 async function matchPage(cache, req) {
   const url = new URL(req.url);
   const path = url.pathname;
-  const tries = [req, path];
-  if (path === "/" || path.endsWith("/")) tries.push(path + "index.html");
-  else if (!/\.[a-z0-9]+$/i.test(path)) tries.push(path + ".html");
+  // Match absolute URL strings rather than the original navigation Request.
+  // Some browsers reject Cache.match() when passed a mode="navigate" Request.
+  const tries = [new URL(path, self.registration.scope).href];
+  if (path === "/" || path.endsWith("/")) {
+    tries.push(new URL("index.html", new URL(path, self.registration.scope)).href);
+  } else if (!/\.[a-z0-9]+$/i.test(path)) {
+    tries.push(new URL(path.replace(/^\//, "") + ".html", self.registration.scope).href);
+  }
   for (const t of tries) {
     const hit = await cache.match(t, { ignoreSearch: true });
     if (hit) return hit;
@@ -64,14 +73,51 @@ async function matchPage(cache, req) {
   return null;
 }
 
+async function offlineNavigationFallback(cache, req) {
+  const page = await matchPage(cache, req);
+  if (page) {
+    const requestedPath = new URL(req.url).pathname;
+    const cachedPath = page.url ? new URL(page.url).pathname : requestedPath;
+    // Redirect clean URLs to the exact cached .html URL. Some browsers reject
+    // a cached Response whose URL differs from the navigation request URL.
+    if (cachedPath !== requestedPath && page.url) {
+      return Response.redirect(page.url, 302);
+    }
+    return page;
+  }
+  const offlineUrl = new URL("offline.html", self.registration.scope).href;
+  const fallback = await cache.match(offlineUrl);
+  return fallback ? Response.redirect(offlineUrl, 302) : Response.error();
+}
+
+async function networkIsReachable() {
+  if (self.navigator && self.navigator.onLine === false) return false;
+  try {
+    const probeUrl = new URL("manifest.json", self.registration.scope);
+    probeUrl.searchParams.set("_vr_connectivity_probe", String(Date.now()) + "-" + Math.random().toString(36).slice(2));
+    const response = await fetchWithTimeout(new Request(probeUrl.href, { cache: "no-store" }), 1500);
+    return Boolean(response && response.ok);
+  } catch (_) {
+    return false;
+  }
+}
+
 async function navigate(req) {
   const cache = await caches.open(VERSION);
   try {
     const res = await fetchWithTimeout(req, NAV_TIMEOUT_MS);
-    if (res && res.ok) cache.put(req, res.clone());
+    if (res && res.ok) {
+      cache.put(req, res.clone());
+      return res;
+    }
+    // Offline browsers may resolve navigation fetches to HTTP errors rather than reject.
+    // Probe a known same-origin resource to distinguish an offline error from a real 404.
+    if (!(await networkIsReachable())) {
+      return offlineNavigationFallback(cache, req);
+    }
     return res;
   } catch (_) {
-    return (await matchPage(cache, req)) || (await cache.match("offline.html")) || Response.error();
+    return offlineNavigationFallback(cache, req);
   }
 }
 
@@ -100,7 +146,16 @@ self.addEventListener("fetch", (event) => {
   if (url.pathname.endsWith("/sw.js")) return;
 
   if (req.mode === "navigate") {
-    event.respondWith(navigate(req));
+    event.respondWith((async () => {
+      const cache = await caches.open(VERSION);
+      try {
+        const response = await navigate(req);
+        if (response && response.type !== "error") return response;
+      } catch (_) {
+        // Fall through to the cached navigation fallback.
+      }
+      return offlineNavigationFallback(cache, req);
+    })());
     return;
   }
   event.respondWith(staleWhileRevalidate(event));
