@@ -5,8 +5,10 @@ import vm from "node:vm";
 const html = readFileSync("ride-match.html", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
 const v2 = JSON.parse(readFileSync("model_data_v2.json", "utf8"));
-const scriptMatch = html.match(/<script>([\\s\\S]*?)<\\/script>\\s*<\\/body>/i);
-assert.ok(scriptMatch, "Ride Match inline application script must exist");
+const scriptStart = html.indexOf("<script>") + "<script>".length;
+const scriptEnd = html.lastIndexOf("</script>");
+assert.ok(scriptStart >= "<script>".length && scriptEnd > scriptStart, "Ride Match inline application script must exist");
+const inlineScript = html.slice(scriptStart, scriptEnd);
 
 const elements = new Map();
 function element(id = "") {
@@ -38,7 +40,7 @@ const context = {
   console
 };
 vm.createContext(context);
-vm.runInContext(scriptMatch[1], context);
+vm.runInContext(inlineScript, context);
 const evaluate = expression => vm.runInContext(expression, context);
 
 const markets = JSON.parse(evaluate("JSON.stringify(RIDE_MATCH_MARKETS)"));
@@ -87,23 +89,23 @@ assert.equal(evaluate("getRecommendations().length"), 0, "recommendations must b
 evaluate('answers = { market: "US", distance: "20-40", preference: "range" }');
 evaluate("renderResults()");
 const rendered = element("recommendations").innerHTML;
-assert.match(rendered, /Battery energy|Énergie de la batterie|طاقة البطارية/);
-assert.match(rendered, /Manufacturer source|Source du fabricant|مصدر الشركة المصنّعة/);
-assert.match(rendered, /variantId|US|EU/);
-assert.match(rendered, /aliexpress\\.com\\/wholesale/);
-assert.doesNotMatch(rendered, /s\\.click\\.aliexpress/);
-assert.doesNotMatch(rendered, /rel="noopener sponsored nofollow"/);
+assert.ok(rendered.includes("Énergie de la batterie") || rendered.includes("Battery energy") || rendered.includes("طاقة البطارية"));
+assert.ok(rendered.includes("Source du fabricant") || rendered.includes("Manufacturer source") || rendered.includes("مصدر الشركة المصنّعة"));
+assert.ok(rendered.includes("US") || rendered.includes("EU"));
+assert.ok(rendered.includes("aliexpress.com/wholesale"));
+assert.ok(!rendered.includes("s.click.aliexpress"));
+assert.ok(!rendered.includes('rel="noopener sponsored nofollow"'));
 
-assert.doesNotMatch(html, /const uniqueScooters|uniqueScooters\\.slice/);
-assert.doesNotMatch(html, /const scooters = \\[/);
-assert.match(html, /\\/\\*RIDE_VARIANTS:START\\*\\/[\\s\\S]*?\\/\\*RIDE_VARIANTS:END\\*\\//);
-assert.match(html, /if \\(!answers\\.market\\) return \\[\\];/);
-assert.match(html, /RIDE_MATCH_MODELS\\.flatMap/);
-assert.match(html, /answers\\.market = RIDE_MATCH_MARKETS\\.includes/);
-assert.doesNotMatch(html, /affiliateOnlyModels|iscooter-w9|iscooter-ix4|iscooter-w6/);
-assert.doesNotMatch(html, /s\\.affiliateUrl/);
-assert.match(html, /marketplace_search_click/);
-assert.match(html, /data-action="buy"/);
+assert.ok(!html.includes("const uniqueScooters") && !html.includes("uniqueScooters.slice"));
+assert.ok(!html.includes("const scooters = ["));
+assert.ok(html.includes("/*RIDE_VARIANTS:START*/") && html.includes("/*RIDE_VARIANTS:END*/"));
+assert.ok(html.includes("if (!answers.market) return [];"));
+assert.ok(html.includes("RIDE_MATCH_MODELS.flatMap"));
+assert.ok(html.includes("answers.market = RIDE_MATCH_MARKETS.includes"));
+assert.ok(!html.includes("affiliateOnlyModels") && !html.includes("iscooter-w9") && !html.includes("iscooter-ix4") && !html.includes("iscooter-w6"));
+assert.ok(!html.includes("s.affiliateUrl"));
+assert.ok(html.includes("marketplace_search_click"));
+assert.ok(html.includes('data-action="buy"'));
 
 const expectedVerifiedIds = v2.models
   .filter(model => model.variants.some(variant =>
@@ -122,7 +124,7 @@ assert.equal(evaluate("document.documentElement.dir"), "ltr");
 assert.equal(evaluate('rideMatchT("buy")'), "Buy now ←");
 evaluate('setRideMatchLanguage("ar")');
 assert.equal(evaluate("document.documentElement.dir"), "rtl");
-assert.match(html, /table-layout:fixed/);
-assert.match(indexHtml, /specSpeed:"Vitesse"/);
-assert.match(indexHtml, /specSpeed:"Speed"/);
+assert.ok(html.includes("table-layout:fixed"));
+assert.ok(indexHtml.includes('specSpeed:"Vitesse"'));
+assert.ok(indexHtml.includes('specSpeed:"Speed"'));
 console.log("Ride Match V2 tests passed: explicit market selection, verified variants, provenance, and safe marketplace fallback.");
