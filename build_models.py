@@ -523,36 +523,39 @@ def write(name, s):
 
 
 def main():
+    # Build the canonical verified V2 choices once; model pages, calculator and catalog share this projection.
+    variant_options = build_verified_variant_options()
+
     # remove stale model pages that are no longer in models.json
     ids = {m["id"] for m in MODELS}
     for m in MODELS:
-        write(f"{m['id']}.html", page(m))
+        write(f"{m['id']}.html", page(m, variant_options))
     print("pages written:", len(MODELS))
 
     # sitemap.xml is maintained separately; never overwrite its curated multilingual URLs.
     print("sitemap preserved")
 
     # blog section grouped by category
-    parts = ['<h2 class="center" style="margin:30px 0 6px;font-size:21px">🛴 مدى الموديلات: تقدير VoltRide</h2>',
-             '<p class="center updated" style="margin-bottom:14px">تقديرات نظرية لثلاثين موديلاً بحسب مواصفاتها المرجعية، وليست اختبارات ميدانية.</p>']
+    parts = ['<h2 class="center" style="margin:30px 0 6px;font-size:21px">🛴 مواصفات موديلات VoltRide حسب السوق</h2>',
+             '<p class="center updated" style="margin-bottom:14px">تظهر المواصفات فقط للنسخ التي أمكن التحقق منها من مصادر الشركة. الموديلات الأخرى قيد مراجعة النسخة والسوق.</p>']
     for cat in ("budget", "commuter", "sport", "performance"):
         group = [m for m in MODELS if m["category"] == cat]
         if not group:
             continue
         parts.append(f'<h2 style="margin:22px 0 10px;font-size:17px;color:var(--cyan)">سكوترات {CLASS_HEAD[cat]} ({len(group)})</h2>')
         for m in group:
-            r = estimate(m, 75, "mixed", "balanced", min(REFERENCE_SPEED, m["speed"]))[0]
+            choices = variant_options.get(m["id"], [])
+            status = f"{len(choices)} نسخة موثقة حسب السوق" if choices else "النسخة والسوق قيد التحقق"
             parts.append(f'<a href="/{m["id"]}" class="article-card"><span class="cat">{CLASS_AR[cat]}</span>'
-                         f'<h2>كم مدى {esc(m["name"])} الواقعي؟</h2>'
-                         f'<p>بطارية {num(m["voltage"])}V {num(m["ah"])}Ah: تقدير نحو {r:.0f} كم في الاستعمال العادي، مع سيناريوهات وملاحظة قانونية.</p>'
-                         f'<div class="meta">📅 20 أكتوبر 2026</div></a>')
+                         f'<h2>{esc(m["name"])} — المواصفات حسب السوق</h2>'
+                         f'<p>{status}. افتح صفحة الموديل لمراجعة النسخة ومصدر الشركة.</p>'
+                         f'<div class="meta">📅 11 نوفمبر 2026</div></a>')
     write("blog.html", replace_block(read("blog.html"), "<!--MODELS:START-->", "<!--MODELS:END-->", "\n".join(parts), "</main>"))
 
     # index presets
     presets = {m["id"]: {"name": m["name"], "voltage": m["voltage"], "ah": m["ah"], "motor": m["motor"]} for m in MODELS}
     block = "const MODEL_PRESETS = " + json.dumps(presets, ensure_ascii=False) + ";"
     write("index.html", replace_block(read("index.html"), "/*MODELS:START*/", "/*MODELS:END*/", block, "const scooters = ["))
-    variant_options = build_verified_variant_options()
     variant_block = "const MODEL_VARIANTS = " + json.dumps(variant_options, ensure_ascii=False, separators=(",", ":")) + ";"
     write("index.html", replace_block(read("index.html"), "/*MODEL_VARIANTS:START*/", "/*MODEL_VARIANTS:END*/", variant_block, "/*SCOOTERS:START*/"))
 
