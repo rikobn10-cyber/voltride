@@ -8,6 +8,7 @@ on:
       - "tools/live-smoke.mjs"
       - "tools/live-pwa-smoke.mjs"
       - "sw.js"
+      - "build_models.py"
       - "manifest.json"
       - "offline.html"
       - "index.html"
