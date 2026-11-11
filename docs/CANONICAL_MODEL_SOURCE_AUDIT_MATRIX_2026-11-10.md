@@ -146,3 +146,8 @@ The staged V2 dataset now contains 9 model identities and 11 variants (8 verifie
 ### NAVEE G5 regional evidence records — 2026-11-11
 
 - `navee-g5-us-current` and `navee-g5-eu-current`: NAVEE's official G5 page publishes 36V/275.4Wh, 400W rated/800W peak, up to 45km range at 15km/h, and separate US (32km/h) and EU (25km/h) maximum speeds. It does not publish battery Ah. Both records are therefore `variant_unresolved` (medium confidence), with `capacityAh: null`; the adapter must reject them until Ah is established. This keeps regional speeds separate without inferring battery capacity from Wh/V.
+
+
+### Segway MAX G30 family evidence record — 2026-11-11
+
+- `segway-max-g30-family-unresolved`: Segway's official page identifies G30 at 25km/h and G30P at 30km/h, with 36V nominal battery, 551Wh, 350W nominal motor power and a typical 65km range under stated test conditions. It does not publish Ah, and the current catalog ID omits the G30/G30P suffix. The V2 record is therefore `variant_unresolved`: Ah and speed remain null; do not promote the catalog's 30km/h value to a universal G30 specification.
