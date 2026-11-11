@@ -561,6 +561,68 @@
       ]
     },
     {
+      "id": "vsett-9-plus",
+      "name": "VSETT 9+",
+      "manufacturer": "VSETT",
+      "category": "sport",
+      "variants": [
+        {
+          "variantId": "vsett-9-plus-48v-21ah-global",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 48,
+            "capacityAh": 21,
+            "energyWh": 1008,
+            "energyWhBasis": "calculated_from_nominal_values",
+            "energyWhSourceNote": "Calculated as 48V nominal × 21Ah; the official product page publishes voltage and Ah, not Wh."
+          },
+          "motors": {
+            "count": 2,
+            "ratedPowerW": 650,
+            "ratedPowerBasis": "per_motor",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 53,
+            "conditions": "VSETT official product page maximum speed for the 9+ configuration."
+          },
+          "rangeClaim": {
+            "maxKm": 100,
+            "basis": "manufacturer_claim",
+            "conditions": "Official page lists up to 100km dual-motor mileage for the 48V 21Ah battery variant."
+          },
+          "sources": [
+            {
+              "url": "https://vsettscooters.com/pages/vsett-9-plus",
+              "publisher": "VSETT Official",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-11"
+            }
+          ],
+          "verification": {
+            "status": "verified_variant",
+            "confidence": "high",
+            "checkedAt": "2026-11-11",
+            "notes": [
+              "Official VSETT page lists the 48V 21.0Ah battery option, two 650W brushless motors, 53km/h maximum speed, and up to 100km dual-motor mileage for the 21Ah configuration.",
+              "Wh is calculated from published nominal voltage × Ah; no manufacturer Wh figure is claimed.",
+              "Peak motor power is not stated on the cited official page and remains null."
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "xiaomi-3-lite",
       "name": "Xiaomi Scooter 3 Lite",
       "manufacturer": "Xiaomi",
