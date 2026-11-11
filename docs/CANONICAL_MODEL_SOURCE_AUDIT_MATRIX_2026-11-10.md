@@ -151,3 +151,8 @@ The staged V2 dataset now contains 10 model identities and 12 variants (8 verifi
 ### Segway MAX G30 family evidence record — 2026-11-11
 
 - `segway-max-g30-family-unresolved`: Segway's official page identifies G30 at 25km/h and G30P at 30km/h, with 36V nominal battery, 551Wh, 350W nominal motor power and a typical 65km range under stated test conditions. It does not publish Ah, and the current catalog ID omits the G30/G30P suffix. The V2 record is therefore `variant_unresolved`: Ah and speed remain null; do not promote the catalog's 30km/h value to a universal G30 specification.
+
+
+### VSETT 9+ 48V/21Ah variant evidence — 2026-11-11
+
+- `vsett-9-plus-48v-21ah-global`: VSETT's official product page lists the 48V/21Ah battery option, dual 650W brushless motors, 53km/h maximum speed and up to 100km dual-motor mileage for that battery variant. The V2 record calculates 1008Wh from 48V × 21Ah and labels it calculated; peak power is left null because the cited page does not publish it.
