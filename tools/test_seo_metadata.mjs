@@ -110,4 +110,21 @@ for (const path of ["article-choosing-charger.html", "fr/comment-choisir-chargeu
   assert.doesNotMatch(html, /s\.click\.aliexpress\.com/, path + ": unverified charger CTA must not be promoted");
 }
 
+
+const beginnerGuide = readFileSync("article-5.html", "utf8");
+const beginnerGuideEn = readFileSync("en/article-5.html", "utf8");
+assert.match(beginnerGuide, /لا تحدد المدى وحدها/, "Wh must not be presented as the sole determinant of range");
+assert.match(beginnerGuideEn, /does not determine range on its own/i, "English Wh explanation must account for real-world range factors");
+assert.doesNotMatch(beginnerGuide, /3200–4500|4500 د\.م|6800 د\.م/, "unverified generic beginner guide prices must not return");
+assert.doesNotMatch(beginnerGuideEn, /3,200–4,500 MAD|4,500 MAD|6,800 MAD/, "unverified generic English prices must not return");
+
+for (const path of ["article-2.html", "en/article-2.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.doesNotMatch(html, /3200–6200|7000–14500|3,200–6,200|7,000–14,500/, path + ": unverified brand-wide price ranges must not return");
+  assert.match(html, /Compare Specific Models|قارن موديلين محددين/, path + ": comparison must direct readers to exact model variants");
+}
+const rangeGuide = readFileSync("guides/battery-range.html", "utf8");
+assert.doesNotMatch(rangeGuide, /المستهتمة|افحضه|الشاحر|ممتلفة/, "battery range guide editorial typos must not return");
+assert.match(rangeGuide, /نسبة الشحن المستهلكة/, "battery range guide must use corrected Arabic wording");
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
