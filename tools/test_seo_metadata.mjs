@@ -110,4 +110,28 @@ for (const path of ["article-choosing-charger.html", "fr/comment-choisir-chargeu
   assert.doesNotMatch(html, /s\.click\.aliexpress\.com/, path + ": unverified charger CTA must not be promoted");
 }
 
+
+const batteryAdvice = readFileSync("article-4.html", "utf8");
+const batteryAdviceEn = readFileSync("en/article-4.html", "utf8");
+assert.doesNotMatch(batteryAdvice, /مؤقت كهربائي|الشحن الليلي/, "Arabic battery advice must not recommend overnight timer charging");
+assert.doesNotMatch(batteryAdviceEn, /timer plug|overnight charging/i, "English battery advice must not recommend overnight timer charging");
+assert.match(batteryAdvice, /لا تشحن أثناء النوم أو عند مغادرة المنزل/, "Arabic battery advice must warn against charging while asleep or away");
+assert.match(batteryAdviceEn, /never charge while sleeping or when you are away/i, "English battery advice must warn against charging while asleep or away");
+
+for (const path of ["blog/charger-safety.html", "fr/blog/securite-chargeur-trottinette.html", "en/blog/charger-safety.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.match(html, /لا تشحن أثناء النوم|ne rechargez jamais pendant votre sommeil|never charge while sleeping/i, path + ": charging while asleep must be explicitly prohibited");
+  assert.match(html, /عند مغادرة المنزل|lorsque vous quittez votre domicile|when you are away from home/i, path + ": charging while away must be explicitly prohibited");
+}
+for (const path of ["article-choosing-charger.html", "en/blog/choosing-charger.html", "fr/comment-choisir-chargeur-trottinette.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.doesNotMatch(html, /1-2 أمبير|3-4 أمبير|1-2 amps|3-4 amps|1A ou 2A|4A ou plus|4A\+/i, path + ": must not label generic current bands as safe or balanced");
+  assert.doesNotMatch(html, /PPC|النقطة الصفراء|السوخ الخطي/i, path + ": unsupported PPC protection terminology must not return");
+  assert.match(html, /BMS|système de gestion|battery management system/i, path + ": charger current must be tied to manufacturer/BMS limits");
+}
+for (const path of ["article-4.html", "en/article-4.html"]) {
+  const url = "https://voltride-4qj.pages.dev/" + path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>" + url + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod must match article update");
+}
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
