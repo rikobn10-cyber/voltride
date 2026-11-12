@@ -168,4 +168,6 @@ for (const path of ["article-8.html", "en/article-8.html", "article-9.html", "en
   assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
 }
 
+assert.doesNotMatch(chargingCostAr, /<li>[^<]*<strong>الإعدادات[\\s\\S]*?<\\/a><\\/p>/, "charging cost list item must have valid list markup");
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
