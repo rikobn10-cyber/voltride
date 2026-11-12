@@ -170,4 +170,20 @@ for (const path of ["article-8.html", "en/article-8.html", "article-9.html", "en
 
 assert.doesNotMatch(chargingCostAr, /<li>[^<]*<strong>الإعدادات[\\s\\S]*?<\\/a><\\/p>/, "charging cost list item must have valid list markup");
 
+
+const winterGuideFr = readFileSync("fr/article-9.html", "utf8");
+assert.match(winterGuideFr, /ne rechargez jamais pendant votre sommeil ni lorsque vous quittez votre domicile/i, "French winter charging advice must require supervision");
+assert.match(winterGuideFr, /plage de température de charge indiquée dans le manuel/i, "French cold-weather charging must defer to manufacturer temperature limits");
+
+const accessoryGuideFr = readFileSync("fr/article-10.html", "utf8");
+assert.doesNotMatch(accessoryGuideFr, /est obligatoire pour le conducteur de trottinette/i, "avoid unsupported French helmet mandate assertion");
+assert.match(accessoryGuideFr, /EN 1078 est un exemple pour les casques de cyclistes, de skateboard et de patins à roulettes/i, "French guide must accurately describe EN 1078 scope");
+assert.match(accessoryGuideFr, /le marquage CE seul n'est pas une norme de sécurité pour casque/i, "French guide must not present CE marking as a helmet standard");
+for (const path of ["fr/article-9.html", "fr/article-10.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.match(html, /2026-11-12/, path + ": modified date should be current");
+  const slug = path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
+}
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
