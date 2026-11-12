@@ -87,4 +87,27 @@ const jsonLd = JSON.parse(home.slice(jsonStart, schemaEnd));
 assert.equal(jsonLd.isAccessibleForFree, true);
 assert.ok(!jsonLd.offers, "avoid a country-specific MAD offer for a free global utility");
 
+
+const hreflangClusters = [
+  ["article-choosing-charger.html", "fr/comment-choisir-chargeur-trottinette.html", "en/blog/choosing-charger.html"],
+  ["blog/charger-safety.html", "fr/blog/securite-chargeur-trottinette.html", "en/blog/charger-safety.html"]
+];
+const siteUrlFor = path => "https://voltride-4qj.pages.dev/" + path.replace(/\\.html$/, "");
+for (const cluster of hreflangClusters) {
+  const expected = new Map([["ar", siteUrlFor(cluster[0])], ["fr", siteUrlFor(cluster[1])], ["en", siteUrlFor(cluster[2])]]);
+  for (const path of cluster) {
+    const html = readFileSync(path, "utf8");
+    const alternates = [...html.matchAll(/<link\\s+rel="alternate"\\s+hreflang="(ar|fr|en)"\\s+href="([^"]+)"/g)];
+    const actual = new Map(alternates.map(match => [match[1], match[2]]));
+    for (const [language, url] of expected) assert.equal(actual.get(language), url, path + ": reciprocal hreflang " + language);
+    assert.equal(actual.size, 3, path + ": exactly three language alternates are required");
+    assert.match(html, /hreflang="x-default"/, path + ": x-default is required");
+  }
+}
+for (const path of ["article-choosing-charger.html", "fr/comment-choisir-chargeur-trottinette.html", "en/blog/choosing-charger.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.doesNotMatch(html, /For 42V batteries:.*48V DC|للبطاريات 42V:.*48V DC|Shachi 48V/i, path + ": incorrect charger voltage advice");
+  assert.doesNotMatch(html, /s\\.click\\.aliexpress\\.com/, path + ": unverified charger CTA must not be promoted");
+}
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
