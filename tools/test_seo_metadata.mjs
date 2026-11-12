@@ -145,7 +145,7 @@ const winterGuideAr = readFileSync("article-9.html", "utf8");
 const winterGuideEn = readFileSync("en/article-9.html", "utf8");
 assert.match(winterGuideAr, /لا تشحن أثناء النوم أو عند مغادرة المنزل/, "Arabic winter charging advice must require supervision");
 assert.match(winterGuideEn, /never charge while asleep or away from home/i, "English winter charging advice must require supervision");
-assert.match(winterGuideAr, /نطاق الحرارة المحدد في الدليل/, "Arabic cold-weather charging must defer to manufacturer temperature limits");
+assert.match(winterGuideAr, /نطاق حرارة الشحن المحدد في الدليل/, "Arabic cold-weather charging must defer to manufacturer temperature limits");
 assert.match(winterGuideEn, /temperature range in its manual/i, "English cold-weather charging must defer to manufacturer temperature limits");
 
 const accessoryGuideAr = readFileSync("article-10.html", "utf8");
