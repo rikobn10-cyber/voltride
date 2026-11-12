@@ -3,13 +3,11 @@
   "updated_at": "2026-11-12",
   "currency": null,
   "notes": [
-    "Affiliate URLs are stored verbatim and must not be rewritten or normalized.",
-    "Publication status and language_pages reflect the affiliate links found in the corresponding page source files on the main branch; this does not independently prove that AliExpress redirects or product listings are currently reachable.",
-    "All ten catalog products are present in the Arabic, French, and English accessories page source files.",
-    "The Arabic page path is accessories.html; the French and English page paths are fr/accessories.html and en/accessories.html.",
-    "Product IDs are included only where they were explicitly associated with the affiliate link in the project record.",
-    "No current prices, ratings, sales counts, stock claims, or product compatibility claims are inferred here.",
-    "Charger compatibility is not established. Verify actual output voltage, connector, polarity, and current against the scooter and original charger before purchase."
+    "Affiliate URLs are retained verbatim for internal audit only; they are not active purchase destinations on the public accessories pages.",
+    "The four accessory products still displayed use ordinary AliExpress marketplace search URLs, not affiliate short links or verified seller listings.",
+    "Six additional accessory listings were removed from the public pages because their final affiliate destinations and product-specific compatibility could not be verified.",
+    "All ten historical accessory affiliate URLs remain in this catalog for traceability only. No live redirect, seller, regional SKU, stock, price, or compatibility is claimed as verified.",
+    "The five Ride Match affiliate-only URLs remain separately recorded in ride_match_data.json and are not used as direct purchase destinations."
   ],
   "products": [
     {
@@ -18,10 +16,10 @@
       "category": "lighting",
       "affiliate_url": "https://s.click.aliexpress.com/e/_Ez3Y1yW",
       "product_id": null,
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "search_only_no_affiliate_link",
+      "language_pages": [],
       "compatibility": "unverified; confirm mounting and electrical specifications with seller",
-      "verification_status": "affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "lighting-offbondage-2600lm",
@@ -29,10 +27,10 @@
       "category": "lighting",
       "affiliate_url": "https://s.click.aliexpress.com/e/_EHiYcrg",
       "product_id": null,
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "search_only_no_affiliate_link",
+      "language_pages": [],
       "compatibility": "unverified; confirm mounting and electrical specifications with seller",
-      "verification_status": "affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "storage-newboler-front-bag-5l",
@@ -40,10 +38,10 @@
       "category": "storage",
       "affiliate_url": "https://s.click.aliexpress.com/e/_EH2WzMW",
       "product_id": null,
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "search_only_no_affiliate_link",
+      "language_pages": [],
       "compatibility": "unverified; confirm handlebar fit, steering clearance, and load limit",
-      "verification_status": "affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "charger-36v-dc42v-2a",
@@ -51,10 +49,10 @@
       "category": "charger",
       "affiliate_url": "https://s.click.aliexpress.com/e/_EurQzLG",
       "product_id": null,
-      "publication_status": "published_with_safety_warning",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "search_only_no_affiliate_link",
+      "language_pages": [],
       "compatibility": "not established; verify actual output voltage, connector, polarity, and current against the scooter and original charger",
-      "verification_status": "affiliate URL found in all three page source files on main; live redirect and listing availability not verified; electrical compatibility remains unverified",
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified.",
       "safety_review_required": true
     },
     {
@@ -63,10 +61,10 @@
       "category": "security",
       "affiliate_url": "https://s.click.aliexpress.com/e/_c4sCY4T1",
       "product_id": "1005012261048178",
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "unpublished_unverified",
+      "language_pages": [],
       "compatibility": "unverified; check mounting, power requirements, and remote operation",
-      "verification_status": "product ID and affiliate URL paired in project record; affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "protection-metal-side-impact-guards",
@@ -74,10 +72,10 @@
       "category": "protection",
       "affiliate_url": "https://s.click.aliexpress.com/e/_c4NYNitN",
       "product_id": "1005012189255763",
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "unpublished_unverified",
+      "language_pages": [],
       "compatibility": "unverified; confirm exact scooter model and mounting points",
-      "verification_status": "product ID and affiliate URL paired in project record; affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "comfort-rear-footrest",
@@ -85,10 +83,10 @@
       "category": "comfort",
       "affiliate_url": "https://s.click.aliexpress.com/e/_c4ODA38r",
       "product_id": "1005002067991522",
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "unpublished_unverified",
+      "language_pages": [],
       "compatibility": "unverified; confirm exact scooter model and mounting points",
-      "verification_status": "product ID and affiliate URL paired in project record; affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "protection-rear-fender-hook-silicone-cover",
@@ -96,10 +94,10 @@
       "category": "protection",
       "affiliate_url": "https://s.click.aliexpress.com/e/_c3eytaIJ",
       "product_id": "1005010403912974",
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "unpublished_unverified",
+      "language_pages": [],
       "compatibility": "unverified; confirm exact hook dimensions and scooter model",
-      "verification_status": "product ID and affiliate URL paired in project record; affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "folding-mechanism-retaining-ring",
@@ -107,10 +105,10 @@
       "category": "mechanical",
       "affiliate_url": "https://s.click.aliexpress.com/e/_c4S3M8OB",
       "product_id": "1005007486537262",
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "unpublished_unverified",
+      "language_pages": [],
       "compatibility": "unverified; confirm exact folding mechanism version and scooter model",
-      "verification_status": "product ID and affiliate URL paired in project record; affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     },
     {
       "product_key": "protection-full-scooter-waterproof-cover",
@@ -118,10 +116,10 @@
       "category": "protection",
       "affiliate_url": "https://s.click.aliexpress.com/e/_c4c6Cpr5",
       "product_id": "1005013176435400",
-      "publication_status": "published",
-      "language_pages": ["accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "publication_status": "unpublished_unverified",
+      "language_pages": [],
       "compatibility": "check scooter dimensions and cover sizing with seller",
-      "verification_status": "product ID and affiliate URL paired in project record; affiliate URL found in all three page source files on main; live redirect and listing availability not verified"
+      "verification_status": "Historical affiliate short link retained for internal audit only; not active on public pages; final redirect and seller listing not verified."
     }
   ]
 }
