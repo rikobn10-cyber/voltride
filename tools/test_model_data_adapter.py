@@ -403,5 +403,37 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertNotIn("تقدير نحو", section)
 
 
+    def test_every_unresolved_variant_is_rejected_for_every_declared_market(self):
+        unresolved = []
+        for model in DATA.get("models", []):
+            for variant in model.get("variants", []):
+                verification = variant.get("verification", {})
+                if verification.get("status") != "verified_variant":
+                    unresolved.append((model["id"], variant["variantId"], variant.get("market", [])))
+        self.assertEqual(len(unresolved), 15, "Update the evidence audit when unresolved inventory changes")
+        for model_id, variant_id, markets in unresolved:
+            self.assertTrue(markets, f"{model_id}/{variant_id} must declare its intended market")
+            for market in markets:
+                with self.subTest(model=model_id, variant=variant_id, market=market):
+                    with self.assertRaises(VariantProjectionError):
+                        project_verified_variant(DATA, model_id, variant_id, market)
+
+    def test_unresolved_variants_never_appear_in_generated_calculator_or_catalog_options(self):
+        from build_models import build_verified_variant_options
+        options = build_verified_variant_options()
+        unresolved_ids = {
+            variant["variantId"]
+            for model in DATA.get("models", [])
+            for variant in model.get("variants", [])
+            if variant.get("verification", {}).get("status") != "verified_variant"
+        }
+        generated_ids = {
+            item["variantId"]
+            for model_options in options.values()
+            for item in model_options
+        }
+        self.assertTrue(unresolved_ids.isdisjoint(generated_ids))
+
+
 if __name__ == "__main__":
     unittest.main()
