@@ -110,4 +110,34 @@ for (const path of ["article-choosing-charger.html", "fr/comment-choisir-chargeu
   assert.doesNotMatch(html, /s\.click\.aliexpress\.com/, path + ": unverified charger CTA must not be promoted");
 }
 
+
+const arabicRangeTips = readFileSync("article-1.html", "utf8");
+const englishRangeTips = readFileSync("en/article-1.html", "utf8");
+assert.doesNotMatch(arabicRangeTips, /السرعة القصوى المسموحة في المغرب 25 كم/س/, "avoid unsupported blanket Moroccan speed-limit claim");
+assert.doesNotMatch(englishRangeTips, /maximum legal speed in Morocco is 25 km\/h/i, "avoid unsupported blanket English speed-limit claim");
+
+const arabicCodes = readFileSync("article-3.html", "utf8");
+const englishCodes = readFileSync("en/article-3.html", "utf8");
+assert.match(englishCodes, /E14 \(Example\): Throttle Signal Issue/, "E14 label must match throttle description");
+assert.doesNotMatch(englishCodes, /E14 \(Example\): Accelerometer Signal Issue/, "do not mislabel throttle as accelerometer");
+assert.match(arabicCodes, /استعمل الشاحن الأصلي أو المعتمد/, "Arabic error guide must use correct charger spelling");
+for (const html of [arabicCodes, englishCodes]) {
+  assert.match(html, /If smoke or fire appears|إذا ظهر دخان أو اشتعال/, "battery incident advice must direct people away and to emergency services");
+  assert.doesNotMatch(html, /move the scooter away from flammable items/, "do not advise moving a potentially failing battery");
+}
+
+const arabicAccessories = readFileSync("article-6.html", "utf8");
+const englishAccessories = readFileSync("en/article-6.html", "utf8");
+assert.doesNotMatch(arabicAccessories, /شعار معيار السلامة على الخوذة، مثل CE/, "CE alone must not be presented as a helmet safety standard");
+assert.match(arabicAccessories, /EN 1078/, "Arabic helmet advice should name a relevant example standard");
+assert.doesNotMatch(arabicAccessories, /إلزامي لسائق التروتينيت/, "avoid unsupported legal obligation claim in accessory article");
+assert.doesNotMatch(englishAccessories, /mandatory according to law reports/i, "avoid unsupported legal obligation claim in English accessory article");
+
+for (const path of ["article-1.html", "en/article-1.html", "article-3.html", "en/article-3.html", "article-6.html", "en/article-6.html", "guides/not-charging.html", "guides/error-codes.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.match(html, /2026-11-12/, path + ": modified date should be current");
+  const slug = path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
+}
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
