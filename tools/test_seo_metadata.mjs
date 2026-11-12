@@ -113,7 +113,7 @@ for (const path of ["article-choosing-charger.html", "fr/comment-choisir-chargeu
 
 const arabicRangeTips = readFileSync("article-1.html", "utf8");
 const englishRangeTips = readFileSync("en/article-1.html", "utf8");
-assert.doesNotMatch(arabicRangeTips, /السرعة القصوى المسموحة في المغرب 25 كم/س/, "avoid unsupported blanket Moroccan speed-limit claim");
+assert.doesNotMatch(arabicRangeTips, /السرعة القصوى المسموحة في المغرب 25 كم\\/س/, "avoid unsupported blanket Moroccan speed-limit claim");
 assert.doesNotMatch(englishRangeTips, /maximum legal speed in Morocco is 25 km\/h/i, "avoid unsupported blanket English speed-limit claim");
 
 const arabicCodes = readFileSync("article-3.html", "utf8");
@@ -168,7 +168,7 @@ for (const path of ["article-8.html", "en/article-8.html", "article-9.html", "en
   assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
 }
 
-assert.doesNotMatch(chargingCostAr, /<li>[^<]*<strong>الإعدادات[\\s\\S]*?<\\/a><\\/p>/, "charging cost list item must have valid list markup");
+assert.doesNotMatch(chargingCostAr, /<li>[\\s\\S]*?<strong>الإعدادات[\\s\\S]*?<\\/a><\\/p>/, "charging cost list item must have valid list markup");
 
 
 const winterGuideFr = readFileSync("fr/article-9.html", "utf8");
