@@ -134,4 +134,95 @@ for (const path of ["article-4.html", "en/article-4.html"]) {
   assert.ok(sitemap.includes("<loc>" + url + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod must match article update");
 }
 
+const beginnerGuide = readFileSync("article-5.html", "utf8");
+const beginnerGuideEn = readFileSync("en/article-5.html", "utf8");
+assert.match(beginnerGuide, /لا تحدد المدى وحدها/, "Wh must not be presented as the sole determinant of range");
+assert.match(beginnerGuideEn, /does not determine range on its own/i, "English Wh explanation must account for real-world range factors");
+assert.doesNotMatch(beginnerGuide, /3200–4500|4500 د\.م|6800 د\.م/, "unverified generic beginner guide prices must not return");
+assert.doesNotMatch(beginnerGuideEn, /3,200–4,500 MAD|4,500 MAD|6,800 MAD/, "unverified generic English prices must not return");
+
+for (const path of ["article-2.html", "en/article-2.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.doesNotMatch(html, /3200–6200|7000–14500|3,200–6,200|7,000–14,500/, path + ": unverified brand-wide price ranges must not return");
+  assert.match(html, /Compare Specific Models|قارن موديلين محددين/, path + ": comparison must direct readers to exact model variants");
+}
+const rangeGuide = readFileSync("guides/battery-range.html", "utf8");
+assert.doesNotMatch(rangeGuide, /المستهتمة|افحضه|الشاحر|ممتلفة/, "battery range guide editorial typos must not return");
+assert.match(rangeGuide, /نسبة الشحن المستهلكة/, "battery range guide must use corrected Arabic wording");
+
+const arabicRangeTips = readFileSync("article-1.html", "utf8");
+const englishRangeTips = readFileSync("en/article-1.html", "utf8");
+assert.doesNotMatch(arabicRangeTips, /السرعة القصوى المسموحة في المغرب 25 كم\/س/, "avoid unsupported blanket Moroccan speed-limit claim");
+assert.doesNotMatch(englishRangeTips, /maximum legal speed in Morocco is 25 km\/h/i, "avoid unsupported blanket English speed-limit claim");
+
+const arabicCodes = readFileSync("article-3.html", "utf8");
+const englishCodes = readFileSync("en/article-3.html", "utf8");
+assert.match(englishCodes, /E14 \(Example\): Throttle Signal Issue/, "E14 label must match throttle description");
+assert.doesNotMatch(englishCodes, /E14 \(Example\): Accelerometer Signal Issue/, "do not mislabel throttle as accelerometer");
+assert.match(arabicCodes, /استعمل الشاحن الأصلي أو المعتمد/, "Arabic error guide must use correct charger spelling");
+for (const html of [arabicCodes, englishCodes]) {
+  assert.match(html, /If smoke or fire appears|إذا ظهر دخان أو اشتعال/, "battery incident advice must direct people away and to emergency services");
+  assert.doesNotMatch(html, /move the scooter away from flammable items/, "do not advise moving a potentially failing battery");
+}
+
+const arabicAccessories = readFileSync("article-6.html", "utf8");
+const englishAccessories = readFileSync("en/article-6.html", "utf8");
+assert.doesNotMatch(arabicAccessories, /شعار معيار السلامة على الخوذة، مثل CE/, "CE alone must not be presented as a helmet safety standard");
+assert.match(arabicAccessories, /EN 1078/, "Arabic helmet advice should name a relevant example standard");
+assert.doesNotMatch(arabicAccessories, /إلزامي لسائق التروتينيت/, "avoid unsupported legal obligation claim in accessory article");
+assert.doesNotMatch(englishAccessories, /mandatory according to law reports/i, "avoid unsupported legal obligation claim in English accessory article");
+
+for (const path of ["article-1.html", "en/article-1.html", "article-3.html", "en/article-3.html", "article-6.html", "en/article-6.html", "guides/not-charging.html", "guides/error-codes.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.match(html, /2026-11-12/, path + ": modified date should be current");
+  const slug = path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
+}
+
+
+const winterGuideAr = readFileSync("article-9.html", "utf8");
+const winterGuideEn = readFileSync("en/article-9.html", "utf8");
+assert.match(winterGuideAr, /لا تشحن أثناء النوم أو عند مغادرة المنزل/, "Arabic winter charging advice must require supervision");
+assert.match(winterGuideEn, /never charge while asleep or away from home/i, "English winter charging advice must require supervision");
+assert.match(winterGuideAr, /نطاق حرارة الشحن المحدد في الدليل/, "Arabic cold-weather charging must defer to manufacturer temperature limits");
+assert.match(winterGuideEn, /temperature range in its manual/i, "English cold-weather charging must defer to manufacturer temperature limits");
+
+const accessoryGuideAr = readFileSync("article-10.html", "utf8");
+const accessoryGuideEn = readFileSync("en/article-10.html", "utf8");
+assert.doesNotMatch(accessoryGuideAr, /الخوذة المثبتة إلزامية بحسب المرسوم/, "avoid unsupported helmet mandate assertion in buying guide");
+assert.doesNotMatch(accessoryGuideEn, /wearing a.*helmet is mandatory for scooter riders/i, "avoid unsupported English helmet mandate assertion");
+assert.match(accessoryGuideAr, /EN 1078 مخصص لخوذات راكبي الدراجات وألواح التزلج والزلاجات ذات العجلات/, "Arabic guide must accurately describe EN 1078 scope");
+assert.match(accessoryGuideEn, /EN 1078 is an example for bicycle, skateboard and roller-skate helmets/i, "English guide must accurately describe EN 1078 scope");
+assert.match(accessoryGuideAr, /CE وحدها ليست معيار خوذة/, "CE marking must not be presented as a helmet standard");
+assert.match(accessoryGuideEn, /CE marking alone is not a helmet safety standard/i, "CE marking must not be presented as a helmet standard");
+
+const chargingCostAr = readFileSync("article-8.html", "utf8");
+assert.match(chargingCostAr, /11% إلى 18%/, "charging efficiency conversion should use reciprocal range");
+assert.doesNotMatch(chargingCostAr, /تضيف نحو 10–15%/, "avoid inaccurate direct loss percentage for 85-90% efficiency");
+
+for (const path of ["article-8.html", "en/article-8.html", "article-9.html", "en/article-9.html", "article-10.html", "en/article-10.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.match(html, /2026-11-12/, path + ": modified date should be current");
+  const slug = path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
+}
+
+assert.doesNotMatch(chargingCostAr, /<li>[\s\S]*?<strong>الإعدادات[\s\S]*?<\/a><\/p>/, "charging cost list item must have valid list markup");
+
+
+const winterGuideFr = readFileSync("fr/article-9.html", "utf8");
+assert.match(winterGuideFr, /ne rechargez jamais pendant votre sommeil ni lorsque vous quittez votre domicile/i, "French winter charging advice must require supervision");
+assert.match(winterGuideFr, /plage de température de charge indiquée dans le manuel/i, "French cold-weather charging must defer to manufacturer temperature limits");
+
+const accessoryGuideFr = readFileSync("fr/article-10.html", "utf8");
+assert.doesNotMatch(accessoryGuideFr, /est obligatoire pour le conducteur de trottinette/i, "avoid unsupported French helmet mandate assertion");
+assert.match(accessoryGuideFr, /EN 1078 est un exemple pour les casques de cyclistes, de skateboard et de patins à roulettes/i, "French guide must accurately describe EN 1078 scope");
+assert.match(accessoryGuideFr, /le marquage CE seul n'est pas une norme de sécurité pour casque/i, "French guide must not present CE marking as a helmet standard");
+for (const path of ["fr/article-9.html", "fr/article-10.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.match(html, /2026-11-12/, path + ": modified date should be current");
+  const slug = path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
+}
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
