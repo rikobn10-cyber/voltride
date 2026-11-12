@@ -140,4 +140,32 @@ for (const path of ["article-1.html", "en/article-1.html", "article-3.html", "en
   assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
 }
 
+
+const winterGuideAr = readFileSync("article-9.html", "utf8");
+const winterGuideEn = readFileSync("en/article-9.html", "utf8");
+assert.match(winterGuideAr, /لا تشحن أثناء النوم أو عند مغادرة المنزل/, "Arabic winter charging advice must require supervision");
+assert.match(winterGuideEn, /never charge while asleep or away from home/i, "English winter charging advice must require supervision");
+assert.match(winterGuideAr, /نطاق الحرارة المحدد في الدليل/, "Arabic cold-weather charging must defer to manufacturer temperature limits");
+assert.match(winterGuideEn, /temperature range in its manual/i, "English cold-weather charging must defer to manufacturer temperature limits");
+
+const accessoryGuideAr = readFileSync("article-10.html", "utf8");
+const accessoryGuideEn = readFileSync("en/article-10.html", "utf8");
+assert.doesNotMatch(accessoryGuideAr, /الخوذة المثبتة إلزامية بحسب المرسوم/, "avoid unsupported helmet mandate assertion in buying guide");
+assert.doesNotMatch(accessoryGuideEn, /wearing a.*helmet is mandatory for scooter riders/i, "avoid unsupported English helmet mandate assertion");
+assert.match(accessoryGuideAr, /EN 1078 مخصص لخوذات راكبي الدراجات وألواح التزلج والزلاجات ذات العجلات/, "Arabic guide must accurately describe EN 1078 scope");
+assert.match(accessoryGuideEn, /EN 1078 is an example for bicycle, skateboard and roller-skate helmets/i, "English guide must accurately describe EN 1078 scope");
+assert.match(accessoryGuideAr, /CE وحدها ليست معيار خوذة/, "CE marking must not be presented as a helmet standard");
+assert.match(accessoryGuideEn, /CE marking alone is not a helmet safety standard/i, "CE marking must not be presented as a helmet standard");
+
+const chargingCostAr = readFileSync("article-8.html", "utf8");
+assert.match(chargingCostAr, /11% إلى 18%/, "charging efficiency conversion should use reciprocal range");
+assert.doesNotMatch(chargingCostAr, /تضيف نحو 10–15%/, "avoid inaccurate direct loss percentage for 85-90% efficiency");
+
+for (const path of ["article-8.html", "en/article-8.html", "article-9.html", "en/article-9.html", "article-10.html", "en/article-10.html"]) {
+  const html = readFileSync(path, "utf8");
+  assert.match(html, /2026-11-12/, path + ": modified date should be current");
+  const slug = path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + slug + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod should match");
+}
+
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
