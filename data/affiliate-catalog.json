@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-12",
+  "currency": null,
+  "notes": [
+    "Affiliate URLs are stored verbatim and must not be rewritten or normalized.",
+    "A product is marked published only when its affiliate URL was found in the current Arabic, French, and English accessories pages.",
+    "Newly received affiliate links are inventoried but are not yet published on the website.",
+    "Product IDs are included only where they were explicitly associated with the affiliate link in the project record.",
+    "No current prices, ratings, sales counts, or compatibility claims are inferred here."
+  ],
+  "products": [
+    {
+      "product_key": "lighting-fivemi-10000mah",
+      "name": "FIVEMI Light (10000mAh)",
+      "category": "lighting",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_Ez3Y1yW",
+      "product_id": null,
+      "publication_status": "published",
+      "language_pages": ["ar/accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "compatibility": "unverified; confirm mounting and electrical specifications with seller",
+      "verification_status": "affiliate URL observed in repository"
+    },
+    {
+      "product_key": "lighting-offbondage-2600lm",
+      "name": "OFFBONDAGE Light (2600LM)",
+      "category": "lighting",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_EHiYcrg",
+      "product_id": null,
+      "publication_status": "published",
+      "language_pages": ["ar/accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "compatibility": "unverified; confirm mounting and electrical specifications with seller",
+      "verification_status": "affiliate URL observed in repository"
+    },
+    {
+      "product_key": "storage-newboler-front-bag-5l",
+      "name": "NEWBOLER Front Bag (5L)",
+      "category": "storage",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_EH2WzMW",
+      "product_id": null,
+      "publication_status": "published",
+      "language_pages": ["ar/accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "compatibility": "unverified; confirm handlebar fit, steering clearance, and load limit",
+      "verification_status": "affiliate URL observed in repository"
+    },
+    {
+      "product_key": "charger-36v-dc42v-2a",
+      "name": "36V Smart Battery Charger (DC42V 2A)",
+      "category": "charger",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_EurQzLG",
+      "product_id": null,
+      "publication_status": "published_with_safety_warning",
+      "language_pages": ["ar/accessories.html", "fr/accessories.html", "en/accessories.html"],
+      "compatibility": "not established; verify actual output voltage, connector, polarity, and current against the scooter and original charger before purchase",
+      "verification_status": "affiliate URL observed in repository; electrical compatibility remains unverified",
+      "safety_review_required": true
+    },
+    {
+      "product_key": "security-alarm-115db-remote",
+      "name": "115dB alarm with remote",
+      "category": "security",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_c4sCY4T1",
+      "product_id": "1005012261048178",
+      "publication_status": "affiliate_received_not_published",
+      "language_pages": [],
+      "compatibility": "unverified; check mounting, power requirements, and remote operation",
+      "verification_status": "product ID and affiliate URL paired in project record"
+    },
+    {
+      "product_key": "protection-metal-side-impact-guards",
+      "name": "Metal side impact guards",
+      "category": "protection",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_c4NYNitN",
+      "product_id": "1005012189255763",
+      "publication_status": "affiliate_received_not_published",
+      "language_pages": [],
+      "compatibility": "unverified; confirm exact scooter model and mounting points",
+      "verification_status": "product ID and affiliate URL paired in project record"
+    },
+    {
+      "product_key": "comfort-rear-footrest",
+      "name": "Rear footrest",
+      "category": "comfort",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_c4ODA38r",
+      "product_id": "1005002067991522",
+      "publication_status": "affiliate_received_not_published",
+      "language_pages": [],
+      "compatibility": "unverified; confirm exact scooter model and mounting points",
+      "verification_status": "product ID and affiliate URL paired in project record"
+    },
+    {
+      "product_key": "protection-rear-fender-hook-silicone-cover",
+      "name": "Silicone cover for rear fender hook",
+      "category": "protection",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_c3eytaIJ",
+      "product_id": "1005010403912974",
+      "publication_status": "affiliate_received_not_published",
+      "language_pages": [],
+      "compatibility": "unverified; confirm exact hook dimensions and scooter model",
+      "verification_status": "product ID and affiliate URL paired in project record"
+    },
+    {
+      "product_key": "folding-mechanism-retaining-ring",
+      "name": "Front folding-mechanism retaining ring",
+      "category": "mechanical",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_c4S3M8OB",
+      "product_id": "1005007486537262",
+      "publication_status": "affiliate_received_not_published",
+      "language_pages": [],
+      "compatibility": "unverified; confirm exact folding mechanism version and scooter model",
+      "verification_status": "product ID and affiliate URL paired in project record"
+    },
+    {
+      "product_key": "protection-full-scooter-waterproof-cover",
+      "name": "Full waterproof scooter cover",
+      "category": "protection",
+      "affiliate_url": "https://s.click.aliexpress.com/e/_c4c6Cpr5",
+      "product_id": "1005013176435400",
+      "publication_status": "affiliate_received_not_published",
+      "language_pages": [],
+      "compatibility": "check scooter dimensions and cover sizing with seller",
+      "verification_status": "product ID and affiliate URL paired in project record"
+    }
+  ]
+}
