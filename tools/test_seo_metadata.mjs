@@ -130,7 +130,8 @@ for (const path of ["article-choosing-charger.html", "en/blog/choosing-charger.h
   assert.match(html, /BMS|système de gestion|battery management system/i, path + ": charger current must be tied to manufacturer/BMS limits");
 }
 for (const path of ["article-4.html", "en/article-4.html"]) {
-  assert.match(sitemap, new RegExp("<loc>https://voltride-4qj\\.pages\\.dev/" + path.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");").replace(/\\.html$/, "") + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod must match article update");
+  const url = "https://voltride-4qj.pages.dev/" + path.replace(/\.html$/, "");
+  assert.ok(sitemap.includes("<loc>" + url + "</loc><lastmod>2026-11-12</lastmod>"), path + ": sitemap lastmod must match article update");
 }
 
 console.log("SEO metadata tests passed: global homepage description and valid French article metadata.");
