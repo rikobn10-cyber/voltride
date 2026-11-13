@@ -484,7 +484,7 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertIsNone(variant["battery"]["capacityAh"])
         self.assertTrue(any(
             source["url"] == "https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf"
-            and source["sourceType"] == "official_product_manual"
+            and source["sourceType"] == "official_manual"
             for source in variant["sources"]
         ))
         self.assertTrue(any("051402UU" in note for note in variant["verification"]["notes"]))
