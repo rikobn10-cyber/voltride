@@ -6,7 +6,7 @@ Reads models.json for legacy model pages/catalogs and model_texts.json for optio
 Writes <id>.html for every model (no Product schema: FAQPage + BreadcrumbList only), preserves the hand-maintained sitemap.xml, refreshes blog.html, MODEL_PRESETS and MODEL_VARIANTS in index.html, and the PRECACHE list of sw.js.
 """
 import hashlib, html, json, math, os, re
-from model_data_adapter import VariantProjectionError, project_verified_variant
+from model_data_adapter import VariantProjectionError, project_verified_variant, sources_by_field
 
 BASE = "https://voltride-4qj.pages.dev"
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -68,6 +68,7 @@ def build_verified_variant_options():
                     "rangeClaimKm": projection["range_claim"].get("max_km"),
                     "sourcePublisher": source.get("publisher"),
                     "sourceUrl": source.get("url"),
+                    "sourcesByField": sources_by_field(variant.get("sources", [])),
                 }
                 options.setdefault(model["id"], []).append(option)
     return options
@@ -196,12 +197,36 @@ def verified_variant_page_sections(variants):
         claim = (f'<p class="updated">المدى المعلن من الشركة لهذه النسخة: {num(v["rangeClaimKm"])} كم. '
                  'هذا ادعاء الشركة وليس تقديراً ميدانياً.</p>') if v.get("rangeClaimKm") else (
                  '<p class="updated">لا تتوفر قيمة مدى منشورة ومتحقق منها لهذه النسخة.</p>')
+        field_labels = {
+            "identity": "هوية النسخة",
+            "battery": "البطارية والطاقة",
+            "motors": "المحركات",
+            "speed": "السرعة",
+            "rangeClaim": "المدى المعلن",
+            "dimensions": "الأبعاد",
+            "weight": "الوزن",
+            "other": "معلومات أخرى",
+        }
+        evidence_items = []
+        for field, label in field_labels.items():
+            links = v.get("sourcesByField", {}).get(field, [])
+            if not links:
+                continue
+            rendered_links = ", ".join(
+                f'<a href="{esc(item["url"])}" target="_blank" rel="noopener noreferrer">{esc(item["publisher"])}</a>'
+                for item in links
+            )
+            evidence_items.append(f'<span><strong>{label}:</strong> {rendered_links}</span>')
+        evidence_html = (
+            '<p class="updated evidence-by-field"><strong>مصادر كل مواصفة:</strong> '
+            + " • ".join(evidence_items) + '</p>'
+        ) if evidence_items else ""
         spec_sections.append(
             f'<section class="table-wrap"><h3>{esc(v["label"])}{generation}{sku}</h3>'
             '<table><tr><th>السوق</th><th>الفولت الاسمي</th><th>السعة</th><th>الطاقة</th><th>قوة المحرك الاسمية</th><th>السرعة القصوى</th></tr>'
             f'<tr><td>{esc(v["market"])}</td><td>{num(v["voltage"])} V</td><td>{num(v["ah"])} Ah</td>'
             f'<td>{num(v["energyWh"])} Wh</td><td>{num(v["motor"])} W</td><td>{num(v["speed"])} كم/س</td></tr></table>'
-            f'<p class="updated">أساس الطاقة: {basis}. {esc(v.get("energyWhSourceNote") or "")}<br>المصدر: {source}</p>{claim}</section>'
+            f'<p class="updated">أساس الطاقة: {basis}. {esc(v.get("energyWhSourceNote") or "")}<br>المصدر: {source}</p>{evidence_html}{claim}</section>'
         )
         scenarios = [
             ("خفيف ومريح", "راكب 60 كغ، طريق مستوٍ، نمط اقتصادي", estimate_variant(v, 60, "flat", "eco")[0]),
