@@ -292,11 +292,60 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["speed"], 53)
         self.assertEqual(result["range_claim"]["max_km"], 100)
 
-    def test_rejects_segway_g30_family_until_suffix_and_capacity_are_resolved(self):
+    def test_segway_g30_and_g30p_are_separate_suffix_specific_unresolved_variants(self):
+        g30 = next(m for m in DATA["models"] if m["id"] == "segway-max-g30")["variants"]
+        self.assertEqual({v["variantId"] for v in g30}, {
+            "segway-max-g30-global", "segway-max-g30p-global"
+        })
+        by_id = {v["variantId"]: v for v in g30}
+        self.assertEqual(by_id["segway-max-g30-global"]["speed"]["maxKmh"], 25)
+        self.assertEqual(by_id["segway-max-g30p-global"]["speed"]["maxKmh"], 30)
+        for variant in g30:
+            self.assertIsNone(variant["battery"]["capacityAh"])
+            self.assertEqual(variant["battery"]["energyWh"], 551)
+            self.assertEqual(variant["verification"]["status"], "variant_unresolved")
+            with self.assertRaises(VariantProjectionError):
+                project_verified_variant(DATA, "segway-max-g30", variant["variantId"], "Global")
+
+    def test_teverun_fighter_11_records_combined_peak_without_inventing_rated_power(self):
+        variant = next(m for m in DATA["models"] if m["id"] == "teverun-fighter-11")["variants"][0]
+        self.assertEqual(variant["motors"]["peakPowerW"], 4900)
+        self.assertEqual(variant["motors"]["peakPowerBasis"], "combined")
+        self.assertIsNone(variant["motors"]["ratedPowerW"])
+        self.assertEqual(variant["motors"]["ratedPowerBasis"], "unresolved")
+        self.assertEqual(variant["verification"]["status"], "variant_unresolved")
         with self.assertRaises(VariantProjectionError):
-            project_verified_variant(
-                DATA, "segway-max-g30", "segway-max-g30-family-unresolved", "Global"
+            project_verified_variant(DATA, "teverun-fighter-11", variant["variantId"], "Global")
+
+    def test_dualtron_mini_battery_options_keep_official_capacity_range_pairing(self):
+        variants = next(m for m in DATA["models"] if m["id"] == "dualtron-mini")["variants"]
+        expected = {
+            "dualtron-mini-52v-lg-21ah-global": (21, 60),
+            "dualtron-mini-52v-cn-19-2ah-global": (19.2, 55),
+            "dualtron-mini-52v-lg-17-5ah-global": (17.5, 50),
+            "dualtron-mini-52v-cn-13ah-global": (13, 40),
+        }
+        self.assertEqual(len(variants), 4)
+        for variant in variants:
+            self.assertEqual(
+                (variant["battery"]["capacityAh"], variant["rangeClaim"]["maxKm"]),
+                expected[variant["variantId"]]
             )
+            self.assertEqual(variant["battery"]["nominalVoltageV"], 52)
+            self.assertEqual(variant["verification"]["status"], "variant_unresolved")
+            with self.assertRaises(VariantProjectionError):
+                project_verified_variant(DATA, "dualtron-mini", variant["variantId"], "Global")
+
+    def test_navee_g5_and_nami_legacy_generation_remain_unresolved_for_explicit_reasons(self):
+        navee = next(m for m in DATA["models"] if m["id"] == "navee-g5")["variants"]
+        self.assertEqual({v["variantId"] for v in navee}, {"navee-g5-us-current", "navee-g5-eu-current"})
+        self.assertTrue(all(v["verification"]["status"] == "variant_unresolved" for v in navee))
+        self.assertIsNone(next(v for v in navee if v["variantId"] == "navee-g5-us-current")["battery"]["capacityAh"])
+        nami = next(m for m in DATA["models"] if m["id"] == "nami-burn-e2-max")["variants"][0]
+        self.assertEqual(nami["verification"]["status"], "variant_unresolved")
+        self.assertIn("equivalence to legacy Burn-E 2 Max not established", nami["generation"])
+        self.assertIsNone(nami["speed"]["maxKmh"])
+        self.assertIsNone(nami["rangeClaim"]["maxKm"])
 
     def test_rejects_navee_g5_until_battery_capacity_is_resolved(self):
         with self.assertRaises(VariantProjectionError):
@@ -439,7 +488,7 @@ class ModelDataAdapterTests(unittest.TestCase):
                 verification = variant.get("verification", {})
                 if verification.get("status") != "verified_variant":
                     unresolved.append((model["id"], variant["variantId"], variant.get("market", [])))
-        self.assertEqual(len(unresolved), 15, "Update the evidence audit when unresolved inventory changes")
+        self.assertEqual(len(unresolved), 16, "Update the evidence audit when unresolved inventory changes")
         for model_id, variant_id, markets in unresolved:
             self.assertTrue(markets, f"{model_id}/{variant_id} must declare its intended market")
             for market in markets:
