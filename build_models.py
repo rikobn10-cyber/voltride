@@ -81,7 +81,7 @@ BRANDS = {"xiaomi": "Xiaomi", "segway": "Segway-Ninebot", "navee": "Navee", "niu
 GUIDES = ["guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html"]
 # (path, priority, lastmod)
 SPRINT = "2026-10-26"
-SW_VERSION = "voltride-v21"
+SW_VERSION = "voltride-v22"
 IMAGES = {"article-9.html": "electric-scooter-winter-range-voltride.jpg", "fr/article-9.html": "electric-scooter-winter-range-voltride.jpg", "en/article-9.html": "electric-scooter-winter-range-voltride.jpg", "article-10.html": "scooter-accessories.jpg"}
 # (path, priority, lastmod) - dates are set per page on purpose (only pages really touched get a new lastmod)
 TODAY = "2026-10-27"
@@ -647,10 +647,18 @@ def main():
     print("Ride Match verified models:", len(ride_models))
 
     # service worker precache + automatic cache version
+    localized_pages = []
+    for locale in ("en", "fr"):
+        locale_root = os.path.join(ROOT, locale)
+        if os.path.isdir(locale_root):
+            for current, _, names in os.walk(locale_root):
+                for name in names:
+                    if name.endswith(".html"):
+                        localized_pages.append(os.path.relpath(os.path.join(current, name), ROOT).replace(os.sep, "/"))
     base_files = ["./", "index.html", "offline.html", "manifest.json", "site.css", "site.js",
                   "icon-192.png", "icon-512.png", "icon-maskable-192.png", "icon-maskable-512.png",
-                  "blog.html", "about.html", "privacy.html", "contact.html", "accessories.html", "en/accessories.html", "fr/accessories.html", "ride-match.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + sorted(set(IMAGES.values()))
-    files = base_files + [f"{m['id']}.html" for m in MODELS]
+                  "blog.html", "about.html", "privacy.html", "contact.html", "accessories.html", "ride-match.html"] + [f"article-{i}.html" for i in range(1, 11)] + GUIDES + sorted(set(IMAGES.values())) + sorted(localized_pages)
+    files = list(dict.fromkeys(base_files + [f"{m['id']}.html" for m in MODELS]))
     sw = read("sw.js")
     lst = "const PRECACHE = [\n  " + ",\n  ".join(", ".join(f'"{f}"' for f in files[i:i + 4]) for i in range(0, len(files), 4)) + "\n];"
     sw = re.sub(r"const PRECACHE = \[.*?\];", lambda _: lst, sw, flags=re.S)
