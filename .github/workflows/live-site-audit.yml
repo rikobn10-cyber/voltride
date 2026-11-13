@@ -8,6 +8,8 @@ on:
         default: "https://voltride-4qj.pages.dev"
   schedule:
     - cron: "23 6 * * 1"
+  push:
+    branches: [audit/live-site-health]
   pull_request:
     branches: [main]
     paths:
