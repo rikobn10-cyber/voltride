@@ -129,11 +129,17 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 500)
         self.assertEqual(result["legacy_fields"]["speed"], 20)
 
-    def test_rejects_segway_e2_plus_until_battery_capacity_is_confirmed(self):
-        with self.assertRaises(VariantProjectionError):
-            project_verified_variant(
-                DATA, "segway-e2-plus", "segway-e2-plus-e-ii-fr", "FR"
-            )
+    def test_segway_e2_plus_fr_projects_manual_confirmed_battery_values(self):
+        result = project_verified_variant(
+            DATA, "segway-e2-plus", "segway-e2-plus-e-ii-fr", "FR"
+        )
+        self.assertEqual(result["legacy_fields"]["voltage"], 21.6)
+        self.assertEqual(result["legacy_fields"]["ah"], 10.2)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 220)
+        self.assertEqual(result["legacy_fields"]["motor"], 300)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 500)
+        self.assertEqual(result["legacy_fields"]["speed"], 25)
+        self.assertEqual(result["range_claim"]["max_km"], 25)
 
     def test_selects_market_specific_niu_speed(self):
         us = project_verified_variant(DATA, "niu-kqi3-max", "niu-kqi3-max-us", "US")
@@ -336,16 +342,22 @@ class ModelDataAdapterTests(unittest.TestCase):
             with self.assertRaises(VariantProjectionError):
                 project_verified_variant(DATA, "dualtron-mini", variant["variantId"], "Global")
 
-    def test_navee_g5_and_nami_legacy_generation_remain_unresolved_for_explicit_reasons(self):
-        navee = next(m for m in DATA["models"] if m["id"] == "navee-g5")["variants"]
-        self.assertEqual({v["variantId"] for v in navee}, {"navee-g5-us-current", "navee-g5-eu-current"})
-        self.assertTrue(all(v["verification"]["status"] == "variant_unresolved" for v in navee))
-        self.assertIsNone(next(v for v in navee if v["variantId"] == "navee-g5-us-current")["battery"]["capacityAh"])
-        nami = next(m for m in DATA["models"] if m["id"] == "nami-burn-e2-max")["variants"][0]
-        self.assertEqual(nami["verification"]["status"], "variant_unresolved")
-        self.assertIn("equivalence to legacy Burn-E 2 Max not established", nami["generation"])
-        self.assertIsNone(nami["speed"]["maxKmh"])
-        self.assertIsNone(nami["rangeClaim"]["maxKm"])
+    def test_navee_g5_eu_projects_official_certified_variant_but_us_stays_unresolved(self):
+        model = next(m for m in DATA["models"] if m["id"] == "navee-g5")
+        eu = next(v for v in model["variants"] if v["variantId"] == "navee-g5-eu-current")
+        us = next(v for v in model["variants"] if v["variantId"] == "navee-g5-us-current")
+        self.assertEqual(eu["verification"]["status"], "verified_variant")
+        self.assertEqual(us["verification"]["status"], "variant_unresolved")
+        result = project_verified_variant(DATA, "navee-g5", "navee-g5-eu-current", "EU")
+        self.assertEqual(result["legacy_fields"]["voltage"], 36)
+        self.assertEqual(result["legacy_fields"]["ah"], 7.65)
+        self.assertEqual(result["legacy_fields"]["energyWh"], 275.4)
+        self.assertEqual(result["legacy_fields"]["motor"], 400)
+        self.assertEqual(result["legacy_fields"]["peakMotorPowerW"], 800)
+        self.assertEqual(result["legacy_fields"]["speed"], 25)
+        self.assertEqual(result["range_claim"]["max_km"], 45)
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(DATA, "navee-g5", "navee-g5-us-current", "US")
 
     def test_rejects_navee_g5_until_battery_capacity_is_resolved(self):
         with self.assertRaises(VariantProjectionError):
@@ -488,7 +500,7 @@ class ModelDataAdapterTests(unittest.TestCase):
                 verification = variant.get("verification", {})
                 if verification.get("status") != "verified_variant":
                     unresolved.append((model["id"], variant["variantId"], variant.get("market", [])))
-        self.assertEqual(len(unresolved), 16, "Update the evidence audit when unresolved inventory changes")
+        self.assertEqual(len(unresolved), 14, "Update the evidence audit when unresolved inventory changes")
         for model_id, variant_id, markets in unresolved:
             self.assertTrue(markets, f"{model_id}/{variant_id} must declare its intended market")
             for market in markets:
@@ -526,19 +538,19 @@ class ModelDataAdapterTests(unittest.TestCase):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "navee-g5", "navee-g5-eu-current", "EU")
 
-    def test_segway_e2_plus_fr_manual_evidence_does_not_assume_regional_sku_mapping(self):
+    def test_segway_e2_plus_fr_exact_manual_model_code_is_verified(self):
         model = next(m for m in DATA["models"] if m["id"] == "segway-e2-plus")
         variant = next(v for v in model["variants"] if v["variantId"] == "segway-e2-plus-e-ii-fr")
-        self.assertEqual(variant["verification"]["status"], "variant_unresolved")
-        self.assertIsNone(variant["battery"]["capacityAh"])
+        self.assertEqual(variant["verification"]["status"], "verified_variant")
+        self.assertEqual(variant["sku"], "051402UU")
+        self.assertEqual(variant["battery"]["capacityAh"], 10.2)
         self.assertTrue(any(
             source["url"] == "https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf"
             and source["sourceType"] == "official_manual"
             for source in variant["sources"]
         ))
-        self.assertTrue(any("051402UU" in note for note in variant["verification"]["notes"]))
-        with self.assertRaises(VariantProjectionError):
-            project_verified_variant(DATA, "segway-e2-plus", "segway-e2-plus-e-ii-fr", "FR")
+        result = project_verified_variant(DATA, "segway-e2-plus", "segway-e2-plus-e-ii-fr", "FR")
+        self.assertEqual(result["legacy_fields"]["ah"], 10.2)
 
 
 if __name__ == "__main__":
