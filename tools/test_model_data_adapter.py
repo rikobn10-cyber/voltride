@@ -359,7 +359,7 @@ class ModelDataAdapterTests(unittest.TestCase):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(DATA, "navee-g5", "navee-g5-us-current", "US")
 
-    def test_rejects_navee_g5_until_battery_capacity_is_resolved(self):
+    def test_rejects_navee_g5_us_until_battery_capacity_is_resolved(self):
         with self.assertRaises(VariantProjectionError):
             project_verified_variant(
                 DATA, "navee-g5", "navee-g5-us-current", "US"
@@ -525,24 +525,24 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertTrue(unresolved_ids.isdisjoint(generated_ids))
 
 
-    def test_navee_g5_eu_official_certified_identity_is_recorded_but_not_projected(self):
+    def test_navee_g5_eu_official_certified_identity_is_projected(self):
         model = next(m for m in DATA["models"] if m["id"] == "navee-g5")
         variant = next(v for v in model["variants"] if v["variantId"] == "navee-g5-eu-current")
-        self.assertEqual(variant["verification"]["status"], "variant_unresolved")
+        self.assertEqual(variant["verification"]["status"], "verified_variant")
         self.assertEqual(variant["battery"]["capacityAh"], 7.65)
         self.assertTrue(any(
             source["url"] == "https://naveetech.fr/en/products/navee-g5"
             and "identity" in source["supports"]
             for source in variant["sources"]
         ))
-        with self.assertRaises(VariantProjectionError):
-            project_verified_variant(DATA, "navee-g5", "navee-g5-eu-current", "EU")
+        result = project_verified_variant(DATA, "navee-g5", "navee-g5-eu-current", "EU")
+        self.assertEqual(result["legacy_fields"]["ah"], 7.65)
 
     def test_segway_e2_plus_fr_exact_manual_model_code_is_verified(self):
         model = next(m for m in DATA["models"] if m["id"] == "segway-e2-plus")
         variant = next(v for v in model["variants"] if v["variantId"] == "segway-e2-plus-e-ii-fr")
         self.assertEqual(variant["verification"]["status"], "verified_variant")
-        self.assertEqual(variant["sku"], "051402UU")
+        self.assertEqual(variant["modelCode"], "051402UU")
         self.assertEqual(variant["battery"]["capacityAh"], 10.2)
         self.assertTrue(any(
             source["url"] == "https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf"
