@@ -1834,7 +1834,6 @@
         {
           "variantId": "segway-e2-plus-e-ii-fr",
           "generation": "E2 Plus E II",
-          "sku": "051402UU",
           "market": [
             "FR"
           ],
@@ -1898,7 +1897,8 @@
               "The regional page separately documents 25km Eco range at 15km/h and 20km Sport range at 25km/h; the stored maximum range retains the 15km/h condition.",
               "All fields required by the compatibility adapter are supported by official Segway product-page and manual evidence. This is distinct from the US 051402U variant."
             ]
-          }
+          },
+          "modelCode": "051402UU"
         },
         {
           "variantId": "segway-e2-plus-us-051402u",
