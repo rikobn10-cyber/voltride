@@ -1085,7 +1085,7 @@
       "category": "commuter",
       "variants": [
         {
-          "variantId": "segway-max-g30-family-unresolved",
+          "variantId": "segway-max-g30-global",
           "market": [
             "Global"
           ],
@@ -1094,7 +1094,7 @@
             "capacityAh": null,
             "energyWh": 551,
             "energyWhBasis": "manufacturer_published",
-            "energyWhSourceNote": "Segway publishes 36V nominal and 551Wh; Ah is not stated on the cited official page."
+            "energyWhSourceNote": "Segway publishes 36V nominal and 551Wh; pack Ah is not stated on the cited official page."
           },
           "motors": {
             "count": 1,
@@ -1104,13 +1104,13 @@
             "peakPowerBasis": "unresolved"
           },
           "speed": {
-            "maxKmh": null,
-            "conditions": "Official page lists G30 at 25km/h and G30P at 30km/h; exact suffix/market for this catalog identity is not resolved."
+            "maxKmh": 25,
+            "conditions": "Segway's official MAX page explicitly identifies G30 at 15.5mph (25km/h); this record is the G30 suffix only, not G30P."
           },
           "rangeClaim": {
             "maxKm": 65,
             "basis": "manufacturer_claim",
-            "conditions": "Approx. 65km typical range under Segway's stated 75kg, 25°C, flat pavement and 60% max-speed test conditions."
+            "conditions": "Approx. 65km typical range under Segway's stated 75kg, 25°C, pavement and 60% max-speed test conditions."
           },
           "sources": [
             {
@@ -1124,17 +1124,71 @@
                 "speed",
                 "rangeClaim"
               ],
-              "checkedAt": "2026-11-11"
+              "checkedAt": "2026-11-13"
             }
           ],
           "verification": {
             "status": "variant_unresolved",
             "confidence": "medium",
-            "checkedAt": "2026-11-11",
+            "checkedAt": "2026-11-13",
             "notes": [
-              "Official page distinguishes G30 (25km/h) and G30P (30km/h); the current catalog identity does not preserve the suffix needed to choose one.",
-              "Official page publishes 36V and 551Wh but not Ah; capacityAh remains null.",
-              "Do not use the current catalog's 30km/h value as a universal G30 specification."
+              "Segway explicitly lists G30 at 25km/h; it is separated from the G30P variant at 30km/h.",
+              "The official source publishes 36V and 551Wh but not pack Ah; capacityAh remains null, so this variant cannot be projected into the legacy calculator.",
+              "No G30P speed or family value is applied to this G30 record."
+            ]
+          }
+        },
+        {
+          "variantId": "segway-max-g30p-global",
+          "market": [
+            "Global"
+          ],
+          "battery": {
+            "nominalVoltageV": 36,
+            "capacityAh": null,
+            "energyWh": 551,
+            "energyWhBasis": "manufacturer_published",
+            "energyWhSourceNote": "Segway publishes 36V nominal and 551Wh; pack Ah is not stated on the cited official page."
+          },
+          "motors": {
+            "count": 1,
+            "ratedPowerW": 350,
+            "ratedPowerBasis": "combined",
+            "peakPowerW": null,
+            "peakPowerBasis": "unresolved"
+          },
+          "speed": {
+            "maxKmh": 30,
+            "conditions": "Segway's official MAX page explicitly identifies G30P at 18.6mph (30km/h); this record is the G30P suffix only, not G30."
+          },
+          "rangeClaim": {
+            "maxKm": 65,
+            "basis": "manufacturer_claim",
+            "conditions": "Approx. 65km typical range under Segway's stated 75kg, 25°C, pavement and 60% max-speed test conditions."
+          },
+          "sources": [
+            {
+              "url": "https://arab.segway.com/product-info/kickscooter-max.html",
+              "publisher": "Segway-Ninebot ME",
+              "sourceType": "official_product_page",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed",
+                "rangeClaim"
+              ],
+              "checkedAt": "2026-11-13"
+            }
+          ],
+          "verification": {
+            "status": "variant_unresolved",
+            "confidence": "medium",
+            "checkedAt": "2026-11-13",
+            "notes": [
+              "Segway explicitly lists G30P at 30km/h; it is separated from the G30 variant at 25km/h.",
+              "The official source publishes 36V and 551Wh but not pack Ah; capacityAh remains null, so this variant cannot be projected into the legacy calculator.",
+              "No G30 speed or family value is applied to this G30P record."
             ]
           }
         }
@@ -1162,8 +1216,8 @@
             "count": 2,
             "ratedPowerW": null,
             "ratedPowerBasis": "unresolved",
-            "peakPowerW": null,
-            "peakPowerBasis": "unresolved"
+            "peakPowerW": 4900,
+            "peakPowerBasis": "combined"
           },
           "speed": {
             "maxKmh": 85,
@@ -1192,11 +1246,11 @@
           "verification": {
             "status": "variant_unresolved",
             "confidence": "medium",
-            "checkedAt": "2026-11-11",
+            "checkedAt": "2026-11-13",
             "notes": [
-              "Official table distinguishes Fighter 11 (60V/26Ah, 85km/h, 80km) from Fighter 11+ (60V/35Ah, 85km/h, 120km).",
-              "The table lists 4900W peak power but does not establish rated power or whether the figure is per-motor or combined; power fields remain unresolved rather than using the legacy 5000W as rated.",
-              "Teverun's after-sale guide states factory speed is limited to 25km/h; 85km/h is the unrestricted specification and must not be presented as road-use default."
+              "Teverun's official Fighter 11 specification table explicitly publishes 4900W peak power for the dual-motor system; this is recorded as combined peak output.",
+              "The same table distinguishes Fighter 11 (60V/26Ah, 80km claimed range) from Fighter 11+ (60V/35Ah, 120km claimed range).",
+              "Rated motor power is not published in the cited table and remains null; the 4900W peak figure is not substituted for rated power. The variant remains unresolved and cannot be projected."
             ]
           }
         }
