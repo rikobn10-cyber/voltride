@@ -31,16 +31,14 @@ try {
     if (!result.jsonLdDates.includes('2026-11-13')) failures.push(`${item.path}: JSON-LD dateModified is not 2026-11-13`);
     console.log(`${failures.length ? 'CHECK' : 'PASS'} ${item.path}: ${JSON.stringify(result)}`);
   }
-  const sitemapResponse = await page.goto(base + '/sitemap.xml', { waitUntil: 'domcontentloaded' });
+  const sitemapResponse = await page.request.get(base + '/sitemap.xml');
   if (!sitemapResponse || sitemapResponse.status() !== 200) failures.push(`/sitemap.xml: HTTP ${sitemapResponse?.status() ?? 'no response'}`);
   else {
-    const xml = await page.locator('body').innerText();
+    const xml = await sitemapResponse.text();
     for (const item of expected) {
       const loc = base + item.path;
-      const escaped = loc.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
-      const match = xml.match(new RegExp(`<loc>${escaped}</loc>\\s*<lastmod>([^<]+)</lastmod>`));
-      if (!match) failures.push(`sitemap: missing URL or lastmod for ${loc}`);
-      else if (match[1] !== '2026-11-13') failures.push(`sitemap: ${loc} lastmod is ${match[1]}`);
+      const entry = `<loc>${loc}</loc><lastmod>2026-11-13</lastmod>`;
+      if (!xml.includes(entry)) failures.push(`sitemap: expected ${loc} with lastmod 2026-11-13`);
     }
   }
 } finally {
