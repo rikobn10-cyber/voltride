@@ -2,7 +2,7 @@
 
 ## Scope and safety
 
-This is a research and evidence audit of the 16 records currently marked `variant_unresolved` after PR #96 in `model_data_v2.json`.
+This is a research and evidence audit of the 14 records currently marked `variant_unresolved` after the NAVEE G5 EU and Segway E2 Plus E II FR evidence updates in PR #98.
 
 - No production model data, compatibility rules, UI, affiliate destinations, analytics, consent, advertising, or deployment settings are changed by this audit.
 - A manufacturer page that describes a model family is not sufficient to certify a specific generation, SKU, market, or battery option.
