@@ -11,6 +11,34 @@ class VariantProjectionError(ValueError):
     """Raised when a v2 variant cannot be safely represented by legacy fields."""
 
 
+def sources_by_field(sources: list[dict]) -> dict[str, list[dict]]:
+    """Group evidence links by the exact specification fields each source supports."""
+    result: dict[str, list[dict]] = {}
+    seen: dict[str, set[str]] = {}
+    for source in sources:
+        if not isinstance(source, dict):
+            continue
+        url = source.get("url")
+        publisher = source.get("publisher")
+        if not isinstance(url, str) or not url.startswith("https://"):
+            continue
+        if not isinstance(publisher, str) or not publisher.strip():
+            continue
+        for field in source.get("supports", []):
+            if not isinstance(field, str) or not field:
+                continue
+            if url in seen.setdefault(field, set()):
+                continue
+            seen[field].add(url)
+            result.setdefault(field, []).append({
+                "url": url,
+                "publisher": publisher,
+                "sourceType": source.get("sourceType"),
+                "checkedAt": source.get("checkedAt"),
+            })
+    return result
+
+
 def project_verified_variant(dataset: dict, model_id: str, variant_id: str, market: str) -> dict:
     if not isinstance(dataset, dict) or dataset.get("schemaVersion") != 2:
         raise VariantProjectionError("Unsupported model-data schema")
