@@ -488,7 +488,7 @@ class ModelDataAdapterTests(unittest.TestCase):
                 verification = variant.get("verification", {})
                 if verification.get("status") != "verified_variant":
                     unresolved.append((model["id"], variant["variantId"], variant.get("market", [])))
-        self.assertEqual(len(unresolved), 15, "Update the evidence audit when unresolved inventory changes")
+        self.assertEqual(len(unresolved), 16, "Update the evidence audit when unresolved inventory changes")
         for model_id, variant_id, markets in unresolved:
             self.assertTrue(markets, f"{model_id}/{variant_id} must declare its intended market")
             for market in markets:
