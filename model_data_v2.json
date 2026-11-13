@@ -1823,7 +1823,7 @@
             {
               "url": "https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf",
               "publisher": "Segway",
-              "sourceType": "official_product_manual",
+              "sourceType": "official_manual",
               "supports": [
                 "identity",
                 "battery",
