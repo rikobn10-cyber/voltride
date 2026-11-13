@@ -36,7 +36,7 @@ try {
   else {
     const xml = await sitemapResponse.text();
     for (const item of expected) {
-      const loc = base + item.path;
+      const loc = 'https://voltride-4qj.pages.dev' + item.path;
       const entry = `<loc>${loc}</loc><lastmod>2026-11-13</lastmod>`;
       if (!xml.includes(entry)) failures.push(`sitemap: expected ${loc} with lastmod 2026-11-13`);
     }
