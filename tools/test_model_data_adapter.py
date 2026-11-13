@@ -464,5 +464,33 @@ class ModelDataAdapterTests(unittest.TestCase):
         self.assertTrue(unresolved_ids.isdisjoint(generated_ids))
 
 
+    def test_navee_g5_eu_official_certified_identity_is_recorded_but_not_projected(self):
+        model = next(m for m in DATA["models"] if m["id"] == "navee-g5")
+        variant = next(v for v in model["variants"] if v["variantId"] == "navee-g5-eu-current")
+        self.assertEqual(variant["verification"]["status"], "variant_unresolved")
+        self.assertEqual(variant["battery"]["capacityAh"], 7.65)
+        self.assertTrue(any(
+            source["url"] == "https://naveetech.fr/en/products/navee-g5"
+            and "identity" in source["supports"]
+            for source in variant["sources"]
+        ))
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(DATA, "navee-g5", "navee-g5-eu-current", "EU")
+
+    def test_segway_e2_plus_fr_manual_evidence_does_not_assume_regional_sku_mapping(self):
+        model = next(m for m in DATA["models"] if m["id"] == "segway-e2-plus")
+        variant = next(v for v in model["variants"] if v["variantId"] == "segway-e2-plus-e-ii-fr")
+        self.assertEqual(variant["verification"]["status"], "variant_unresolved")
+        self.assertIsNone(variant["battery"]["capacityAh"])
+        self.assertTrue(any(
+            source["url"] == "https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf"
+            and source["sourceType"] == "official_manual"
+            for source in variant["sources"]
+        ))
+        self.assertTrue(any("051402UU" in note for note in variant["verification"]["notes"]))
+        with self.assertRaises(VariantProjectionError):
+            project_verified_variant(DATA, "segway-e2-plus", "segway-e2-plus-e-ii-fr", "FR")
+
+
 if __name__ == "__main__":
     unittest.main()

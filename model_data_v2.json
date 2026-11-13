@@ -740,7 +740,7 @@
                 "speed",
                 "rangeClaim"
               ],
-              "checkedAt": "2026-11-11"
+              "checkedAt": "2026-11-13"
             },
             {
               "url": "https://naveetech.fr/en/products/navee-g5",
@@ -753,17 +753,17 @@
                 "speed",
                 "rangeClaim"
               ],
-              "checkedAt": "2026-11-11"
+              "checkedAt": "2026-11-13"
             }
           ],
           "verification": {
             "status": "variant_unresolved",
             "confidence": "medium",
-            "checkedAt": "2026-11-11",
+            "checkedAt": "2026-11-13",
             "notes": [
-              "NAVEE France's official regional page identifies the certified model as G5 EU and publishes 36V, 275.4Wh, 10s3p and 7.65Ah cell capacity; the EU battery-capacity evidence is now recorded.",
-              "The regional page lists 400W rated / 800W maximum power and EU factory speed settings up to 25km/h. It reports 37km at 20km/h and 29km at 25km/h, with a separate 45km maximum claim at 15km/h.",
-              "Keep this EU record unresolved pending confirmation of the exact retail SKU and final reconciliation of the regional range claims with the exact market configuration. The US variant remains separate and unresolved; no cross-market inference is made."
+              "NAVEE France's official regional product page explicitly identifies the certified model as G5 EU and publishes 36V, 275.4Wh, 10s3p and 7.65Ah cell capacity; the page separately lists the G5 and G5 Pro configurations.",
+              "The same official page publishes 400W rated / 800W maximum motor power and a 25km/h maximum factory speed. It lists 37km at 20km/h and 29km at 25km/h, alongside a separate 45km maximum claim at 15km/h.",
+              "The official certified-model identity is now confirmed as G5 EU. Keep this record unresolved until the exact retail SKU / regional sales mapping is independently tied to the catalog variant; do not promote based only on a family-level product page. The US record remains separate and unresolved."
             ]
           }
         }
@@ -1819,17 +1819,28 @@
                 "rangeClaim"
               ],
               "checkedAt": "2026-11-11"
+            },
+            {
+              "url": "https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf",
+              "publisher": "Segway",
+              "sourceType": "official_manual",
+              "supports": [
+                "identity",
+                "battery",
+                "motors",
+                "speed"
+              ],
+              "checkedAt": "2026-11-13"
             }
           ],
           "verification": {
             "status": "variant_unresolved",
             "confidence": "high",
-            "checkedAt": "2026-11-11",
+            "checkedAt": "2026-11-13",
             "notes": [
-              "Exact E2 Plus E II generation is identified on Segway's regional product page.",
-              "Segway publishes 21.6V and 220Wh but not battery Ah on the cited page; capacity remains null and must not be inferred by dividing Wh by voltage.",
-              "Rated 300W and maximum 500W motor output are separate.",
-              "The adapter must reject this record until battery Ah and exact SKU identity are established."
+              "Segway France's regional product page identifies the E2 Plus E II generation and publishes 21.6V / 220Wh, 300W rated / 500W maximum motor output, and 25km/h.",
+              "Segway's official E2 Plus II manual identifies model 051402UU and publishes 21.6V, 10.2Ah, 220Wh, 300W nominal / 500W maximum, and 25km/h. This is direct manufacturer evidence for that manual's model code.",
+              "Do not copy 10.2Ah into the FR variant yet: the exact mapping between manual model code 051402UU and the France-market E2 Plus E II retail SKU has not been confirmed. Keep capacityAh null and the variant unresolved until that mapping is established."
             ]
           }
         },
