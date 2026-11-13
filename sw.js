@@ -1,11 +1,20 @@
 /* VoltRide Service Worker v3.1.0 */
-const VERSION = "voltride-v21";
+const VERSION = "voltride-v22";
 const PRECACHE = [
   "./", "index.html", "offline.html", "manifest.json",
   "site.css", "site.js", "icon-192.png", "icon-512.png",
   "icon-maskable-192.png", "icon-maskable-512.png", "blog.html", "about.html",
   "privacy.html", "contact.html", "accessories.html", "en/accessories.html",
-  "fr/accessories.html", "ride-match.html", "article-1.html", "article-2.html",
+  "fr/accessories.html",
+  "en/about.html", "en/blog.html", "en/contact.html", "en/privacy.html",
+  "en/article-1.html", "en/article-2.html", "en/article-3.html", "en/article-4.html",
+  "en/article-5.html", "en/article-6.html", "en/article-7.html", "en/article-8.html",
+  "en/article-9.html", "en/article-10.html",
+  "en/blog/charger-safety.html", "en/blog/choosing-charger.html",
+  "fr/about.html", "fr/blog.html", "fr/contact.html", "fr/privacy.html",
+  "fr/article-7.html", "fr/article-8.html", "fr/article-9.html", "fr/article-10.html", "fr/article-11.html",
+  "fr/blog/securite-chargeur-trottinette.html", "fr/comment-choisir-chargeur-trottinette.html",
+  "ride-match.html", "article-1.html", "article-2.html",
   "article-3.html", "article-4.html", "article-5.html", "article-6.html",
   "article-7.html", "article-8.html", "article-9.html", "article-10.html",
   "guides/not-charging.html", "guides/battery-range.html", "guides/error-codes.html", "electric-scooter-winter-range-voltride.jpg",
