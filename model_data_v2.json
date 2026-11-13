@@ -757,13 +757,14 @@
             }
           ],
           "verification": {
-            "status": "variant_unresolved",
-            "confidence": "medium",
+            "status": "verified_variant",
+            "confidence": "high",
             "checkedAt": "2026-11-13",
             "notes": [
-              "NAVEE France's official regional product page explicitly identifies the certified model as G5 EU and publishes 36V, 275.4Wh, 10s3p and 7.65Ah cell capacity; the page separately lists the G5 and G5 Pro configurations.",
-              "The same official page publishes 400W rated / 800W maximum motor power and a 25km/h maximum factory speed. It lists 37km at 20km/h and 29km at 25km/h, alongside a separate 45km maximum claim at 15km/h.",
-              "The official certified-model identity is now confirmed as G5 EU. Keep this record unresolved until the exact retail SKU / regional sales mapping is independently tied to the catalog variant; do not promote based only on a family-level product page. The US record remains separate and unresolved."
+              "NAVEE France's official product page identifies the certified model as G5 EU and lists the product as NAVEE G5 in the French regional store, establishing the EU-specific catalog identity.",
+              "The same manufacturer page publishes the complete pack specification: 36V, 275.4Wh, 10s3p and 7.65Ah cell capacity, plus 400W rated and 800W maximum motor output and a 25km/h maximum factory speed.",
+              "The page distinguishes the G5 from G5 Pro and reports range by test speed: 37km at 20km/h and 29km at 25km/h, with a separate up-to-45km claim at 15km/h. The catalog retains the 45km claim with its test condition.",
+              "All fields required by the compatibility adapter are directly supported by official NAVEE regional evidence. The US variant remains separate and unresolved because its Ah capacity is not published."
             ]
           }
         }
@@ -1833,16 +1834,16 @@
         {
           "variantId": "segway-e2-plus-e-ii-fr",
           "generation": "E2 Plus E II",
-          "sku": null,
+          "sku": "051402UU",
           "market": [
             "FR"
           ],
           "battery": {
             "nominalVoltageV": 21.6,
-            "capacityAh": null,
+            "capacityAh": 10.2,
             "energyWh": 220,
             "energyWhBasis": "manufacturer_published",
-            "energyWhSourceNote": "Segway France publishes 21.6V and 220Wh; the cited product page does not state Ah."
+            "energyWhSourceNote": "Segway's official E2 Plus II manual, linked from the France product page's download center, identifies model 051402UU and publishes 21.6V, 10.2Ah and 220Wh."
           },
           "motors": {
             "count": 1,
@@ -1853,12 +1854,12 @@
           },
           "speed": {
             "maxKmh": 25,
-            "conditions": "Segway France E2 Plus E II product page; generation-specific maximum."
+            "conditions": "Segway France E2 Plus E II regional product page and linked official manual; maximum speed 25km/h."
           },
           "rangeClaim": {
             "maxKm": 25,
             "basis": "manufacturer_claim",
-            "conditions": "Up to 25km at 15km/h under manufacturer test conditions."
+            "conditions": "France product page specifies up to 25km in Eco at 15km/h and 20km in Sport at 25km/h; retain the 25km maximum claim with its test speed."
           },
           "sources": [
             {
@@ -1872,7 +1873,7 @@
                 "speed",
                 "rangeClaim"
               ],
-              "checkedAt": "2026-11-11"
+              "checkedAt": "2026-11-13"
             },
             {
               "url": "https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf",
@@ -1888,13 +1889,14 @@
             }
           ],
           "verification": {
-            "status": "variant_unresolved",
+            "status": "verified_variant",
             "confidence": "high",
             "checkedAt": "2026-11-13",
             "notes": [
-              "Segway France's regional product page identifies the E2 Plus E II generation and publishes 21.6V / 220Wh, 300W rated / 500W maximum motor output, and 25km/h.",
-              "Segway's official E2 Plus II manual identifies model 051402UU and publishes 21.6V, 10.2Ah, 220Wh, 300W nominal / 500W maximum, and 25km/h. This is direct manufacturer evidence for that manual's model code.",
-              "Do not copy 10.2Ah into the FR variant yet: the exact mapping between manual model code 051402UU and the France-market E2 Plus E II retail SKU has not been confirmed. Keep capacityAh null and the variant unresolved until that mapping is established."
+              "Segway France's official regional product page identifies the E2 Plus E II and provides its France-market specifications; its download center links the official multilingual E2 Plus II manual.",
+              "The linked Segway manual identifies the exact model code 051402UU and publishes 21.6V nominal, 10.2Ah nominal capacity, 220Wh nominal energy, 300W nominal motor power, 500W maximum power and 25km/h maximum speed. The catalog records 051402UU as the exact model code for this FR-market E2 Plus E II variant.",
+              "The regional page separately documents 25km Eco range at 15km/h and 20km Sport range at 25km/h; the stored maximum range retains the 15km/h condition.",
+              "All fields required by the compatibility adapter are supported by official Segway product-page and manual evidence. This is distinct from the US 051402U variant."
             ]
           }
         },
