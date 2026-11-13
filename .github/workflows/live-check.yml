@@ -61,5 +61,7 @@ jobs:
           npx playwright install chromium
       - name: Accessibility against the live site
         run: node tools/a11y.mjs "$LIVE"
+      - name: Verify Article 7 visible dates, metadata and sitemap with Playwright
+        run: node tools/article-7-live-check.mjs "$LIVE"
       - name: Production PWA manifest, service worker and offline navigation
         run: node tools/live-pwa-smoke.mjs "$LIVE"
