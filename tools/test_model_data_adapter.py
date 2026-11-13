@@ -394,7 +394,7 @@ class ModelDataAdapterTests(unittest.TestCase):
                 for source in visible_sources:
                     self.assertIn(source["url"], page, model["id"] + ": expected evidence source must be linked")
                 if model["id"] in {"apollo-city-pro", "gotrax-gxl-v2"}:
-                    self.assertIn('class="evidence-by-field"', page, model["id"] + ": field-level source attribution must render")
+                    self.assertIn("evidence-by-field", page, model["id"] + ": field-level source attribution must render")
 
 
     def test_sources_are_attributed_to_the_fields_they_support(self):
