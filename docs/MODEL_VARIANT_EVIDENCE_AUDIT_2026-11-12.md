@@ -1,61 +1,62 @@
-# Model Variant Evidence Audit — 2026-11-13 (status refresh)
+# Model Variant Evidence Audit — 2026-11-13 (reconciled after PR #98)
 
-## Scope and safety
+## Scope and source of truth
 
-This is a research and evidence audit of the 14 records currently marked `variant_unresolved` after the NAVEE G5 EU and Segway E2 Plus E II FR evidence updates in PR #98.
+This is a documentation-only audit of the canonical `model_data_v2.json` on `main` at commit `42aa72de9e4aa080e5f4b8b1e4a0ef8cbec026af`.
 
-- No production model data, compatibility rules, UI, affiliate destinations, analytics, consent, advertising, or deployment settings are changed by this audit.
-- A manufacturer page that describes a model family is not sufficient to certify a specific generation, SKU, market, or battery option.
-- Do not infer nominal voltage from Wh/Ah, rated power from peak power, or one market's specifications from another.
-- Keep unresolved records excluded wherever the compatibility adapter requires a fully verified variant.
+- Canonical inventory: 30 model records, 38 variant records, 22 high-confidence verified variants, and 16 `variant_unresolved` records.
+- The count is derived from each variant's `verification.status`, not from this document's prose or an earlier audit.
+- PR #98 added manufacturer evidence and regression coverage but deliberately retained the NAVEE G5 EU and Segway E2 Plus E II FR records as unresolved because the exact retail-SKU/catalog identity mapping is not established.
+- No production data, adapter logic, generated pages, calculator behavior, analytics, consent, advertising, or deployment settings are changed by this audit.
 
-## Findings
+A manufacturer family page, regional specification page, or manual alone is not sufficient to certify a catalog record unless it establishes the exact generation, market, SKU/model identity, and required specification fields. Do not infer nominal voltage from Wh/Ah, rated power from peak power, or one market's specifications from another.
 
-| Model / variant | Evidence reviewed | Remaining blocker | Decision |
-|---|---|---|---|
-| Kaabo Wolf King GT | [Kaabo official site](https://www.kaabo.com/) and the referenced model manual | The global overview uses 100+ km/h wording; the exact unlocked maximum and rated-vs-peak motor basis are not sufficiently pinned to this exact listing. Do not confuse GT with GTR or King GT Pro. | Keep unresolved. |
-| NAVEE G5 US | [NAVEE US product page](https://www.naveetech.com/navee-g5/) | The US page gives 36V / 275.4Wh, 400W rated / 800W maximum, 32 km/h and up to 45 km at 15 km/h, but does not publish Ah. Do not calculate Ah from Wh/V. | Keep unresolved. |
-| NAVEE G5 EU | [NAVEE France G5 page](https://naveetech.fr/en/products/navee-g5) | The regional manufacturer page explicitly identifies certified model G5 EU and publishes 36V, 275.4Wh, 10s3p, 7.65Ah cell capacity, 400W rated / 800W maximum, and 25 km/h maximum speed. It reports 37 km at 20 km/h and 29 km at 25 km/h; the separate 45 km claim is at 15 km/h. | **Verified high confidence for EU**: exact certified model identity and all adapter-required fields are present in the manufacturer’s regional listing. US remains unresolved because Ah is not published. |
-| Segway MAX G30 / G30P | [Segway ME product page](https://arab.segway.com/product-info/kickscooter-max.html) | PR #96 now represents G30 (25 km/h) and G30P (30 km/h) as separate variant identities. The official page publishes 36V, 551Wh and 350W nominal motor power, but not Ah; exact retail SKU mapping and battery capacity remain unavailable. | Split completed in PR #96; both variants remain unresolved and excluded from projection. Do not infer Ah. |
-| Teverun Fighter 11 | [Teverun official Fighter Eleven Plus page](https://teverun.com/product/fighter-eleven-plus/) and [Teverun Europe Fighter Eleven page](https://teverun-europe.com/fighter-eleven/) | Sources distinguish Fighter 11 (60V / 26Ah / 80 km) from 11+ (60V / 35Ah / 120 km). Official regional material also differs on speed and peak-power presentation (80 vs 85 km/h; 4,900 vs 5,000W peak). The current record must remain tied to exact generation and regional configuration. | Keep unresolved; do not merge 11 and 11+. |
-| VSETT 10+ | [VSETT official page](https://vsettscooters.com/pages/vsett-10-plus) | Page lists 60V 20.8 / 25.6 / 28Ah options, dual 1,400W motors, 70–80 km/h and range figures 65 / 80 / 90 km, but does not unambiguously pair every range and speed with the 28Ah option or label motor rating basis. | Keep unresolved. |
-| VSETT 8+ | [VSETT official page](https://vsettscooters.com/pages/vsett-8-plus-electric-scooter) | Page prints battery as “48V 16A (LG)” rather than explicitly Ah; lists 48V 600W×2, 40–45 km/h and 90 km single / 50 km dual range. Capacity unit and motor power basis need clarification. | Keep unresolved; do not infer Ah. |
-| Xiaomi Electric Scooter 4 Pro (DDHBC20NEB) | [Xiaomi official specifications](https://www.mi.com/global/product/xiaomi-electric-scooter-4-pro/specs/) | Exact model code, 12.4Ah / 446Wh, 350W rated / 700W maximum, 25 km/h and 55 km range are published. Nominal battery voltage is not published on the cited specification page. | Keep unresolved; do not infer nominal voltage from Wh/Ah. Do not conflate 4 Pro with 2nd Gen. |
-| Segway E2 Plus E II (FR) | [Segway France product page](https://ma-fr.segway.com/ekickscooter/products/e2-plus-e-ii.html) and [official Segway manual](https://store.segway.com/media/wysiwyg/e2_plus_ii/Product_Manual.pdf) | The France regional page links the official E2 Plus II manual, which identifies model 051402UU and publishes 21.6V / 10.2Ah / 220Wh, 300W nominal / 500W maximum and 25 km/h. | **Verified high confidence for FR**: the linked official manual closes the exact model-code and Ah gap. Keep distinct from US model 051402U. |
-| Dualtron Mini — 52V 21Ah | [Minimotors Mini Special manual](https://www.minimotors.fr/wp-content/uploads/2024/01/Notice-Dualtron-mini-dual.pdf) | Official manual lists 52V 21Ah LG, 65 km for the single-motor option, 450W nominal single motor / 450W×2 dual motor and 25 km/h, but the current catalog identity does not establish which generation / drive configuration its record represents. | Keep unresolved pending exact generation and drive configuration. |
-| Dualtron Mini — 52V 19.2Ah | [Minimotors product detail](https://www.minimotors.com/product_detail.html?code=1990363951451971586) | The referenced product detail page does not establish the precise legacy Mini generation / SKU for this battery option. The more recent official Mini Special manual lists other capacity options and must not be silently substituted. | Keep unresolved. |
-| Dualtron Mini — 52V 17.5Ah | [Minimotors Mini Special manual](https://www.minimotors.fr/wp-content/uploads/2024/01/Notice-Dualtron-mini-dual.pdf) | The manual lists 52V 17.5Ah LG, but generation and single/dual-motor configuration must match the record before certification. | Keep unresolved. |
-| Dualtron Mini — 52V 13Ah | [Minimotors Mini Special manual](https://www.minimotors.fr/wp-content/uploads/2024/01/Notice-Dualtron-mini-dual.pdf) | The manual lists 52V 13Ah LG, but generation and single/dual-motor configuration must match the record before certification. | Keep unresolved. |
-| Dualtron Victor — 60V 24Ah | [Minimotors official product detail](https://www.minimotors.com/product_detail.html?code=1990363951451971586) | Official page lists 60V 24Ah and 30Ah options, 4,000W maximum dual-hub motor, 80 km/h and 85 km / 100 km mileage. Rated motor power is not published; preserve the distinction between maximum and rated output. | Keep unresolved until rated-power requirement / adapter handling is resolved; do not store 4,000W as rated. |
-| NAMI BURN-E 2 Max legacy record | [NAMI official manual](https://nami-electric.com/wp-content/uploads/2022/03/USER-MANUAL-BURNE-3-1.pdf) | Manual documents a BURN-E MAX 72V / 40Ah / 2.88kWh configuration and 2 × 1.5kW motors, but does not prove it is the exact legacy BURN-E 2 Max generation in the catalog. | Keep unresolved; generation match is mandatory. |
+## Current unresolved inventory (16 records)
 
-## Confirmed conclusions
+| Model | Variant ID | Confidence | Remaining evidence gap / handling |
+|---|---|---:|---|
+| Kaabo Wolf King GT | `kaabo-wolf-king-gt-global-unresolved` | medium | Exact generation/listing, unlocked maximum speed, and rated-vs-peak motor basis are not pinned. Do not confuse GT with GTR or King GT Pro. |
+| NAVEE G5 US | `navee-g5-us-current` | medium | US page publishes 36V / 275.4Wh and rated/maximum power but not Ah. Do not calculate or infer Ah. |
+| NAVEE G5 EU | `navee-g5-eu-current` | medium | NAVEE France page identifies certified G5 EU and publishes 36V / 275.4Wh / 7.65Ah cell capacity, 400W rated / 800W maximum, and market-specific range/speed test points. Exact retail SKU-to-catalog mapping remains unproven; keep unresolved. |
+| Segway MAX G30 | `segway-max-g30-global` | medium | G30 and G30P are separate identities after PR #96. Official page gives 36V / 551Wh / 350W nominal but not Ah or exact retail SKU mapping. Keep unresolved. |
+| Segway MAX G30P | `segway-max-g30p-global` | medium | Same evidence boundary as G30; retain distinct 30 km/h variant identity, but do not infer Ah or SKU equivalence. |
+| Teverun Fighter 11 | `teverun-fighter-11-60v26ah-global-unresolved` | medium | Keep Fighter 11 distinct from 11+; regional speed/peak-power presentation and exact generation/configuration need resolution. |
+| VSETT 10+ | `vsett-10-plus-60v28ah-global-unresolved` | medium | Official page lists multiple battery options and dual motors, but does not unambiguously pair all range/speed claims with the exact 28Ah configuration or label rated-power basis. |
+| VSETT 8+ | `vsett-8-plus-global-unresolved` | medium | Manufacturer prints “48V 16A (LG)” without an unambiguous Ah unit; do not normalize to 16Ah. Motor-power basis also needs clarification. |
+| Xiaomi Electric Scooter 4 Pro | `xiaomi-4-pro-ddhbc20neb-global` | medium | Exact product/battery codes and 12.4Ah / 446Wh, 350W rated / 700W maximum are published, but cited Xiaomi specification material does not publish nominal voltage. Do not infer it or conflate with 2nd Gen. |
+| Segway E2 Plus E II (FR) | `segway-e2-plus-e-ii-fr` | high | France page links official manual with model code 051402UU and 21.6V / 10.2Ah / 220Wh, 300W nominal / 500W maximum. Exact link between the manual model code and France-market retail SKU is still not established; keep unresolved and distinct from US model 051402U. |
+| Dualtron Mini — 52V 21Ah | `dualtron-mini-52v-lg-21ah-global` | high | Manual lists this capacity, but catalog record's exact generation and single/dual-motor configuration are not established. |
+| Dualtron Mini — 52V 19.2Ah | `dualtron-mini-52v-cn-19-2ah-global` | high | Referenced product detail does not establish the precise legacy Mini generation/SKU; do not substitute Mini Special evidence silently. |
+| Dualtron Mini — 52V 17.5Ah | `dualtron-mini-52v-lg-17-5ah-global` | high | Exact generation and single/dual-motor configuration must match the catalog record before verification. |
+| Dualtron Mini — 52V 13Ah | `dualtron-mini-52v-cn-13ah-global` | high | Exact generation and single/dual-motor configuration must match the catalog record before verification. |
+| Dualtron Victor — 60V 24Ah | `dualtron-victor-60v24ah-global-unresolved` | high | Manufacturer lists 4,000W maximum output, not rated power. Do not store peak/maximum as rated power; rated-power evidence or an explicitly reviewed adapter policy is required. |
+| NAMI BURN-E 2 Max legacy record | `nami-burn-e-max-legacy-generation-unresolved` | medium | Available manual documents BURN-E MAX configuration but does not prove it is the exact legacy BURN-E 2 Max generation in the catalog. |
 
-1. The unresolved statuses are not merely missing research flags: most are deliberate safeguards against mixing generations, markets, battery configurations, or rated and peak motor power. The inventory has decreased from 16 to 14 after independently verifying NAVEE G5 EU and Segway E2 Plus E II FR.
-2. NAVEE G5 EU is now verified as a distinct certified EU model; its manufacturer page publishes 36V / 275.4Wh / 7.65Ah, 400W rated / 800W maximum and market-specific speed. Range test points remain separated by speed (37 km at 20 km/h; 29 km at 25 km/h; separate up-to-45 km claim at 15 km/h). NAVEE G5 US remains unresolved.
-3. Segway MAX G30 and G30P must not share one universal speed value: the official regional page specifies 25 km/h for G30 and 30 km/h for G30P.
-4. Teverun Fighter 11 and Fighter 11+ are distinct battery/range configurations and must not be combined.
-5. Xiaomi 4 Pro nominal voltage, NAVEE G5 US Ah, and VSETT 8+ Ah are not to be derived from incomplete manufacturer data. Segway E2 Plus E II FR now has direct manual evidence for 10.2Ah and model code 051402UU.
-6. Dualtron Victor's 4,000W figure is explicitly maximum output on the cited manufacturer page, not a published rated-power figure.
+## Evidence updates retained by PR #98
 
-## Recommended next implementation sequence
+- **NAVEE G5 EU:** the regional manufacturer page is useful evidence for the certified EU model and its published specification set. The record remains unresolved solely because the exact retail SKU-to-catalog identity mapping is not demonstrated. The range figures must remain associated with their stated test speeds; they are not interchangeable.
+- **Segway E2 Plus E II FR:** the official France page and linked manual strengthen the evidence for model code 051402UU and the published battery/motor/speed values. The code-to-France-retail-SKU cross-reference is still missing, so the record remains unresolved.
+- Neither evidence update authorizes promoting either record to `verified_variant`.
 
-1. The compatibility adapter requires an explicitly selected, high-confidence `verified_variant`, source coverage for identity/battery/motors/speed, complete positive battery voltage/Ah/Wh, and rated motor power; peak power cannot substitute for rated power.
-2. PR #96 completed the G30/G30P split and added regression coverage. The two identities remain unresolved because official Ah and exact retail SKU mapping are still absent.
-3. NAVEE France now explicitly identifies the certified model as G5 EU and publishes 36V, 275.4Wh, 10s3p, 7.65Ah cell capacity, 400W rated / 800W maximum, and separate range figures at 20/25/15 km/h. This confirms the certified model identity and specification evidence, but not a distinct retail SKU-to-catalog mapping. Keep unresolved until that mapping is established.
-4. Xiaomi 4 Pro is tied to exact product code DDHBC20NEB and battery model BCTA+71420-1701, with 12.4Ah / 446Wh and 350W rated / 700W maximum. Xiaomi still does not publish nominal voltage on the cited spec pages; do not infer it.
-5. Segway E2 Plus E II manual model code 051402UU and France-market retail SKU are not yet demonstrably the same identifier. Keep Ah null until an official cross-reference connects them.
-6. VSETT 8+ still prints `48V 16A (LG)` without an unambiguous Ah unit; do not normalize it to 16Ah.
-7. Keep all remaining records unresolved until exact generation / SKU evidence or missing manufacturer fields are obtained. Do not weaken adapter checks to increase the verified count.
+## Projection and compatibility safeguards
 
-## Status refresh — 2026-11-13
+The current `model_data_adapter.py` is an explicit projection boundary. A caller must select model ID, variant ID, and market. Projection is allowed only when:
 
-- PR #96 is merged into `main` at `6f5c668811cd5f7bbfd2b74385d319969c5f5495`.
-- The unresolved inventory is now 16 variant records (up from the 15-record pre-PR #96 audit because G30 was split into G30 and G30P).
-- The official NAVEE France page confirms the certified model label `G5 EU` and its published specification set, but no exact retail SKU / catalog mapping was found in this refresh. No status promotion is justified.
-- A fresh manufacturer-source search did not establish the missing Xiaomi nominal voltage, Segway France SKU-to-manual model-code mapping, or VSETT 8+ battery-capacity unit.
-- No production data, adapter behavior, generated pages, calculator output, compatibility results, deployment settings, analytics, or advertising settings were changed in this refresh.
+1. The variant status is `verified_variant` with `high` confidence.
+2. Source evidence covers identity, battery, motors, and speed.
+3. Battery nominal voltage, Ah, and Wh are all positive and present; unresolved energy is rejected.
+4. Rated motor power and motor count are present with an explicit rated-power basis. Peak power is never a substitute for rated power.
+5. A market-specific maximum speed is present.
+
+Do not weaken these checks to increase the verified count. Keep all 16 unresolved records out of compatibility projection.
+
+## Next implementation sequence
+
+1. Seek exact manufacturer/authorized-retailer cross-reference evidence for NAVEE G5 EU retail SKU and Segway E2 Plus E II FR model code 051402UU.
+2. Resolve missing manufacturer fields for Xiaomi 4 Pro nominal voltage, NAVEE G5 US Ah, and VSETT 8+ capacity unit only from authoritative evidence.
+3. Continue generation/configuration matching for the Dualtron Mini and NAMI legacy records; preserve rated-versus-peak distinctions for Kaabo, VSETT, and Dualtron Victor.
+4. Any future status promotion must update canonical data and regression tests in a separate reviewed change; this audit alone does not change eligibility.
 
 ## Validation boundary
 
-This audit is documentation-only. It does not change production model values or compatibility behavior. Any subsequent data correction must be proposed separately, tested, reviewed, and merged through the normal pull-request process.
+Inventory cross-check performed against `model_data_v2.json` on `main` at `42aa72de9e4aa080e5f4b8b1e4a0ef8cbec026af`: 30 models / 38 variants / 22 verified / 16 unresolved. This document is documentation-only and does not alter production behavior.
