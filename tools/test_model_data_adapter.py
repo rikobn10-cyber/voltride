@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from model_data_adapter import VariantProjectionError, project_verified_variant
+from model_data_adapter import VariantProjectionError, project_verified_variant, sources_by_field
 
 DATA = json.loads((ROOT / "model_data_v2.json").read_text(encoding="utf-8"))
 
@@ -390,7 +390,32 @@ class ModelDataAdapterTests(unittest.TestCase):
                 self.assertTrue(any(m in page for m in market), model["id"] + ": market must be visible")
                 sources = variant.get("sources", [])
                 self.assertTrue(sources, model["id"] + ": verified variant must retain source evidence")
-                self.assertIn(sources[0]["url"], page, model["id"] + ": manufacturer source must be linked")
+                for source in sources:\n                    self.assertIn(source["url"], page, model["id"] + ": every evidence source must be linked")
+
+
+    def test_sources_are_attributed_to_the_fields_they_support(self):
+        apollo = next(m for m in DATA["models"] if m["id"] == "apollo-city-pro")["variants"][0]
+        grouped = sources_by_field(apollo["sources"])
+        self.assertIn("battery-assembly", grouped["battery"][0]["url"])
+        self.assertIn("tech-specs", grouped["motors"][0]["url"])
+        self.assertEqual(grouped["motors"], grouped["speed"])
+        gotrax = next(m for m in DATA["models"] if m["id"] == "gotrax-gxl-v2")["variants"][0]
+        gotrax_grouped = sources_by_field(gotrax["sources"])
+        self.assertIn("36v-5-4ah", gotrax_grouped["battery"][0]["url"])
+        self.assertIn("gxl-commuter", gotrax_grouped["motors"][0]["url"])
+        self.assertEqual(gotrax_grouped["motors"], gotrax_grouped["speed"])
+        self.assertEqual(gotrax_grouped["motors"], gotrax_grouped["rangeClaim"])
+
+    def test_sources_by_field_deduplicates_urls_and_ignores_invalid_records(self):
+        rows = [
+            {"url": "https://example.com/spec", "publisher": "Example", "supports": ["battery", "motors"]},
+            {"url": "https://example.com/spec", "publisher": "Example", "supports": ["battery"]},
+            {"url": "http://insecure.example/spec", "publisher": "Bad", "supports": ["battery"]},
+            {"url": "https://example.com/no-publisher", "supports": ["battery"]},
+        ]
+        grouped = sources_by_field(rows)
+        self.assertEqual(len(grouped["battery"]), 1)
+        self.assertEqual(len(grouped["motors"]), 1)
 
     def test_generated_model_index_does_not_publish_legacy_specs(self):
         blog = (ROOT / "blog.html").read_text(encoding="utf-8")
