@@ -68,7 +68,6 @@ def build_verified_variant_options():
                     "rangeClaimKm": projection["range_claim"].get("max_km"),
                     "sourcePublisher": source.get("publisher"),
                     "sourceUrl": source.get("url"),
-                    "sourcesByField": (sources_by_field(variant.get("sources", [])) if model["id"] in {"apollo-city-pro", "gotrax-gxl-v2"} else {}),
                 }
                 options.setdefault(model["id"], []).append(option)
     return options
@@ -408,7 +407,12 @@ def faqs(m, rows=None):
 
 def page(m, variant_options):
     slug = m["id"]
-    variants = variant_options.get(slug, [])
+    variants = [dict(item) for item in variant_options.get(slug, [])]
+    if slug in {"apollo-city-pro", "gotrax-gxl-v2"}:
+        canonical = next((item for item in MODEL_DATA_V2.get("models", []) if item.get("id") == slug), {})
+        evidence = {item.get("variantId"): item.get("sources", []) for item in canonical.get("variants", [])}
+        for item in variants:
+            item["sourcesByField"] = sources_by_field(evidence.get(item.get("variantId"), []))
     t = text_for(m)
     rows, sp = scenarios(m)
     energy = wh(m)
