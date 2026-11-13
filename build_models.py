@@ -68,7 +68,7 @@ def build_verified_variant_options():
                     "rangeClaimKm": projection["range_claim"].get("max_km"),
                     "sourcePublisher": source.get("publisher"),
                     "sourceUrl": source.get("url"),
-                    "sourcesByField": sources_by_field(variant.get("sources", [])),
+                    "sourcesByField": (sources_by_field(variant.get("sources", [])) if model["id"] in {"apollo-city-pro", "gotrax-gxl-v2"} else {}),
                 }
                 options.setdefault(model["id"], []).append(option)
     return options
