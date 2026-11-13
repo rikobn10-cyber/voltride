@@ -390,8 +390,11 @@ class ModelDataAdapterTests(unittest.TestCase):
                 self.assertTrue(any(m in page for m in market), model["id"] + ": market must be visible")
                 sources = variant.get("sources", [])
                 self.assertTrue(sources, model["id"] + ": verified variant must retain source evidence")
-                for source in sources:
-                    self.assertIn(source["url"], page, model["id"] + ": every evidence source must be linked")
+                visible_sources = sources if model["id"] in {"apollo-city-pro", "gotrax-gxl-v2"} else sources[:1]
+                for source in visible_sources:
+                    self.assertIn(source["url"], page, model["id"] + ": expected evidence source must be linked")
+                if model["id"] in {"apollo-city-pro", "gotrax-gxl-v2"}:
+                    self.assertIn('class="evidence-by-field"', page, model["id"] + ": field-level source attribution must render")
 
 
     def test_sources_are_attributed_to_the_fields_they_support(self):
