@@ -37,7 +37,7 @@ def main():
     if root["status"] != 200: print("FAIL sitemap.xml",root["status"],root["error"]); return 1
     try: xml=ET.fromstring(root["body"])
     except Exception as e: print("FAIL sitemap XML:",e); return 1
-    locs=[n.text.strip() for n in xml.iter() if n.tag.endswith("}loc") and n.text]
+    locs=[loc.text.strip() for entry in xml if entry.tag.endswith("}url") for loc in entry if loc.tag.endswith("}loc") and loc.text]
     if not locs: print("FAIL sitemap has no URLs"); return 1
     host=urlparse(BASE).netloc
     external=[u for u in locs if urlparse(u).netloc != host]
