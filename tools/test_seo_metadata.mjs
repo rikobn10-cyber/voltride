@@ -70,7 +70,11 @@ for (const model of generatedModels) {
   assert.match(modelPage, /سرعة مرجعية لا تتجاوز 25 كم\/س/, model.id + ": range benchmark must be explained as non-legal");
   assert.match(modelPage, /هل يمكنني استخدامه قانونياً على الطرق العامة/, model.id + ": legal FAQ must be jurisdiction-neutral");
   assert.match(modelPage, /الدليل القانوني الخاص بالمغرب/, model.id + ": Morocco-specific legal guidance must be clearly labelled");
-  assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + model.id + "</loc><lastmod>2026-11-10</lastmod>"), model.id + ": updated model page must have a current sitemap lastmod");
+  if (/<meta name="robots" content="noindex, follow">/.test(modelPage)) {
+    assert.doesNotMatch(sitemap, new RegExp("<loc>https://voltride-4qj\\.pages\\.dev/" + model.id + "</loc>"), model.id + ": noindex model pages must not appear in the sitemap");
+  } else {
+    assert.ok(sitemap.includes("<loc>https://voltride-4qj.pages.dev/" + model.id + "</loc><lastmod>2026-11-10</lastmod>"), model.id + ": indexable model pages must have a current sitemap lastmod");
+  }
 
 }
 

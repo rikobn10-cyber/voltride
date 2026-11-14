@@ -421,7 +421,10 @@ def page(m, variant_options):
     title = f"مواصفات {m['name']} حسب السوق"
     if len(title + " | VoltRide") > 60:
         title = f"{m['name']} — النسخ الموثقة"
-    desc = f"مواصفات النسخ الموثقة من {m['name']} حسب السوق، مع مصادر الشركة وتقديرات مدى نظرية توضح طريقة الحساب."
+    desc = (f"بيانات مواصفات {m['name']} قيد التحقق؛ لن ننشر أرقاماً قبل مطابقتها مع نسخة السوق ومصدر الشركة."
+            if not variants else
+            f"مواصفات النسخ الموثقة من {m['name']} حسب السوق، مع مصادر الشركة وتقديرات مدى نظرية توضح طريقة الحساب.")
+    robots_meta = '<meta name="robots" content="noindex, follow">\n' if not variants else ""
     fq = faqs(m, rows)
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in fq]}
@@ -457,7 +460,7 @@ def page(m, variant_options):
 <title>{esc(title)} | VoltRide</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
-<meta property="og:type" content="article">
+{robots_meta}<meta property="og:type" content="article">
 <meta property="og:locale" content="ar">
 <meta property="og:site_name" content="VoltRide">
 <meta property="og:title" content="{esc(title)}">
@@ -578,7 +581,33 @@ def main():
     # remove stale model pages that are no longer in models.json
     ids = {m["id"] for m in MODELS}
     for m in MODELS:
-        write("{}.html".format(m["id"]), page(m, variant_options))
+        model_path = "{}.html".format(m["id"])
+        if variant_options.get(m["id"]):
+            write(model_path, page(m, variant_options))
+        else:
+            # Keep the existing editorial holding page intact until a source-backed
+            # market variant is verified; only enforce accurate metadata and noindex.
+            held_page = read(model_path)
+            pending_desc = (
+                f"بيانات مواصفات {m['name']} قيد التحقق؛ لن ننشر أرقاماً قبل مطابقتها مع نسخة السوق ومصدر الشركة."
+            )
+            held_page, desc_count = re.subn(
+                r'<meta name="description" content="[^"]*">',
+                f'<meta name="description" content="{esc(pending_desc)}">',
+                held_page, count=1
+            )
+            if desc_count != 1:
+                raise ValueError(f"Missing unique meta description in held model page: {m['id']}")
+            robots_tag = '<meta name="robots" content="noindex, follow">'
+            if robots_tag not in held_page:
+                held_page, robots_count = re.subn(
+                    r'(<link rel="canonical" href="[^"]+">)',
+                    r'\1\n' + robots_tag,
+                    held_page, count=1
+                )
+                if robots_count != 1:
+                    raise ValueError(f"Missing unique canonical in held model page: {m['id']}")
+            write(model_path, held_page)
 
     print("pages written:", len(MODELS))
 
