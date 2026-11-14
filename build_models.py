@@ -421,7 +421,10 @@ def page(m, variant_options):
     title = f"مواصفات {m['name']} حسب السوق"
     if len(title + " | VoltRide") > 60:
         title = f"{m['name']} — النسخ الموثقة"
-    desc = f"مواصفات النسخ الموثقة من {m['name']} حسب السوق، مع مصادر الشركة وتقديرات مدى نظرية توضح طريقة الحساب."
+    desc = (f"بيانات مواصفات {m['name']} قيد التحقق؛ لن ننشر أرقاماً قبل مطابقتها مع نسخة السوق ومصدر الشركة."
+            if not variants else
+            f"مواصفات النسخ الموثقة من {m['name']} حسب السوق، مع مصادر الشركة وتقديرات مدى نظرية توضح طريقة الحساب.")
+    robots_meta = '<meta name="robots" content="noindex, follow">\n' if not variants else ""
     fq = faqs(m, rows)
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in fq]}
@@ -457,7 +460,7 @@ def page(m, variant_options):
 <title>{esc(title)} | VoltRide</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
-<meta property="og:type" content="article">
+{robots_meta}<meta property="og:type" content="article">
 <meta property="og:locale" content="ar">
 <meta property="og:site_name" content="VoltRide">
 <meta property="og:title" content="{esc(title)}">
