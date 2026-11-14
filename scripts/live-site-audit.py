@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read-only live HTTP, sitemap, canonical and security-header audit."""
 import os, sys, time, urllib.request, urllib.error, xml.etree.ElementTree as ET
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from html.parser import HTMLParser
 from urllib.parse import urlparse
@@ -42,7 +43,10 @@ def main():
     external=[u for u in locs if urlparse(u).netloc != host]
     if external: print("FAIL external sitemap URLs:",external[:5])
     print("Sitemap URLs:",len(locs),"unique:",len(set(locs)))
-    if len(set(locs)) != len(locs): print("FAIL duplicate sitemap URLs")
+    duplicates=[(u,n) for u,n in Counter(locs).items() if n>1]
+    if duplicates:
+        print("FAIL duplicate sitemap URLs:")
+        for url,count in duplicates: print("DUPLICATE",count,"x",url)
     results=[]
     with ThreadPoolExecutor(max_workers=12) as pool:
         fs=[pool.submit(request,u) for u in locs]
