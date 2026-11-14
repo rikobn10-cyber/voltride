@@ -1,0 +1,54 @@
+name: Live site health audit
+on:
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: "Published site URL to audit"
+        required: true
+        default: "https://voltride-4qj.pages.dev"
+  schedule:
+    - cron: "23 6 * * 1"
+  push:
+    branches: [audit/live-site-health]
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/live-site-audit.yml"
+      - "scripts/live-site-audit.py"
+      - "scripts/live-browser-smoke.cjs"
+permissions:
+  contents: read
+concurrency:
+  group: voltride-live-audit
+  cancel-in-progress: false
+jobs:
+  live-audit:
+    name: Read-only production HTTP and browser checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set target URL
+        shell: bash
+        run: |
+          TARGET="https://voltride-4qj.pages.dev"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then TARGET="${{ inputs.site_url }}"; fi
+          echo "SITE_URL=$TARGET" >> "$GITHUB_ENV"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Audit sitemap URLs, canonical signals and security headers
+        run: python scripts/live-site-audit.py
+      - name: Browser smoke tests on key routes
+        if: always()
+        run: node scripts/live-browser-smoke.cjs
