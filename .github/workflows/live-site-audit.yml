@@ -50,4 +50,5 @@ jobs:
       - name: Audit sitemap URLs, canonical signals and security headers
         run: python scripts/live-site-audit.py
       - name: Browser smoke tests on key routes
+        if: always()
         run: node scripts/live-browser-smoke.cjs
