@@ -602,7 +602,7 @@ def main():
             if robots_tag not in held_page:
                 held_page, robots_count = re.subn(
                     r'(<link rel="canonical" href="[^"]+">)',
-                    r'\\1\\n' + robots_tag,
+                    r'\1\n' + robots_tag,
                     held_page, count=1
                 )
                 if robots_count != 1:
